@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.video.test.AppConstant;
 import com.video.test.R;
 import com.video.test.TestApp;
 import com.video.test.db.DBManager;
@@ -88,9 +89,9 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
 
 
     @Override
-    protected void getSwitchButtonStatus(SwitchButton switchButton) {
+    protected void getSwitchMobilePlayStatus(SwitchButton switchButton) {
         if (null != switchButton) {
-            boolean switchButtonStatus = SpUtils.getBoolean(TestApp.getContext(), "netSwitchButton", true);
+            boolean switchButtonStatus = SpUtils.getBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_PLAY, true);
             if (switchButtonStatus) {
                 switchButton.setChecked(true);
             } else {
@@ -100,9 +101,9 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
     }
 
     @Override
-    public void getSwitchHistoryButtonStatus(SwitchButton switchButton) {
+    public void getSwitchHomepageHistoryStatus(SwitchButton switchButton) {
         if (null != switchButton) {
-            boolean switchButtonStatus = SpUtils.getBoolean(TestApp.getContext(), "historySwitchButton", true);
+            boolean switchButtonStatus = SpUtils.getBoolean(TestApp.getContext(), AppConstant.SWITCH_HOMEPAGE_HISTORY, true);
             if (switchButtonStatus) {
                 switchButton.setChecked(true);
             } else {
@@ -112,7 +113,7 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
     }
 
     @Override
-    public void getSwitchPushButtonStatus(SwitchButton switchButton) {
+    public void getSwitchPushNoticeStatus(SwitchButton switchButton) {
         if (null != switchButton) {
             boolean isOpen = !JPushInterface.isPushStopped(TestApp.getContext().getApplicationContext());
             if (isOpen) {
@@ -121,6 +122,31 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
                 switchButton.setChecked(false);
             }
         }
+    }
+
+    @Override
+    public void getSwitchAutoPlayStatus(SwitchButton switchButton) {
+        if (null != switchButton) {
+            boolean switchButtonStatus = SpUtils.getBoolean(TestApp.getContext(), AppConstant.SWITCH_AUTO_PLAY, true);
+            if (switchButtonStatus) {
+                switchButton.setChecked(true);
+            } else {
+                switchButton.setChecked(false);
+            }
+        }
+    }
+
+    @Override
+    public void getSwitchMobileDownStatus(SwitchButton switchButton) {
+        if (null != switchButton) {
+            boolean switchButtonStatus = SpUtils.getBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_DOWN, true);
+            if (switchButtonStatus) {
+                switchButton.setChecked(true);
+            } else {
+                switchButton.setChecked(false);
+            }
+        }
+
     }
 
     private void clearAllCache() {

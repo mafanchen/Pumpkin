@@ -74,7 +74,7 @@ public class SetPhoneActivity extends BaseActivity<SetPhonePresenter> implements
     protected void initData() {
         //这里当用户从banner进入时，没有带入参数，从sp获取
         if (code == null || phone == null) {
-            UserCenterBean userInfo = SpUtils.getSerizable(this, AppConstant.USER_INFO);
+            UserCenterBean userInfo = SpUtils.getSerializable(this, AppConstant.USER_INFO);
             if (userInfo != null) {
                 code = userInfo.getCountry_code();
                 phone = userInfo.getMobile();

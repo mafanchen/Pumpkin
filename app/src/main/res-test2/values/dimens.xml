@@ -272,7 +272,7 @@
     <dimen name="setting_margin_content2flowBtn">10dp</dimen>
     <dimen name="setting_margin_clearBtn2content">13.5dp</dimen>
     <dimen name="setting_width_switch">39dp</dimen>
-    <dimen name="setting_height_switch">22.5dp</dimen>
+    <dimen name="setting_height_switch">23dp</dimen>
 
     <!--topic-->
     <dimen name="topic_margin_left_right">12dp</dimen>

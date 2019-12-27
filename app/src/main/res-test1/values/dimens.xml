@@ -11,6 +11,7 @@
     <dimen name="text_size_18sp">18sp</dimen>
     <dimen name="text_size_19sp">19sp</dimen>
     <dimen name="text_size_20sp">20sp</dimen>
+    <dimen name="text_size_26sp">26sp</dimen>
 
 
     <!--toolbar modify-->
@@ -272,15 +273,15 @@
     <dimen name="setting_margin_content2flowBtn">10dp</dimen>
     <dimen name="setting_margin_clearBtn2content">13.5dp</dimen>
     <dimen name="setting_width_switch">39dp</dimen>
-    <dimen name="setting_height_switch">22.5dp</dimen>
+    <dimen name="setting_height_switch">23dp</dimen>
 
     <!--topic-->
-    <dimen name="topic_margin_left_right">12dp</dimen>
+    <dimen name="topic_margin_left_right">18dp</dimen>
     <dimen name="topic_margin_top_bottom">14dp</dimen>
-    <dimen name="topic_height_ad_pic">165dp</dimen>
+    <dimen name="topic_height_ad_pic">168dp</dimen>
     <dimen name="topic_margin_topicContent2pic">12dp</dimen>
-    <dimen name="topic_margin_content2Pic">10dp</dimen>
-    <dimen name="topic_margin_content2bottom">18dp</dimen>
+    <dimen name="topic_margin_content2Pic">7dp</dimen>
+    <dimen name="topic_margin_content2bottom">24dp</dimen>
     <dimen name="topic_margin_margin_between">10dp</dimen>
 
     <!--forget-->

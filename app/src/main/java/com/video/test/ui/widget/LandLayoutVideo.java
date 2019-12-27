@@ -30,13 +30,13 @@ import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
+import com.video.test.AppConstant;
 import com.video.test.R;
 import com.video.test.TestApp;
 import com.video.test.framework.GlideApp;
 import com.video.test.javabean.PlayerUrlListBean;
 import com.video.test.javabean.VideoAdDataBean;
 import com.video.test.sp.SpUtils;
-import com.video.test.ui.VideoAdControl;
 import com.video.test.ui.adapter.PlayerChooseCastDeviceAdapter;
 import com.video.test.ui.adapter.PlayerChooseVideoAdapter;
 import com.video.test.ui.listener.FullscreenCastListener;
@@ -180,7 +180,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     /**
      * 是否连续播放,默认开启
      */
-    private boolean mIsContinuePlay = true;
+    private boolean mIsContinuePlay;
 
 
     /**
@@ -266,7 +266,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     /**
      * 跳过片头广告
      */
-    private ImageView mIvSkipHeadAd;
+    private TextView mTvSkipHeadAd;
     /**
      * 广告背景图片
      */
@@ -296,9 +296,15 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
      */
     private FrameLayout mLayoutPauseAd;
     /**
+     * 暂停广告倒计时按钮
+     */
+    private TextView mTvCountPauseAd;
+
+    /**
      * 关闭暂停广告的按钮
      */
-    private TextView mTvClosePauseAd;
+    private ImageView mIvClosePauseAd;
+
     /**
      * 暂停广告的背景
      */
@@ -308,6 +314,10 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
      */
     private String mCurrentOriginUrl;
     private VideoAdControl mAdControl;
+    private ImageView mIvLoadingBg;
+    private View mVideoStart;
+    private ImageView mIvRestartVideo;
+    private TextView mTvPlayNextNotice;
 
     /**
      * 1.5.0开始加入，如果需要不同布局区分功能，需要重载
@@ -327,6 +337,8 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     @Override
     protected void init(Context context) {
         super.init(context);
+        // 初始化 自动播放开关是否开启
+        mIsContinuePlay = SpUtils.getBoolean(mContext, AppConstant.SWITCH_AUTO_PLAY, true);
         initView();
     }
 
@@ -339,7 +351,6 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         }
         return R.layout.bean_video_player_normal;
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
@@ -390,19 +401,27 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         mIvBackAd = findViewById(R.id.iv_head_ad_back);
         mLayoutControl = findViewById(R.id.layout_control);
         mTvAdTime = findViewById(R.id.tv_ad_time);
-        mIvSkipHeadAd = findViewById(R.id.iv_close_head_ad);
+        mTvSkipHeadAd = findViewById(R.id.tv_close_head_ad);
         mIvAdBackground = findViewById(R.id.iv_background_ad);
         mLayoutPlayAd = findViewById(R.id.layout_play_ad);
         mTvClosePlayAd = findViewById(R.id.tv_close_play_ad);
         mIvBackgroundPlayAd = findViewById(R.id.iv_bg_play_ad);
         mLayoutPauseAd = findViewById(R.id.layout_pause_ad);
-        mTvClosePauseAd = findViewById(R.id.tv_close_pause_ad);
+        mTvCountPauseAd = findViewById(R.id.tv_count_pause_ad);
+        mIvClosePauseAd = findViewById(R.id.iv_close_pause_ad);
         mIvBackgroundPauseAd = findViewById(R.id.iv_bg_pause_ad);
+        mIvLoadingBg = findViewById(R.id.iv_video_loading_bg);
+        mVideoStart = findViewById(R.id.start);
+        mIvRestartVideo = findViewById(R.id.iv_restart_video);
+        mTvPlayNextNotice = findViewById(R.id.tv_play_next_notice_video);
+
+
         if (mLayoutPauseAd != null) {
             mLayoutPauseAd.setOnClickListener(v -> mAdControl.clickPauseAd(mContext));
         }
-        if (mTvClosePauseAd != null) {
-            mTvClosePauseAd.setOnClickListener(v -> {
+
+        if (mIvClosePauseAd != null) {
+            mIvClosePauseAd.setOnClickListener(v -> {
                 if (mAdControl != null) {
                     mAdControl.stopPauseAdTimer();
                 }
@@ -413,9 +432,11 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
                 changeAdUIState();
             });
         }
+
         if (mLayoutPlayAd != null) {
             mLayoutPlayAd.setOnClickListener(v -> mAdControl.clickPlayAd(mContext));
         }
+
         if (mTvClosePlayAd != null) {
             mTvClosePlayAd.setOnClickListener(v -> {
                 if (mLayoutPlayAd != null) {
@@ -446,6 +467,11 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
                 }
             });
         }
+
+        if (null != mIvRestartVideo) {
+            mIvRestartVideo.setOnClickListener(view -> clickStartIcon());
+        }
+
         if (mIvAdBackground != null) {
             mIvAdBackground.setOnClickListener(view -> mAdControl.clickHeadAd(mContext));
         }
@@ -453,8 +479,8 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         if (mTvAdTime != null) {
             mTvAdTime.setOnClickListener(view -> startPlayVideo());
         }
-        if (mIvSkipHeadAd != null) {
-            mIvSkipHeadAd.setOnClickListener(view -> startPlayVideo());
+        if (mTvSkipHeadAd != null) {
+            mTvSkipHeadAd.setOnClickListener(view -> startPlayVideo());
         }
         //播放下一集
         if (mIvNext != null) {
@@ -643,6 +669,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
                     }
                 }
             });
+
         }
         //画面比例
         if (mGroupRatio != null) {
@@ -686,13 +713,15 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
                         //开启
                         case R.id.radio_continue_open:
                             mIsContinuePlay = true;
+                            SpUtils.putBoolean(mContext, AppConstant.SWITCH_AUTO_PLAY, true);
                             break;
                         //关闭
                         case R.id.radio_continue_close:
                             mIsContinuePlay = false;
+                            SpUtils.putBoolean(mContext, AppConstant.SWITCH_AUTO_PLAY, false);
                             break;
                         default:
-                            mIsContinuePlay = false;
+                            mIsContinuePlay = true;
                             break;
                     }
                     hideRightDialogView(mLayoutMore);
@@ -732,7 +761,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
             mLayoutCastDevice.setOnClickListener(v -> {
                 if (mCastListener != null) {
                     hideRightDialogView(mLayoutCastDevice);
-                    mCastListener.onCancelChooseDevice();
+//                    mCastListener.onCancelChooseDevice();
                 }
             });
         }
@@ -861,8 +890,10 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
                     });
                 });
             }
-
         }
+
+        //初始化时,就展示加载图片
+        showVideoLoadingBg();
     }
 
     /**
@@ -951,6 +982,8 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
 
     @Override
     public boolean setUp(String url, boolean cacheWithPlay, String title) {
+        //加载视频过程,展示加载页面
+        showVideoLoadingBg();
         //记录下视频的播放地址，方便在片头给广告结束后进行视频播放
         mCurrentOriginUrl = url;
         if (mTvTitleCastControl != null) {
@@ -982,12 +1015,29 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     }
 
 
+    //展示加载背景广告
+    private void showVideoLoadingBg() {
+        if (null != mIvLoadingBg) {
+            GlideApp.with(mContext).load(R.drawable.ic_player_loading).into(mIvLoadingBg);
+            mIvLoadingBg.setVisibility(VISIBLE);
+        }
+    }
+
+
+    //隐藏加载背景广告
+    private void hideVideoLoadingBg() {
+        if (null != mIvLoadingBg) {
+            GlideApp.with(mContext).clear(mIvLoadingBg);
+            mIvLoadingBg.setVisibility(GONE);
+        }
+    }
+
+
     /**
      * 这里覆写此方法，是为了在播放时，进行播放广告的拦截
      */
     @Override
     public void startPlayLogic() {
-        //这里进行拦截，如果有广告则先播放广告
         if (mAdControl != null && mAdControl.playHeadAd()) {
             //将状态设置为正在显示片头广告，在此状态下，将隐藏视频正常的操作按钮
             mIsShowingHeadAd = true;
@@ -995,6 +1045,14 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         } else {
             super.startPlayLogic();
         }
+    }
+
+
+    @Override
+    public void startAfterPrepared() {
+        super.startAfterPrepared();
+        // 开始播放后,隐藏加载图
+        hideVideoLoadingBg();
     }
 
     /**
@@ -1029,19 +1087,6 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         }
     }
 
-    /**
-     * 开始播放片头广告视频
-     *
-     * @param adUrl 广告链接
-     */
-    @Override
-    public void startPlayVideoAd(@NotNull String adUrl) {
-        mIsShowingHeadAd = true;
-        //这里避免广告倍速播放
-        changeSpeed(PLAY_SPEED_100X);
-        super.setUp(adUrl, false, mTitle);
-        super.startPlayLogic();
-    }
 
     /**
      * 跳过片头广告
@@ -1052,7 +1097,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         if (mAdControl != null) {
             mAdControl.stopHeadVideoTimer();
         }
-        setViewShowState(mIvSkipHeadAd, GONE);
+        setViewShowState(mTvSkipHeadAd, GONE);
         mIsShowingPauseAd = false;
         //播放完视频广告后，继续播放视频
         mIsShowingHeadAd = false;
@@ -1061,6 +1106,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         setUp(mCurrentOriginUrl, false, mTitle);
         super.startPlayLogic();
     }
+
 
     /**
      * 当视频播放完成时的方法
@@ -1082,9 +1128,13 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
             }
             if (mIsContinuePlay) {
                 playNext();
+            } else {
+                // 如果自动播放已关闭,就展示 重播按钮
+                setViewShowState(mIvRestartVideo, VISIBLE);
             }
         }
     }
+
 
     @Override
     protected void updateStartImage() {
@@ -1102,6 +1152,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
                     textView.setText(R.string.player_text_play);
                 }
             }
+
         } else {
             if (mStartButton instanceof ImageView) {
                 ImageView imageView = (ImageView) mStartButton;
@@ -1117,6 +1168,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
             }
         }
     }
+
 
     /**
      * 触摸屏幕事件
@@ -1164,10 +1216,10 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     @Override
     protected void lockTouchLogic() {
         if (mLockCurScreen) {
-            mLockScreen.setImageResource(R.drawable.ic_unlock);
+            mLockScreen.setImageResource(R.drawable.ic_player_icon_unlock);
             mLockCurScreen = false;
         } else {
-            mLockScreen.setImageResource(R.drawable.ic_lock);
+            mLockScreen.setImageResource(R.drawable.ic_player_icon_lock);
             mLockCurScreen = true;
             hideAllWidget();
         }
@@ -1180,7 +1232,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         setViewShowState(mTvRewind, INVISIBLE);
         setViewShowState(mIvCapturePhoto, INVISIBLE);
         //如果是正在录制gif，则不隐藏gif按钮,
-        // 这里由于如果对页面不操作，几秒过后会自动调用此方法隐藏所用控件，但是不应该在录制gif时隐藏gif按钮
+        // 这里由于如果对页面不操作，几秒过后会自动调用此方法隐藏所用控件，但是不应该在录制 gif时隐藏 gif按钮
         if (!mIsCapturing) {
             setViewShowState(mIvCaptureGif, INVISIBLE);
         }
@@ -1188,16 +1240,29 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         setViewShowState(mRvVideoList, INVISIBLE);
         setViewShowState(mLayoutShare, INVISIBLE);
         setViewShowState(mLayoutMore, INVISIBLE);
+        setViewShowState(mIvRestartVideo, INVISIBLE);  //重播按钮
+        // 自动隐藏 controlView 时,也隐藏黑色半透明遮罩层
+        if (null != mLayoutControl) {
+            mLayoutControl.setBackground(null);
+        }
     }
 
     @Override
     protected void changeUiToPlayingShow() {
-
         super.changeUiToPlayingShow();
         setViewShowState(mTvFastForward, VISIBLE);
         setViewShowState(mTvRewind, VISIBLE);
         setViewShowState(mIvCapturePhoto, VISIBLE);
         setViewShowState(mIvCaptureGif, VISIBLE);
+        setViewShowState(mIvRestartVideo, INVISIBLE);
+        // 展示播放操控栏时时,展示不同的蒙层图
+        if (null != mLayoutControl) {
+            if (isIfCurrentIsFullscreen()) {
+                mLayoutControl.setBackgroundResource(R.drawable.shape_background_player_control);
+            } else {
+                mLayoutControl.setBackgroundResource(R.drawable.bg_shelter_player);
+            }
+        }
     }
 
     @Override
@@ -1207,60 +1272,57 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         setViewShowState(mTvRewind, VISIBLE);
         setViewShowState(mIvCapturePhoto, VISIBLE);
         setViewShowState(mIvCaptureGif, VISIBLE);
+        setViewShowState(mIvRestartVideo, INVISIBLE);
     }
+
+    @Override
+    protected void changeUiToPlayingClear() {
+        super.changeUiToPlayingClear();
+        changeUiToClear();
+
+    }
+
 
     @Override
     protected void changeUiToPreparingShow() {
         super.changeUiToPreparingShow();
-        setViewShowState(mTvFastForward, INVISIBLE);
-        setViewShowState(mTvRewind, INVISIBLE);
-        setViewShowState(mIvCapturePhoto, INVISIBLE);
-        setViewShowState(mIvCaptureGif, INVISIBLE);
+        changeUiToClear();
     }
 
     @Override
     protected void changeUiToCompleteShow() {
         super.changeUiToCompleteShow();
-        setViewShowState(mTvFastForward, VISIBLE);
-        setViewShowState(mTvRewind, VISIBLE);
-        setViewShowState(mIvCapturePhoto, VISIBLE);
-        setViewShowState(mIvCaptureGif, VISIBLE);
+        setViewShowState(mTvFastForward, INVISIBLE);
+        setViewShowState(mTvRewind, INVISIBLE);
+        setViewShowState(mIvCapturePhoto, INVISIBLE);
+        setViewShowState(mIvCaptureGif, INVISIBLE);
+        setViewShowState(mVideoStart, INVISIBLE);
+        setViewShowState(mTvPlayNextNotice, INVISIBLE);
     }
 
     @Override
     protected void changeUiToPlayingBufferingShow() {
         super.changeUiToPlayingBufferingShow();
-        setViewShowState(mTvFastForward, INVISIBLE);
-        setViewShowState(mTvRewind, INVISIBLE);
-        setViewShowState(mIvCapturePhoto, INVISIBLE);
-        setViewShowState(mIvCaptureGif, INVISIBLE);
+        changeUiToClear();
     }
 
     @Override
     protected void changeUiToPlayingBufferingClear() {
         super.changeUiToPlayingBufferingClear();
-        setViewShowState(mTvFastForward, INVISIBLE);
-        setViewShowState(mTvRewind, INVISIBLE);
-        setViewShowState(mIvCapturePhoto, INVISIBLE);
-        setViewShowState(mIvCaptureGif, INVISIBLE);
+        changeUiToClear();
     }
 
     @Override
     protected void changeUiToCompleteClear() {
         super.changeUiToCompleteClear();
-        setViewShowState(mTvFastForward, INVISIBLE);
-        setViewShowState(mTvRewind, INVISIBLE);
-        setViewShowState(mIvCapturePhoto, INVISIBLE);
-        setViewShowState(mIvCaptureGif, INVISIBLE);
+        changeUiToClear();
     }
 
     @Override
     protected void changeUiToPrepareingClear() {
         super.changeUiToPrepareingClear();
-        setViewShowState(mTvFastForward, INVISIBLE);
-        setViewShowState(mTvRewind, INVISIBLE);
-        setViewShowState(mIvCapturePhoto, INVISIBLE);
-        setViewShowState(mIvCaptureGif, INVISIBLE);
+        changeUiToClear();
+
     }
 
     @Override
@@ -1270,11 +1332,17 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         setViewShowState(mTvRewind, INVISIBLE);
         setViewShowState(mIvCapturePhoto, INVISIBLE);
         setViewShowState(mIvCaptureGif, INVISIBLE);
+        setViewShowState(mIvRestartVideo, INVISIBLE);
+        setViewShowState(mTvPlayNextNotice, INVISIBLE);
+        if (null != mLayoutControl) {
+            mLayoutControl.setBackground(null);
+        }
     }
+
 
     @Override
     public int getEnlargeImageRes() {
-        return R.drawable.ic_vedio_sl_b;
+        return R.drawable.ic_fullscreen_player;
     }
 
     @Override
@@ -1299,7 +1367,6 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         LogUtils.d(TAG, "startWindowFullscreen");
         // hideNetSpeed();
         return super.startWindowFullscreen(context, actionBar, statusBar);
-
     }
 
 
@@ -1420,14 +1487,17 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
             toPlayer.mIvAdBackground.setImageDrawable(fromPlayer.mIvAdBackground.getDrawable());
             toPlayer.mTvAdTime.setText(fromPlayer.mTvAdTime.getText());
             toPlayer.mTvAdTime.setEnabled(fromPlayer.mTvAdTime.isEnabled());
-            toPlayer.mIvSkipHeadAd.setVisibility(fromPlayer.mIvSkipHeadAd.getVisibility());
+            toPlayer.mTvSkipHeadAd.setVisibility(fromPlayer.mTvSkipHeadAd.getVisibility());
             toPlayer.mIsShowingPauseAd = fromPlayer.mIsShowingPauseAd;
             toPlayer.mLayoutPauseAd.setVisibility(fromPlayer.mLayoutPauseAd.getVisibility());
             toPlayer.mIvBackgroundPauseAd.setImageDrawable(fromPlayer.mIvBackgroundPauseAd.getDrawable());
-            toPlayer.mTvClosePauseAd.setText(fromPlayer.mTvClosePauseAd.getText());
+            toPlayer.mTvCountPauseAd.setText(fromPlayer.mTvCountPauseAd.getText());
             toPlayer.mLayoutPlayAd.setVisibility(fromPlayer.mLayoutPlayAd.getVisibility());
             toPlayer.mIvBackgroundPlayAd.setImageDrawable(fromPlayer.mIvBackgroundPlayAd.getDrawable());
             toPlayer.mTvClosePlayAd.setVisibility(fromPlayer.mTvClosePlayAd.getVisibility());
+            toPlayer.mIvLoadingBg.setVisibility(fromPlayer.mIvLoadingBg.getVisibility());
+            toPlayer.mIvRestartVideo.setVisibility(fromPlayer.mIvRestartVideo.getVisibility());
+            toPlayer.mTvPlayNextNotice.setVisibility(fromPlayer.mTvPlayNextNotice.getVisibility());
             toPlayer.changeAdUIState();
         }
     }
@@ -1463,6 +1533,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     public void setCastListener(FullscreenCastListener castListener) {
         this.mCastListener = castListener;
     }
+
 
     /**
      * 显示教学手势图
@@ -1536,9 +1607,31 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
             }
             int nextPosition = currentPosition + 1;
             if (nextPosition >= mAdapterVideoList.getItemCount()) {
+                //如果已经是最后一集了.就展示 重播按钮
+                setViewShowState(mIvRestartVideo, VISIBLE);
                 return;
             }
             mVideoFunctionListener.onSelectVideo(nextPosition, mAdapterVideoList.getVideoList().get(nextPosition));
+        }
+    }
+
+
+    /**
+     * 展示播放下一集的提示功能
+     */
+    public void showPlayNextNotice() {
+        if (null != mAdapterVideoList && null != mTvPlayNextNotice) {
+            int currentPosition = mAdapterVideoList.getCurrentPosition();
+            if (-1 == currentPosition) {
+                return;
+            }
+            boolean isAutoPlay = SpUtils.getBoolean(TestApp.getContext(), AppConstant.SWITCH_AUTO_PLAY, true);
+            // 已开启自动播放功能 且 当前播放的集数不是最后一集时,才展示播放下一集的提示 否则不不展示
+            if (isAutoPlay && currentPosition < mAdapterVideoList.getItemCount() - 1) {
+                mTvPlayNextNotice.setVisibility(VISIBLE);
+            } else {
+                mTvPlayNextNotice.setVisibility(GONE);
+            }
         }
     }
 
@@ -1648,6 +1741,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         }
     }
 
+
     /**
      * 设置横屏投屏时的状态
      *
@@ -1755,6 +1849,27 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         return getGSYVideoManager().getDuration();
     }
 
+
+    /**
+     * 开始播放片头广告-视频类型
+     *
+     * @param adUrl 广告链接
+     */
+    @Override
+    public void startPlayVideoAd(@NotNull String adUrl) {
+        mIsShowingHeadAd = true;
+        //这里避免广告倍速播放
+        changeSpeed(PLAY_SPEED_100X);
+        super.setUp(adUrl, false, mTitle);
+        super.startPlayLogic();
+
+    }
+
+    /**
+     * 开始播放片头广告- 图片类型
+     *
+     * @param adUrl
+     */
     @Override
     public void startShowImageAd(@NotNull String adUrl) {
         if (mIvAdBackground != null) {
@@ -1763,7 +1878,10 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
                     .centerCrop()
                     .into(mIvAdBackground);
         }
+        //记载广告时,隐藏加载等待图
+        hideVideoLoadingBg();
     }
+
 
     @Override
     public void showPlayAd(boolean vip, String pic) {
@@ -1842,8 +1960,15 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     @Nullable
     @Override
     public TextView getPauseAdTimeTextView() {
-        return mTvClosePauseAd;
+        return mTvCountPauseAd;
     }
+
+    @Nullable
+    @Override
+    public ImageView getPauseAdCloseIv() {
+        return mIvClosePauseAd;
+    }
+
 
     @Override
     public void showPauseAd(String pic) {
@@ -1851,7 +1976,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         if (mLayoutPauseAd != null) {
             mLayoutPauseAd.setVisibility(VISIBLE);
         }
-        if (mIvBackgroundPauseAd != null && pic != null) {
+        if (mIvBackgroundPauseAd != null && !TextUtils.isEmpty(pic)) {
             GlideApp.with(mContext)
                     .load(pic)
                     .centerCrop()
@@ -1902,13 +2027,8 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return super.onTouch(v, event);
-    }
-
-    @Override
     public void setHeadAdSkipEnable(boolean enable) {
-        mIvSkipHeadAd.setVisibility(enable ? VISIBLE : GONE);
+        mTvSkipHeadAd.setVisibility(enable ? VISIBLE : GONE);
         mTvAdTime.setEnabled(enable);
     }
 
@@ -1917,9 +2037,5 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         mVideoFunctionListener.addAdInfo(adType, adId);
     }
 
-    @Override
-    protected void showProgressDialog(float deltaX, String seekTime, int seekTimePosition, String totalTime, int totalTimeDuration) {
-        // TODO: 2019/11/19 这里先隐藏拖拽的快进dialog
-//        super.showProgressDialog(deltaX, seekTime, seekTimePosition, totalTime, totalTimeDuration);
-    }
+
 }

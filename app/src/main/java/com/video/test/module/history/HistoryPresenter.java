@@ -33,6 +33,7 @@ public class HistoryPresenter extends HistoryContract.Presenter<HistoryModel> {
                     public void accept(ListResult<HistoryListBean> result) {
                         mView.getUserHistory(result.getList());
                         mView.hideRefreshLayout(true);
+                        mView.cancelRefreshLayout(page);
                     }
                 }, new RxExceptionHandler<>(new Consumer<Throwable>() {
                     @Override

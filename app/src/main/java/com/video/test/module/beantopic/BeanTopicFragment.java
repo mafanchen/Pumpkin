@@ -5,32 +5,34 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.umeng.analytics.MobclickAgent;
-import com.video.test.AppConstant;
-import com.video.test.BuildConfig;
 import com.video.test.R;
-import com.video.test.TestApp;
 import com.video.test.javabean.BeanTopicBean;
 import com.video.test.javabean.FooterViewBean;
-import com.video.test.sp.SpUtils;
+import com.video.test.javabean.TabEntityBean;
 import com.video.test.ui.base.BaseFragment;
 import com.video.test.ui.viewbinder.FooterViewBinder;
+import com.video.test.ui.widget.BeanTopicTabLayout;
 import com.video.test.ui.widget.GlideOnScrollListener;
 import com.video.test.ui.widget.LoadingView;
 import com.video.test.ui.widget.RefreshHeader;
-import com.video.test.ui.widget.ShareDialogFragment;
 import com.video.test.utils.LogUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
@@ -47,10 +49,15 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.loadingView)
     LoadingView mLoadingView;
+    @BindView(R.id.tabLayout_topic_toolbar)
+    BeanTopicTabLayout mTabLayout;
+    Unbinder unbinder;
+    private String[] mTabContent = {"最热", "最新"};
+    private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
+
     private MultiTypeAdapter mAdapter;
     private Items mItems;
     private DividerItemDecoration mDecoration;
-
 
     public static Fragment newInstance(String title) {
         BeanTopicFragment beanTopicFragment = new BeanTopicFragment();
@@ -58,6 +65,14 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
         bundle.putString("title", title);
         beanTopicFragment.setArguments(bundle);
         return beanTopicFragment;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
     }
 
     @Override
@@ -81,6 +96,8 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
 
     @Override
     protected void loadData() {
+        mTabEntities.add(new TabEntityBean(mTabContent[0], 0, 0));
+        mTabEntities.add(new TabEntityBean(mTabContent[1], 0, 0));
 
     }
 
@@ -101,9 +118,28 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
                 ARouter.getInstance().build("/solve/activity").navigation();
             }
         });
-        if (getView() != null) {
-            ((TextView) getView().findViewById(R.id.tv_searchBtn_toolbar_homepage)).setText(R.string.searchBar_resources_name);
-        }
+        initRefreshLayout();
+        initTabLayout();
+    }
+
+    private void initTabLayout() {
+        mTabLayout.setTabData(mTabEntities);
+        mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+
+            }
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
+        mTabLayout.setCurrentTab(0);
+    }
+
+
+
+    private void initRefreshLayout() {
         mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setRefreshHeader(new RefreshHeader(mContext));
         mRefreshLayout.setOnRefreshListener(refreshLayout -> mPresenter.getHomepageBeanTopicList());
@@ -165,14 +201,14 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
             mItems = null;
             mAdapter = null;
         }
+        unbinder.unbind();
     }
-
 
     private void jump2Activity(String activityPath) {
         ARouter.getInstance().build(activityPath).navigation();
     }
 
-    private void showShareDialog() {
+ /*   private void showShareDialog() {
         ShareDialogFragment shareDialogFragment = ShareDialogFragment.newInstance();
         String userShareUrl = SpUtils.getString(TestApp.getContext(), "userShareUrl", BuildConfig.OFFICAL_WEBSITE);
         shareDialogFragment.setShareItemClickListener(new ShareDialogFragment.ShareItemClickListener() {
@@ -195,24 +231,15 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
             }
         });
         shareDialogFragment.show(getChildFragmentManager(), "dialog");
-    }
+    }*/
 
 
-    @OnClick({R.id.layout_search, R.id.iv_history_toolbar_homepage, R.id.iv_share_toolbar_homepage})
+    @OnClick({R.id.search_topic_toolbar})
     void click(View view) {
         switch (view.getId()) {
-            case R.id.layout_search:
+            case R.id.search_topic_toolbar:
                 LogUtils.d(TAG, "search btn");
                 jump2Activity("/search/activity");
-                break;
-            case R.id.iv_history_toolbar_homepage:
-                LogUtils.d(TAG, "history btn");
-                jump2Activity("/history/activity");
-                break;
-
-            case R.id.iv_share_toolbar_homepage:
-                LogUtils.d(TAG, "share btn");
-                showShareDialog();
                 break;
             default:
                 break;
@@ -225,4 +252,5 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
             mLoadingView.showError();
         }
     }
+
 }

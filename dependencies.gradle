@@ -29,7 +29,7 @@ ext {
     floatWindow = '1.0.6'
 
     //DataLibraries
-    leakcanary = '1.6.2'
+    leakcanary = '1.6.3'
 
     imageLoader = '4.8.0'
 
@@ -39,15 +39,15 @@ ext {
 
     permissionsdispatcher = '3.2.0'
 
-    okhttp = '3.11.0'
+    okhttp = '4.2.2'
 
-    retrofit = '2.4.0'
+    retrofit = '2.7.0'
 
     junitVersion = '4.12'
 
     mulitidexVersion = '1.0.3'
 
-    gsonVersion = '2.8.2'
+    gsonVersion = '2.8.6'
 
     bannerVersion = '1.4.10'
 

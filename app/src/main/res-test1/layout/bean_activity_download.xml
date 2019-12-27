@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorDivider">
 
     <include layout="@layout/bean_include_toolbar_new" />
 
-    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_download"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -19,6 +20,28 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/tv_selectAll"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progress_sd_card"
+        style="?android:progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:progressDrawable="@drawable/layer_list_bg_download_sd_card_progress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:progress="30" />
+
+    <TextView
+        android:id="@+id/tv_sd_card"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:textColor="#888888"
+        android:textSize="@dimen/text_size_12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/progress_sd_card"
+        app:layout_constraintEnd_toEndOf="@+id/progress_sd_card"
+        app:layout_constraintStart_toStartOf="@+id/progress_sd_card"
+        app:layout_constraintTop_toTopOf="@+id/progress_sd_card"
+        tools:text="已使用800M，可用空间20.5G" />
 
     <com.video.test.ui.widget.CenterDrawableTextView
         android:id="@+id/iv_background_noCache_download"

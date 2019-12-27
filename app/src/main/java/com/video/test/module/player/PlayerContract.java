@@ -118,11 +118,15 @@ public interface PlayerContract {
 
         void playNext();
 
+        void showPlayNextNotice();
+
         void pausePlay();
 
         void resumePlay();
 
         void resetTimerCloseText();
+
+        void uploadWatchTime();
 
         void setAdData(VideoAdDataBean videoAdDataBean);
     }
@@ -190,5 +194,9 @@ public interface PlayerContract {
         abstract void addAdInfo(int adType, @Nullable String adId);
 
         abstract void deleteDownloadTask(String videoUrl);
+
+        abstract void watchVideoTimer(LandLayoutVideo landLayoutVideo);
+
+        abstract void cancelWatchVideoTimer();
     }
 }

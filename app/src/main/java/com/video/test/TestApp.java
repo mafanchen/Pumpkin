@@ -1,14 +1,16 @@
 package com.video.test;
 
+import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
-import android.os.Process;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
@@ -22,10 +24,10 @@ import com.fm.openinstall.model.AppData;
 import com.hpplay.sdk.source.browse.api.ILelinkServiceManager;
 import com.hpplay.sdk.source.browse.api.LelinkServiceManager;
 import com.hpplay.sdk.source.browse.api.LelinkSetting;
-import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
+import com.video.test.javabean.SplashBean;
 import com.video.test.sp.SpUtils;
 import com.video.test.utils.AppInfoUtils;
 import com.video.test.utils.DownloadUtil;
@@ -52,6 +54,14 @@ public class TestApp extends MultiDexApplication {
     private static Context sContext;
     private static TestApp sApp;
     private static boolean isOpen = true;
+    /**
+     * 应用是否是后台
+     */
+    private boolean isBackground = false;
+    /**
+     * 记录切换到后台的时间，用来判断当再次切换到前台时，是否播放广告
+     */
+    private long currentBackgroundTime;
 
     @Override
     public void onCreate() {
@@ -65,26 +75,20 @@ public class TestApp extends MultiDexApplication {
 
         LogUtils.d(TAG, "onCreate");
         sApp = this;
-
         sContext = getApplicationContext();
 
-        String processName = getProcessName(Process.myPid());
         //确保只有一个进程初始化东西
-        if (getPackageName().equals(processName)) {
-            if (LeakCanary.isInAnalyzerProcess(this)) {
-                return;
-            }
-            LeakCanary.install(this);
-            initJPush(this);
-            initARouter();
-            initZXing();
-            initOpenInstall();
-            initRxDownload();
-            initStrictMode();
-            initLeCast();
-            initM3U8();
-        }
+        initJPush(this);
+        initARouter();
+        initZXing();
+        initOpenInstall();
+        initRxDownload();
+        initStrictMode();
+        initLeCast();
+        initM3U8();
+        registActivityLifecycle();
     }
+
 
     private void initM3U8() {
         M3U8DownloaderConfig config = M3U8DownloaderConfig.build(this);
@@ -92,6 +96,7 @@ public class TestApp extends MultiDexApplication {
                 .setConnTimeout(10 * 1000)
                 .setReadTimeout(30 * 60 * 1000)
                 .setThreadCount(3);
+        // TODO: 2019/12/25 后续将下载监听移动至此处
     }
 
     private void initJPush(Context context) {
@@ -338,6 +343,81 @@ public class TestApp extends MultiDexApplication {
     public static void setOpen(boolean isOpen) {
         TestApp.isOpen = isOpen;
     }
+
+    private void registActivityLifecycle() {
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+                if (isBackground) {
+                    isBackground = false;
+                    if (System.currentTimeMillis() - currentBackgroundTime >= AppConstant.TIME_PLAY_AD_WHEN_BACKGROUND && isOpen) {
+                        //这里判断是否有缓存
+                        SplashBean saveSplashBean = SpUtils.getSerializable(TestApp.getContext(), "splashBean");
+                        if (saveSplashBean != null && !TextUtils.isEmpty(saveSplashBean.getJump_url()) && !TextUtils.isEmpty(saveSplashBean.getPic_url())) {
+                            ARouter.getInstance().build("/ad/activity")
+                                    .withString("ad_name", saveSplashBean.getAd_name())
+                                    .withString("jump_url", saveSplashBean.getJump_url())
+                                    .withString("pic_url", saveSplashBean.getPic_url())
+                                    .withString("ad_id", saveSplashBean.getId())
+                                    .navigation();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+
+        });
+        registerComponentCallbacks(new ComponentCallbacks2() {
+            @Override
+            public void onTrimMemory(int level) {
+                if (level == TRIM_MEMORY_UI_HIDDEN) {
+                    isBackground = true;
+                    currentBackgroundTime = System.currentTimeMillis();
+                    Log.d(TAG, "应用切换到后台");
+                }
+            }
+
+            @Override
+            public void onConfigurationChanged(Configuration newConfig) {
+
+            }
+
+            @Override
+            public void onLowMemory() {
+
+            }
+        });
+    }
+
 }
 
 

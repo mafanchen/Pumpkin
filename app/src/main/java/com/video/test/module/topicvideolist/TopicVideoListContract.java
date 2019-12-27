@@ -36,6 +36,8 @@ public interface TopicVideoListContract {
 
         void setContent(String ztDetail);
 
+        void setTopicNum();
+
         void showNetworkErrorView();
     }
 

@@ -30,11 +30,16 @@ public interface SettingContract {
 
         abstract void showCleanVideoCacheDialog(Context context);
 
-        protected abstract void getSwitchButtonStatus(SwitchButton switchButton);
+        protected abstract void getSwitchMobilePlayStatus(SwitchButton switchButton);
 
-        public abstract void getSwitchHistoryButtonStatus(SwitchButton switchButton);
+        public abstract void getSwitchHomepageHistoryStatus(SwitchButton switchButton);
 
-        public abstract void getSwitchPushButtonStatus(SwitchButton switchButton);
+        public abstract void getSwitchMobileDownStatus(SwitchButton switchButton);
+
+        public abstract void getSwitchAutoPlayStatus(SwitchButton switchButton);
+
+        public abstract void getSwitchPushNoticeStatus(SwitchButton switchButton);
+
     }
 
 

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
-import android.widget.CheckBox;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,20 +48,22 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
     TextView mTvContent;
     @BindView(R.id.iv_topic_bg)
     ImageView mIvBg;
-    @BindView(R.id.checkbox_topic_collect)
-    CheckBox mCheckBoxCollect;
     @BindView(R.id.appbar_collect)
     AppBarLayout mAppBarLayout;
     @BindView(R.id.tv_title_toolbar)
     TextView mTvTitleToolbar;
     @BindView(R.id.loadingView)
     LoadingView mLoadingView;
+    @BindView(R.id.tv_topic_videoNum)
+    TextView mTopicNum;
     @Autowired
     int pid;
     @Autowired
     String tag;
     @Autowired
     String type;
+    @Autowired
+    String videoNum;
 
     private TopicVideoListAdapter mVideoListAdapter;
 
@@ -178,6 +180,14 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
     public void setContent(String ztDetail) {
         if (mTvContent != null) {
             mTvContent.setText(ztDetail);
+        }
+    }
+
+    @Override
+    public void setTopicNum() {
+        if (null != mTopicNum) {
+            mTopicNum.setVisibility(View.VISIBLE);
+            mTopicNum.setText(getResources().getString(R.string.topic_video_num, videoNum));
         }
     }
 

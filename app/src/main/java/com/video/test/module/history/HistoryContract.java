@@ -35,6 +35,8 @@ public interface HistoryContract {
 
         void hideRefreshLayout(boolean isSuccess);
 
+        void cancelRefreshLayout(int page);
+
         void showNetworkErrorView();
     }
 

@@ -201,12 +201,14 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
             }
             WindowManager.LayoutParams localLayoutParams = mProgressDialog.getWindow().getAttributes();
             localLayoutParams.gravity = Gravity.TOP;
+
             localLayoutParams.width = getWidth();
             localLayoutParams.height = getHeight();
-            int location[] = new int[2];
-            getLocationOnScreen(location);
-            localLayoutParams.x = location[0];
-            localLayoutParams.y = location[1];
+            //  注释之前的无用参数代码.
+            //  int location[] = new int[2];
+            //  getLocationOnScreen(location);
+            //  localLayoutParams.x = location[0];
+            //  localLayoutParams.y = location[1];
             mProgressDialog.getWindow().setAttributes(localLayoutParams);
         }
         if (!mProgressDialog.isShowing()) {
@@ -222,7 +224,8 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
             if (mDialogProgressBar != null) {
                 mDialogProgressBar.setProgress(seekTimePosition * 100 / totalTimeDuration);
             }
-        if (deltaX > 0) {
+
+        /*if (deltaX > 0) {
             if (mDialogIcon != null) {
                 mDialogIcon.setBackgroundResource(R.drawable.video_forward_icon);
             }
@@ -230,7 +233,7 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
             if (mDialogIcon != null) {
                 mDialogIcon.setBackgroundResource(R.drawable.video_backward_icon);
             }
-        }
+        }*/
 
     }
 
@@ -260,15 +263,15 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
             mVolumeDialog.getWindow().addFlags(8);
             mVolumeDialog.getWindow().addFlags(32);
             mVolumeDialog.getWindow().addFlags(16);
-            mVolumeDialog.getWindow().setLayout(-2, -2);
+            // mVolumeDialog.getWindow().setLayout(-2, -2);
             WindowManager.LayoutParams localLayoutParams = mVolumeDialog.getWindow().getAttributes();
-            localLayoutParams.gravity = Gravity.TOP | Gravity.LEFT;
+            localLayoutParams.gravity = Gravity.TOP;
             localLayoutParams.width = getWidth();
             localLayoutParams.height = getHeight();
-            int location[] = new int[2];
-            getLocationOnScreen(location);
-            localLayoutParams.x = location[0];
-            localLayoutParams.y = location[1];
+            // int location[] = new int[2];
+            // getLocationOnScreen(location);
+            // localLayoutParams.x = location[0];
+            //  localLayoutParams.y = location[1];
             mVolumeDialog.getWindow().setAttributes(localLayoutParams);
         }
         if (!mVolumeDialog.isShowing()) {
@@ -306,15 +309,15 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
             mBrightnessDialog.getWindow().addFlags(8);
             mBrightnessDialog.getWindow().addFlags(32);
             mBrightnessDialog.getWindow().addFlags(16);
-            mBrightnessDialog.getWindow().setLayout(-2, -2);
+            // mBrightnessDialog.getWindow().setLayout(-2, -2);
             WindowManager.LayoutParams localLayoutParams = mBrightnessDialog.getWindow().getAttributes();
-            localLayoutParams.gravity = Gravity.TOP | Gravity.RIGHT;
+            localLayoutParams.gravity = Gravity.TOP;
             localLayoutParams.width = getWidth();
             localLayoutParams.height = getHeight();
-            int location[] = new int[2];
-            getLocationOnScreen(location);
-            localLayoutParams.x = location[0];
-            localLayoutParams.y = location[1];
+            // int location[] = new int[2];
+            // getLocationOnScreen(location);
+            // localLayoutParams.x = location[0];
+            //  localLayoutParams.y = location[1];
             mBrightnessDialog.getWindow().setAttributes(localLayoutParams);
         }
         if (!mBrightnessDialog.isShowing()) {
@@ -657,6 +660,7 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
         setViewShowState(mThumbImageViewLayout, INVISIBLE);
         setViewShowState(mBottomProgressBar, INVISIBLE);
         setViewShowState(mLockScreen, GONE);
+
 
         if (mLoadingProgressBar instanceof ENDownloadView) {
             ((ENDownloadView) mLoadingProgressBar).reset();

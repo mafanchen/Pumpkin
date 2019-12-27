@@ -17,11 +17,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.umeng.analytics.MobclickAgent;
 import com.video.test.AppConstant;
 import com.video.test.BuildConfig;
-import com.video.test.R;
 import com.video.test.TestApp;
+import com.video.test.R;
 import com.video.test.framework.GlideApp;
 import com.video.test.javabean.BindPhoneBean;
 import com.video.test.javabean.ShareJoinEventBean;
@@ -34,6 +33,7 @@ import com.video.test.ui.widget.ShareDialogFragment;
 import com.video.test.ui.widget.UpdateDialogFragment;
 import com.video.test.utils.LogUtils;
 import com.video.test.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -150,7 +150,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     @Override
     public void setUserInfo(UserCenterBean userCenterBean) {
-        SpUtils.putSerizable(TestApp.getContext(), AppConstant.USER_INFO, userCenterBean);
+        SpUtils.putSerializable(TestApp.getContext(), AppConstant.USER_INFO, userCenterBean);
         if (!TextUtils.isEmpty(userCenterBean.getPic())) {
             GlideApp.with(this).load(userCenterBean.getPic()).into(mCivAvatar);
         } else {

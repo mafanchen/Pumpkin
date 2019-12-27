@@ -304,7 +304,7 @@ android {
 }
 
 greendao {
-    schemaVersion 3
+    schemaVersion 4
     daoPackage 'com.video.test.db'
     targetGenDir 'src/main/java'
 }
@@ -354,9 +354,9 @@ dependencies {
      */
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.7.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.0'
 
     /** BindView Tools  ButterKnife
      *         https://github.com/JakeWharton/butterknife
@@ -367,9 +367,9 @@ dependencies {
     /** JSON
      *         https://github.com/google/gson
      */
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
-    /** ImageLoader glide
+    /** ImageLoader glide  不要升级  到 4.10.0 会遇到兼容AndroidX的问题
      *         https://github.com/bumptech/glide
      */
     implementation('com.github.bumptech.glide:glide:4.8.0') {
@@ -380,9 +380,7 @@ dependencies {
     /** MemoryLeak inspector
      *         https://github.com/square/leakcanary
      */
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
-    uatImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
 
     /** Banner Recycle
      *         https://github.com/youth5201314/banner
@@ -440,18 +438,9 @@ dependencies {
     /** Ali FeedBack
      *         https://help.aliyun.com/document_detail/53144.html
      */
+
     implementation 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
 
-    /** Ali Push Service
-     *          https://help.aliyun.com/document_detail/51056.html?spm=5176.doc30064.2.3.ON2aQq
-     */
-//    implementation 'com.aliyun.ams:alicloud-android-push:3.1.4@aar'
-//    implementation 'com.aliyun.ams:alicloud-android-beacon:1.0.1'
-
-    /** Mobile Analytics
-     *          https://help.aliyun.com/document_detail/30037.html
-     */
-//    implementation 'com.aliyun.ams:alicloud-android-man:1.2.4'
 
     /** GreenDAO
      *  https://github.com/greenrobot/greenDAO

@@ -162,7 +162,7 @@ public class VideoPresenter extends VideoContract.Presenter<VideoModel> {
      * 获取历史纪录
      */
     public void getHistory() {
-        boolean isOpenHistory = SpUtils.getBoolean(TestApp.getContext(), "historySwitchButton", true);
+        boolean isOpenHistory = SpUtils.getBoolean(TestApp.getContext(), AppConstant.SWITCH_HOMEPAGE_HISTORY, true);
         if (!isOpenHistory) {
             return;
         }

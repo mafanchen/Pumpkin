@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
@@ -72,6 +73,8 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
     private TextView mTvShareWX;
     private TextView mTvShareFriends;
     private TextView mTvShareUrl;
+    private RelativeLayout mLayoutControl;
+
 
     /**
      * 录制gif的计时界面
@@ -144,6 +147,7 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
         mIvCaptureGif = findViewById(R.id.iv_capture_gif);
         mTvCaptureTimer = findViewById(R.id.tv_capture_gif_timer);
         mTVCaptureStatus = findViewById(R.id.tv_capture_gif_status);
+        mLayoutControl = findViewById(R.id.layout_control);
         hideUselessView();
         //快退
         if (mIvRewind != null) {
@@ -444,6 +448,11 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
         }
         setViewShowState(mGroupSpeed, INVISIBLE);
         setViewShowState(mLayoutShare, INVISIBLE);
+        // 自动隐藏 controlView 时,也隐藏黑色半透明遮罩层
+        if (null != mLayoutControl) {
+            mLayoutControl.setBackground(null);
+        }
+
     }
 
     @Override
@@ -453,6 +462,9 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
         setViewShowState(mIvRewind, VISIBLE);
         setViewShowState(mIvCapturePhoto, VISIBLE);
         setViewShowState(mIvCaptureGif, VISIBLE);
+        if (null != mLayoutControl) {
+            mLayoutControl.setBackgroundResource(R.drawable.shape_background_player_control);
+        }
     }
 
     @Override
@@ -465,15 +477,6 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
     }
 
     @Override
-    protected void changeUiToPreparingShow() {
-        super.changeUiToPreparingShow();
-        setViewShowState(mIvFastForward, INVISIBLE);
-        setViewShowState(mIvRewind, INVISIBLE);
-        setViewShowState(mIvCapturePhoto, INVISIBLE);
-        setViewShowState(mIvCaptureGif, INVISIBLE);
-    }
-
-    @Override
     protected void changeUiToCompleteShow() {
         super.changeUiToCompleteShow();
         setViewShowState(mIvFastForward, VISIBLE);
@@ -483,39 +486,40 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
     }
 
     @Override
+    protected void changeUiToPreparingShow() {
+        super.changeUiToPreparingShow();
+        changeUiToClear();
+    }
+
+    @Override
     protected void changeUiToPlayingBufferingShow() {
         super.changeUiToPlayingBufferingShow();
-        setViewShowState(mIvFastForward, INVISIBLE);
-        setViewShowState(mIvRewind, INVISIBLE);
-        setViewShowState(mIvCapturePhoto, INVISIBLE);
-        setViewShowState(mIvCaptureGif, INVISIBLE);
+        changeUiToClear();
     }
 
     @Override
     protected void changeUiToPlayingBufferingClear() {
         super.changeUiToPlayingBufferingClear();
         setViewShowState(mIvFastForward, INVISIBLE);
-        setViewShowState(mIvRewind, INVISIBLE);
-        setViewShowState(mIvCapturePhoto, INVISIBLE);
-        setViewShowState(mIvCaptureGif, INVISIBLE);
+        changeUiToClear();
+    }
+
+    @Override
+    protected void changeUiToPlayingClear() {
+        super.changeUiToPlayingClear();
+        changeUiToClear();
     }
 
     @Override
     protected void changeUiToCompleteClear() {
         super.changeUiToCompleteClear();
-        setViewShowState(mIvFastForward, INVISIBLE);
-        setViewShowState(mIvRewind, INVISIBLE);
-        setViewShowState(mIvCapturePhoto, INVISIBLE);
-        setViewShowState(mIvCaptureGif, INVISIBLE);
+        changeUiToClear();
     }
 
     @Override
     protected void changeUiToPrepareingClear() {
         super.changeUiToPrepareingClear();
-        setViewShowState(mIvFastForward, INVISIBLE);
-        setViewShowState(mIvRewind, INVISIBLE);
-        setViewShowState(mIvCapturePhoto, INVISIBLE);
-        setViewShowState(mIvCaptureGif, INVISIBLE);
+        changeUiToClear();
     }
 
     @Override
@@ -525,6 +529,9 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
         setViewShowState(mIvRewind, INVISIBLE);
         setViewShowState(mIvCapturePhoto, INVISIBLE);
         setViewShowState(mIvCaptureGif, INVISIBLE);
+        if (null != mLayoutControl) {
+            mLayoutControl.setBackground(null);
+        }
     }
 
     public void setVideoFunctionListener(VideoFunctionListener videoFunctionListener) {

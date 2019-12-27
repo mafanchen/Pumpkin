@@ -1,19 +1,13 @@
 package com.video.test.module.browser;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
-import android.webkit.DownloadListener;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -37,8 +31,6 @@ public class BrowserActivity extends BaseActivity<BrowserPresenter> implements B
     ImageButton mIbBack;
     @BindView(R.id.wv_browser_activity)
     WebView mWebView;
-    @BindView(R.id.tv_url)
-    TextView mTvUrl;
     @Autowired
     String mWebUrl;
     @Autowired
@@ -72,7 +64,6 @@ public class BrowserActivity extends BaseActivity<BrowserPresenter> implements B
     @Override
     protected void initView() {
         if (!TextUtils.isEmpty(mWebUrl)) {
-            mTvUrl.setText(mWebUrl);
             initWebView();
         } else {
             skipSplashActivity();
@@ -85,6 +76,7 @@ public class BrowserActivity extends BaseActivity<BrowserPresenter> implements B
         try {
             if (null != mWebView) {
                 mWebView.removeAllViews();
+                mWebView.setWebViewClient(null);
                 mWebView.destroy();
                 mWebView = null;
             }
@@ -107,15 +99,11 @@ public class BrowserActivity extends BaseActivity<BrowserPresenter> implements B
                 settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
             }
             settings.setBlockNetworkImage(false);
-            mWebView.setWebViewClient(new BeanWebViewClient(this));
-            mWebView.setDownloadListener(new DownloadListener() {
-                @Override
-                public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                    intent.setData(Uri.parse(url));
-                    startActivity(intent);
-                }
+            mWebView.setDownloadListener((url, userAgent, contentDisposition, mimeType, contentLength) -> {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
             });
             mWebView.loadUrl(mWebUrl);
         } else {
@@ -129,6 +117,7 @@ public class BrowserActivity extends BaseActivity<BrowserPresenter> implements B
         onBackPressed();
     }
 
+
     @Override
     public void onBackPressed() {
         if (null != mWebView && mWebView.canGoBack()) {
@@ -140,7 +129,6 @@ public class BrowserActivity extends BaseActivity<BrowserPresenter> implements B
         }
     }
 
-
     public void skipSplashActivity() {
         boolean userIsLogin = SpUtils.getBoolean(TestApp.getContext(), "userIsLogin", false);
         if (userIsLogin) {
@@ -149,39 +137,6 @@ public class BrowserActivity extends BaseActivity<BrowserPresenter> implements B
         } else {
             ARouter.getInstance().build("/homepage/activity").navigation();
             finish();
-        }
-    }
-
-    private static class BeanWebViewClient extends WebViewClient {
-        private Activity mActivity;
-
-        public BeanWebViewClient(BrowserActivity browserActivity) {
-            this.mActivity = browserActivity;
-        }
-
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-//            String url = null;
-//            if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//                url = request.getUrl().toString();
-//            } else {
-//                url = request.toString();
-//            }
-//            LogUtils.d("shouldOverrideUrlLoading", "url = " + url);
-//            view.loadUrl(url);
-//            return false;
-            return super.shouldOverrideUrlLoading(view, request);
-        }
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
         }
     }
 }

@@ -42,8 +42,8 @@ public class BeanTopicViewBinder extends ItemViewBinder<BeanTopicBean, BeanTopic
         final BeanTopicContentBean beanTopicContentBean = item.getList().get(0);
         holder.mTvTopicName.setText(beanTopicContentBean.getZt_title());
         holder.mTvTopicContent.setText(beanTopicContentBean.getZt_content());
+        holder.mTvTopicNum.setText(holder.itemView.getResources().getString(R.string.topic_video_num, beanTopicContentBean.getZt_num()));
         GlideApp.with(holder.context).load(beanTopicContentBean.getZt_pic()).transition(withCrossFade()).into(holder.mIvTopicPic);
-        GlideApp.with(holder.context).load(beanTopicContentBean.getZt_f_pic()).transition(withCrossFade()).into(holder.mIvTopicTitle);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,11 +57,11 @@ public class BeanTopicViewBinder extends ItemViewBinder<BeanTopicBean, BeanTopic
                         .withInt("pid", item.getPid())
                         .withString("tag", item.getTag())
                         .withString("type", item.getType())
+                        .withString("videoNum", beanTopicContentBean.getZt_num())
                         .navigation();
 
             }
         });
-
 
     }
 
@@ -74,13 +74,14 @@ public class BeanTopicViewBinder extends ItemViewBinder<BeanTopicBean, BeanTopic
         ImageView mIvTopicPic;
         @BindView(R.id.tv_topicContent_topic)
         TextView mTvTopicContent;
-        @BindView(R.id.iv_topicName_topic)
-        ImageView mIvTopicTitle;
+        @BindView(R.id.tv_topicNum_topic)
+        TextView mTvTopicNum;
 
         public ViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
             ButterKnife.bind(this, itemView);
+
         }
     }
 }

@@ -1,9 +1,11 @@
 package com.video.test.javabean;
 
+import java.io.Serializable;
+
 /**
  * @author Enoch Created on 2018/10/24.
  */
-public class SplashBean {
+public class SplashBean implements Serializable {
 
     private String id;
     private String pic_url;

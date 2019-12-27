@@ -683,10 +683,10 @@ public abstract class GSYVideoControlView extends GSYVideoView implements View.O
         } else if (mChangeVolume) {
             deltaY = -deltaY;
             int max = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            int deltaV = (int) (max * deltaY * 3 / curHeight);
+            // 可以通过修改 deltaY 后面的参数值,调整手势相应跨度
+            int deltaV = (int) (max * deltaY * 1.2 / curHeight);
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mGestureDownVolume + deltaV, 0);
-            int volumePercent = (int) (mGestureDownVolume * 100 / max + deltaY * 3 * 100 / curHeight);
-
+            int volumePercent = (int) (mGestureDownVolume * 100 / max + deltaY * 1.2 * 100 / curHeight);
             showVolumeDialog(-deltaY, volumePercent);
         } else if (!mChangePosition && mBrightness) {
             if (Math.abs(deltaY) > mThreshold) {

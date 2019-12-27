@@ -73,6 +73,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
     private IWXAPI mWxApi;
     private static final int THUMB_SIZE = 150;
     private Disposable closeTimerDisposable;
+    private long mWatchTime = 0L;
     /**
      * 选中的倒计时关闭类型
      */
@@ -82,6 +83,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
      * 剩余倒计时秒数
      */
     private int mCloseSeconds = 0;
+    private Disposable mWatchVideoTimer;
 
     @Override
     public void subscribe() {
@@ -858,4 +860,53 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
         }
         return array;
     }
+
+
+    /**
+     * @param intervalTime    定时间隔
+     * @param landLayoutVideo 播放器
+     * @param watchTime       当前已观看的时间
+     */
+    @Override
+    public void watchVideoTimer(LandLayoutVideo landLayoutVideo) {
+        long watchPeriod = 1000L;
+        int duration = landLayoutVideo.getDuration();
+        // 保证仅能有1个 Timer 存在
+        if (null != mWatchVideoTimer && !mWatchVideoTimer.isDisposed()) {
+            return;
+        }
+        mWatchVideoTimer = Observable.interval(watchPeriod, TimeUnit.MILLISECONDS)
+                .map(new Function<Long, Long>() {
+                    @Override
+                    public Long apply(Long aLong) throws Exception {
+                        return mWatchTime + watchPeriod;
+                    }
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        long currentPos = landLayoutVideo.getGSYVideoManager().getCurrentPosition();
+                        LogUtils.d(TAG, "mWatchVideoTimer : " + mWatchTime + " currentPos : " + currentPos + " duration : " + duration);
+                        mWatchTime = aLong;
+                        //播放时间不足 5秒时, 执行
+                        if (5000 > duration - currentPos) {
+                            mView.showPlayNextNotice();
+                        }
+                        if (0 == mWatchTime % 180000) {
+                            mView.uploadWatchTime();
+                        }
+                    }
+                });
+
+        addDisposable(mWatchVideoTimer);
+    }
+
+    @Override
+    void cancelWatchVideoTimer() {
+        if (null != mWatchVideoTimer && !mWatchVideoTimer.isDisposed()) {
+            mWatchVideoTimer.dispose();
+        }
+    }
+
 }

@@ -9,11 +9,9 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.umeng.analytics.MobclickAgent;
-import com.video.test.TestApp;
-import com.wang.avi.AVLoadingIndicatorView;
+import com.video.test.AppConstant;
 import com.video.test.R;
+import com.video.test.TestApp;
 import com.video.test.sp.SpUtils;
 import com.video.test.ui.base.BaseActivity;
 import com.video.test.ui.widget.SwitchButton;
@@ -29,26 +27,23 @@ import cn.jpush.android.api.JPushInterface;
 @Route(path = "/setting/activity")
 public class SettingActivity extends BaseActivity<SettingPresenter> implements SettingContract.View {
     private static final String TAG = "SettingActivity";
-    @BindView(R.id.switch_setting)
-    SwitchButton mSwitchBtn;
-    @BindView(R.id.tv_clearSearch_setting)
-    TextView mTvClearSearch;
-    @BindView(R.id.tv_clearCache_setting)
-    TextView mTvClearHistory;
-    @BindView(R.id.tv_feedback_setting)
-    TextView mTvFeedback;
-    @BindView(R.id.tv_about_setting)
-    TextView mTvAbout;
+
     @BindView(R.id.tv_title_toolbar)
     TextView mTvTitle;
     @BindView(R.id.ib_back_toolbar)
     ImageButton mIbBack;
-    @BindView(R.id.loadingImage_activity_setting)
-    AVLoadingIndicatorView mLoadingImage;
+    @BindView(R.id.switch_mobileNet_play_setting)
+    SwitchButton mSwitchMobilePlay;
     @BindView(R.id.switch_history_setting)
     SwitchButton mSwitchHistoryBtn;
     @BindView(R.id.switch_push_setting)
     SwitchButton mSwitchPushBtn;
+    @BindView(R.id.switch_autoPlayer_setting)
+    SwitchButton mSwitchAutoPlay;
+    @BindView(R.id.switch_mobileNet_down_setting)
+    SwitchButton mSwitchMobileDown;
+    @BindView(R.id.tv_cache_space_setting)
+    TextView mTvCacheSpace;
 
     @Override
     protected int getContextViewId() {
@@ -57,18 +52,23 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @Override
     protected void initData() {
-        mPresenter.getSwitchButtonStatus(mSwitchBtn);
-        mPresenter.getSwitchHistoryButtonStatus(mSwitchHistoryBtn);
-        mPresenter.getSwitchPushButtonStatus(mSwitchPushBtn);
+        mPresenter.getSwitchMobilePlayStatus(mSwitchMobilePlay);
+        mPresenter.getSwitchHomepageHistoryStatus(mSwitchHistoryBtn);
+        mPresenter.getSwitchPushNoticeStatus(mSwitchPushBtn);
+        mPresenter.getSwitchMobileDownStatus(mSwitchMobileDown);
+        mPresenter.getSwitchAutoPlayStatus(mSwitchAutoPlay);
     }
 
     @Override
     protected void initView() {
         CheckedChangeListener listener = new CheckedChangeListener();
-        mSwitchBtn.setOnCheckedChangeListener(listener);
+        mSwitchMobilePlay.setOnCheckedChangeListener(listener);
         mSwitchHistoryBtn.setOnCheckedChangeListener(listener);
         mSwitchPushBtn.setOnCheckedChangeListener(listener);
+        mSwitchAutoPlay.setOnCheckedChangeListener(listener);
+        mSwitchMobileDown.setOnCheckedChangeListener(listener);
     }
+
 
     @Override
     protected void initToolBar() {
@@ -79,7 +79,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     }
 
 
-    @OnClick({R.id.tv_clearSearch_setting, R.id.tv_clearCache_setting, R.id.tv_feedback_setting, R.id.tv_about_setting, R.id.ib_back_toolbar})
+    @OnClick({R.id.tv_clearSearch_setting, R.id.tv_clearCache_setting, R.id.tv_clearLocal_setting, R.id.ib_back_toolbar})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_clearSearch_setting:
@@ -92,14 +92,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 requireStoragePerm();
                 mPresenter.showCleanVideoCacheDialog(this);
                 break;
-            case R.id.tv_feedback_setting:
-                LogUtils.d(TAG, "反馈按钮被点击了");
-                MobclickAgent.onEvent(TestApp.getContext(), "setting_click_feedback", "用户反馈");
-                ARouter.getInstance().build("/feedback/activity").navigation();
-                break;
-            case R.id.tv_about_setting:
-                LogUtils.d(TAG, "关于按钮被点击了");
-                ARouter.getInstance().build("/about/activity").navigation();
+            case R.id.tv_clearLocal_setting:
+                LogUtils.d(TAG, "清空本地缓存被点击了");
+                requireStoragePerm();
                 break;
             case R.id.ib_back_toolbar:
                 finish();
@@ -121,41 +116,53 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     }
 
+
     private class CheckedChangeListener implements SwitchButton.OnCheckedChangeListener {
         @Override
         public void onCheckedChanged(SwitchButton view, boolean isChecked) {
             switch (view.getId()) {
-                //流量开关
-                case R.id.switch_setting:
+                case R.id.switch_mobileNet_play_setting:  //流量播放
                     if (isChecked) {
-//                        SpUtils.putBoolean(TestApp.getContext(), "netSwitchButton", true);
-//                        sendNetConnectBoardCast();
                         showNetworkConfirmDialog();
                     } else {
-                        SpUtils.putBoolean(TestApp.getContext(), "netSwitchButton", false);
+                        SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_PLAY, false);
                         sendNetConnectBoardCast();
                     }
                     break;
-                //历史纪录
-                case R.id.switch_history_setting:
+                case R.id.switch_history_setting:   //首页播放历史提醒
                     if (isChecked) {
-                        SpUtils.putBoolean(TestApp.getContext(), "historySwitchButton", true);
+                        SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_HOMEPAGE_HISTORY, true);
                     } else {
-                        SpUtils.putBoolean(TestApp.getContext(), "historySwitchButton", false);
+                        SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_HOMEPAGE_HISTORY, false);
                     }
                     break;
-                case R.id.switch_push_setting:
+                case R.id.switch_push_setting:              //推送
                     Context context = TestApp.getContext().getApplicationContext();
                     if (isChecked) {
                         JPushInterface.resumePush(context);
+                        SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_PUSH_NOTICE, false);
                     } else {
                         JPushInterface.stopPush(context);
+                        SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_PUSH_NOTICE, false);
+                    }
+                    break;
+                case R.id.switch_autoPlayer_setting:       // 自动播放下一集
+                    if (isChecked) {
+                        SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_AUTO_PLAY, true);
+                    } else {
+                        SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_AUTO_PLAY, false);
+                    }
+                    break;
+                case R.id.switch_mobileNet_down_setting:    //移动流量下载
+                    if (isChecked) {
+                        SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_DOWN, true);
+                    } else {
+                        SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_DOWN, false);
                     }
                     break;
                 default:
                     break;
             }
-
         }
     }
 
@@ -165,15 +172,15 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 .content("移动数据网络播放可能会导致流量超额，确认开启？")
                 .negativeColor(Color.parseColor("#888888"))
                 .onNegative((dialog, which) -> {
-                    if (mSwitchBtn != null) {
-                        mSwitchBtn.setChecked(false);
+                    if (mSwitchMobilePlay != null) {
+                        mSwitchMobilePlay.setChecked(false);
                     }
                     dialog.dismiss();
                 })
                 .negativeText("取消")
                 .positiveColor(Color.parseColor("#ffad43"))
                 .onPositive(((dialog, which) -> {
-                    SpUtils.putBoolean(TestApp.getContext(), "netSwitchButton", true);
+                    SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_PLAY, true);
                     sendNetConnectBoardCast();
                     dialog.dismiss();
                 }))

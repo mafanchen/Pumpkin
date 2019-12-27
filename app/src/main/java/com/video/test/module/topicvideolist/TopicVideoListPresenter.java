@@ -26,8 +26,8 @@ public class TopicVideoListPresenter extends TopicVideoListContract.Presenter<To
                     mView.setPageTitle(videoListBean.getTitle());
                     mView.setPic(videoListBean.getZtPic());
                     mView.setContent(videoListBean.getZtDetail());
+                    mView.setTopicNum();
                     mView.hideRefreshLayout(true);
-
                 }, new RxExceptionHandler<>(throwable -> {
                     LogUtils.e(TAG, "getVideoList Error " + throwable.getMessage());
                     mView.hideRefreshLayout(false);

@@ -75,7 +75,7 @@ public class LocalPlayerPresenter extends LocalPlayerContract.Presenter<LocalPla
                 .setAutoFullWithSize(true)
                 .setShowFullAnimation(false)
                 .setCacheWithPlay(false)
-                .setDismissControlTime(6000)
+                .setDismissControlTime(5000)
                 .setSeekRatio(8)
                 .build(videoPlayer);
         addPlayerCallBack(videoPlayer);

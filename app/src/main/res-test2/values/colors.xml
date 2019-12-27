@@ -3,6 +3,7 @@
     <color name="colorPrimary">#ff9900</color>
     <color name="colorPrimaryDark">#00acc1</color>
     <color name="colorDivider">#f2f2f2</color>
+    <color name="colorDivider_topic">#ededed</color>
 
     <!--dialog-->
     <color name="dialog_title">#ff9900</color>
@@ -174,7 +175,7 @@
     <!--setting-->
     <color name="setting_background">#f2f2f2</color>
     <color name="setting_switchBtn">#f5a623</color>
-    <color name="setting_font_button">#000000</color>
+    <color name="setting_font_button">#333333</color>
     <color name="setting_btn_background">#ffffff</color>
 
     <!--topic-->
@@ -244,6 +245,7 @@
     <color name="splash_skip_font">#eeeeee</color>
     <color name="about_version_font">#ffffff</color>
     <color name="share_title_font">#ffcc00</color>
+    <color name="player_background_control">#73000000</color>
 
 
 </resources>

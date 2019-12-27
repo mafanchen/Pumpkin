@@ -12,11 +12,10 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.flyco.tablayout.SlidingTabLayout;
-import com.umeng.analytics.MobclickAgent;
 import com.video.test.AppConstant;
 import com.video.test.BuildConfig;
-import com.video.test.R;
 import com.video.test.TestApp;
+import com.video.test.R;
 import com.video.test.javabean.ScreenBean;
 import com.video.test.javabean.event.HotSearchWordRetryEvent;
 import com.video.test.module.videotype.BaseVideoTypeListFragment;
@@ -26,6 +25,7 @@ import com.video.test.ui.base.BaseFragment;
 import com.video.test.ui.widget.BeanViewPager;
 import com.video.test.ui.widget.ShareDialogFragment;
 import com.video.test.utils.LogUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,7 +48,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
     @BindView(R.id.tabLayout_video_fragment)
     SlidingTabLayout mTabLayout;
     @BindView(R.id.layout_history_window)
-    LinearLayout mLayoutHistroy;
+    LinearLayout mLayoutHistory;
     @BindView(R.id.iv_history_close)
     ImageView mIvHistoryClose;
     @BindView(R.id.tv_history_name)
@@ -182,7 +182,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
 
     @Override
     public void showHistoryLayout() {
-        mLayoutHistroy.setVisibility(View.VISIBLE);
+        mLayoutHistory.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -201,7 +201,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
 
     @Override
     public void hideHistoryLayout() {
-        mLayoutHistroy.setVisibility(View.GONE);
+        mLayoutHistory.setVisibility(View.GONE);
     }
 
     @Override

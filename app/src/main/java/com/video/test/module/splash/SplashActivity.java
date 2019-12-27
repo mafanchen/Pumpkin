@@ -121,6 +121,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements Spl
                 .withString("jump_url", jumpUrl)
                 .withString("pic_url", picUrl)
                 .withString("ad_id", adId)
+                .withBoolean("isSplash", true)
                 .navigation();
         finish();
     }

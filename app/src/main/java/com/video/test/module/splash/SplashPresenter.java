@@ -57,6 +57,16 @@ public class SplashPresenter extends SplashContract.Presenter<SplashModel> {
     void countDownSplash() {
         Disposable subscribe = Observable.timer(2, TimeUnit.SECONDS)
                 .subscribe(aLong -> {
+                    //先读取保存的广告数据
+                    SplashBean saveSplashBean = SpUtils.getSerializable(TestApp.getContext(), "splashBean");
+                    if (splashBean != null) {
+                        //如果获取到网络数据，则保存
+                        SpUtils.putSerializable(TestApp.getContext(), "splashBean", splashBean);
+                    }
+                    //如果有缓存，则以缓存的数据为主
+                    if (saveSplashBean != null) {
+                        splashBean = saveSplashBean;
+                    }
                     //判断是否有广告，有广告，跳转到广告页面，没广告，跳转到主页
                     if (splashBean == null) {
                         mView.skipSplashActivity();
@@ -74,12 +84,14 @@ public class SplashPresenter extends SplashContract.Presenter<SplashModel> {
     @Override
     void shareGetInfo(Intent intent) {
         LogUtils.d(TAG, "shareGetInfo");
+
 //        OpenInstall.getInstall(new AppInstallAdapter() {
 //            @Override
 //            public void onInstall(AppData appData) {
 //                onGetInstallData(appData);
 //            }
 //        });
+
         OpenInstall.getWakeUp(intent, new AppWakeUpAdapter() {
             @Override
             public void onWakeUp(AppData appData) {

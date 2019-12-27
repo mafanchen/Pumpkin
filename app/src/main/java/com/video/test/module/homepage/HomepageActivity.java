@@ -64,7 +64,6 @@ public class HomepageActivity extends BaseActivity<HomepagePresenter> implements
     private static final String TAG = "HomepageActivity";
     @BindView(R.id.CommonTabLayout)
     CommonTabLayout mTabLayout;
-
     /**
      * 退出倒计时
      */
@@ -77,6 +76,7 @@ public class HomepageActivity extends BaseActivity<HomepagePresenter> implements
     private Fragment mUserCenterFragment;
     private DownloadReceiver mDownloadReceiver;
     private List<Fragment> fragments;
+
 
 
     @Override
@@ -385,7 +385,7 @@ public class HomepageActivity extends BaseActivity<HomepagePresenter> implements
 
     @Override
     public void setUserInfo(UserCenterBean userCenterBean) {
-        SpUtils.putSerizable(TestApp.getContext(), AppConstant.USER_INFO, userCenterBean);
+        SpUtils.putSerializable(TestApp.getContext(), AppConstant.USER_INFO, userCenterBean);
         SpUtils.putString(TestApp.getContext(), AppConstant.USER_TOKEN_LEVEL, userCenterBean.getIs_vip());
         SpUtils.putString(TestApp.getContext(), AppConstant.USER_SHARE_URL, userCenterBean.getShareUrl());
     }

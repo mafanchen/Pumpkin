@@ -31,6 +31,7 @@ public class CollectionPresenter extends CollectionContract.Presenter<Collection
                 .subscribe(collectionListBeans -> {
                     mView.setUserCollection(collectionListBeans.getList());
                     mView.hideRefreshLayout(true);
+                    mView.cancelRefreshLayout(page);
                 }, throwable -> {
                     LogUtils.d(TAG, "getUserCollection Error == " + throwable.getMessage());
                     mView.hideRefreshLayout(false);

@@ -73,12 +73,9 @@
             android:name="com.video.test.module.setting.SettingActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name=".module.setnickname.SetNicknameActivity"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.video.test.module.download.DownloadActivity"
+            android:name="com.video.test.module.download.DownloadVideoListActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="portrait" />
         <activity
@@ -106,8 +103,15 @@
         <activity
             android:name="com.video.test.module.player.PlayerActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
+            android:exported="true"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="com.video.test.module.sharepage.SharePageActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
@@ -161,7 +165,7 @@
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/transparent_activity" />
         <activity
-            android:name="com.video.test.module.beantopic.TopicActivity"
+            android:name="com.video.test.module.beantopic.BeanTopicActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="portrait" />
         <activity
@@ -187,6 +191,11 @@
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name="com.video.test.module.webprogram.WebProgramActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:screenOrientation="portrait" />
+
         <receiver
             android:name="com.video.test.receiver.JPushReceiver"
             android:enabled="true"
@@ -201,6 +210,8 @@
         <!-- 继承自cn.jpush.android.service.JCommonService-->
         <service
             android:name="com.video.test.service.PushService"
+            android:enabled="true"
+            android:exported="false"
             android:process=":pushcore">
             <intent-filter>
                 <action android:name="cn.jiguang.user.service.action" />
@@ -215,13 +226,6 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
-        <!--友盟-->
-        <!--        <meta-data-->
-        <!--            android:name="UMENG_APPKEY"-->
-        <!--            android:value="${UMENG_APPID}" />-->
-        <!--        <meta-data-->
-        <!--            android:name="UMENG_CHANNEL"-->
-        <!--            android:value="${UMENG_CHANNEL}" />-->
         <!--极光-->
         <meta-data
             android:name="JPUSH_CHANNEL"

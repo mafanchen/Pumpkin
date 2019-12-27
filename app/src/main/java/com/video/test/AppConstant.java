@@ -229,4 +229,22 @@ public class AppConstant {
      * 小卡片
      */
     public static final int AD_TYPE_VIDEO_CARD = 11;
+
+
+    /**
+     * 当 应用切换到后台 到 再次切换到前台时，允许跳转到广告界面 的计时时间
+     */
+    public static final int TIME_PLAY_AD_WHEN_BACKGROUND = 5 * 60 * 1000;
+
+
+    /**
+     *  设置中的 储存变量
+     */
+
+    public static final String SWITCH_MOBILE_PLAY ="SettingSwitchMobilePlay";
+    public static final String SWITCH_MOBILE_DOWN ="SettingSwitchMobileDown";
+    public static final String SWITCH_HOMEPAGE_HISTORY ="SettingSwitchHomeHistory";
+    public static final String SWITCH_PUSH_NOTICE ="SettingSwitchPushNotice";
+    public static final String SWITCH_AUTO_PLAY ="SettingSwitchAutoPlay";
+
 }

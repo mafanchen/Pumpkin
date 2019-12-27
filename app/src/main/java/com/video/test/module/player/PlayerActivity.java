@@ -104,6 +104,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -153,7 +154,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     @BindView(R.id.tabLayout_videoSelect)
     SlidingTabLayout mTabLayoutSelect;
     //    @BindView(R.id.rv_videoItem_videoSelect)
-//    RecyclerView mRvVideoSelect;
+    //    RecyclerView mRvVideoSelect;
     @BindView(R.id.pager_videoItem_videoSelect)
     ViewPager mPagerVideoSelect;
     @BindView(R.id.swipeRefresh_player)
@@ -252,7 +253,6 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     private String mVideoTitle;
     private PlayerCommentItemAdapter mPlayerCommentItemAdapter;
     private LelinkHelper mLinkHelper;
-    private boolean isFirstBrowse;
     private boolean castIsPause;
     private LelinkServiceInfo mSelectInfo;
     private int mCastPosition;
@@ -311,10 +311,8 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 
     @Override
     protected void onResume() {
-        if (getCurPlay() != null) {
-            getCurPlay().onVideoResume();
-        }
         super.onResume();
+        resumePlay();
         isPause = false;
     }
 
@@ -326,6 +324,8 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             isPause = true;
             //暂停视频播放
             if (getCurPlay() != null) {
+                // 暂停视频时, 停止任务定时器
+                mPresenter.cancelWatchVideoTimer();
                 getCurPlay().onVideoPauseWithoutPauseAd();
                 //如果不是播放视频广告时退出，则添加历史纪录
                 if (!getCurPlay().isShowingHeadAd()) {
@@ -333,6 +333,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                     long duration = getCurPlay().getGSYVideoManager().getDuration();
                     mPresenter.addHistory(mVideoId, mVideoTitle, mVideoName, mVideoOriginalUrl, currentPosition, duration);
                     LogUtils.d(TAG, "onPause currentPosition == " + currentPosition + "duration == " + duration);
+
                 }
             }
         }
@@ -509,10 +510,6 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             ImageView startButton;
             switch (state) {
                 case IUIUpdateListener.STATE_SEARCH_SUCCESS:
-                    if (isFirstBrowse) {
-                        isFirstBrowse = false;
-                        LogUtils.d(TAG, "IUI 搜索成功");
-                    }
                     if (null != mPresenter) {
                         mPresenter.updateDeviceAdapter();
                     }
@@ -548,8 +545,6 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                   /*  mBrowseAdapter.setSelectInfo(null);
                     mBrowseAdapter.notifyDataSetChanged();*/
                     // 更新列表
-
-
                     break;
                 case IUIUpdateListener.STATE_PLAY:
                     LogUtils.d(TAG, "IUI callback play");
@@ -673,12 +668,9 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         if (null != getCurPlay()) {
             LogUtils.d(TAG, "startPlayLogic videoPlayer");
             //设置开始播放的进度
-//            getCurPlay().setSeekOnStart(mCurrentTime);
             getCurPlay().startPlayLogic();
             initIJkOptions();
-            //播放器加载的时候,就显示等待页面 隐藏
-            // showWaitPic();
-//            ToastUtils.showLongToast(TestApp.getContext(), "开始加载视频，请稍等...");
+
         }
     }
 
@@ -692,7 +684,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     @Nullable
     private LandLayoutVideo getCurPlay() {
         //TODO 这里mVideoPlayer会为空，先这样改，判断是什么情况下调用此方法播放器为空
-        if (mVideoPlayer != null && null != mVideoPlayer.getFullWindowPlayer()) {
+        if (null != mVideoPlayer && null != mVideoPlayer.getFullWindowPlayer()) {
             return (LandLayoutVideo) mVideoPlayer.getFullWindowPlayer();
         }
         return mVideoPlayer;
@@ -726,15 +718,6 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         }
     }
 
-    @Override
-    public void hideWaitPic() {
-        if (null != mIvCloseWaitPic && null != mIvWaitPic && null != mTvNetSpeed) {
-            mIvCloseWaitPic.setVisibility(View.GONE);
-            mIvWaitPic.setVisibility(View.GONE);
-            mTvNetSpeed.setVisibility(View.GONE);
-        }
-
-    }
 
     @Override
     public void showCleanCacheDialog() {
@@ -770,13 +753,20 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 
     @Override
     public void showWaitPic() {
-        if (null != mIvCloseWaitPic && null != mIvWaitPic && null != mTvNetSpeed) {
-            mIvCloseWaitPic.setVisibility(View.VISIBLE);
+        if (null != mIvWaitPic) {
             mIvWaitPic.setVisibility(View.VISIBLE);
-            mTvNetSpeed.setVisibility(View.VISIBLE);
+            GlideApp.with(this).load(R.drawable.ic_player_loading).into(mIvWaitPic);
         }
     }
 
+
+    @Override
+    public void hideWaitPic() {
+        if (null != mIvWaitPic) {
+            mIvWaitPic.setVisibility(View.GONE);
+            GlideApp.with(this).clear(mIvWaitPic);
+        }
+    }
 
     @Override
     public void setNetSpeed(String netSpeed) {
@@ -1082,7 +1072,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 
     private void commentVideo() {
         mPresenter.commentVideo(mVodId, mEtComment, mTvSendComment);
-  /*      UserCenterBean userCenterBean = (UserCenterBean) SpUtils.getSerizable(this, AppConstant.USER_INFO);
+  /*      UserCenterBean userCenterBean = (UserCenterBean) SpUtils.getSerializable(this, AppConstant.USER_INFO);
         assert userCenterBean != null;
         if (TextUtils.isEmpty(userCenterBean.getMobile())) {
             ARouter.getInstance().build("/bindphone/activity/float").navigation();
@@ -1300,7 +1290,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                 .setShowFullAnimation(false)
                 .setCacheWithPlay(false)
                 .setDismissControlTime(6000)
-                .setSeekRatio(8)
+                .setSeekRatio(4)
                 .setNeedShowWifiTip(false)
                 .build(mVideoPlayer);
         addPlayerCallBack();
@@ -1310,7 +1300,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     private void initIJkOptions() {
         List<VideoOptionModel> list = new ArrayList<>();
         //解决切换进度导致无限加载
-//        list.add(new VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "enable-accurate-seek", 1));
+//       list.add(new VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "enable-accurate-seek", 1));
         //解决miui10 android9以上 倍速播放无效的问题
         list.add(new VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "soundtouch", 1));
         GSYVideoManager.instance().setOptionModelList(list);
@@ -1339,14 +1329,15 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                     }
                     mVideoDegree = null;
                     LogUtils.d(TAG, "startVideoPlay currentTime ==" + mCurrentTime);
+                    mPresenter.watchVideoTimer(mVideoPlayer);
                 }
                 //开始播放了才能旋转和全屏
                 if (null != mOrientationUtils) {
                     mOrientationUtils.setEnable(true);
                     isPlay = true;
                 }
-                //开始播放之后隐藏等待提示图  暂不使用
-                //  hideWaitPic();
+                //开始播放之后隐藏等待提示图
+                // hideWaitPic();
             }
 
             @Override
@@ -1398,10 +1389,14 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                     break;
                 case GSYVideoView.CURRENT_STATE_PLAYING:
                     getCurPlay().onVideoPause();
+                    // 手动点击暂停按键时,也暂停计时器任务
+                    mPresenter.cancelWatchVideoTimer();
                     break;
                 case GSYVideoPlayer.CURRENT_STATE_PAUSE:
-//                    getCurPlay().onVideoResume(false);
+//                  getCurPlay().onVideoResume(false);
                     getCurPlay().startAfterPrepared();
+                    // 手动点击开始按键时,开启计时器任务
+                    mPresenter.watchVideoTimer(mVideoPlayer);
                     break;
                 default:
                     break;
@@ -1585,6 +1580,11 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 
             @Override
             public void onChooseDevice(LelinkServiceInfo info) {
+                //开始投屏,先获取当前播放时间,存储在本地, 之后暂停播放器,防止播放器播放
+                if (getCurPlay() != null) {
+                    mCastPosition = getCurPlay().getCurrentPositionWhenPlaying();
+                    getCurPlay().onVideoReset();
+                }
                 castStopBrowse();
                 castConnect(info);
                 mSelectInfo = info;
@@ -1641,6 +1641,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             getCurPlay().setUp(videoPlayUrl, false, videoFullName);
         } else {
             getCurPlay().setAdUp(mVideoAdData, videoPlayUrl, videoFullName, mUserLevel.equals(AppConstant.USER_VIP) || mUserLevel.equals(AppConstant.USER_VIP_LASTDAY));
+            preloadImages(mVideoAdData);
         }
         //添加到历史纪录
         if (videoPlayUrl.startsWith(AppConstant.FFHD_HEAD)) {
@@ -1650,6 +1651,20 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         } else {
             if (null != getCurPlay()) {
                 mPresenter.addHistory(mVideoId, mVideoTitle, mVideoName, videoPlayUrl, mCurrentTime, getCurPlay().getGSYVideoManager().getDuration());
+            }
+        }
+    }
+
+    //使用 Glide 预加载暂停广告图 与 小卡片广告图
+    private void preloadImages(VideoAdDataBean videoAdDataBean) {
+        if (null != videoAdDataBean) {
+            String pauseAdUrl = Objects.requireNonNull(videoAdDataBean.getPauseAd()).getAdUrl();
+            String playAdUrl = Objects.requireNonNull(videoAdDataBean.getPlayAd()).getAdUrl();
+            if (!TextUtils.isEmpty(pauseAdUrl)) {
+                GlideApp.with(this).load(pauseAdUrl).preload();
+            }
+            if (!TextUtils.isEmpty(playAdUrl)) {
+                GlideApp.with(this).load(playAdUrl).preload();
             }
         }
     }
@@ -1873,7 +1888,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 //        switch (event.getAction()) {
 //            case MotionEvent.ACTION_DOWN:
 //                LogUtils.d(TAG, "et_comment_player touch down");
-//                UserCenterBean userCenterBean = (UserCenterBean) SpUtils.getSerizable(this, AppConstant.USER_INFO);
+//                UserCenterBean userCenterBean = (UserCenterBean) SpUtils.getSerializable(this, AppConstant.USER_INFO);
 //                assert userCenterBean != null;
 //                if (TextUtils.isEmpty(userCenterBean.getMobile())) {
 //                    isBindingPhone = true;
@@ -1900,15 +1915,11 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 
     private void castBrowse() {
         if (null != mLinkHelper) {
-            if (!isFirstBrowse) {
-                isFirstBrowse = true;
-            }
             //开始投屏,先获取当前播放时间,存储在本地, 之后暂停播放器,防止播放器播放
             if (getCurPlay() != null) {
                 mCastPosition = getCurPlay().getCurrentPositionWhenPlaying();
                 getCurPlay().onVideoReset();
             }
-
             mLinkHelper.browse(ILelinkServiceManager.TYPE_ALL);
             LogUtils.d(TAG, "browse type Success");
         } else {
@@ -1920,7 +1931,6 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     private void castStopBrowse() {
         if (null != mLinkHelper) {
             LogUtils.d(TAG, "castStopBrowse type Success");
-            isFirstBrowse = false;
             mLinkHelper.stopBrowse();
         } else {
             LogUtils.d(TAG, "castStopBrowse type Failed");
@@ -1959,12 +1969,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         }
     }
 
-    @Override
-    public void videoReset() {
-        if (null != getCurPlay()) {
-            getCurPlay().onVideoReset();
-        }
-    }
+
 
     @Override
     public void setVideoCollected(boolean isCollected) {
@@ -2003,6 +2008,15 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         TimeCloseDialogFragment.newInstance(onButtonClickListener).show(getSupportFragmentManager(), "TimeCloseDialogFragment");
     }
 
+
+    @Override
+    public void videoReset() {
+        if (null != getCurPlay()) {
+            getCurPlay().onVideoReset();
+            mPresenter.cancelWatchVideoTimer();
+        }
+    }
+
     @Override
     public void playNext() {
         if (getCurPlay() != null) {
@@ -2011,9 +2025,17 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     }
 
     @Override
+    public void showPlayNextNotice() {
+        if (null != getCurPlay()) {
+            getCurPlay().showPlayNextNotice();
+        }
+    }
+
+    @Override
     public void pausePlay() {
         if (getCurPlay() != null) {
             getCurPlay().onVideoPause();
+            mPresenter.cancelWatchVideoTimer();
         }
     }
 
@@ -2021,6 +2043,11 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     public void resumePlay() {
         if (getCurPlay() != null) {
             getCurPlay().onVideoResume();
+            //恢复时, 继续开始定时任务  需要先判断当前播放器是否在播放状态.
+            Log.d("PlayerPresenter", "PlayVideo statue : "+ getCurPlay().getCurrentState() + " isPlay : "+ getCurPlay().isInPlayingState());
+            if (getCurPlay().isInPlayingState()) {
+                mPresenter.watchVideoTimer(mVideoPlayer);
+            }
         }
     }
 
@@ -2029,6 +2056,12 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         if (getCurPlay() != null) {
             getCurPlay().resetTimerCloseText();
         }
+    }
+
+    @Override
+    public void uploadWatchTime() {
+        //TODO  此处需要实现上报接口
+        LogUtils.d("PlayerPresenter", "观看时长已满 3分钟 上报一次");
     }
 
     @Override
@@ -2096,7 +2129,10 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             if (getCurPlay() != null) {
                 if (getCurPlay().isIfCurrentIsFullscreen()) {
                     //搜索设备
-                    castBrowse();
+//                    castBrowse();
+                    if (mLinkHelper != null) {
+                        mLinkHelper.browse(ILelinkServiceManager.TYPE_ALL);
+                    }
                 } else {
                     showCastDialog();
                 }
@@ -2147,7 +2183,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                     // setInsertionDisabled when user touches the view
                     setInsertionDisabled(editText);
                     LogUtils.d(TAG, "et_comment_player touch down");
-                    UserCenterBean userCenterBean = SpUtils.getSerizable(PlayerActivity.this, AppConstant.USER_INFO);
+                    UserCenterBean userCenterBean = SpUtils.getSerializable(PlayerActivity.this, AppConstant.USER_INFO);
                     assert userCenterBean != null;
                     if (TextUtils.isEmpty(userCenterBean.getMobile())) {
                         isBindingPhone = true;

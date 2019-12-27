@@ -98,7 +98,7 @@ public class SpUtils {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public static void putSerizable(@NonNull Context context, @NonNull String key, @NonNull Serializable objcet) {
+    public static void putSerializable(@NonNull Context context, @NonNull String key, @NonNull Serializable objcet) {
         String value = object2String(objcet);
         if (value != null) {
             putString(context, key, value);
@@ -106,7 +106,7 @@ public class SpUtils {
     }
 
     @Nullable
-    public static <T extends Serializable> T getSerizable(@NonNull Context context, @NonNull String key) {
+    public static <T extends Serializable> T getSerializable(@NonNull Context context, @NonNull String key) {
         String value = getString(context, key, null);
         if (value == null) {
             return null;

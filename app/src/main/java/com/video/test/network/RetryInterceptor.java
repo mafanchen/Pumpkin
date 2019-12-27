@@ -70,6 +70,9 @@ public class RetryInterceptor implements Interceptor {
                         .host(getHost(newHost))
                         .build();
                 Request request = oriRequest.newBuilder().url(newHttpUrl).build();
+                if (response != null) {
+                    response.close();
+                }
                 return retry(chain, request);
             }
         }

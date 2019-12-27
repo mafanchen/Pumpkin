@@ -18,7 +18,10 @@
     <string name="splash_skip">还剩 %1$d 秒</string>
     <string name="splash_loading">加载中</string>
     <string name="splash_skip_to_home">跳过</string>
+    <string name="splash_skip_count">%1$ds</string>
 
+    <!--topic-->
+    <string name="topic_video_num">共%1$s部视频</string>
 
     <!--dialog-->
     <string name="dialog_confirm">确认</string>
@@ -257,6 +260,7 @@
     <string name="activity_download_edit">编辑</string>
     <string name="activity_download_edit_cancel">取消</string>
     <string name="activity_download">离线缓存</string>
+    <string name="activity_download_sdCard">已使用%1$s,可用空间%2$s</string>
 
     <!--setPassword-->
     <string name="setPassword_old_password">请输入您的旧密码</string>
@@ -298,12 +302,21 @@
     <string name="setNickname_confirm">完成</string>
 
     <!--setting-->
-    <string name="setting_useMobileNetwork">移动数据网络自动播放视频</string>
+    <string name="setting_useMobileNet_play">移动数据网络自动播放视频</string>
     <string name="setting_mobileNetworkExplain">允许在2G/3G/4G网络环境下使用App</string>
     <string name="setting_cleanHistory">清空搜索记录</string>
     <string name="setting_clearCache">清空视频缓存</string>
+    <string name="setting_clearLocalCache">清空离线缓存</string>
+    <string name="setting_clearLocalCache_content">不影响离线缓存与历史记录</string>
     <string name="setting_feedback">用户反馈</string>
     <string name="setting_about">关于</string>
+    <string name="setting_autoPlay">自动播放下一集</string>
+    <string name="setting_homepage_video_prompt">首页上次播放提醒</string>
+    <string name="setting_download_manager">离线缓存管理</string>
+    <string name="setting_play_manager">播放管理</string>
+    <string name="setting_useMobileNet_download">允许移动数据网络缓存视频</string>
+    <string name="setting_allow_notice">推送通知</string>
+    <string name="setting_space_unit">%1$sM</string>
 
     <!--forget-->
     <string name="forget_input_email">请输入您绑定的邮箱</string>
@@ -336,6 +349,7 @@
     <string name="videoPlayer_release_year">上映年份：</string>
     <string name="videoPlayer_video_comment">评论</string>
     <string name="videoPlayer_send_message">发送</string>
+    <string name="videoPlayer_play_next">将要播放下一集</string>
 
 
     <!--WeChat-->
@@ -365,7 +379,6 @@
     <string name="contact_website_content"><u>test.com</u></string>
     <string name="contact_email_content"><u>test@gmail.com</u></string>
 
-
     <!--permission-->
     <string name="permission_camera_error">未能获取照相机权限、请您开启权限后尝试</string>
     <string name="permission_sdcard_error">未能获取储存卡权限、请您开启权限后尝试</string>
@@ -391,6 +404,8 @@
     <string name="video_point">%1$s分</string>
     <string name="video_episode">更新至%s集</string>
     <string name="video_stage">更新至%s期</string>
+    <string name="video_ad_count">%1$ss</string>
+    <string name="video_ad_default_count">5s</string>
     <string name="dialog_download_for_vip">下载功能仅对特权用户开放</string>
     <string name="dialog_cast_for_vip">投屏功能仅对特权用户开放</string>
     <string name="dialog_cast_castHelper">投屏助手</string>
@@ -413,6 +428,7 @@
     <string name="player_text_fast_forward">快进15秒</string>
     <string name="player_text_rewind">快退15秒</string>
     <string name="player_text_pause">暂停</string>
+    <string name="player_text_skip">跳过</string>
 
     <!--feedback-->
     <string name="feedback_content_hint">请描述您在使用过程中遇到的问题，便于我们更好的为您解决问题哦~</string>

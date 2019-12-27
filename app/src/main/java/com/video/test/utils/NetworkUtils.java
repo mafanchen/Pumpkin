@@ -77,7 +77,7 @@ public class NetworkUtils {
 
     /*根据软件设置,更改P2P网络状态*/
     private static void onNetworkStatusChange(boolean isConnect, boolean isMobile, boolean isWifi) {
-        boolean switchButton = SpUtils.getBoolean(TestApp.getContext(), "netSwitchButton", true);
+        boolean switchButton = SpUtils.getBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_PLAY, true);
         LogUtils.i(TAG, "目前SwitchButton按钮的状态是" + switchButton);
         if (isConnect) {
             //网络连接正常

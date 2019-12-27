@@ -101,11 +101,11 @@ public class BindPhoneFloatPresenter extends BindPhoneFloatContract.Presenter<Bi
         String userTokenId = SpUtils.getString(TestApp.getContext(), AppConstant.USER_TOKEN_ID, "no");
         Disposable disposable = mModel.bindPhone(countryCode, phone, verificationCode, isForce, userToken, userTokenId)
                 .subscribe(bindPhoneBean -> {
-                    UserCenterBean userInfo = SpUtils.getSerizable(TestApp.getContext(), AppConstant.USER_INFO);
+                    UserCenterBean userInfo = SpUtils.getSerializable(TestApp.getContext(), AppConstant.USER_INFO);
                     //更改保存的电话
                     if (userInfo != null) {
                         userInfo.setMobile(phone);
-                        SpUtils.putSerizable(TestApp.getContext(), AppConstant.USER_INFO, userInfo);
+                        SpUtils.putSerializable(TestApp.getContext(), AppConstant.USER_INFO, userInfo);
                     }
                     EventBus.getDefault().post(bindPhoneBean);
                     SpUtils.putString(TestApp.getContext(), AppConstant.USER_TOKEN, bindPhoneBean.getToken());

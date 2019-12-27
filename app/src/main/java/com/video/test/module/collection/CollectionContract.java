@@ -34,6 +34,8 @@ public interface CollectionContract {
 
         void hideRefreshLayout(boolean isSuccess);
 
+        void cancelRefreshLayout(int page);
+
         void showNetworkErrorView();
     }
 

@@ -7,16 +7,14 @@ import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.umeng.analytics.MobclickAgent
 import com.video.test.R
 import com.video.test.TestApp
-import com.video.test.framework.GlideApp
 import com.video.test.ui.base.BaseActivity
 import com.video.test.utils.LogUtils
 
 @Route(path = "/ad/activity")
-class AdActivity : BaseActivity<AdPresenter>(), AdConstract.View {
+class AdActivity : BaseActivity<AdPresenter>(), AdContract.View {
 
     companion object {
         private const val TAG = "AdActivity"
@@ -41,6 +39,9 @@ class AdActivity : BaseActivity<AdPresenter>(), AdConstract.View {
     @JvmField
     @Autowired(name = "ad_id")
     var mAdId: String? = null
+    @JvmField
+    @Autowired(name = "isSplash")
+    var mIsSplash: Boolean = false
 
     override fun getContextViewId(): Int {
         return R.layout.bean_activity_ad
@@ -56,14 +57,16 @@ class AdActivity : BaseActivity<AdPresenter>(), AdConstract.View {
         mPresenter.countDownSplash(this.applicationContext)
         //展示广告图片
         mPicUrl?.let {
-            LogUtils.d(TAG, mPicUrl);
-            GlideApp.with(this).load(mPicUrl).transition(withCrossFade()).into(mIvAd)
+            LogUtils.d(TAG, mPicUrl)
+            mPresenter.saveAndShowImage(it, mIvAd)
         }
         //点击跳过按钮，跳转到主界面
         mLayoutSkip.setOnClickListener {
-            ARouter.getInstance().build("/homepage/activity").navigation()
+            if (mIsSplash)
+                ARouter.getInstance().build("/homepage/activity").navigation()
             finish()
         }
+
         mIvAd.setOnClickListener {
             MobclickAgent.onEvent(TestApp.getContext(), "launch_click_ad", mAdName)
             mPresenter.addAdInfo(mAdId)
@@ -79,5 +82,13 @@ class AdActivity : BaseActivity<AdPresenter>(), AdConstract.View {
 
     override fun getLayoutSkip(): FrameLayout? {
         return mLayoutSkip
+    }
+
+    override fun isSplash(): Boolean {
+        return mIsSplash
+    }
+
+    override fun close() {
+        finish()
     }
 }

@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 
-    <include layout="@layout/bean_include_toolbar_home_new" />
+	<include layout="@layout/bean_include_toolbar_topic" />
 
-    <com.video.test.ui.widget.LoadingView
-        android:id="@+id/loadingView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/toolbar_height_modify">
+	<com.video.test.ui.widget.LoadingView
+		android:id="@+id/loadingView"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginTop="56dp">
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/layout_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+		<com.scwang.smartrefresh.layout.SmartRefreshLayout
+			android:id="@+id/layout_refresh"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_beanTopic_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+			<android.support.v7.widget.RecyclerView
+				android:id="@+id/rv_beanTopic_fragment"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+		</com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    </com.video.test.ui.widget.LoadingView>
-
-
+	</com.video.test.ui.widget.LoadingView>
 
 </FrameLayout>

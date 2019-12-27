@@ -5,7 +5,7 @@
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_video_test_utils_EncryptUtils_md5FromJNI(JNIEnv *env, jobject,
-                                                                 jstring timeStamp, jstring ip) {
+                                                  jstring timeStamp, jstring ip) {
     const char *originIp;
     const char *originTime;
     //将 jstring 转化为 char*类型

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="56dp"
+	android:background="@color/toolbar_background_homepage">
+
+	<com.video.test.ui.widget.BeanTopicTabLayout
+		android:id="@+id/tabLayout_topic_toolbar"
+		android:layout_width="136dp"
+		android:layout_height="match_parent"
+		android:layout_gravity="center_horizontal"
+		app:tl_indicator_color="@color/colorWhite"
+		app:tl_indicator_height="2dp"
+		app:tl_iconVisible="false"
+		app:tl_textSelectColor="@color/colorWhite"
+		app:tl_textUnselectColor="@color/colorWhite"
+		app:tl_textsize="18sp">
+
+	</com.video.test.ui.widget.BeanTopicTabLayout>
+
+	<ImageView
+		android:id="@+id/search_topic_toolbar"
+		android:layout_width="40dp"
+		android:layout_height="40dp"
+		android:layout_gravity="end|center_vertical"
+		android:layout_marginEnd="12dp"
+		android:padding="8dp"
+		android:src="@drawable/ic_nav_search" />
+
+</FrameLayout>

@@ -133,7 +133,7 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements H
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mPage = 1;
                 mPresenter.getUserHistory(mPage, mLimit);
-
+                mRefreshLayout.setEnableRefresh(false);
             }
         });
     }
@@ -197,6 +197,8 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements H
     @Override
     public void getDeleteHistoryMessage(String message) {
         ToastUtils.showToast(TestApp.getContext(), message);
+        // 竖线第一页完成的时候,已经关闭了下拉刷新,故此处需要重新打开下来刷新
+        mRefreshLayout.setEnableRefresh(true);
         mRefreshLayout.autoRefresh();
     }
 
@@ -240,6 +242,17 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements H
     public void hideRefreshLayout(boolean isSuccess) {
         if (null != mRefreshLayout) {
             mRefreshLayout.finishRefresh(isSuccess);
+        }
+    }
+
+    /**
+     * 首次刷新成功之后 就关闭下来刷新功能
+     * @param page
+     */
+    @Override
+    public void cancelRefreshLayout(int page) {
+        if (null != mRefreshLayout && 1 == page) {
+            mRefreshLayout.setEnableRefresh(false);
         }
     }
 

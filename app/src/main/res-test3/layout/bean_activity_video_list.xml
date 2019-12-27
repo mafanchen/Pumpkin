@@ -24,21 +24,42 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorWhite">
 
-                    <ImageView
-                        android:id="@+id/iv_topic_bg"
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="167dp"
-                        app:layout_scrollFlags="scroll" />
+                        android:background="@drawable/ic_topic_background"
+                        app:layout_scrollFlags="scroll">
+
+                        <ImageView
+                            android:id="@+id/iv_topic_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="167dp" />
+
+                        <TextView
+                            android:id="@+id/tv_topic_videoNum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="134dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/shape_bg_topic_num"
+                            android:padding="4dp"
+                            android:textColor="#b5b5b5"
+                            android:visibility="invisible" />
+
+                    </FrameLayout>
 
                     <TextView
                         android:id="@+id/tv_topic_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:textColor="#111111"
-                        android:textSize="@dimen/text_size_19sp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="15dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="#2a2a2a"
+                        android:textSize="@dimen/text_size_18sp"
                         android:textStyle="bold"
                         app:layout_scrollFlags="scroll"
                         tools:text="天坑动漫之有生完结系列" />
@@ -47,33 +68,29 @@
                         android:id="@+id/tv_topic_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
                         android:layout_marginTop="15dp"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
+                        android:layout_marginEnd="15dp"
                         android:textColor="#222222"
                         android:textSize="@dimen/text_size_13sp"
                         app:layout_scrollFlags="scroll"
                         tools:text="不管你信不信，反正我信了，柯南已经播出了二十多年了，我的青春也全部搭进去了，却发现柯南还是那个一年级的小学生。" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="6dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/colorDivider"
+
+                    <CheckBox
+                        android:id="@+id/ck_topic_collect"
+                        android:layout_width="83dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="19dp"
+                        android:button="@drawable/selector_checkbox_beantopic"
                         app:layout_scrollFlags="scroll" />
 
-                    <TextView
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="9dp"
-                        android:paddingStart="12dp"
-                        android:paddingTop="18dp"
-                        android:paddingEnd="12dp"
-                        android:paddingBottom="18dp"
-                        android:text="相关影视"
-                        android:textColor="#333333"
-                        android:textSize="@dimen/text_size_18sp"
-                        android:textStyle="bold"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/colorDivider_topic"
                         app:layout_scrollFlags="scroll" />
 
                 </android.support.design.widget.AppBarLayout>
@@ -82,6 +99,7 @@
                     android:id="@+id/rv_videoList_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:background="@color/colorWhite"
                     app:layoutManager="android.support.v7.widget.GridLayoutManager"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -111,19 +129,6 @@
             android:textSize="@dimen/text_size_18sp"
             tools:text="这是专题的标题" />
 
-        <CheckBox
-            android:id="@+id/checkbox_topic_collect"
-            android:layout_width="60dp"
-            android:layout_height="24dp"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/selector_bg_topic_collect"
-            android:button="@null"
-            android:gravity="center"
-            android:text="收藏"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_size_13sp"
-            android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/ib_back_toolbar"
@@ -134,6 +139,5 @@
             android:background="@drawable/ic_back_navbar" />
 
     </FrameLayout>
-
 </FrameLayout>
 
