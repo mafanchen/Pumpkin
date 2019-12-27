@@ -1,0 +1,546 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-kapt"
+
+def CONFIG_TEST1 = rootProject.ext.test1
+def CONFIG_TEST2 = rootProject.ext.test2
+def CONFIG_TEST3 = rootProject.ext.test3
+android {
+    signingConfigs {
+        release {
+            keyAlias 'ngvideo'
+            keyPassword 'ngvideo2019'
+            storeFile file(STOREFILE) //建议此变量提取到 gradle.properties 配置
+            //storeFile file('C:/Users/AhhhhDong/Desktop/signKey/ngvideo.jks')
+            //storeFile file('/Users/enochguo/workFiles/Key/ngvideo.jks')
+            storePassword 'shicbutom123'
+        }
+    }
+
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 28
+        flavorDimensions "default"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
+
+        ndk {
+            moduleName "jniLibs"
+            abiFilters "armeabi-v7a", "x86"
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName(), AROUTER_GENERATE_DOC: "enable"]
+            }
+        }
+
+
+    }
+
+    //解决NDK r16 不再支持的问题，排除mips
+    packagingOptions {
+        doNotStrip '*/mips/*.so'
+        doNotStrip '*/mips64/*.so'
+    }
+
+    buildTypes {
+        release {
+            // 移除无用的resource文件
+            shrinkResources true
+            // 是否开启混淆
+            minifyEnabled true
+            // Zipalign优化
+            zipAlignEnabled true
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            buildConfigField "boolean", "LOG_TOGGLE", "false"
+            buildConfigField "String[]", "NG_BASE_URLS", "{" + getServerHost() + "}"
+            buildConfigField "int", "AD_VERSION", rootProject.ext.adVersion
+        }
+        debug {
+            // 移除无用的resource文件
+//            shrinkResources true
+            // 开启混淆
+//            minifyEnabled true
+            // Zipalign优化
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            buildConfigField "boolean", "LOG_TOGGLE", "true"
+            buildConfigField "String[]", "NG_BASE_URLS", "{" + getServerHost() + "}"
+            buildConfigField "int", "AD_VERSION", rootProject.ext.adVersion
+
+        }
+        uat {
+//            initWith debug
+            // 移除无用的resource文件
+            shrinkResources true
+            // 是否开启混淆
+            minifyEnabled true
+            // Zipalign优化
+            zipAlignEnabled true
+//            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            buildConfigField "boolean", "LOG_TOGGLE", "false"
+            buildConfigField "String[]", "NG_BASE_URLS", "{" + getServerHost() + "}"
+            buildConfigField "int", "AD_VERSION", rootProject.ext.adVersion
+            matchingFallbacks = ['uat', 'debug', 'release']
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+        }
+    }
+
+
+//输出apk配置
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def apkName = variant.flavorName + "_v${variant.versionName}"
+            if (variant.flavorName.isEmpty()) {
+                apkName = "App" + apkName;
+            }
+            outputFileName = apkName + "-${variant.buildType.name}" + "-${releaseTime()}.apk"
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        disable 'MissingTranslation'
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        // abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    productFlavors {
+        Test2 {
+            applicationId CONFIG_TEST2.applicationId
+            versionCode CONFIG_TEST2.versionCode
+            versionName CONFIG_TEST2.versionName
+            buildConfigField "int", "APP_ID", CONFIG_TEST2.appId
+            //betaVersion
+            buildConfigField "int", "BETA_VERSION", CONFIG_TEST2.betaVersion
+            //构造乐播(leCast）初始化的参数，用于代码中初始化
+            buildConfigField "String", "LECAST_APP_ID", "\"$CONFIG_TEST2.leCast.appId\""
+            buildConfigField "String", "LECAST_APP_SECRET", "\"$CONFIG_TEST2.leCast.appSecret\""
+            buildConfigField "String", "WECHAT_APP_ID", "\"$CONFIG_TEST2.weChat.appId\""
+            //官网地址
+            buildConfigField "String", "OFFICAL_WEBSITE", "\"$CONFIG_TEST2.website\""
+            //友盟appKey
+            buildConfigField "String", "UMENG_APP_KEY", "\"$CONFIG_TEST2.umeng.appKey\""
+            buildConfigField "String", "STORE_CHANNEL", "\"\""
+            //这里定义的参数可以被AndroidManifest文件所调用到
+            manifestPlaceholders = [
+                    JPUSH_PKGNAME     : CONFIG_TEST2.applicationId,
+                    JPUSH_APPKEY      : CONFIG_TEST2.jpush.appKey,  //JPush 上注册的包名对应的 Appkey.
+                    JPUSH_CHANNEL     : CONFIG_TEST2.jpush.channel,  //暂时填写默认值即可.
+                    OPENINSTALL_APPKEY: CONFIG_TEST2.openInstall.appKey,
+                    //极光小米 不要遗漏MI-
+                    XIAOMI_APPKEY     : "MI-5821811730508",//小米平台注册的appkey
+                    XIAOMI_APPID      : "MI-2882303761518117508",//小米平台注册的appid
+                    //极光华为
+                    HUAWEI_APPID      : "101020779",
+                    //极光魅族 不要遗漏前缀MZ-
+                    MEIZU_APPKEY      : "MZ‐e69f6e653bcb4b7d9a62188d49a6db71",
+                    MEIZU_APPID       : 'MZ-123161',
+                    //极光OPPO 不要遗漏前缀OP-
+                    OPPO_APPKEY       : "OP-f3b32ef315e0465dbf9ea3f2a16a7428",
+                    OPPO_APPID        : "OP-30005668",
+                    OPPO_APPSECRET    : "OP-d00d7d24ecdc4133846593937fb7cd34",
+            ]
+        }
+
+        Test1 {
+            applicationId CONFIG_TEST1.applicationId
+            versionCode CONFIG_TEST1.versionCode
+            versionName CONFIG_TEST1.versionName
+            buildConfigField "int", "APP_ID", CONFIG_TEST1.appId
+            //betaVersion
+            buildConfigField "int", "BETA_VERSION", CONFIG_TEST1.betaVersion
+            //构造乐播(leCast）初始化的参数，用于代码中初始化
+            buildConfigField "String", "LECAST_APP_ID", "\"$CONFIG_TEST1.leCast.appId\""
+            buildConfigField "String", "LECAST_APP_SECRET", "\"$CONFIG_TEST1.leCast.appSecret\""
+            buildConfigField "String", "WECHAT_APP_ID", "\"$CONFIG_TEST1.weChat.appId\""
+            //官网地址
+            buildConfigField "String", "OFFICAL_WEBSITE", "\"$CONFIG_TEST1.website\""
+            //友盟appKey
+            buildConfigField "String", "UMENG_APP_KEY", "\"$CONFIG_TEST1.umeng.appKey\""
+            buildConfigField "String", "STORE_CHANNEL", "\"\""
+            //这里定义的参数可以被AndroidManifest文件所调用到
+            manifestPlaceholders = [
+                    JPUSH_PKGNAME     : CONFIG_TEST1.applicationId,
+                    JPUSH_APPKEY      : CONFIG_TEST1.jpush.appKey,  //JPush 上注册的包名对应的 Appkey.
+                    JPUSH_CHANNEL     : CONFIG_TEST1.jpush.channel,  //暂时填写默认值即可.
+                    OPENINSTALL_APPKEY: CONFIG_TEST1.openInstall.appKey,
+                    //极光小米 不要遗漏MI-
+                    XIAOMI_APPKEY     : "MI-5821811730508",//小米平台注册的appkey
+                    XIAOMI_APPID      : "MI-2882303761518117508",//小米平台注册的appid
+                    //极光华为
+                    HUAWEI_APPID      : "101020779",
+                    //极光魅族 不要遗漏前缀MZ-
+                    MEIZU_APPKEY      : "MZ‐e69f6e653bcb4b7d9a62188d49a6db71",
+                    MEIZU_APPID       : 'MZ-123161',
+                    //极光OPPO 不要遗漏前缀OP-
+                    OPPO_APPKEY       : "OP-f3b32ef315e0465dbf9ea3f2a16a7428",
+                    OPPO_APPID        : "OP-30005668",
+                    OPPO_APPSECRET    : "OP-d00d7d24ecdc4133846593937fb7cd34",
+            ]
+        }
+
+        TestStore {
+            applicationId CONFIG_TEST1.applicationId
+            versionCode CONFIG_TEST1.versionCode
+            versionName CONFIG_TEST1.versionName
+            buildConfigField "int", "APP_ID", CONFIG_TEST1.appId
+            //betaVersion
+            buildConfigField "int", "BETA_VERSION", CONFIG_TEST1.betaVersion
+            //构造乐播(leCast）初始化的参数，用于代码中初始化
+            buildConfigField "String", "LECAST_APP_ID", "\"$CONFIG_TEST1.leCast.appId\""
+            buildConfigField "String", "LECAST_APP_SECRET", "\"$CONFIG_TEST1.leCast.appSecret\""
+            buildConfigField "String", "WECHAT_APP_ID", "\"$CONFIG_TEST1.weChat.appId\""
+            //官网地址
+            buildConfigField "String", "OFFICAL_WEBSITE", "\"$CONFIG_TEST1.website\""
+            //友盟appKey
+            buildConfigField "String", "UMENG_APP_KEY", "\"$rootProject.ext.testStore.umeng.appKey\""
+            buildConfigField "String", "STORE_CHANNEL", "\"$rootProject.ext.testStore.storeChannel\""
+            //这里定义的参数可以被AndroidManifest文件所调用到
+            manifestPlaceholders = [
+                    JPUSH_PKGNAME     : CONFIG_TEST1.applicationId,
+                    JPUSH_APPKEY      : CONFIG_TEST1.jpush.appKey,  //JPush 上注册的包名对应的 Appkey.
+                    JPUSH_CHANNEL     : CONFIG_TEST1.jpush.channel,  //暂时填写默认值即可.
+                    OPENINSTALL_APPKEY: CONFIG_TEST1.openInstall.appKey,
+                    //极光小米 不要遗漏MI-
+                    XIAOMI_APPKEY     : "MI-5821811730508",//小米平台注册的appkey
+                    XIAOMI_APPID      : "MI-2882303761518117508",//小米平台注册的appid
+                    //极光华为
+                    HUAWEI_APPID      : "101020779",
+                    //极光魅族 不要遗漏前缀MZ-
+                    MEIZU_APPKEY      : "MZ‐e69f6e653bcb4b7d9a62188d49a6db71",
+                    MEIZU_APPID       : 'MZ-123161',
+                    //极光OPPO 不要遗漏前缀OP-
+                    OPPO_APPKEY       : "OP-f3b32ef315e0465dbf9ea3f2a16a7428",
+                    OPPO_APPID        : "OP-30005668",
+                    OPPO_APPSECRET    : "OP-d00d7d24ecdc4133846593937fb7cd34",
+            ]
+        }
+
+        Test3 {
+            applicationId CONFIG_TEST3.applicationId
+            versionCode CONFIG_TEST3.versionCode
+            versionName CONFIG_TEST3.versionName
+            buildConfigField "int", "APP_ID", CONFIG_TEST3.appId
+            //betaVersion
+            buildConfigField "int", "BETA_VERSION", CONFIG_TEST3.betaVersion
+            //构造乐播(leCast）初始化的参数，用于代码中初始化
+            buildConfigField "String", "LECAST_APP_ID", "\"$CONFIG_TEST3.leCast.appId\""
+            buildConfigField "String", "LECAST_APP_SECRET", "\"$CONFIG_TEST3.leCast.appSecret\""
+            buildConfigField "String", "WECHAT_APP_ID", "\"$CONFIG_TEST3.weChat.appId\""
+            //官网地址
+            buildConfigField "String", "OFFICAL_WEBSITE", "\"$CONFIG_TEST3.website\""
+            //友盟appKey
+            buildConfigField "String", "UMENG_APP_KEY", "\"$CONFIG_TEST3.umeng.appKey\""
+            buildConfigField "String", "STORE_CHANNEL", "\"\""
+            //这里定义的参数可以被AndroidManifest文件所调用到
+            manifestPlaceholders = [
+                    JPUSH_PKGNAME     : CONFIG_TEST3.applicationId,
+                    JPUSH_APPKEY      : CONFIG_TEST3.jpush.appKey,  //JPush 上注册的包名对应的 Appkey.
+                    JPUSH_CHANNEL     : CONFIG_TEST3.jpush.channel,  //暂时填写默认值即可.
+                    OPENINSTALL_APPKEY: CONFIG_TEST3.openInstall.appKey,
+                    //极光小米 不要遗漏MI-
+                    XIAOMI_APPKEY     : "MI-5821811730508",//小米平台注册的appkey
+                    XIAOMI_APPID      : "MI-2882303761518117508",//小米平台注册的appid
+                    //极光华为
+                    HUAWEI_APPID      : "101020779",
+                    //极光魅族 不要遗漏前缀MZ-
+                    MEIZU_APPKEY      : "MZ‐e69f6e653bcb4b7d9a62188d49a6db71",
+                    MEIZU_APPID       : 'MZ-123161',
+                    //极光OPPO 不要遗漏前缀OP-
+                    OPPO_APPKEY       : "OP-f3b32ef315e0465dbf9ea3f2a16a7428",
+                    OPPO_APPID        : "OP-30005668",
+                    OPPO_APPSECRET    : "OP-d00d7d24ecdc4133846593937fb7cd34",
+            ]
+        }
+    }
+
+    sourceSets {
+        Test2 {
+            jniLibs.srcDirs = ['libs']
+            res.srcDirs = ['src/main/res-test2']
+        }
+
+        Test1 {
+            jniLibs.srcDirs = ['libs']
+            res.srcDirs = ['src/main/res-test1']
+        }
+
+        TestStore {
+            jniLibs.srcDirs = ['libs']
+            res.srcDirs = ['src/main/res-test1']
+        }
+
+        Test3 {
+            jniLibs.srcDirs = ['libs']
+            res.srcDirs = ['src/main/res-test3']
+        }
+    }
+}
+
+greendao {
+    schemaVersion 3
+    daoPackage 'com.video.test.db'
+    targetGenDir 'src/main/java'
+}
+
+def getServerHost() {
+    StringBuffer builder = new StringBuffer()
+    for (int i = 0; i < rootProject.ext.serverHost.size; i++) {
+        if (i != 0) {
+            builder.append(",")
+        }
+        builder.append("\"")
+        builder.append(rootProject.ext.serverHost[i])
+        builder.append("\"")
+    }
+    return builder.toString()
+}
+
+static def releaseTime() {
+    return new Date().format("yyyy_MM_dd日HH点mm分", TimeZone.getTimeZone("GMT+8"))
+}
+
+def SUPPORT_VERSION = '28.0.0'
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:support-v4:' + SUPPORT_VERSION
+    implementation 'com.android.support:design:' + SUPPORT_VERSION
+    implementation 'com.android.support:recyclerview-v7:' + SUPPORT_VERSION
+    implementation 'com.android.support:cardview-v7:' + SUPPORT_VERSION
+    implementation 'com.android.support:appcompat-v7:' + SUPPORT_VERSION
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    // implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // androidTestImplementation 'com.android.support.test:runner:1.0.2'
+
+    // androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    api 'junit:junit:4.12'
+
+    /*方法超过了64k*/
+    implementation 'com.android.support:multidex:1.0.3'
+
+    /** Network
+     *         https://github.com/square/okhttp
+     *         https://github.com/square/retrofit
+     */
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+
+    /** BindView Tools  ButterKnife
+     *         https://github.com/JakeWharton/butterknife
+     */
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    /** JSON
+     *         https://github.com/google/gson
+     */
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+    /** ImageLoader glide
+     *         https://github.com/bumptech/glide
+     */
+    implementation('com.github.bumptech.glide:glide:4.8.0') {
+        exclude group: "com.android.support"
+    }
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
+
+    /** MemoryLeak inspector
+     *         https://github.com/square/leakcanary
+     */
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    uatImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+
+    /** Banner Recycle
+     *         https://github.com/youth5201314/banner
+     */
+    implementation 'com.youth.banner:banner:1.4.10'
+
+    /** TabLayout
+     *         https://github.com/H07000223/FlycoTabLayout
+     */
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+    /** CircleImageView
+     *         https://github.com/hdodenhof/CircleImageView
+     */
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+
+    /**
+     *        RxJava && RxAndroid
+     *        https://github.com/ReactiveX/RxAndroid
+     */
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.1'
+
+    /** Material-dialogs
+     *         https://github.com/afollestad/material-dialogs
+     */
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+
+    /** AVLoadingIndicatorView
+     *          https://github.com/81813780/AVLoadingIndicatorView
+     */
+    implementation 'com.wang.avi:library:2.1.3'
+
+    /**   MaterialProgressBar
+     *    https://github.com/DreaminginCodeZH/MaterialProgressBar
+     */
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
+
+    /** RxDownload
+     *     https://github.com/ssseasonnn/RxDownload
+     */
+    implementation 'zlc.season:rxdownload3:1.2.7'
+
+    /** ARouter
+     *     https://github.com/alibaba/ARouter
+     */
+    implementation 'com.alibaba:arouter-api:1.4.1'
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
+
+    /**  QRCode Library
+     *   https://github.com/yipianfengye/android-zxingLibrary
+     */
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+
+    /** Ali FeedBack
+     *         https://help.aliyun.com/document_detail/53144.html
+     */
+    implementation 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
+
+    /** Ali Push Service
+     *          https://help.aliyun.com/document_detail/51056.html?spm=5176.doc30064.2.3.ON2aQq
+     */
+//    implementation 'com.aliyun.ams:alicloud-android-push:3.1.4@aar'
+//    implementation 'com.aliyun.ams:alicloud-android-beacon:1.0.1'
+
+    /** Mobile Analytics
+     *          https://help.aliyun.com/document_detail/30037.html
+     */
+//    implementation 'com.aliyun.ams:alicloud-android-man:1.2.4'
+
+    /** GreenDAO
+     *  https://github.com/greenrobot/greenDAO
+     */
+    implementation 'org.greenrobot:greendao:3.2.2'
+
+    /**
+     * MultiType
+     * https://github.com/drakeet/MultiType
+     */
+    implementation('me.drakeet.multitype:multitype:3.4.4') {
+        exclude(group: 'com.android.support')
+    }
+
+    /**
+     *  EventBus
+     */
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    /*WeChat SDK*/
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
+    /**
+     * Permissions
+     * https://github.com/googlesamples/easypermissions
+     */
+    implementation 'pub.devrel:easypermissions:2.0.1'
+
+    /**
+     * umeng SDK
+     */
+    implementation 'com.umeng.umsdk:analytics:8.0.0'
+    implementation 'com.umeng.umsdk:common:2.0.0'
+
+    /**
+     *  极光推送
+     */
+    implementation 'cn.jiguang.sdk:jpush:3.3.4'
+    implementation 'cn.jiguang.sdk:jcore:2.1.2'
+    //极光推送厂商通道
+    //小米
+    implementation 'cn.jiguang.sdk.plugin:xiaomi:3.3.4'
+    //华为
+    implementation 'cn.jiguang.sdk.plugin:huawei:3.3.4'
+    implementation(name: 'HMSSdk-agent', ext: 'aar')
+    //魅族
+    implementation 'cn.jiguang.sdk.plugin:meizu:3.3.4'
+    //oppo
+    implementation 'cn.jiguang.sdk.plugin:oppo:3.3.4'
+
+    /**
+     * M3U8 Donwloader
+     */
+    implementation project(':m3u8Download')
+
+    /**
+     * 乐播投屏
+     */
+    implementation(name: 'sdk-lecast-release', ext: 'aar')
+
+    /**
+     * XRecyclerView
+     */
+
+    //    implementation project(':xrecyclerview')
+
+    /**
+     * GsyVideoPlayer
+     */
+    implementation project(':gsyVideoPlayer-java')
+
+    /**
+     * RecyclerView-swipe
+     */
+    implementation project(':recyclerview-swipe')
+
+    /**
+     * SmartRefreshLayout
+     */
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
+
+    /**
+     * 搜索页面流式布局
+     */
+    implementation 'com.google.android:flexbox:1.0.0'
+
+    /**
+     * openInstall
+     */
+    implementation files('libs/OpenInstall_v2.2.2.jar')
+
+}

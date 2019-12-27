@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.video.test.ui.widget.LoadingView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/loadingView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_videoList_Fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/videoList_margin_rv2Top">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_videoList_Fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            app:layoutManager="android.support.v7.widget.GridLayoutManager"
+            app:spanCount="3" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</com.video.test.ui.widget.LoadingView>
+

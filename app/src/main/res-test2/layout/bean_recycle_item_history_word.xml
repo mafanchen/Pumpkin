@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_search_history_word_recycle"
+    android:layout_width="wrap_content"
+    android:layout_height="30dp"
+    android:layout_marginStart="6dp"
+    android:layout_marginEnd="6dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/shape_item_bg_history_tv"
+    android:ellipsize="end"
+    android:gravity="center_vertical"
+    android:maxEms="15"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:singleLine="true"
+    android:text="fsfsfs"
+    android:textColor="#333333"
+    android:textSize="@dimen/text_size_14sp" />
+

@@ -1,0 +1,2 @@
+jaygoo.library.m3u8downloader
+string app_name

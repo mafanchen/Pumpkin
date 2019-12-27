@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333333">
+
+    <include
+        layout="@layout/bean_include_toolbar_new"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:src="@drawable/pic_logo_about"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_curPhone_setPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/current_phone_setPhone"
+        android:textColor="@color/setPhone_font_title"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_phoneNum_setPhone"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_logo" />
+
+
+    <TextView
+        android:id="@+id/tv_phoneNum_setPhone"
+        style="@style/setPhone_editText_phone"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/setPhone_font_content"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_curPhone_setPhone"
+        app:layout_constraintTop_toTopOf="@+id/tv_curPhone_setPhone"
+        tools:text="@string/setPhone_can_not_bind" />
+
+    <EditText
+        android:id="@+id/et_checkCode_setPhone"
+        style="@style/et_input_signup"
+        android:hint="@string/signup_input_check"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_newPhone_setPhone" />
+
+
+    <TextView
+        android:id="@+id/tv_btn_check_setPhone"
+        style="@style/setPhone_countryCode"
+        android:text="@string/signup_get_check"
+        app:layout_constraintBottom_toBottomOf="@+id/et_checkCode_setPhone"
+        app:layout_constraintEnd_toEndOf="@+id/et_checkCode_setPhone" />
+
+
+    <TextView
+        style="@style/setPhone_countryCode"
+        android:layout_marginEnd="@dimen/login_padding_input_left_right"
+        android:text="@string/region"
+        app:layout_constraintEnd_toEndOf="@+id/tv_background_newCountryCode_setPhone"
+        app:layout_constraintTop_toTopOf="@+id/tv_background_newCountryCode_setPhone" />
+
+    <TextView
+        android:id="@+id/tv_selectCountry_newPhone_setPhone"
+        style="@style/setPhone_selectCountry"
+        android:text="@string/china"
+        app:layout_constraintStart_toStartOf="@+id/et_newPhone_setPhone"
+        app:layout_constraintTop_toTopOf="@+id/tv_background_newCountryCode_setPhone" />
+
+    <TextView
+        android:id="@+id/tv_plus"
+        style="@style/setPhone_selectCountry"
+        android:layout_marginStart="5dp"
+        android:text="@string/activity_login_plus"
+        app:layout_constraintStart_toEndOf="@+id/tv_selectCountry_newPhone_setPhone"
+        app:layout_constraintTop_toTopOf="@+id/tv_background_newCountryCode_setPhone" />
+
+    <TextView
+        android:id="@+id/tv_countryCode_newPhone_setPhone"
+        style="@style/setPhone_selectCountry"
+        android:layout_marginStart="0dp"
+        android:text="@string/chinaCode"
+        app:layout_constraintStart_toEndOf="@+id/tv_plus"
+        app:layout_constraintTop_toTopOf="@+id/tv_background_newCountryCode_setPhone" />
+
+
+    <TextView
+        android:id="@+id/tv_background_newCountryCode_setPhone"
+        android:layout_width="@dimen/signup_input_normal_width"
+        android:layout_height="@dimen/signup_input_normal_height"
+        android:layout_marginTop="27dp"
+        android:background="@drawable/shape_background_input_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_curPhone_setPhone" />
+
+    <EditText
+        android:id="@+id/et_newPhone_setPhone"
+        style="@style/et_input_signup"
+        android:hint="@string/setPhone_input_newPhone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_selectCountry_newPhone_setPhone" />
+
+
+    <TextView
+        android:id="@+id/tv_btn_confirm_setPhone"
+        style="@style/tv_btn_login"
+        android:layout_marginTop="@dimen/login_margin_input_between"
+        android:background="@drawable/shape_register_btn_signup"
+        android:text="@string/dialog_confirm"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_checkCode_setPhone" />
+
+</android.support.constraint.ConstraintLayout>

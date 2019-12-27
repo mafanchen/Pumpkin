@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/fl_download_player"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/colorWhite">
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+		android:focusable="true"
+		android:includeFontPadding="false"
+		android:paddingStart="10dp"
+		android:paddingTop="14dp"
+		android:paddingEnd="10dp"
+		android:paddingBottom="14dp"
+		android:text="@string/videoPlayer_downloadSelect"
+		android:textColor="@color/videoPlayer_font_title"
+		android:textSize="@dimen/text_size_18sp" />
+
+	<ImageView
+		android:id="@+id/iv_close_downloadSelect"
+		android:layout_width="34dp"
+		android:layout_height="wrap_content"
+		android:layout_gravity="end"
+		android:layout_marginTop="4dp"
+		android:paddingEnd="10dp"
+		android:paddingStart="10dp"
+		android:paddingTop="14dp"
+		android:paddingBottom="14dp"
+		android:src="@drawable/ic_com_close" />
+
+
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/rv_videoItem_downloadSelect"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginTop="50dp"
+		android:layout_marginBottom="49dp"
+		android:paddingStart="5dp"
+		android:paddingEnd="5dp"
+		app:layoutManager="android.support.v7.widget.GridLayoutManager" />
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="@color/colorDivider"
+		android:layout_gravity="bottom"
+		android:layout_marginBottom="48dp"/>
+
+	<TextView
+		android:id="@+id/tv_download_jump"
+		android:layout_width="match_parent"
+		android:layout_height="48dp"
+		android:layout_gravity="bottom"
+		android:text="查看缓存列表"
+		android:gravity="center"
+		android:textSize="@dimen/text_size_15sp"
+		android:textColor="#333333"/>
+
+</FrameLayout>
+

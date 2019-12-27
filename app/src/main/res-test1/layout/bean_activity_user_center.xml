@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_background_userCenter"
+            android:layout_width="match_parent"
+            android:layout_height="168dp"
+            android:background="#252525"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            android:text="我的"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_18sp"
+            app:layout_constraintStart_toStartOf="@+id/iv_background_userCenter"
+            app:layout_constraintTop_toTopOf="@+id/iv_background_userCenter" />
+
+
+        <ImageView
+            android:id="@+id/iv_notice_userCenter"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_mine_notice_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civ_avatar_userCenter"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="23dp"
+            android:src="@drawable/ic_avatar_default"
+            app:layout_constraintStart_toStartOf="@+id/iv_background_userCenter"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_toolbar" />
+
+
+        <TextView
+            android:id="@+id/tv_nickname_userCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="22dp"
+            android:drawablePadding="10dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="@color/userCenter_nickName"
+            android:textSize="@dimen/text_size_18sp"
+            app:layout_constraintStart_toEndOf="@+id/civ_avatar_userCenter"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_toolbar"
+            tools:text="豆瓣酱-大娃-巨大娃" />
+
+        <TextView
+            android:id="@+id/tv_expireTime_userCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="22dp"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="@color/userCenter_expireTime"
+            android:textSize="@dimen/text_size_13sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_nickname_userCenter"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nickname_userCenter"
+            tools:text="2018-08-18" />
+
+        <View
+            style="@style/divider_userCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_background_userCenter" />
+
+        <ImageView
+            android:id="@+id/iv_background_vip"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/userCenter_height_layout_vip"
+            android:layout_marginTop="@dimen/userCenter_height_divider"
+            android:background="@color/colorWhite"
+            app:layout_constraintTop_toBottomOf="@+id/iv_background_userCenter" />
+
+        <TextView
+            android:id="@+id/tv_title_vip_permission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/userCenter_paddingLeft_vip_layout"
+            android:layout_marginTop="@dimen/userCenter_paddingTop_vip_layout"
+            android:drawablePadding="9dp"
+            android:gravity="center_vertical"
+            android:text="@string/activity_userCenter_vip_permission"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_size_19sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_background_vip"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_btn_share_participate_immediately"
+            style="@style/btn_userCenter_vip"
+            android:layout_marginTop="@dimen/userCenter_paddingTop_vip_layout"
+            android:layout_marginEnd="@dimen/userCenter_paddingRight_vip_layout"
+            android:background="@drawable/shape_bg_button_participate_immediately"
+            android:text="@string/share_participate_immediately"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="@+id/iv_background_vip"
+            app:layout_constraintTop_toTopOf="@+id/iv_background_vip" />
+
+        <TextView
+            android:id="@+id/tv_btn_share_learn_more"
+            style="@style/btn_userCenter_vip"
+            android:layout_marginEnd="@dimen/userCenter_paddingRight_vip_layout"
+            android:background="@drawable/shape_bg_button_learn_more"
+            android:text="@string/activity_userCenter_vip_learn_more"
+            android:textColor="@color/userCenter_bg_btn_share"
+            app:layout_constraintEnd_toStartOf="@+id/tv_btn_share_participate_immediately"
+            app:layout_constraintTop_toTopOf="@+id/tv_btn_share_participate_immediately"
+            android:visibility="gone"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_vip_permission"
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:layout_marginStart="@dimen/userCenter_paddingLeft_vip_layout"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="@dimen/userCenter_paddingRight_vip_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_vip_permission" />
+
+        <View
+            style="@style/divider_userCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip">
+
+            <TextView
+                android:id="@+id/tv_collection_userCenter"
+                style="@style/rectangle_btn_userCenter"
+                android:drawableTop="@drawable/ic_mine_collection"
+                android:text="@string/activity_userCenter_collection" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorDivider"/>
+
+            <TextView
+                android:id="@+id/tv_history_userCenter"
+                style="@style/rectangle_btn_userCenter"
+                android:drawableTop="@drawable/ic_mine_history"
+                android:text="@string/activity_userCenter_history" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorDivider"/>
+
+            <TextView
+                android:id="@+id/tv_download_userCenter"
+                style="@style/rectangle_btn_userCenter"
+                android:drawableTop="@drawable/ic_mine_down"
+                android:text="@string/activity_userCenter_download" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip"
+            android:layout_marginTop="120dp"
+            android:background="@color/colorDivider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="121dp"
+            android:layout_marginTop="120dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip">
+
+            <TextView
+                android:id="@+id/tv_bindPhone_userCenter"
+                style="@style/rectangle_btn_userCenter"
+                android:drawableTop="@drawable/ic_mine_lock"
+                android:text="@string/activity_userCenter_bind_phone" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorDivider"/>
+
+            <TextView
+                android:id="@+id/tv_update_userCenter"
+                style="@style/rectangle_btn_userCenter"
+                android:drawableTop="@drawable/ic_update_user"
+                android:text="@string/activity_userCenter_check" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorDivider"/>
+
+            <TextView
+                android:id="@+id/tv_feedback_userCenter"
+                style="@style/rectangle_btn_userCenter"
+                android:drawableTop="@drawable/ic_mine_message"
+                android:text="@string/activity_userCenter_feedback" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip"
+            android:layout_marginTop="241dp"
+            android:background="@color/colorDivider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="242dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip">
+
+            <TextView
+                android:id="@+id/tv_setting_userCenter"
+                style="@style/rectangle_btn_userCenter"
+                android:drawableTop="@drawable/ic_mine_set"
+                android:text="@string/nav_setting" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorDivider"/>
+
+            <TextView
+                style="@style/rectangle_btn_userCenter"
+                android:drawableTop="@drawable/ic_mine_us"
+                android:text="@string/activity_userCenter_about"
+                android:visibility="invisible" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorDivider"/>
+
+            <TextView
+                style="@style/rectangle_btn_userCenter"
+                android:drawableTop="@drawable/ic_update_user"
+                android:text="@string/activity_userCenter_check"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/divider_userCenter"
+            android:layout_marginTop="360dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip" />
+
+        <TextView
+            android:id="@+id/tv_about_userCenter"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="366dp"
+            android:background="@color/colorWhite"
+            android:gravity="center"
+            android:text="@string/activity_userCenter_about"
+            android:textColor="#333333"
+            android:textSize="@dimen/text_size_15sp"
+            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/loadingImage_userCenter"
+            style="@style/AVLoadingIndicatorView.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:indicatorColor="@color/setting_switchBtn"
+            app:indicatorName="LineScalePulseOutIndicator"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

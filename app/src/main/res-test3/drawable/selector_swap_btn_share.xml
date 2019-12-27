@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="true">
+    <shape>
+        <corners android:radius="@dimen/share_radian_btn_exchange" />
+        <solid android:color="@color/share_bg_swapBtn" />
+    </shape>
+    </item>
+    <item android:state_enabled="false">
+        <shape>
+            <corners android:radius="@dimen/share_radian_btn_exchange" />
+            <solid android:color="@color/share_bg_swapBtn_unused" />
+        </shape>
+    </item>
+</selector>

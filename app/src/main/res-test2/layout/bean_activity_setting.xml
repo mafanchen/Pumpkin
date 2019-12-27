@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorDivider">
+
+    <include layout="@layout/bean_include_toolbar_new" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="44dp"
+        android:includeFontPadding="false"
+        android:paddingStart="@dimen/setting_margin_left_right"
+        android:paddingTop="14dp"
+        android:text="播放管理"
+        android:textColor="#aaaaaa"
+        android:textSize="@dimen/text_size_13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_mobileBtn_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="80dp"
+        android:text="@string/setting_useMobileNetwork"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.video.test.ui.widget.SwitchButton
+        android:id="@+id/switch_setting"
+        android:layout_width="@dimen/setting_width_switch"
+        android:layout_height="@dimen/setting_height_switch"
+        android:layout_marginEnd="@dimen/setting_margin_left_right"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_mobileBtn_setting"
+        app:layout_constraintEnd_toEndOf="@+id/tv_mobileBtn_setting"
+        app:layout_constraintTop_toTopOf="@+id/tv_mobileBtn_setting"
+        app:sb_border_width="1px"
+        app:sb_checked_color="@color/setting_switchBtn"
+        app:sb_show_indicator="false" />
+
+    <TextView
+        android:id="@+id/tv_history_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="@dimen/setting_margin_clearBtn2content"
+        android:text="上次播放提醒"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mobileBtn_setting" />
+
+    <com.video.test.ui.widget.SwitchButton
+        android:id="@+id/switch_history_setting"
+        android:layout_width="@dimen/setting_width_switch"
+        android:layout_height="@dimen/setting_height_switch"
+        android:layout_marginEnd="@dimen/setting_margin_left_right"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_history_setting"
+        app:layout_constraintEnd_toEndOf="@+id/tv_history_setting"
+        app:layout_constraintTop_toTopOf="@+id/tv_history_setting"
+        app:sb_border_width="1px"
+        app:sb_checked_color="@color/setting_switchBtn"
+        app:sb_show_indicator="false" />
+
+    <TextView
+        android:id="@+id/tv_push_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="1dp"
+        android:text="推送通知"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_history_setting" />
+
+    <com.video.test.ui.widget.SwitchButton
+        android:id="@+id/switch_push_setting"
+        android:layout_width="@dimen/setting_width_switch"
+        android:layout_height="@dimen/setting_height_switch"
+        android:layout_marginEnd="@dimen/setting_margin_left_right"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_push_setting"
+        app:layout_constraintEnd_toEndOf="@+id/tv_push_setting"
+        app:layout_constraintTop_toTopOf="@+id/tv_push_setting"
+        app:sb_border_width="1px"
+        app:sb_checked_color="@color/setting_switchBtn"
+        app:sb_show_indicator="false" />
+
+    <TextView
+        android:id="@+id/tv_clearSearch_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="1dp"
+        android:text="@string/setting_cleanHistory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_push_setting" />
+
+    <TextView
+        android:id="@+id/tv_clearCache_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="1dp"
+        android:text="@string/setting_clearCache"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_clearSearch_setting" />
+
+    <TextView
+        android:id="@+id/tv_feedback_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="1dp"
+        android:text="@string/setting_feedback"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_clearCache_setting" />
+
+    <TextView
+        android:id="@+id/tv_about_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="1dp"
+        android:text="@string/setting_about"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_feedback_setting" />
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loadingImage_activity_setting"
+        style="@style/AVLoadingIndicatorView.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:indicatorColor="@color/setting_switchBtn"
+        app:indicatorName="LineScalePulseOutIndicator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

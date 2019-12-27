@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_recycle_item_video_module"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp">
+
+    <ImageView
+        android:id="@+id/iv_recycle_item_videoPic_history"
+        style="@style/homepage_recycle_videoPic"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_bg_gray"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_shadow_cover"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_recycle_item_videoPic_history"/>
+
+    <TextView
+        android:id="@+id/tv_recycle_item_videoPercent_history"
+        style="@style/history_recycle_videoPercent"
+        app:layout_constraintTop_toTopOf="@id/iv_bg_gray"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_bg_gray"
+        tools:text="01:00:00/01:40:00"/>
+
+    <View
+        android:id="@+id/view_background_videoPic_history"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/homepage_recycle_pic_height"
+        android:background="@color/history_background_selected"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_recycle_item_videoPic_history" />
+
+    <CheckBox
+        android:id="@+id/cb_recycle_item_history"
+        style="@style/history_checkbox"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="9dp"
+        app:layout_constraintEnd_toEndOf="@+id/view_background_videoPic_history"
+        app:layout_constraintTop_toTopOf="@+id/view_background_videoPic_history" />
+
+    <TextView
+        android:id="@+id/tv_recycle_item_videoName_history"
+        style="@style/homepage_recycle_videoName"
+        android:lines="2"
+        android:paddingTop="10dp"
+        android:paddingBottom="0dp"
+        android:text="這是影片的名字"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_recycle_item_videoPic_history" />
+
+    <android.support.constraint.Group
+        android:id="@+id/group_recycle_item_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="cb_recycle_item_history,view_background_videoPic_history" />
+
+</android.support.constraint.ConstraintLayout>

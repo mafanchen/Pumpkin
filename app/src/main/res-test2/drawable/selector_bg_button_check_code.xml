@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:color="@color/setPhone_font_content_unused" android:state_enabled="false" />
+	<item android:color="@color/setPhone_font_content" android:state_enabled="true" />
+	<item android:color="@color/setPhone_font_content" />
+</selector>

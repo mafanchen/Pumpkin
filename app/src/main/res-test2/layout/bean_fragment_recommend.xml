@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.video.test.ui.widget.LoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_recommend_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.CoordinatorLayout
+                android:id="@+id/cl_recommend_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.design.widget.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    app:elevation="0dp">
+
+                    <com.video.test.ui.widget.Banner
+                        android:id="@+id/banner_recommend_fragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        app:indicator_drawable_selected="@drawable/shape_indicator_banner"
+                        app:layout_scrollFlags="scroll"
+                        app:title_height="40dp"
+                        app:title_textcolor="@color/colorWhite"
+                        app:title_textsize="@dimen/text_size_16sp" />
+
+                    <com.video.test.ui.widget.TextSwitcher
+                        android:id="@+id/text_switcher_notice"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:inAnimation="@anim/notice_text_in"
+                        android:outAnimation="@anim/notice_text_out"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        app:layout_scrollFlags="scroll" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorDivider"
+                        app:layout_scrollFlags="scroll"/>
+
+                </android.support.design.widget.AppBarLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_recommend_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:spanCount="3" />
+
+            </android.support.design.widget.CoordinatorLayout>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </com.video.test.ui.widget.LoadingView>
+
+</FrameLayout>
+
+
+

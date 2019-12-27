@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_search"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:background="@color/colorWhite"
+    android:paddingBottom="@dimen/search_margin_videoItem_top_bottom">
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDivider"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_pic_recycle_search"
+        android:layout_width="@dimen/search_width_pic"
+        android:layout_height="@dimen/search_height_pic"
+        android:layout_marginTop="@dimen/search_margin_videoItem_top_bottom"
+        android:layerType="hardware"
+        android:scaleType="centerCrop"
+        android:layout_marginStart="@dimen/search_padding_left_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:background="@drawable/ic_shadow_cover"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pic_recycle_search"
+        app:layout_constraintEnd_toEndOf="@+id/iv_pic_recycle_search"
+        app:layout_constraintStart_toStartOf="@+id/iv_pic_recycle_search" />
+
+    <TextView
+        android:id="@+id/tv_picGrade_recycle_search"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/homepage_recycle_grade_around"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical|end"
+        android:singleLine="true"
+        android:textColor="#ffad43"
+        android:textSize="@dimen/text_size_12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pic_recycle_search"
+        app:layout_constraintEnd_toEndOf="@+id/iv_pic_recycle_search"
+        app:layout_constraintStart_toStartOf="@+id/iv_pic_recycle_search" />
+
+    <TextView
+        android:id="@+id/tv_videoName_recycle_search"
+        style="@style/search_videoName"
+        android:layout_marginStart="@dimen/search_margin_videoContent2pic"
+        android:layout_marginTop="@dimen/search_margin_videoItem_top_bottom"
+        android:layout_marginEnd="@dimen/search_padding_left_right"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_pic_recycle_search"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <TextView
+        android:id="@+id/tv_directorTitle_recycle_search"
+        style="@style/search_videoContent_title"
+        android:layout_marginStart="@dimen/search_margin_videoContent2pic"
+        android:text="@string/search_director"
+        app:layout_constraintStart_toEndOf="@+id/iv_pic_recycle_search"
+        app:layout_constraintTop_toBottomOf="@+id/tv_updateTitle_recycle_search" />
+
+
+    <TextView
+        android:id="@+id/tv_director_recycle_search"
+        style="@style/search_videoContent"
+        android:layout_marginEnd="21dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_directorTitle_recycle_search"
+        app:layout_constraintTop_toTopOf="@+id/tv_directorTitle_recycle_search" />
+
+
+    <TextView
+        android:id="@+id/tv_actorTitle_recycle_search"
+        style="@style/search_videoContent_title"
+        android:layout_marginStart="@dimen/search_margin_videoContent2pic"
+        android:text="@string/search_actors"
+        app:layout_constraintStart_toEndOf="@+id/iv_pic_recycle_search"
+        app:layout_constraintTop_toBottomOf="@+id/tv_directorTitle_recycle_search" />
+
+    <TextView
+        android:id="@+id/tv_actor_recycle_search"
+        style="@style/search_videoContent"
+        android:layout_marginEnd="21dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_actorTitle_recycle_search"
+        app:layout_constraintTop_toTopOf="@+id/tv_actorTitle_recycle_search" />
+
+    <TextView
+        android:id="@+id/tv_yearTitle_recycle_search"
+        style="@style/search_videoContent_title"
+        android:layout_marginStart="@dimen/search_margin_videoContent2pic"
+        android:layout_marginTop="21dp"
+        android:text="@string/search_year"
+        app:layout_constraintStart_toEndOf="@+id/iv_pic_recycle_search"
+        app:layout_constraintTop_toBottomOf="@+id/tv_videoName_recycle_search" />
+
+
+    <TextView
+        android:id="@+id/tv_year_recycle_search"
+        style="@style/search_videoContent"
+        app:layout_constraintStart_toEndOf="@+id/tv_yearTitle_recycle_search"
+        app:layout_constraintTop_toTopOf="@+id/tv_yearTitle_recycle_search"
+        tools:text="1111" />
+
+    <TextView
+        android:id="@+id/tv_regionTitle_recycle_search"
+        style="@style/search_videoContent_title"
+        android:layout_marginTop="0dp"
+        android:text="@string/search_region"
+        app:layout_constraintStart_toStartOf="@+id/tv_gradeTitle_recycle_search"
+        app:layout_constraintTop_toTopOf="@+id/tv_yearTitle_recycle_search" />
+
+
+    <TextView
+        android:id="@+id/tv_region_recycle_search"
+        style="@style/search_videoContent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_grade_recycle_search"
+        app:layout_constraintStart_toEndOf="@+id/tv_regionTitle_recycle_search"
+        app:layout_constraintTop_toTopOf="@+id/tv_regionTitle_recycle_search"
+        tools:text="xxxxxxxxx" />
+
+
+    <TextView
+        android:id="@+id/tv_updateTitle_recycle_search"
+        style="@style/search_videoContent_title"
+        android:layout_marginStart="@dimen/search_margin_videoContent2pic"
+        android:text="@string/search_update_time"
+        app:layout_constraintStart_toEndOf="@+id/iv_pic_recycle_search"
+        app:layout_constraintTop_toBottomOf="@+id/tv_yearTitle_recycle_search" />
+
+
+    <TextView
+        android:id="@+id/tv_update_recycle_search"
+        style="@style/search_videoContent"
+        app:layout_constraintStart_toEndOf="@+id/tv_updateTitle_recycle_search"
+        app:layout_constraintTop_toTopOf="@+id/tv_updateTitle_recycle_search"
+        tools:text="2018-01-01" />
+
+
+    <TextView
+        android:id="@+id/tv_gradeTitle_recycle_search"
+        style="@style/search_videoContent_title"
+        android:layout_width="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="57dp"
+        android:text="@string/search_grade_douban"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_updateTitle_recycle_search" />
+
+
+    <TextView
+        android:id="@+id/tv_grade_recycle_search"
+        style="@style/search_videoContent"
+        android:textColor="@color/search_font_grade"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/search_padding_left_right"
+        app:layout_constraintStart_toEndOf="@+id/tv_gradeTitle_recycle_search"
+        app:layout_constraintTop_toTopOf="@+id/tv_gradeTitle_recycle_search"
+        tools:text="0.0" />
+
+    <TextView
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:background="@drawable/shape_bg_btn_search_play"
+        android:gravity="center"
+        android:text="@string/play_immediately"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pic_recycle_search"
+        app:layout_constraintStart_toStartOf="@+id/tv_actorTitle_recycle_search" />
+
+    <TextView
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:background="@drawable/shape_bg_btn_search_play"
+        android:gravity="center"
+        android:text="@string/play_immediately"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pic_recycle_search"
+        app:layout_constraintStart_toStartOf="@+id/tv_actorTitle_recycle_search" />
+
+    <CheckBox
+        android:id="@+id/checkbox_collect"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="102dp"
+        android:background="@drawable/selector_bg_search_result_checkbox_collect"
+        android:button="@null"
+        android:gravity="center"
+        android:text="@string/play_immediately"
+        android:textColor="@color/color_selector_text_search_result_checkox_collect"
+        android:textSize="@dimen/text_size_15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pic_recycle_search"
+        app:layout_constraintStart_toStartOf="@+id/tv_actorTitle_recycle_search" />
+
+</android.support.constraint.ConstraintLayout>

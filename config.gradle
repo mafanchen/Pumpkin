@@ -1,0 +1,115 @@
+ext {
+    adVersion = "1"
+    serverHost = ["http://www.host1.com", "http://www.host2.com", "http://www.host3.com", "http://www.host4.com", "http://www.host5.com"]
+    test2 = [
+            //包名
+            applicationId: "com.video.test2",
+            versionName  : "1.1.0",
+            versionCode  : 10,
+            betaVersion  : "1",
+            appId        : "2",
+            //渠道
+            flavor       : "test2",
+            website      : "http://www.test2.com",
+            //极光推送
+            jpush        : [
+                    appKey : "极光appKey",
+                    channel: "developer-default",
+            ],
+            //友盟
+            umeng        : [
+                    appKey : "友盟appKey",
+                    channel: "Official",
+            ],
+            //openInstall
+            openInstall  : [
+                    appKey: "openInstall的appKey"
+            ],
+            //微信sdk
+            weChat       : [
+                    appId: "微信appId",
+            ],
+            //乐播
+            leCast       : [
+                    appId    : "乐播appId",
+                    appSecret: "乐播appSecret",
+            ],
+    ]
+    test1 = [
+            //包名
+            applicationId: "com.video.test1",
+            versionName  : "1.3.3",
+            versionCode  : 16,
+            betaVersion  : "5",
+            appId        : "1",
+            //渠道
+            flavor       : "test1",
+            website      : "http://www.test.com",
+            //极光推送
+            jpush        : [
+                    appKey : "极光appKey",
+                    channel: "developer-default",
+            ],
+            //友盟
+            umeng        : [
+                    appKey : "友盟appKey",
+                    channel: "Official",
+            ],
+            //openInstall
+            openInstall  : [
+                    appKey: "openInstall的appKey"
+            ],
+            //微信sdk
+            weChat       : [
+                    appId: "微信appId",
+            ],
+            //乐播
+            leCast       : [
+                    appId    : "乐播appId",
+                    appSecret: "乐播appSecret",
+            ],
+    ]
+    testStore = [
+            //商店渠道
+            storeChannel: "101",
+            //友盟
+            umeng       : [
+                    appKey : "友盟appKey",
+                    channel: "Official",
+            ]
+    ]
+    test3 = [
+            //包名
+            applicationId: "com.video.test3",
+            versionName  : "1.0.7",
+            versionCode  : 7,
+            betaVersion  : "1",
+            appId        : "3",
+            //渠道
+            flavor       : "test3",
+            website      : "http://www.test.com",
+            //极光推送
+            jpush        : [
+                    appKey : "极光appKey",
+                    channel: "developer-default",
+            ],
+            //友盟
+            umeng        : [
+                    appKey : "友盟appKey",
+                    channel: "Official",
+            ],
+            //openInstall
+            openInstall  : [
+                    appKey: "openInstall的appKey"
+            ],
+            //微信sdk
+            weChat       : [
+                    appId: "微信appId",
+            ],
+            //乐播
+            leCast       : [
+                    appId    : "乐播appId",
+                    appSecret: "乐播appSecret",
+            ],
+    ]
+}

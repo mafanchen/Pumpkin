@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+	<include layout="@layout/bean_include_toolbar_new" />
+
+	<EditText
+		android:id="@+id/et_input_setNickname"
+		android:layout_width="match_parent"
+		android:layout_height="18dp"
+		android:layout_marginLeft="@dimen/nickname_margin_left_right"
+		android:layout_marginTop="58dp"
+		android:layout_marginRight="@dimen/nickname_margin_left_right"
+		android:layout_marginBottom="@dimen/nickname_margin_bottom"
+		android:background="@null"
+		android:ellipsize="end"
+		android:hint="@string/setNickname_input_nickname"
+		android:singleLine="true"
+		android:textColor="@color/nickname_font_input"
+		android:textSize="@dimen/text_size_14sp"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<ImageView
+		android:id="@+id/iv_delete_setNickname"
+		android:layout_width="18dp"
+		android:layout_height="18dp"
+		android:layout_gravity="end"
+		android:layout_marginTop="58dp"
+		android:layout_marginEnd="@dimen/nickname_margin_left_right"
+		android:src="@drawable/ic_com_close"
+		app:layout_constraintBottom_toBottomOf="@id/et_input_setNickname"
+		app:layout_constraintEnd_toEndOf="@id/et_input_setNickname"
+		app:layout_constraintTop_toTopOf="@id/et_input_setNickname" />
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="1px"
+		android:layout_marginLeft="@dimen/nickname_margin_left_right"
+		android:layout_marginTop="@dimen/nickname_margin_bottom"
+		android:layout_marginRight="@dimen/nickname_margin_left_right"
+		android:background="@color/nickname_line_background" />
+
+
+</merge>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.AppCompatCheckBox xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/cb_recycle_item_select"
+	style="@style/video_item_select"
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/videoSelect_around_recycle_item"
+	android:layout_marginLeft="@dimen/videoSelect_margin_recycle_item_left_right"
+	android:layout_marginRight="@dimen/videoSelect_margin_recycle_item_left_right"
+	android:layout_marginBottom="@dimen/videoSelect_margin_recycle_between_item"
+	android:gravity="center"
+	android:button="@null" />

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fl_selectItem_player"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/tv_selectAll_videoSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="18dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:includeFontPadding="false"
+        android:text="@string/videoPlayer_selectAll"
+        android:textColor="@color/videoPlayer_font_title"
+        android:textSize="@dimen/text_size_18sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/iv_close_videoSelect"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="4dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:src="@drawable/ic_com_close" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical">
+
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/tabLayout_videoSelect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            app:tl_divider_padding="10dp"
+            app:tl_tab_space_equal="false"
+            app:tl_textSelectColor="#ffad43"
+            app:tl_textUnselectColor="#737373"
+            app:tl_textsize="@dimen/text_size_15sp" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager_videoItem_videoSelect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp" />
+
+        <!--    <android.support.v7.widget.RecyclerView-->
+        <!--        android:id="@+id/rv_videoItem_videoSelect"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="match_parent"-->
+        <!--        android:layout_marginTop="92dp"-->
+        <!--        android:paddingStart="6dp"-->
+        <!--        android:paddingEnd="6dp"-->
+        <!--        app:layoutManager="android.support.v7.widget.GridLayoutManager" />-->
+
+    </LinearLayout>
+
+</FrameLayout>
+

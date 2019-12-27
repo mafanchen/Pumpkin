@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/colorDivider">
+
+	<include layout="@layout/bean_include_toolbar_new" />
+
+	<com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+		android:id="@+id/rv_download"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_marginTop="@dimen/toolbar_height"
+		android:animateLayoutChanges="false"
+		android:background="@color/colorWhite"
+		android:orientation="vertical"
+		app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintBottom_toTopOf="@+id/tv_selectAll"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<com.video.test.ui.widget.CenterDrawableTextView
+		android:id="@+id/iv_background_noCache_download"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="192dp"
+		android:drawableTop="@drawable/pic_none_download"
+		android:drawablePadding="10dp"
+		android:visibility="invisible"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<TextView
+		android:id="@+id/tv_selectAll"
+		style="@style/videoList_bottom_button"
+		android:background="@color/colorWhite"
+		android:text="@string/activity_download_selectAll"
+		android:textColor="#333333"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintWidth_percent="0.5" />
+
+	<TextView
+		android:id="@+id/tv_delete"
+		style="@style/videoList_bottom_button"
+		android:background="@color/colorWhite"
+		android:text="@string/activity_download_delete"
+		android:textColor="@color/color_selector_text_download_delete"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintWidth_percent="0.5" />
+
+	<android.support.constraint.Group
+		android:id="@+id/group_delete"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:visibility="gone"
+		app:constraint_referenced_ids="tv_selectAll,tv_delete" />
+
+</android.support.constraint.ConstraintLayout>

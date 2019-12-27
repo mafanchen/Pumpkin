@@ -1,0 +1,4 @@
+# ninja log v5
+9	569	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	74f6a6a128ee7035
+0	615	0	CMakeFiles/native-lib.dir/MD5.cpp.o	b389db4e26a031d4
+615	867	0	D:/WorkSpace/dg-android/app/build/intermediates/cmake/Test3Debug/obj/x86/libnative-lib.so	3401ceae58cc1370

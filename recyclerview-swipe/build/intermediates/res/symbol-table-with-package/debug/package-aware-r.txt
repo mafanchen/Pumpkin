@@ -1,0 +1,21 @@
+com.yanzhenjie.recyclerview.swipe
+attr contentViewId
+attr leftViewId
+attr rightViewId
+color recycler_swipe_color_loading_color1
+color recycler_swipe_color_loading_color2
+color recycler_swipe_color_loading_color3
+color recycler_swipe_color_text_gray
+id progress_bar
+id swipe_content
+id swipe_left
+id swipe_right
+id tv_load_more_message
+layout recycler_swipe_view_item
+layout recycler_swipe_view_load_more
+string recycler_swipe_click_load_more
+string recycler_swipe_data_empty
+string recycler_swipe_load_error
+string recycler_swipe_load_more_message
+string recycler_swipe_more_not
+styleable SwipeMenuLayout contentViewId leftViewId rightViewId

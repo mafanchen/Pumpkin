@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@color/transparent"
+	android:orientation="vertical">
+
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="52dp"
+		android:background="@color/colorWhite">
+
+		<TextView
+			android:id="@+id/tv_title_castDialog"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:text="@string/dialog_cast_selectDevice"
+			android:textColor="@color/dialog_title_share"
+			android:textSize="@dimen/text_size_18sp"
+			android:textStyle="bold" />
+
+		<TextView
+			android:id="@+id/tv_helper_castDialog"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="end|center_vertical"
+			android:layout_marginEnd="10dp"
+			android:text="@string/dialog_cast_castHelper"
+			android:textColor="@color/dialog_castDialog_content"
+			android:textSize="@dimen/text_size_14sp" />
+	</FrameLayout>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="@color/homepage_background_main" />
+
+
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/rv_castDialog"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/homepage_background_main"
+		android:orientation="vertical"
+		app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+	<TextView
+		android:id="@+id/tv_cancel_castDialog"
+		android:layout_width="match_parent"
+		android:layout_height="52dp"
+		android:background="@color/colorWhite"
+		android:gravity="center"
+		android:text="@string/dialog_cancel"
+		android:textColor="@color/dialog_share_font_cancel"
+		android:textSize="@dimen/text_size_18sp" />
+
+</LinearLayout>
