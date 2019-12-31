@@ -178,7 +178,11 @@ public class DownloadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else if (m3u8.getLocalHistory() >= 1) {
                 tvHistory.setText(R.string.activity_download_history_watch_complete);
             } else {
-                tvHistory.setText(tvHistory.getContext().getString(R.string.activity_download_history, m3u8.getLocalHistory() * 100));
+                if (m3u8.getLocalPlayPosition() < 60 * 1000) {
+                    tvHistory.setText(R.string.activity_download_history_watch_1_minute);
+                } else {
+                    tvHistory.setText(tvHistory.getContext().getString(R.string.activity_download_history, m3u8.getLocalHistory() * 100));
+                }
             }
             tvSize.setText(MUtils.formatFileSize(m3u8.getTotalFileSize()));
             tvName.setText(m3u8.getVideoName());

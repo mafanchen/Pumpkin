@@ -277,13 +277,14 @@ public class DBManager {
         daoSession.insertOrReplace(bean);
     }
 
-    public void saveLocalHistory(@NotNull String videoUrl, double history) {
+    public void saveLocalHistory(@NotNull String videoUrl, double history, long currentPosition) {
         DaoMaster daoMaster = new DaoMaster(getWritableDatabase());
         DaoSession daoSession = daoMaster.newSession();
         M3U8DownloadBeanDao downloadBeanDao = daoSession.getM3U8DownloadBeanDao();
         M3U8DownloadBean bean = downloadBeanDao.queryBuilder().where(M3U8DownloadBeanDao.Properties.VideoUrl.eq(videoUrl)).unique();
         if (bean != null) {
             bean.setLocalHistory(history);
+            bean.setLocalPlayPosition(currentPosition);
             downloadBeanDao.insertOrReplace(bean);
         }
     }

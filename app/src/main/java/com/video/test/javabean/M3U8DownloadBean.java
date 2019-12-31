@@ -81,14 +81,19 @@ public class M3U8DownloadBean {
      */
     private double localHistory;
 
+    /**
+     * 已经播放的时间
+     */
+    private long localPlayPosition;
+
     @Transient
     private boolean isSelect;
 
 
-    @Generated(hash = 881551401)
+    @Generated(hash = 1548256863)
     public M3U8DownloadBean(Long id, @NotNull String videoId, @NotNull String videoName, @NotNull String videoTotalName,
-            @NotNull String videoUrl, boolean isDownloaded, int taskStatus, long totalTime, long totalFileSize,
-            String m3u8FilePath, String dirFilePath, int curTs, int totalTs, float progress, double localHistory) {
+            @NotNull String videoUrl, boolean isDownloaded, int taskStatus, long totalTime, long totalFileSize, String m3u8FilePath,
+            String dirFilePath, int curTs, int totalTs, float progress, double localHistory, long localPlayPosition) {
         this.id = id;
         this.videoId = videoId;
         this.videoName = videoName;
@@ -104,6 +109,7 @@ public class M3U8DownloadBean {
         this.totalTs = totalTs;
         this.progress = progress;
         this.localHistory = localHistory;
+        this.localPlayPosition = localPlayPosition;
     }
 
     @Generated(hash = 350342533)
@@ -245,5 +251,13 @@ public class M3U8DownloadBean {
 
     public void setLocalHistory(double localHistory) {
         this.localHistory = localHistory;
+    }
+
+    public long getLocalPlayPosition() {
+        return localPlayPosition;
+    }
+
+    public void setLocalPlayPosition(long localPlayPosition) {
+        this.localPlayPosition = localPlayPosition;
     }
 }

@@ -91,6 +91,11 @@ public class LocalPlayerActivity extends BaseActivity<LocalPlayerPresenter> impl
     }
 
     @Override
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         mVideoPlayer.onVideoResume();
@@ -101,9 +106,11 @@ public class LocalPlayerActivity extends BaseActivity<LocalPlayerPresenter> impl
         super.onPause();
         mVideoPlayer.onVideoPause();
         long currentPosition = mVideoPlayer.getCurrentPositionWhenPlaying();
-        long duration = mVideoPlayer.getGSYVideoManager().getDuration();
-        double progress = (double) currentPosition / duration;
-        DBManager.getInstance(this).saveLocalHistory(videoUrl, progress);
+        if (currentPosition != 0) {
+            long duration = mVideoPlayer.getGSYVideoManager().getDuration();
+            double progress = (double) currentPosition / duration;
+            DBManager.getInstance(this).saveLocalHistory(videoUrl, progress, currentPosition);
+        }
     }
 
 

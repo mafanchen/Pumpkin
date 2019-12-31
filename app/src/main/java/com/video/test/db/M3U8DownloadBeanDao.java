@@ -39,6 +39,7 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
         public final static Property TotalTs = new Property(12, int.class, "totalTs", false, "TOTAL_TS");
         public final static Property Progress = new Property(13, float.class, "progress", false, "PROGRESS");
         public final static Property LocalHistory = new Property(14, double.class, "localHistory", false, "LOCAL_HISTORY");
+        public final static Property LocalPlayPosition = new Property(15, long.class, "localPlayPosition", false, "LOCAL_PLAY_POSITION");
     }
 
 
@@ -68,7 +69,8 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
                 "\"CUR_TS\" INTEGER NOT NULL ," + // 11: curTs
                 "\"TOTAL_TS\" INTEGER NOT NULL ," + // 12: totalTs
                 "\"PROGRESS\" REAL NOT NULL ," + // 13: progress
-                "\"LOCAL_HISTORY\" REAL NOT NULL );"); // 14: localHistory
+                "\"LOCAL_HISTORY\" REAL NOT NULL ," + // 14: localHistory
+                "\"LOCAL_PLAY_POSITION\" INTEGER NOT NULL );"); // 15: localPlayPosition
     }
 
     /** Drops the underlying database table. */
@@ -107,6 +109,7 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
         stmt.bindLong(13, entity.getTotalTs());
         stmt.bindDouble(14, entity.getProgress());
         stmt.bindDouble(15, entity.getLocalHistory());
+        stmt.bindLong(16, entity.getLocalPlayPosition());
     }
 
     @Override
@@ -139,6 +142,7 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
         stmt.bindLong(13, entity.getTotalTs());
         stmt.bindDouble(14, entity.getProgress());
         stmt.bindDouble(15, entity.getLocalHistory());
+        stmt.bindLong(16, entity.getLocalPlayPosition());
     }
 
     @Override
@@ -163,7 +167,8 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
             cursor.getInt(offset + 11), // curTs
             cursor.getInt(offset + 12), // totalTs
             cursor.getFloat(offset + 13), // progress
-            cursor.getDouble(offset + 14) // localHistory
+            cursor.getDouble(offset + 14), // localHistory
+            cursor.getLong(offset + 15) // localPlayPosition
         );
         return entity;
     }
@@ -185,6 +190,7 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
         entity.setTotalTs(cursor.getInt(offset + 12));
         entity.setProgress(cursor.getFloat(offset + 13));
         entity.setLocalHistory(cursor.getDouble(offset + 14));
+        entity.setLocalPlayPosition(cursor.getLong(offset + 15));
      }
     
     @Override

@@ -19,6 +19,8 @@ public interface LocalPlayerContract {
     interface View extends IView {
 
         void showShareImageDialog(File file, File cover, boolean isGif);
+
+        String getVideoUrl();
     }
 
     abstract class Presenter<M extends Model> extends BasePresenter<Model, View> {
