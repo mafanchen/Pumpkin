@@ -16,7 +16,6 @@ bin/
 gen/
 out/
 release/
-.cxx
 
 # Gradle files
 .gradle/
@@ -83,5 +82,3 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
-
-/gradle.properties
