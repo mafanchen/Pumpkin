@@ -36,6 +36,7 @@ import com.video.test.utils.AppInfoUtils;
 import com.video.test.utils.DownloadUtil;
 import com.video.test.utils.EncryptUtils;
 import com.video.test.utils.LogUtils;
+import com.video.test.utils.NetworkUtils;
 import com.video.test.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -174,6 +175,30 @@ public class TestApp extends MultiDexApplication {
                 EventBus.getDefault().post(new DownloadEvent(DownloadEvent.Type.TYPE_UPDATE_STATUS, task));
             }
         });
+        //如果是wifi则自动开始任务
+        if (NetworkUtils.isWifiConnected(this)) {
+            startDownloadAllTask();
+        }
+        //如果是移动网络
+        else if (NetworkUtils.isMobileConnected(this)) {
+            //如果允许移动网络下载，则启动下载所有任务
+            boolean mobileNetworkOpen = SpUtils.getBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_DOWN, true);
+            if (mobileNetworkOpen) {
+                startDownloadAllTask();
+            }
+        }
+    }
+
+    /**
+     * 下载全部任务
+     */
+    private void startDownloadAllTask() {
+        new Thread(() -> {
+            List<M3U8DownloadBean> allTask = DBManager.getInstance(this).queryM3U8Tasks();
+            for (M3U8DownloadBean bean : allTask) {
+                M3U8Downloader.getInstance().download(bean.getVideoUrl(), bean.getVideoId(), bean.getVideoName(), bean.getVideoTotalName());
+            }
+        }).run();
     }
 
     private void updateM3U8TaskTsItem(M3U8Task task, int totalTs, int curTs) {
