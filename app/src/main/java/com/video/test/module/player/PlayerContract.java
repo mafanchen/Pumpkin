@@ -133,6 +133,8 @@ public interface PlayerContract {
         String getVideoId();
 
         PlayerDownloadSelectItemAdapter getDownloadAdapter();
+
+        void showFirstMobileDownloadConfirmDialog(String downloadUrl, String videoId, String videoName, String videoItemName);
     }
 
     abstract class Presenter<M extends Model> extends BasePresenter<Model, View> {

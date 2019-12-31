@@ -181,4 +181,20 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
             }
         }
     }
+
+    public void stopAllDownloadTask() {
+        Disposable subscribe = Observable
+                .create((ObservableOnSubscribe<List<M3U8DownloadBean>>) emitter -> {
+                    List<M3U8DownloadBean> list = DBManager.getInstance(TestApp.getContext()).queryM3U8DownloadingTasks();
+                    emitter.onNext(list);
+                    emitter.onComplete();
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(list -> {
+                    for (M3U8DownloadBean bean : list) {
+                        M3U8Downloader.getInstance().pause(bean.getVideoUrl());
+                    }
+                }, Throwable::printStackTrace);
+        addDisposable(subscribe);
+    }
 }

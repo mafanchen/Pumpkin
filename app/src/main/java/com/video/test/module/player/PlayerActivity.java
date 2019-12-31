@@ -2272,4 +2272,25 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     public PlayerDownloadSelectItemAdapter getDownloadAdapter() {
         return mDownloadSelectItemAdapter;
     }
+
+    @Override
+    public void showFirstMobileDownloadConfirmDialog(String downloadUrl, String videoId, String videoName, String videoItemName) {
+        new MaterialDialog.Builder(this)
+                .content("当前已允许使用移动网络缓存视频，3G、4G网络下将继续缓存\n如您只想使用WIFI缓存视频，请到“设置”中关闭移动数据缓存")
+                .negativeColor(Color.parseColor("#888888"))
+                .onNegative((dialog, action) -> {
+                    dialog.dismiss();
+                    mPresenter.startDownload(downloadUrl, videoId, videoName, videoItemName, true);
+                })
+                .negativeText("允许流量缓存")
+                .positiveColor(Color.parseColor("#ffad43"))
+                .onPositive((dialog, which) -> {
+                    dialog.dismiss();
+                    ARouter.getInstance().build("/setting/activity").navigation();
+                    mPresenter.startDownload(downloadUrl, videoId, videoName, videoItemName, true);
+                })
+                .positiveText("去设置")
+                .build()
+                .show();
+    }
 }

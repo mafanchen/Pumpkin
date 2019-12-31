@@ -15,8 +15,10 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.video.test.AppConstant
 import com.video.test.R
 import com.video.test.javabean.M3U8DownloadBean
+import com.video.test.sp.SpUtils
 import com.video.test.ui.base.BaseActivity
 import com.video.test.utils.LogUtils
 import com.video.test.utils.NetworkUtils
@@ -139,9 +141,21 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
                 setSelectAllText(mSelectedSet!!.size)
             }
 
-            override fun startTask(downloadingBean: M3U8DownloadBean, position: Int) {
+            override fun startTask(downloadingBean: M3U8DownloadBean, position: Int): Boolean {
                 LogUtils.d(TAG, "startTask url : " + downloadingBean.videoUrl + " position : " + position)
-                mPresenter.startM3U8Task(downloadingBean)
+                //这里开始任务时需要判断当前网络是否是移动网络和是否开启了移动网络下载
+                if (NetworkUtils.isWifiConnected(this@DownloadVideoListActivity)) {
+                    mPresenter.startM3U8Task(downloadingBean)
+                } else {
+                    val isMobileOpen = SpUtils.getBoolean(this@DownloadVideoListActivity, AppConstant.SWITCH_MOBILE_DOWN, true)
+                    if (isMobileOpen) {
+                        mPresenter.startM3U8Task(downloadingBean)
+                    } else {
+                        showMobileDownloadConfirmDialog()
+                        return false
+                    }
+                }
+                return true
             }
 
             override fun pauseTask(downloadingBean: M3U8DownloadBean, position: Int) {
@@ -182,6 +196,22 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
                         }.show()
             }
         })
+    }
+
+    private fun showMobileDownloadConfirmDialog() {
+        MaterialDialog.Builder(this)
+                .content("移动数据网络下以为您暂停缓存，待接入WIFI时自动开始缓存\n如您需要在移动数据网络下缓存，请到“设置”中开启")
+                .negativeColor(Color.parseColor("#888888"))
+                .onNegative { dialog, _ -> dialog.dismiss() }
+                .negativeText("只在WIFI缓存")
+                .positiveColor(Color.parseColor("#ffad43"))
+                .onPositive { dialog: MaterialDialog, _: DialogAction? ->
+                    dialog.dismiss()
+                    ARouter.getInstance().build("/setting/activity").navigation()
+                }
+                .positiveText("去设置")
+                .build()
+                .show()
     }
 
     override fun showNoCacheBackground() {

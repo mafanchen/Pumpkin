@@ -16,6 +16,7 @@ import com.video.test.sp.SpUtils;
 import com.video.test.ui.base.BaseActivity;
 import com.video.test.ui.widget.SwitchButton;
 import com.video.test.utils.LogUtils;
+import com.video.test.utils.NetworkUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -158,6 +159,10 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                         SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_DOWN, true);
                     } else {
                         SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_DOWN, false);
+                        //如果不是wifi网络，则停止所有下载任务
+                        if (!NetworkUtils.isWifiConnected(SettingActivity.this)) {
+                            mPresenter.stopAllDownloadTask();
+                        }
                     }
                     break;
                 default:

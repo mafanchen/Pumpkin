@@ -9,7 +9,7 @@ public interface DownloadItemClickListener {
 
     void onItemSelected(boolean isSelected, M3U8DownloadBean bean);
 
-    void startTask(M3U8DownloadBean downloadingBean, int position);
+    boolean startTask(M3U8DownloadBean downloadingBean, int position);
 
     void pauseTask(M3U8DownloadBean downloadingBean, int position);
 
@@ -17,6 +17,6 @@ public interface DownloadItemClickListener {
 
     void playNetworkVideo(String videoId, String videoUrl);
 
-    void playLocalVideo(String videoUrl,String localUrl, String localName);
+    void playLocalVideo(String videoUrl, String localUrl, String localName);
 
 }

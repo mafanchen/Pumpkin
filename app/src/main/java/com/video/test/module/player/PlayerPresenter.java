@@ -38,6 +38,7 @@ import com.video.test.ui.widget.TimeCloseDialogFragment;
 import com.video.test.utils.FileUtils;
 import com.video.test.utils.LogUtils;
 import com.video.test.utils.M3U8Utils;
+import com.video.test.utils.NetworkUtils;
 import com.video.test.utils.RxSchedulers;
 import com.video.test.utils.ToastUtils;
 import com.video.test.utils.WeChatUtil;
@@ -55,6 +56,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import cn.jpush.android.cache.Sp;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -72,6 +74,8 @@ import jaygoo.library.m3u8downloader.bean.M3U8TaskState;
  */
 public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
     private static final String TAG = "PlayerPresenter";
+    private static final String SP_KEY_FIRST_MOBILE_DOWNLOAD = "FIRST_MOBILE_DOWNLOAD";
+    private boolean isFirstMobileDownload = false;
     private IWXAPI mWxApi;
     private static final int THUMB_SIZE = 150;
     private Disposable closeTimerDisposable;
@@ -95,6 +99,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
     @Override
     public void attachView(PlayerContract.View view) {
         super.attachView(view);
+        isFirstMobileDownload = SpUtils.getBoolean(TestApp.getContext(), SP_KEY_FIRST_MOBILE_DOWNLOAD, true);
         EventBus.getDefault().register(this);
     }
 
@@ -424,7 +429,34 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
     @Override
     void setDownloadUrl(String downloadUrl, String videoId, String videoName, String videoItemName) {
         LogUtils.d(TAG, "downUrl : " + downloadUrl);
-        M3U8Downloader.getInstance().download(downloadUrl, videoId, videoItemName, videoName);
+        if (NetworkUtils.isWifiConnected(TestApp.getContext())) {
+            startDownload(downloadUrl, videoId, videoName, videoItemName, true);
+        } else {
+            /*
+            如果是流量则，判断流量下载开关是否打开，
+            若打开（默认打开），则第一次会弹框提醒，后面会直接开始下载
+            若关闭，则只是把任务添加到数据库，并且弹出toast提醒
+             */
+            boolean mobileNetworkOpen = SpUtils.getBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_DOWN, true);
+            if (mobileNetworkOpen) {
+                if (isFirstMobileDownload) {
+                    isFirstMobileDownload = false;
+                    SpUtils.putBoolean(TestApp.getContext(), SP_KEY_FIRST_MOBILE_DOWNLOAD, false);
+                    mView.showFirstMobileDownloadConfirmDialog(downloadUrl, videoId, videoName, videoItemName);
+                } else {
+                    startDownload(downloadUrl, videoId, videoName, videoItemName, true);
+                }
+            } else {
+                startDownload(downloadUrl, videoId, videoName, videoItemName, false);
+                ToastUtils.showToast(TestApp.getContext(), "已缓存至缓存列表 ,接入wifi时将开始缓存");
+            }
+        }
+    }
+
+    void startDownload(String downloadUrl, String videoId, String videoName, String videoItemName, boolean downloadImmediately) {
+        if (downloadImmediately) {
+            M3U8Downloader.getInstance().download(downloadUrl, videoId, videoItemName, videoName);
+        }
         insertM3U8Task(downloadUrl, videoId, videoName, videoItemName);
     }
 

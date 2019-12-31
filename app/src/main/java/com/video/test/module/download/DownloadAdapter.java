@@ -264,9 +264,10 @@ public class DownloadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         case AppConstant.M3U8_TASK_PAUSE:
                         case AppConstant.M3U8_TASK_ERROR:
                         case AppConstant.M3U8_TASK_ENOSPC:
-                            listener.startTask(m3u8, position);
-                            showImage(R.drawable.ic_download_downloading);
-                            setProgress(m3u8.getProgress());
+                            if (listener.startTask(m3u8, position)) {
+                                showImage(R.drawable.ic_download_downloading);
+                                setProgress(m3u8.getProgress());
+                            }
                             break;
                         default:
                             break;
