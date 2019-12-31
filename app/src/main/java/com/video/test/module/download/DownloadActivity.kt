@@ -62,6 +62,8 @@ class DownloadActivity : BaseActivity<DownloadPresenter>(), DownloadContract.Vie
         super.initToolBar()
         mIbBack?.visibility = View.VISIBLE
         mTvTitle?.setText(R.string.activity_download)
+        setEditMode(false)
+        mTvEditBtn?.visibility = View.GONE
     }
 
     override fun initData() {
@@ -86,7 +88,7 @@ class DownloadActivity : BaseActivity<DownloadPresenter>(), DownloadContract.Vie
             //点击编辑按钮
             R.id.tv_editBtn_toolbar -> {
                 val isEditMode = mGroup!!.visibility == View.VISIBLE
-                setEditMode(isEditMode)
+                setEditMode(!isEditMode)
                 mPresenter.deselectAll()
             }
             R.id.tv_selectAll -> mPresenter.onSelectAllClick()
@@ -113,7 +115,7 @@ class DownloadActivity : BaseActivity<DownloadPresenter>(), DownloadContract.Vie
     }
 
     override fun hideEditBtn() {
-        mTvEditBtn?.visibility = View.VISIBLE
+        mTvEditBtn?.visibility = View.GONE
     }
 
     override fun setEditMode(isEditMode: Boolean) {

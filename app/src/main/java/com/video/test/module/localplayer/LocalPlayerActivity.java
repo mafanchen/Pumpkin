@@ -8,6 +8,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.video.test.R;
+import com.video.test.db.DBManager;
 import com.video.test.ui.base.BaseActivity;
 import com.video.test.ui.widget.LocalLandVideoPlayer;
 import com.video.test.ui.widget.ShareImageDialogFragment;
@@ -31,6 +32,8 @@ public class LocalPlayerActivity extends BaseActivity<LocalPlayerPresenter> impl
     String localUrl;
     @Autowired
     String localName;
+    @Autowired
+    String videoUrl;
     @BindView(R.id.player_local_player)
     LocalLandVideoPlayer mVideoPlayer;
     M3U8HttpServer mHttpServer = new M3U8HttpServer();
@@ -97,6 +100,10 @@ public class LocalPlayerActivity extends BaseActivity<LocalPlayerPresenter> impl
     protected void onPause() {
         super.onPause();
         mVideoPlayer.onVideoPause();
+        long currentPosition = mVideoPlayer.getCurrentPositionWhenPlaying();
+        long duration = mVideoPlayer.getGSYVideoManager().getDuration();
+        double progress = (double) currentPosition / duration;
+        DBManager.getInstance(this).saveLocalHistory(videoUrl, progress);
     }
 
 

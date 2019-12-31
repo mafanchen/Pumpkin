@@ -102,25 +102,6 @@ public class DownloadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return null == data ? 0 : data.size();
     }
 
-//    @Override
-//    public void onViewAttachedToWindow(@NonNull RecyclerView.ViewHolder holder) {
-//        super.onViewAttachedToWindow(holder);
-//        LogUtils.d(TAG, "onViewAttachedToWindow");
-//        if (holder instanceof DownloadingViewHolder) {
-//            ((DownloadingViewHolder) holder).onAttach();
-//        }
-//    }
-
-
-//    @Override
-//    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
-//        super.onViewDetachedFromWindow(holder);
-//        if (holder instanceof DownloadingViewHolder) {
-//            ((DownloadingViewHolder) holder).onDetach();
-//        }
-//        LogUtils.d(TAG, "onViewDetachedFromWindow");
-//    }
-
     public void setData(List<M3U8DownloadBean> m3u8List) {
         if (null == data) {
             data = new ArrayList<>(m3u8List);
@@ -192,13 +173,20 @@ public class DownloadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         listener.onItemSelected(isChecked, m3u8);
                     }
             );
+            if (m3u8.getLocalHistory() <= 0) {
+                tvHistory.setText(R.string.activity_download_history_none);
+            } else if (m3u8.getLocalHistory() >= 1) {
+                tvHistory.setText(R.string.activity_download_history_watch_complete);
+            } else {
+                tvHistory.setText(tvHistory.getContext().getString(R.string.activity_download_history, m3u8.getLocalHistory() * 100));
+            }
             tvSize.setText(MUtils.formatFileSize(m3u8.getTotalFileSize()));
             tvName.setText(m3u8.getVideoName());
             itemView.setOnClickListener(v -> {
                 if (null != listener && !isManager) {
                     if (m3u8.isDownloaded()) {
                         LogUtils.d(TAG, "videoName : " + m3u8.getVideoName() + " videoUrl : " + m3u8.getVideoUrl());
-                        listener.playLocalVideo(m3u8.getM3u8FilePath(), m3u8.getVideoName());
+                        listener.playLocalVideo(m3u8.getVideoUrl(), m3u8.getM3u8FilePath(), m3u8.getVideoName());
                     } else {
                         LogUtils.d(TAG, "videoName : " + m3u8.getVideoName() + " videoUrl : " + m3u8.getVideoUrl());
                         listener.playNetworkVideo(m3u8.getVideoId(), m3u8.getVideoUrl());
@@ -215,9 +203,6 @@ public class DownloadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private final ProgressBar mProgressbar;
         private final TextView mTvTaskStatus;
         private final CheckBox mCheckBoxSelect;
-//        private M3U8DownloadBean m3U8Bean;
-//        private Disposable disposable;
-
 
         DownloadingViewHolder(View itemView) {
             super(itemView);
@@ -270,7 +255,7 @@ public class DownloadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             showImage(R.drawable.ic_download_paused);
                             break;
                         case AppConstant.M3U8_TASK_SUCCESS:
-                            listener.playLocalVideo(m3u8.getM3u8FilePath(), m3u8.getVideoName());
+                            listener.playLocalVideo(m3u8.getVideoUrl(), m3u8.getM3u8FilePath(), m3u8.getVideoName());
                             break;
                         case AppConstant.M3U8_TASK_PAUSE:
                         case AppConstant.M3U8_TASK_ERROR:
@@ -288,7 +273,7 @@ public class DownloadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 if (null != listener && !isManager) {
                     if (m3u8.isDownloaded()) {
                         LogUtils.d(TAG, "videoName : " + m3u8.getVideoName() + " videoUrl : " + m3u8.getVideoUrl());
-                        listener.playLocalVideo(m3u8.getM3u8FilePath(), m3u8.getVideoName());
+                        listener.playLocalVideo(m3u8.getVideoUrl(), m3u8.getM3u8FilePath(), m3u8.getVideoName());
                     } else {
                         LogUtils.d(TAG, "videoName : " + m3u8.getVideoName() + " videoUrl : " + m3u8.getVideoUrl());
                         listener.playNetworkVideo(m3u8.getVideoId(), m3u8.getVideoUrl());
@@ -296,30 +281,6 @@ public class DownloadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
         }
-
-//        void onAttach() {
-//            disposable = Observable.interval(0, 1500, TimeUnit.MILLISECONDS)
-//                    .map(new Function<Long, M3U8DownloadBean>() {
-//                        @Override
-//                        public M3U8DownloadBean apply(Long aLong) throws Exception {
-//                            return DBManager.getInstance(TestApp.getContext()).queryM3U8BeanFromVideoUrl(m3U8Bean.getVideoUrl());
-//                        }
-//                    }).compose(RxSchedulers.io_main())
-//                    .subscribe(new Consumer<M3U8DownloadBean>() {
-//                        @Override
-//                        public void accept(M3U8DownloadBean m3U8DownloadBean) throws Exception {
-//                            DownloadingViewHolder.this.m3U8Bean = m3U8DownloadBean;
-//                            LogUtils.d(TAG, "onAttach success urls : " + m3U8DownloadBean.getVideoUrl());
-//                            setProgress(m3U8DownloadBean);
-//                            setTaskStatus(m3U8DownloadBean);
-//                        }
-//                    }, new Consumer<Throwable>() {
-//                        @Override
-//                        public void accept(Throwable throwable) throws Exception {
-//                            LogUtils.e(TAG, "onAttach error : " + throwable.getMessage());
-//                        }
-//                    });
-//        }
 
         void setTaskStatus(int status) {
             switch (status) {
@@ -357,26 +318,6 @@ public class DownloadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mTvTaskStatus.setText(itemView.getContext().getString(R.string.activity_download_downloading, progress * 100));
         }
 
-//        @SuppressLint("StringFormatInvalid")
-//        void setProgress(M3U8DownloadBean m3U8DownloadBean) {
-//            if (null != mProgressbar && null != mTvTaskStatus) {
-//                LogUtils.d(TAG, "progress Cur : " + m3U8DownloadBean.getCurTs() + " total : " + m3U8DownloadBean.getTotalTs());
-//                mProgressbar.setMax(m3U8DownloadBean.getTotalTs());
-//                if (m3U8DownloadBean.isDownloaded()) {
-//                    mProgressbar.setProgress(m3U8DownloadBean.getTotalTs());
-//                } else {
-//                    mProgressbar.setProgress(m3U8DownloadBean.getCurTs());
-//                    mTvTaskStatus.setText(itemView.getContext().getString(R.string.activity_download_downloading,
-//                            ((float) mProgressbar.getProgress()) * 100 / mProgressbar.getMax()));
-//                }
-//            }
-//        }
-
-//        void onDetach() {
-//            if (null != disposable && !disposable.isDisposed()) {
-//                disposable.dispose();
-//            }
-//        }
     }
 
 }

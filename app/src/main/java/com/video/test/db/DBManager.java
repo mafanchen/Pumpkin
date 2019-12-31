@@ -13,6 +13,7 @@ import com.video.test.javabean.SearchHotWordBean;
 import com.video.test.utils.LogUtils;
 
 import org.greenrobot.greendao.query.QueryBuilder;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -274,5 +275,16 @@ public class DBManager {
         DaoMaster daoMaster = new DaoMaster(getWritableDatabase());
         DaoSession daoSession = daoMaster.newSession();
         daoSession.insertOrReplace(bean);
+    }
+
+    public void saveLocalHistory(@NotNull String videoUrl, double history) {
+        DaoMaster daoMaster = new DaoMaster(getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        M3U8DownloadBeanDao downloadBeanDao = daoSession.getM3U8DownloadBeanDao();
+        M3U8DownloadBean bean = downloadBeanDao.queryBuilder().where(M3U8DownloadBeanDao.Properties.VideoUrl.eq(videoUrl)).unique();
+        if (bean != null) {
+            bean.setLocalHistory(history);
+            downloadBeanDao.insertOrReplace(bean);
+        }
     }
 }

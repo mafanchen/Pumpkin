@@ -17,6 +17,6 @@ public interface DownloadItemClickListener {
 
     void playNetworkVideo(String videoId, String videoUrl);
 
-    void playLocalVideo(String localUrl, String localName);
+    void playLocalVideo(String videoUrl,String localUrl, String localName);
 
 }

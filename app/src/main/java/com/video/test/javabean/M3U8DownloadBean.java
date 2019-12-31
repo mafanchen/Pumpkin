@@ -76,15 +76,19 @@ public class M3U8DownloadBean {
      */
     private float progress;
 
+    /**
+     * 本地播放历史记录
+     */
+    private double localHistory;
+
     @Transient
     private boolean isSelect;
 
 
-    @Generated(hash = 1487939430)
-    public M3U8DownloadBean(Long id, @NotNull String videoId, @NotNull String videoName,
-            @NotNull String videoTotalName, @NotNull String videoUrl, boolean isDownloaded,
-            int taskStatus, long totalTime, long totalFileSize, String m3u8FilePath, String dirFilePath,
-            int curTs, int totalTs, float progress) {
+    @Generated(hash = 881551401)
+    public M3U8DownloadBean(Long id, @NotNull String videoId, @NotNull String videoName, @NotNull String videoTotalName,
+            @NotNull String videoUrl, boolean isDownloaded, int taskStatus, long totalTime, long totalFileSize,
+            String m3u8FilePath, String dirFilePath, int curTs, int totalTs, float progress, double localHistory) {
         this.id = id;
         this.videoId = videoId;
         this.videoName = videoName;
@@ -99,6 +103,7 @@ public class M3U8DownloadBean {
         this.curTs = curTs;
         this.totalTs = totalTs;
         this.progress = progress;
+        this.localHistory = localHistory;
     }
 
     @Generated(hash = 350342533)
@@ -232,5 +237,13 @@ public class M3U8DownloadBean {
 
     public void setVideoTotalName(String videoTotalName) {
         this.videoTotalName = videoTotalName;
+    }
+
+    public double getLocalHistory() {
+        return localHistory;
+    }
+
+    public void setLocalHistory(double localHistory) {
+        this.localHistory = localHistory;
     }
 }

@@ -38,6 +38,7 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
         public final static Property CurTs = new Property(11, int.class, "curTs", false, "CUR_TS");
         public final static Property TotalTs = new Property(12, int.class, "totalTs", false, "TOTAL_TS");
         public final static Property Progress = new Property(13, float.class, "progress", false, "PROGRESS");
+        public final static Property LocalHistory = new Property(14, double.class, "localHistory", false, "LOCAL_HISTORY");
     }
 
 
@@ -66,7 +67,8 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
                 "\"DIR_FILE_PATH\" TEXT," + // 10: dirFilePath
                 "\"CUR_TS\" INTEGER NOT NULL ," + // 11: curTs
                 "\"TOTAL_TS\" INTEGER NOT NULL ," + // 12: totalTs
-                "\"PROGRESS\" REAL NOT NULL );"); // 13: progress
+                "\"PROGRESS\" REAL NOT NULL ," + // 13: progress
+                "\"LOCAL_HISTORY\" REAL NOT NULL );"); // 14: localHistory
     }
 
     /** Drops the underlying database table. */
@@ -104,6 +106,7 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
         stmt.bindLong(12, entity.getCurTs());
         stmt.bindLong(13, entity.getTotalTs());
         stmt.bindDouble(14, entity.getProgress());
+        stmt.bindDouble(15, entity.getLocalHistory());
     }
 
     @Override
@@ -135,6 +138,7 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
         stmt.bindLong(12, entity.getCurTs());
         stmt.bindLong(13, entity.getTotalTs());
         stmt.bindDouble(14, entity.getProgress());
+        stmt.bindDouble(15, entity.getLocalHistory());
     }
 
     @Override
@@ -158,7 +162,8 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // dirFilePath
             cursor.getInt(offset + 11), // curTs
             cursor.getInt(offset + 12), // totalTs
-            cursor.getFloat(offset + 13) // progress
+            cursor.getFloat(offset + 13), // progress
+            cursor.getDouble(offset + 14) // localHistory
         );
         return entity;
     }
@@ -179,6 +184,7 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
         entity.setCurTs(cursor.getInt(offset + 11));
         entity.setTotalTs(cursor.getInt(offset + 12));
         entity.setProgress(cursor.getFloat(offset + 13));
+        entity.setLocalHistory(cursor.getDouble(offset + 14));
      }
     
     @Override

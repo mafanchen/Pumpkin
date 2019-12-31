@@ -39,7 +39,7 @@ class DownloadPresenter : DownloadContract.Presenter<DownloadModel>() {
     }
 
     override fun getSDCardFreeSize() {
-        val subscribe = Observable.timer(2, TimeUnit.SECONDS)
+        val subscribe = Observable.interval(2, TimeUnit.SECONDS)
                 .flatMap { mModel!!.getSDCardInfo() }
                 .compose(RxSchedulers.io_main())
                 .subscribe({
@@ -81,7 +81,7 @@ class DownloadPresenter : DownloadContract.Presenter<DownloadModel>() {
                             if (m3u8.taskStatus == M3U8TaskState.DOWNLOADING || m3u8.taskStatus == M3U8TaskState.PREPARE) {
                                 downloadingBean!!.progress = m3u8.progress
                                 downloadingBean!!.isDownloading = true
-                                downloadingBean!!.videoName = m3u8.videoName
+                                downloadingBean!!.videoName = m3u8.videoTotalName
                             }
                         }
                     }
@@ -91,6 +91,11 @@ class DownloadPresenter : DownloadContract.Presenter<DownloadModel>() {
                 .doAfterTerminate { isRequestData = false }
                 .subscribe({ list ->
                     mView.adapter?.data = list
+                    if (list.isEmpty()) {
+                        mView.hideEditBtn()
+                    } else {
+                        mView.showEditBtn()
+                    }
                     mView.adapter?.notifyDataSetChanged()
                 }, { it.printStackTrace() })
         addDisposable(subscribe)
@@ -150,6 +155,8 @@ class DownloadPresenter : DownloadContract.Presenter<DownloadModel>() {
         } else {
             mSelectedSet.remove(bean)
         }
+        setSelectCountText(mSelectedSet.size)
+        setSelectAllText(mSelectedSet.size)
     }
 
     override fun onSelectAllClick() {

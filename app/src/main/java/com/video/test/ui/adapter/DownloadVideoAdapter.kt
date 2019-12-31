@@ -46,9 +46,11 @@ class DownloadVideoAdapter : RecyclerView.Adapter<DownloadVideoAdapter.DownloadV
     override fun onBindViewHolder(holder: DownloadViewHolder, position: Int) {
         val bean = data!![position]
         holder.checkboxSelect.visibility = if (isManager) View.VISIBLE else View.GONE
+        holder.checkboxSelect.isChecked = bean.selected
         holder.checkboxSelect.setOnClickListener {
-            bean.selected = holder.checkboxSelect.isSelected
-            onSelectListener?.onSelect(holder.checkboxSelect.isSelected, bean)
+            val select = holder.checkboxSelect.isChecked
+            bean.selected = select
+            onSelectListener?.onSelect(select, bean)
         }
         if (bean is DownloadingBean && holder is DownloadingViewHolder) {
             holder.tvVideoCount.text = bean.tasks.size.toString()

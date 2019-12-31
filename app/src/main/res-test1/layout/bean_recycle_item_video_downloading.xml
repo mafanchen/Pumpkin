@@ -13,8 +13,8 @@
         android:id="@+id/checkbox_select"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:gravity="start"
         android:button="@drawable/selector_checkbox"
+        android:gravity="start"
         android:paddingEnd="18dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,9 +25,9 @@
         android:id="@+id/iv_download_status"
         android:layout_width="107dp"
         android:layout_height="65dp"
+        android:src="@drawable/ic_video_downloading"
         app:layout_constraintStart_toEndOf="@+id/checkbox_select"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_video_downloading" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_download_video_count"
@@ -40,11 +40,9 @@
         android:minWidth="21dp"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_size_12sp"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/iv_download_status"
         app:layout_constraintTop_toTopOf="@+id/iv_download_status"
-        tools:text="10"
-        tools:visibility="visible" />
+        tools:text="10" />
 
     <TextView
         android:id="@+id/tv_download_status"

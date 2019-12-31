@@ -253,7 +253,7 @@
     <string name="activity_download_prepare">准备中</string>
     <string name="activity_download_complete">已完成</string>
     <string name="activity_download_error">下载出错,请重试</string>
-    <string name="activity_download_downloading">缓存中%.1f\%%</string>
+    <string name="activity_download_downloading">缓存中%.1f%%</string>
     <string name="activity_download_slash"> / </string>
     <string name="activity_download_none">暂无缓存记录</string>
     <string name="activity_download_selectAll">全选</string>
@@ -262,6 +262,9 @@
     <string name="activity_download_edit_cancel">取消</string>
     <string name="activity_download">离线缓存</string>
     <string name="activity_download_sdCard">已使用%1$s,可用空间%2$s</string>
+    <string name= "activity_download_history">观看至%.1f%%</string>
+    <string name= "activity_download_history_none">未观看</string>
+    <string name= "activity_download_history_watch_complete">已看完</string>
 
     <!--setPassword-->
     <string name="setPassword_old_password">请输入您的旧密码</string>

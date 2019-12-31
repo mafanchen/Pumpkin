@@ -168,7 +168,7 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
                         }.show()
             }
 
-            override fun playLocalVideo(localUrl: String, localName: String) {
+            override fun playLocalVideo(videoUrl: String, localUrl: String, localName: String) {
                 MaterialDialog.Builder(this@DownloadVideoListActivity)
                         .content(R.string.dialog_playVideo)
                         .positiveText(R.string.dialog_confirm)
@@ -177,6 +177,7 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
                             ARouter.getInstance().build("/localPlayer/activity")
                                     .withString("localUrl", localUrl)
                                     .withString("localName", localName)
+                                    .withString("videoUrl", videoUrl)
                                     .navigation()
                         }.show()
             }
