@@ -1,3 +1,0 @@
-D:/WorkSpace/dg-android/app/.cxx/cmake/Test2Release/x86/CMakeFiles/native-lib.dir
-D:/WorkSpace/dg-android/app/.cxx/cmake/Test2Release/x86/CMakeFiles/edit_cache.dir
-D:/WorkSpace/dg-android/app/.cxx/cmake/Test2Release/x86/CMakeFiles/rebuild_cache.dir
