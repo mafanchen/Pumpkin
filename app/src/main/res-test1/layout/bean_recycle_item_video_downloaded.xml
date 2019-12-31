@@ -13,8 +13,8 @@
         android:id="@+id/checkbox_select"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:gravity="start"
         android:button="@drawable/selector_checkbox"
+        android:gravity="start"
         android:paddingEnd="18dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -56,7 +56,7 @@
         android:textSize="@dimen/text_size_12sp"
         app:layout_constraintStart_toStartOf="@+id/tv_download_video_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_download_video_name"
-        tools:text="600KB/S" />
+        tools:text="1" />
 
     <TextView
         android:id="@+id/tv_download_video_size"

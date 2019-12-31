@@ -27,7 +27,10 @@ import com.hpplay.sdk.source.browse.api.LelinkSetting;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
+import com.video.test.db.DBManager;
+import com.video.test.javabean.M3U8DownloadBean;
 import com.video.test.javabean.SplashBean;
+import com.video.test.javabean.event.DownloadEvent;
 import com.video.test.sp.SpUtils;
 import com.video.test.utils.AppInfoUtils;
 import com.video.test.utils.DownloadUtil;
@@ -35,13 +38,18 @@ import com.video.test.utils.EncryptUtils;
 import com.video.test.utils.LogUtils;
 import com.video.test.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
+import jaygoo.library.m3u8downloader.M3U8Downloader;
 import jaygoo.library.m3u8downloader.M3U8DownloaderConfig;
+import jaygoo.library.m3u8downloader.OnM3U8DownloadListener;
+import jaygoo.library.m3u8downloader.bean.M3U8;
+import jaygoo.library.m3u8downloader.bean.M3U8Task;
 import zlc.season.rxdownload3.core.DownloadConfig;
 import zlc.season.rxdownload3.extension.ApkInstallExtension;
 import zlc.season.rxdownload3.extension.ApkOpenExtension;
@@ -51,6 +59,7 @@ import zlc.season.rxdownload3.extension.ApkOpenExtension;
  */
 public class TestApp extends MultiDexApplication {
     private static final String TAG = "TestApp";
+    private static final String M3U8TAG = "PlayM3U8Listener";
     private static Context sContext;
     private static TestApp sApp;
     private static boolean isOpen = true;
@@ -96,7 +105,117 @@ public class TestApp extends MultiDexApplication {
                 .setConnTimeout(10 * 1000)
                 .setReadTimeout(30 * 60 * 1000)
                 .setThreadCount(3);
-        // TODO: 2019/12/25 后续将下载监听移动至此处
+        M3U8Downloader.getInstance().setOnM3U8DownloadListener(new OnM3U8DownloadListener() {
+
+            /**
+             * 监听到下载进度变化
+             * @param task
+             * @param itemFileSize
+             * @param totalTs
+             * @param curTs
+             */
+            @Override
+            public void onDownloadItem(M3U8Task task, long itemFileSize, int totalTs, int curTs) {
+                super.onDownloadItem(task, itemFileSize, totalTs, curTs);
+                LogUtils.d(M3U8TAG, "videoId : " + task.getVideoId() + " name : " + task.getVideoName() + " itemFileSize : "
+                        + itemFileSize + " curTs : " + curTs + " totalTs : " + totalTs);
+                updateM3U8TaskTsItem(task, totalTs, curTs);
+                EventBus.getDefault().post(new DownloadEvent(DownloadEvent.Type.TYPE_PROGRESS, task));
+            }
+
+            /**
+             * 监听到下载成功
+             * @param task
+             */
+            @Override
+            public void onDownloadSuccess(M3U8Task task) {
+                super.onDownloadSuccess(task);
+                LogUtils.d(M3U8TAG, "Success taskName : " + task.getVideoName());
+                ToastUtils.showLongToast(TestApp.getContext(), task.getVideoName() + " 已完成缓存");
+                updateM3U8TaskSuccess(task);
+                EventBus.getDefault().post(new DownloadEvent(DownloadEvent.Type.TYPE_UPDATE_STATUS, task));
+            }
+
+            /**
+             * 监听到下载暂停
+             * @param task
+             */
+            @Override
+            public void onDownloadPause(M3U8Task task) {
+                super.onDownloadPause(task);
+                LogUtils.d(M3U8TAG, "Pause  taskName : " + task.getVideoName());
+//                ToastUtils.showLongToast(TestApp.getContext(), task.getVideoName() + " 已暂停");
+                updateM3U8TaskStatus(task);
+                EventBus.getDefault().post(new DownloadEvent(DownloadEvent.Type.TYPE_UPDATE_STATUS, task));
+            }
+
+            @Override
+            public void onDownloadPending(M3U8Task task) {
+                super.onDownloadPending(task);
+                LogUtils.d(M3U8TAG, "Pending task status : " + task.getState());
+                ToastUtils.showLongToast(TestApp.getContext(), task.getVideoName() + " 已添加缓存队列");
+                updateM3U8TaskStatus(task);
+                EventBus.getDefault().post(new DownloadEvent(DownloadEvent.Type.TYPE_UPDATE_STATUS, task));
+            }
+
+            @Override
+            public void onDownloadPrepare(M3U8Task task) {
+                super.onDownloadPrepare(task);
+                LogUtils.d(M3U8TAG, "Prepare task status : " + task.getState());
+                updateM3U8TaskStatus(task);
+                EventBus.getDefault().post(new DownloadEvent(DownloadEvent.Type.TYPE_UPDATE_STATUS, task));
+            }
+
+            @Override
+            public void onDownloadError(M3U8Task task, Throwable errorMsg) {
+                super.onDownloadError(task, errorMsg);
+                LogUtils.d(M3U8TAG, "error task status : " + task.getState());
+                updateM3U8TaskStatus(task);
+                EventBus.getDefault().post(new DownloadEvent(DownloadEvent.Type.TYPE_UPDATE_STATUS, task));
+            }
+        });
+    }
+
+    private void updateM3U8TaskTsItem(M3U8Task task, int totalTs, int curTs) {
+        M3U8DownloadBean m3U8DownloadBean = DBManager.getInstance(TestApp.getContext()).queryM3U8BeanFromVideoUrl(task.getUrl());
+        if (null != m3U8DownloadBean) {
+            m3U8DownloadBean.setCurTs(curTs);
+            m3U8DownloadBean.setTotalTs(totalTs);
+            m3U8DownloadBean.setTaskStatus(task.getState());
+            m3U8DownloadBean.setProgress(task.getProgress());
+            DBManager.getInstance(TestApp.getContext()).updateM3U8Task(m3U8DownloadBean);
+        } else {
+            LogUtils.d(TAG, "数据库未查询到数据");
+        }
+    }
+
+
+    private void updateM3U8TaskStatus(M3U8Task task) {
+        M3U8DownloadBean m3U8DownloadBean = DBManager.getInstance(TestApp.getContext()).queryM3U8BeanFromVideoUrl(task.getUrl());
+        if (null != m3U8DownloadBean) {
+            m3U8DownloadBean.setTaskStatus(task.getState());
+            DBManager.getInstance(TestApp.getContext()).updateM3U8Task(m3U8DownloadBean);
+        } else {
+            LogUtils.d(TAG, "数据库未查询到数据");
+        }
+    }
+
+
+    private void updateM3U8TaskSuccess(M3U8Task task) {
+        M3U8 m3U8 = task.getM3U8();
+        M3U8DownloadBean m3U8DownloadBean = DBManager.getInstance(TestApp.getContext()).queryM3U8BeanFromVideoUrl(task.getUrl());
+        if (null != m3U8DownloadBean) {
+            m3U8DownloadBean.setTaskStatus(task.getState());
+            m3U8DownloadBean.setProgress(1.0f);
+            m3U8DownloadBean.setIsDownloaded(true);
+            m3U8DownloadBean.setDirFilePath(m3U8.getDirFilePath());
+            m3U8DownloadBean.setM3u8FilePath(m3U8.getM3u8FilePath());
+            m3U8DownloadBean.setTotalFileSize(m3U8.getFileSize());
+            m3U8DownloadBean.setTotalTime(m3U8.getTotalTime());
+            DBManager.getInstance(TestApp.getContext()).updateM3U8Task(m3U8DownloadBean);
+        } else {
+            LogUtils.d(TAG, "数据库未查询到数据");
+        }
     }
 
     private void initJPush(Context context) {
@@ -173,13 +292,6 @@ public class TestApp extends MultiDexApplication {
     private void initZXing() {
         ZXingLibrary.initDisplayOpinion(this);
     }
-
-    /**
-     * 获取 DaoSession
-     *
-     * @return
-     */
-
 
     /*获取当前软件的版本号码*/
     public static int getAppVersion() {

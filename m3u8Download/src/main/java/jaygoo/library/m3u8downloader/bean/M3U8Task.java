@@ -16,6 +16,7 @@ public class M3U8Task {
     private String url;
     private String videoId;
     private String videoName;
+    private String videoTotalName;
     private int state = M3U8TaskState.DEFAULT;
     private long speed;
     private float progress;
@@ -28,10 +29,11 @@ public class M3U8Task {
         this.url = url;
     }
 
-    public M3U8Task(String url, String videoId, String videoName) {
+    public M3U8Task(String url, String videoId, String videoName,String videoTotalName) {
         this.url = url;
         this.videoId = videoId;
         this.videoName = videoName;
+        this.videoTotalName = videoTotalName;
     }
 
 
@@ -122,4 +124,11 @@ public class M3U8Task {
         this.m3U8 = m3U8;
     }
 
+    public String getVideoTotalName() {
+        return videoTotalName;
+    }
+
+    public void setVideoTotalName(String videoTotalName) {
+        this.videoTotalName = videoTotalName;
+    }
 }

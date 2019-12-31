@@ -5,18 +5,38 @@ import com.video.test.R
 import com.video.test.TestApp
 import com.video.test.db.DBManager
 import com.video.test.javabean.DownloadBean
+import com.video.test.javabean.DownloadedBean
 import com.video.test.javabean.DownloadingBean
 import com.video.test.javabean.M3U8DownloadBean
+import com.video.test.javabean.event.DownloadEvent
 import com.video.test.utils.RxSchedulers
 import com.video.test.utils.SDCardUtils
 import io.reactivex.Observable
-import java.util.HashSet
+import jaygoo.library.m3u8downloader.bean.M3U8TaskState
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class DownloadPresenter : DownloadContract.Presenter<DownloadModel>() {
+    private var isRequestData = false
 
     private var mSelectedSet: HashSet<DownloadBean> = HashSet()
 
+    override fun subscribe() {
+    }
+
+    override fun attachView(view: DownloadContract.View?) {
+        super.attachView(view)
+        EventBus.getDefault().register(this)
+    }
+
+    override fun unSubscribe() {
+        super.unSubscribe()
+        EventBus.getDefault().unregister(this)
+    }
 
     override fun getSDCardFreeSize() {
         val subscribe = Observable.timer(2, TimeUnit.SECONDS)
@@ -32,72 +52,49 @@ class DownloadPresenter : DownloadContract.Presenter<DownloadModel>() {
         addDisposable(subscribe)
     }
 
-    override fun subscribe() {
-
-    }
-
     override fun getAllVideoTasks() {
+        if (isRequestData) return
+        isRequestData = true
         val subscribe = mModel!!.getAllTasks(TestApp.getContext())
                 .map { list ->
-//                    list.forEach { setDownloadDynamicData(it) }
-                    list
+                    var downloadingBean: DownloadingBean? = null
+                    val downloadList = ArrayList<DownloadBean>()
+                    list.forEach { m3u8 ->
+                        if (m3u8.isDownloaded()) {
+                            var downloadBean: DownloadBean?
+                            downloadBean = downloadList.firstOrNull { TextUtils.equals(it.videoId, m3u8.videoId) }
+                            if (downloadBean == null) {
+                                downloadBean = DownloadedBean()
+                                downloadBean.videoId = m3u8.videoId
+                                downloadBean.videoName = m3u8.videoTotalName
+                                downloadList.add(downloadBean)
+                            }
+                            downloadBean as DownloadedBean
+                            downloadBean.tasks.add(m3u8)
+                            downloadBean.size += m3u8.totalFileSize
+                        } else {
+                            if (downloadingBean == null) {
+                                downloadingBean = DownloadingBean()
+                                downloadList.add(0, downloadingBean!!)
+                            }
+                            downloadingBean!!.tasks.add(m3u8)
+                            if (m3u8.taskStatus == M3U8TaskState.DOWNLOADING || m3u8.taskStatus == M3U8TaskState.PREPARE) {
+                                downloadingBean!!.progress = m3u8.progress
+                                downloadingBean!!.isDownloading = true
+                                downloadingBean!!.videoName = m3u8.videoName
+                            }
+                        }
+                    }
+                    downloadList
                 }
                 .compose(RxSchedulers.io_main())
-                .subscribe({
-
-                }, {
-
-                })
+                .doAfterTerminate { isRequestData = false }
+                .subscribe({ list ->
+                    mView.adapter?.data = list
+                    mView.adapter?.notifyDataSetChanged()
+                }, { it.printStackTrace() })
         addDisposable(subscribe)
     }
-
-    /**
-     * 设置下载状态、下载速度、下载第几集、占用空间等动态数据
-     * 此方法可能存在耗时操作
-     */
-//    private fun setDownloadDynamicData(data: DownloadedBean): DownloadedBean {
-//        val tasks = data.tasks
-//        return data
-//    }
-
-    /**
-     * 根据分集任务列表的下载状态判断视频下载的状态
-     * 当有任意一个分集正在
-     * 排队[com.video.test.AppConstant.M3U8_TASK_PENDING]
-     * 准备[com.video.test.AppConstant.M3U8_TASK_PREPARE]
-     * 下载中[com.video.test.AppConstant.M3U8_TASK_DOWNLOADING]时，则此视频为下载状态，
-     * 否则，当有任意一个分集处在
-     * 出错[com.video.test.AppConstant.M3U8_TASK_ERROR]
-     * 暂停[com.video.test.AppConstant.M3U8_TASK_PAUSE]
-     * 空间不足[com.video.test.AppConstant.M3U8_TASK_ENOSPC]时，则此视频为暂停状态，
-     * 其他情况，将视为已经下载完成
-     */
-//    private fun getDownloadState(tasks: List<M3U8DownloadBean>): Int {
-//        var state = DownloadedBean.STATE_DOWNLOADED
-//        tasks.forEach { task ->
-//            when (task.taskStatus) {
-//                AppConstant.M3U8_TASK_PENDING, AppConstant.M3U8_TASK_PREPARE, AppConstant.M3U8_TASK_DOWNLOADING -> {
-//                    state = DownloadedBean.STATE_DOWNLOADING
-//                    return@forEach
-//                }
-//                AppConstant.M3U8_TASK_ERROR, AppConstant.M3U8_TASK_PAUSE, AppConstant.M3U8_TASK_ENOSPC -> state = DownloadedBean.STATE_PAUSED
-//            }
-//        }
-//        return state
-//    }
-
-    /**
-     * 计算下载任务占用空间
-     */
-//    private fun getM3u8TaskSize(tasks: List<M3U8DownloadBean>): String {
-//        var size: Long = 0
-//        tasks.forEach { task ->
-//            val spaceBytes = SDCardUtils.getTotalSpaceBytes(task.dirFilePath)
-//            size += spaceBytes
-//        }
-//        return SDCardUtils.getSizeString(size.toDouble())
-//    }
-
 
     private fun selectAll() {
         if (mView!!.adapter != null) {
@@ -111,7 +108,6 @@ class DownloadPresenter : DownloadContract.Presenter<DownloadModel>() {
             setSelectAllText(mSelectedSet.size)
         }
     }
-
 
     override fun deselectAll() {
         if (mView!!.adapter != null) {
@@ -231,5 +227,30 @@ class DownloadPresenter : DownloadContract.Presenter<DownloadModel>() {
             }
         }
         return list
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onHandleDownloadEvent(event: DownloadEvent) {
+        if (event.type == DownloadEvent.Type.TYPE_PROGRESS) {
+            val task = event.task ?: return
+            mView ?: return
+            val adapter = mView.adapter ?: return
+            val data = adapter.data
+            if (data != null && data.isNotEmpty() && data[0] is DownloadingBean) {
+                val downloadBean = data[0] as DownloadingBean
+                var m3U8DownloadBean = downloadBean.tasks.firstOrNull { TextUtils.equals(task.url, it.videoUrl) }
+                m3U8DownloadBean?.taskStatus = task.state
+                m3U8DownloadBean?.progress = task.progress
+                downloadBean.videoName = task.videoName
+                downloadBean.downloadSpeed = task.speed
+                downloadBean.progress = task.progress
+                downloadBean.isDownloading = true
+                adapter.notifyDataSetChanged()
+            } else {
+                getAllVideoTasks()
+            }
+        } else {
+            getAllVideoTasks()
+        }
     }
 }

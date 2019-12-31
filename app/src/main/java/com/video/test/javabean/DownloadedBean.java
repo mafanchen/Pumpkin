@@ -4,13 +4,13 @@ public class DownloadedBean extends DownloadBean {
     /**
      * 占用空间
      */
-    private String size;
+    private long size;
 
-    public String getSize() {
+    public long getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(long size) {
         this.size = size;
     }
 }

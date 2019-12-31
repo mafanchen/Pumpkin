@@ -73,9 +73,12 @@
             android:name="com.video.test.module.setting.SettingActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.video.test.module.download.DownloadVideoListActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.video.test.module.download.DownloadActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="portrait" />
         <activity

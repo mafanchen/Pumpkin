@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ConstraintLayout_downloadingd"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/colorWhite">
+
+    <ImageView
+        android:id="@+id/iv_recycle_pic_download"
+        style="@style/download_videoPic"
+        android:layout_width="@dimen/download_width_pic"
+        android:layout_height="@dimen/download_height_pic"
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkbox_select"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/ic_download_complete" />
+
+    <TextView
+        android:id="@+id/tv_recycle_videoName_download"
+        style="@style/download_videoName"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_recycle_pic_download"
+        app:layout_constraintTop_toTopOf="@+id/iv_recycle_pic_download"
+        tools:text="我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题" />
+
+    <TextView
+        android:id="@+id/tv_recycle_videoSize_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:textColor="#888888"
+        android:textSize="@dimen/text_size_12sp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_recycle_videoName_download"
+        tools:text="100.5M"/>
+
+
+    <TextView
+        android:id="@+id/tv_recycle_history_download"
+        style="@style/download_text_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/download_margin_font2icon"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/download_task_status"
+        app:layout_constraintStart_toEndOf="@+id/iv_recycle_pic_download"
+        app:layout_constraintTop_toBottomOf="@+id/tv_recycle_videoName_download"
+        tools:text="未观看" />
+
+    <CheckBox
+        android:id="@+id/checkbox_select"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="12dp"
+        android:button="@drawable/selector_checkbox"
+        android:gravity="start"
+        android:paddingEnd="18dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

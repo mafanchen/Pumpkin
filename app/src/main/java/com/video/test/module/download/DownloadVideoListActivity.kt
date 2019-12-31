@@ -15,11 +15,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.video.test.AppConstant
 import com.video.test.R
-import com.video.test.TestApp
 import com.video.test.javabean.M3U8DownloadBean
-import com.video.test.sp.SpUtils
 import com.video.test.ui.base.BaseActivity
 import com.video.test.utils.LogUtils
 import com.video.test.utils.NetworkUtils
@@ -64,9 +61,7 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
     @JvmField
     @Autowired(name = "videoId")
     var mVideoId: String? = null
-
-    private var mUserLevel: String? = null
-    private var mAdapter: DownloadAdapter? = null
+    override var adapter: DownloadAdapter? = null
     private var mM3U8List: List<M3U8DownloadBean>? = null
     private var mIsManager = false
     private var mSelectedSet: HashSet<String>? = HashSet()
@@ -82,14 +77,12 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
 
     override fun initData() {
         NetworkUtils.checkNetConnectChange()
-        mUserLevel = SpUtils.getString(TestApp.getContext(), AppConstant.USER_TOKEN_LEVEL, AppConstant.USER_NORMAL)
         requireStoragePerm()
-        mAdapter = DownloadAdapter()
-        mPresenter.initM3U8Listener()
+        adapter = DownloadAdapter()
         /* 进入之前 先将所有的任务都变为暂停状态 防止因意外任务中断  有2个以上的 任务状态为Start 的任务  */
         mPresenter.videoId = mVideoId
         mPresenter.pauseAllTasks()
-        mPresenter.getM3U8Tasks(mUserLevel)
+        mPresenter.getM3U8Tasks()
     }
 
 
@@ -104,8 +97,8 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
     }
 
     override fun setAdapter() {
-        mRvDownload!!.setSwipeMenuCreator { _: SwipeMenu?, rightMenu: SwipeMenu, position: Int ->
-            if (mAdapter!!.getItemViewType(position) == DownloadAdapter.TYPE_TASK && !mIsManager) {
+        mRvDownload!!.setSwipeMenuCreator { _: SwipeMenu?, rightMenu: SwipeMenu, _: Int ->
+            if (!mIsManager) {
                 val width = PixelUtils.dp2px(this, 75f)
                 val height = ViewGroup.LayoutParams.MATCH_PARENT
                 val swipeMenuItem = SwipeMenuItem(this)
@@ -124,7 +117,7 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
             mPresenter.deleteM3U8Task(mM3U8List!!, mM3U8List!![position].videoUrl)
             setResult(Activity.RESULT_OK)
         }
-        mRvDownload!!.adapter = mAdapter
+        mRvDownload!!.adapter = adapter
         setListener()
     }
 
@@ -132,7 +125,7 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
      * 设置监听器
      */
     private fun setListener() {
-        mAdapter!!.setClickListener(object : DownloadItemClickListener {
+        adapter!!.setClickListener(object : DownloadItemClickListener {
             override fun onItemSelected(isSelected: Boolean, bean: M3U8DownloadBean) {
                 if (mSelectedSet == null) {
                     mSelectedSet = HashSet()
@@ -205,9 +198,9 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
     }
 
     override fun setDownloadBeans(downloadBeans: List<M3U8DownloadBean>) {
-        if (null != mAdapter && mRvDownload != null) {
+        if (null != adapter && mRvDownload != null) {
             mM3U8List = downloadBeans
-            mAdapter!!.setData(downloadBeans)
+            adapter!!.data = downloadBeans
         }
     }
 
@@ -217,8 +210,8 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
             mTvEditBtn!!.setText(R.string.activity_download_edit)
             mTvEditBtn!!.setTextColor(Color.parseColor("#ffad43"))
             mGroup!!.visibility = View.GONE
-            if (mAdapter != null) {
-                mAdapter!!.setIsManager(mIsManager)
+            if (adapter != null) {
+                adapter!!.setIsManager(mIsManager)
             }
         } else {
             mTvEditBtn!!.setText(R.string.activity_download_edit_cancel)
@@ -226,8 +219,8 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
             //            mPresenter.getM3U8Tasks(mUserLevel);
             mGroup!!.visibility = View.VISIBLE
             mIsManager = true
-            if (mAdapter != null) {
-                mAdapter!!.setIsManager(mIsManager)
+            if (adapter != null) {
+                adapter!!.setIsManager(mIsManager)
             }
         }
         deselectAll()
@@ -245,7 +238,7 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
                 }
             }
             R.id.tv_selectAll -> {
-                if (mAdapter == null || mM3U8List == null || mM3U8List!!.isEmpty()) {
+                if (adapter == null || mM3U8List == null || mM3U8List!!.isEmpty()) {
                     return
                 }
                 if (mSelectedSet == null || mSelectedSet!!.isEmpty()) {
@@ -259,7 +252,7 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
                         deselectAll()
                     }
                 }
-                mAdapter!!.notifyDataSetChanged()
+                adapter!!.notifyDataSetChanged()
             }
             R.id.tv_delete -> if (mSelectedSet != null) {
                 if (mSelectedSet!!.size >= 2) { //大于两个弹窗
@@ -297,9 +290,9 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
     }
 
     private fun selectAll() {
-        if (mAdapter != null) {
-            mAdapter!!.selectAll()
-            mAdapter!!.notifyDataSetChanged()
+        if (adapter != null) {
+            adapter!!.selectAll()
+            adapter!!.notifyDataSetChanged()
         }
         if (mM3U8List != null) {
             for (o in mM3U8List!!) {
@@ -315,9 +308,9 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
     }
 
     private fun deselectAll() {
-        if (mAdapter != null) {
-            mAdapter!!.deSelectAll()
-            mAdapter!!.notifyDataSetChanged()
+        if (adapter != null) {
+            adapter!!.deSelectAll()
+            adapter!!.notifyDataSetChanged()
         }
         if (mSelectedSet != null) {
             mSelectedSet!!.clear()

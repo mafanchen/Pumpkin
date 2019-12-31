@@ -5,9 +5,11 @@ import com.video.test.db.DBManager
 import com.video.test.framework.BasePresenter
 import com.video.test.framework.IView
 import com.video.test.javabean.M3U8DownloadBean
+import com.video.test.javabean.event.DownloadEvent
 import com.video.test.utils.FileUtils
 import jaygoo.library.m3u8downloader.M3U8Downloader
 import jaygoo.library.m3u8downloader.M3U8DownloaderConfig
+import org.greenrobot.eventbus.EventBus
 import java.io.File
 import java.util.*
 
@@ -20,18 +22,14 @@ abstract class BaseDownloadPresenter<M, V : IView> : BasePresenter<M, V>() {
      */
     fun deleteM3U8Task(allTask: List<M3U8DownloadBean>, vararg taskUrl: String) {
         //先暂停需要删除的任务
-        for (task in taskUrl) {
-            M3U8Downloader.getInstance().cancel(task)
-        }
-        //需要批量删除数据库中的下载任务集合
-        val deleteTaskBeans: MutableList<M3U8DownloadBean> = ArrayList()
+        M3U8Downloader.getInstance().cancel(listOf(*taskUrl))
         //需要保留的下载文件夹集合
         val pathList: MutableList<String> = ArrayList()
         //这里遍历所有下载任务，将要删除的任务添加到删除的集合，将要保留的任务的文件夹添加到保留的文件夹集合
         for (task in allTask) {
             //这里通过url，筛选出需要删除的数据库任务数据，然后批量删除
             if (taskUrl.contains(task.videoUrl)) {
-                deleteTaskBeans.add(task)
+                DBManager.getInstance(TestApp.getContext()).deleteM3U8Task(task)
             }
             //如果不是删除的任务，则通过此任务的url获取其下载文件夹，将其添加到需要保留的文件夹集合中
             else {
@@ -41,8 +39,6 @@ abstract class BaseDownloadPresenter<M, V : IView> : BasePresenter<M, V>() {
                 pathList.add(m3u8DirPath)
             }
         }
-        //批量删除数据库中的下载任务
-        DBManager.getInstance(TestApp.getContext()).deleteM3U8Task(deleteTaskBeans)
         //获取下载根目录
         val saveDir = File(M3U8DownloaderConfig.getSaveDir())
         if (!saveDir.exists()) {
@@ -57,5 +53,6 @@ abstract class BaseDownloadPresenter<M, V : IView> : BasePresenter<M, V>() {
                 }
             }
         }
+        EventBus.getDefault().post(DownloadEvent(DownloadEvent.Type.TYPE_DELETE, null))
     }
 }

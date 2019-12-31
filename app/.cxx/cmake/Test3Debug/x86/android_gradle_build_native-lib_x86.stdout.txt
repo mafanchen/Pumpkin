@@ -1,3 +1,0 @@
-[1/3] Building CXX object CMakeFiles/native-lib.dir/MD5.cpp.o
-[2/3] Building CXX object CMakeFiles/native-lib.dir/native-lib.cpp.o
-[3/3] Linking CXX shared library D:\WorkSpace\dg-android\app\build\intermediates\cmake\Test3Debug\obj\x86\libnative-lib.so

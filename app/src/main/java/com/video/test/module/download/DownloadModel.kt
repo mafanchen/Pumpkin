@@ -22,8 +22,8 @@ class DownloadModel : DownloadContract.Model {
 
     override fun getAllTasks(context: Context): Observable<MutableList<M3U8DownloadBean>> {
         return Observable.create { emitter ->
-            val downloadingTasks = DBManager.getInstance(context).queryM3U8DownloadingTasks()
-            var downloadedTasks = DBManager.getInstance(context).queryM3U8DownloadedTasks()
+            val tasks = DBManager.getInstance(context).queryM3U8Tasks()
+            emitter.onNext(tasks)
             emitter.onComplete()
         }
     }

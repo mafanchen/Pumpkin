@@ -142,7 +142,6 @@ public class M3U8Downloader {
         task.setState(M3U8TaskState.PENDING);
         if (onM3U8DownloadListener != null) {
             onM3U8DownloadListener.onDownloadPending(task);
-
         }
     }
 
@@ -154,11 +153,11 @@ public class M3U8Downloader {
      *
      * @param url
      */
-    public void download(String url, String videoID, String videoName) {
+    public void download(String url, String videoID, String videoName, String videoTotalName) {
         if (TextUtils.isEmpty(url) || isQuicklyClick()) {
             return;
         }
-        M3U8Task task = new M3U8Task(url, videoID, videoName);
+        M3U8Task task = new M3U8Task(url, videoID, videoName, videoTotalName);
         if (downLoadQueue.contains(task)) {
             task = downLoadQueue.getTask(url);
             if (task.getState() == M3U8TaskState.PAUSE || task.getState() == M3U8TaskState.ERROR) {
@@ -169,8 +168,6 @@ public class M3U8Downloader {
         } else {
             downLoadQueue.offer(task);
             startDownloadTask(task);
-
-
         }
     }
 
@@ -317,7 +314,19 @@ public class M3U8Downloader {
      * @param url
      */
     public void cancel(String url) {
-        pause(url);
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        M3U8Task task = downLoadQueue.getTask(url);
+        if (task != null) {
+            task.setState(M3U8TaskState.PAUSE);
+            if (url.equals(currentM3U8Task.getUrl())) {
+                m3U8DownLoadTask.stop();
+                downloadNextTask();
+            } else {
+                downLoadQueue.remove(task);
+            }
+        }
     }
 
     /**
@@ -326,7 +335,26 @@ public class M3U8Downloader {
      * @param urls
      */
     public void cancel(List<String> urls) {
-        pause(urls);
+        if (urls == null || urls.size() == 0) {
+            return;
+        }
+        boolean isCurrentTaskPause = false;
+        for (String url : urls) {
+            if (downLoadQueue.contains(new M3U8Task(url))) {
+                M3U8Task task = downLoadQueue.getTask(url);
+                if (task != null) {
+                    task.setState(M3U8TaskState.PAUSE);
+                    if (task.equals(currentM3U8Task)) {
+                        m3U8DownLoadTask.stop();
+                        isCurrentTaskPause = true;
+                    }
+                    downLoadQueue.remove(task);
+                }
+            }
+        }
+        if (isCurrentTaskPause) {
+            startDownloadTask(downLoadQueue.peek());
+        }
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.video.test.module.download
 
-import com.video.test.framework.BasePresenter
 import com.video.test.framework.IModel
 import com.video.test.framework.IView
 import com.video.test.javabean.M3U8DownloadBean
@@ -9,6 +8,8 @@ import io.reactivex.Observable
 interface DownloadVideoListContract {
 
     interface View : IView {
+        var adapter: DownloadAdapter?
+
         fun showNoCacheBackground()
 
         fun hideNoCacheBackground()
@@ -24,22 +25,17 @@ interface DownloadVideoListContract {
 
     interface Model : IModel {
 
-        fun getDownloadingTask(vodId: String): Observable<List<M3U8DownloadBean>>
-        fun getDownloadedTask(vodId: String): Observable<List<M3U8DownloadBean>>
-        fun getAllTask(vodId: String): Observable<List<M3U8DownloadBean>>
+        fun getDownloadingTask(): Observable<List<M3U8DownloadBean>>
+        fun getDownloadedTask(): Observable<List<M3U8DownloadBean>>
     }
 
-    abstract class Presenter<M : Model> : BasePresenter<M, View>() {
+    abstract class Presenter<M : Model> : BaseDownloadPresenter<M, View>() {
 
         var videoId: String? = null
 
-        abstract fun getM3U8Tasks(userLevel: String?)
-
-        abstract fun initM3U8Listener()
+        abstract fun getM3U8Tasks()
 
         abstract fun pauseAllTasks()
-
-        abstract fun deleteM3U8Task(taskList: List<Any>, vararg taskUrl: String)
 
         abstract fun startM3U8Task(m3U8DownloadingBean: M3U8DownloadBean)
 

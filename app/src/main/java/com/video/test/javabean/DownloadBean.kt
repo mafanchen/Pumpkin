@@ -14,7 +14,7 @@ open class DownloadBean {
     /**
      * 包含的下载的任务
      */
-    var tasks: List<M3U8DownloadBean>? = null
+    var tasks: MutableList<M3U8DownloadBean> = ArrayList()
 
     /**
      * 编辑模式中是否被选中

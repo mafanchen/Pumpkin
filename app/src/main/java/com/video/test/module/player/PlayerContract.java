@@ -78,7 +78,7 @@ public interface PlayerContract {
 
         void showMobileNetworkDialog();
 
-        void showMobileNetworkDownloadDialog(String downloadUrl, String videoId, String videoName);
+        void showMobileNetworkDownloadDialog(String downloadUrl, String videoId, String videoName, String videoItemName);
 
         void showDownloadFunctionDialog();
 
@@ -129,6 +129,10 @@ public interface PlayerContract {
         void uploadWatchTime();
 
         void setAdData(VideoAdDataBean videoAdDataBean);
+
+        String getVideoId();
+
+        PlayerDownloadSelectItemAdapter getDownloadAdapter();
     }
 
     abstract class Presenter<M extends Model> extends BasePresenter<Model, View> {
@@ -153,9 +157,9 @@ public interface PlayerContract {
 
         abstract void isMobileNetwork();
 
-        abstract void isMobileNetworkDownload(String downloadUrl, String videoId, String videoName);
+        abstract void isMobileNetworkDownload(String downloadUrl, String videoId, String videoName, String videoItemName);
 
-        abstract void setDownloadUrl(String downloadUrl, String videoId, String videoName);
+        abstract void setDownloadUrl(String downloadUrl, String videoId, String videoName, String videoItemName);
 
         abstract void setItemSelectedPosition(int selectedPosition);
 
@@ -166,8 +170,6 @@ public interface PlayerContract {
         abstract void share2WeChat(Resources resources, String shareUrl, int targetSession);
 
         abstract void getCurrentNetSpeed(LandLayoutVideo landLayoutVideo);
-
-        abstract void initM3U8DownloaderListener();
 
         abstract void initBrowserListener();
 

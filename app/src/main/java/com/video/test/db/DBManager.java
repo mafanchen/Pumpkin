@@ -152,11 +152,11 @@ public class DBManager {
         return rowId;
     }
 
-    public void deleteM3U8Task(List<M3U8DownloadBean> m3U8DownloadBean) {
+    public void deleteM3U8Task(M3U8DownloadBean... beans) {
         DaoMaster daoMaster = new DaoMaster(getWritableDatabase());
         DaoSession daoSession = daoMaster.newSession();
         M3U8DownloadBeanDao m3U8DownloadBeanDao = daoSession.getM3U8DownloadBeanDao();
-        for (M3U8DownloadBean bean : m3U8DownloadBean) {
+        for (M3U8DownloadBean bean : beans) {
             m3U8DownloadBeanDao.delete(bean);
         }
     }

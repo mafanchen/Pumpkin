@@ -22,10 +22,17 @@ public class M3U8DownloadBean {
     @NotNull
     private String videoId;
     /**
-     * 视频的名称
+     * 视频的名称,分集名称
      */
     @NotNull
     private String videoName;
+
+    /**
+     * 整个剧集的名称，区别于{@link #videoName}
+     */
+    @NotNull
+    private String videoTotalName;
+
     /**
      * 下载的地址
      */
@@ -73,15 +80,15 @@ public class M3U8DownloadBean {
     private boolean isSelect;
 
 
-    @Generated(hash = 1621367470)
-    public M3U8DownloadBean(Long id, @NotNull String videoId,
-                            @NotNull String videoName, @NotNull String videoUrl,
-                            boolean isDownloaded, int taskStatus, long totalTime,
-                            long totalFileSize, String m3u8FilePath, String dirFilePath, int curTs,
-                            int totalTs, float progress) {
+    @Generated(hash = 1487939430)
+    public M3U8DownloadBean(Long id, @NotNull String videoId, @NotNull String videoName,
+            @NotNull String videoTotalName, @NotNull String videoUrl, boolean isDownloaded,
+            int taskStatus, long totalTime, long totalFileSize, String m3u8FilePath, String dirFilePath,
+            int curTs, int totalTs, float progress) {
         this.id = id;
         this.videoId = videoId;
         this.videoName = videoName;
+        this.videoTotalName = videoTotalName;
         this.videoUrl = videoUrl;
         this.isDownloaded = isDownloaded;
         this.taskStatus = taskStatus;
@@ -217,5 +224,13 @@ public class M3U8DownloadBean {
 
     public void setSelect(boolean select) {
         isSelect = select;
+    }
+
+    public String getVideoTotalName() {
+        return videoTotalName;
+    }
+
+    public void setVideoTotalName(String videoTotalName) {
+        this.videoTotalName = videoTotalName;
     }
 }

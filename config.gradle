@@ -1,6 +1,6 @@
 ext {
     adVersion = "1"
-    serverHost = ["http://www.host1.com", "http://www.host2.com", "http://www.host3.com", "http://www.host4.com", "http://www.host5.com"]
+    serverHost = ["http://test.csym.me", "http://test.csym.work "]
     test2 = [
             //包名
             applicationId: "com.video.test2",

@@ -27,16 +27,17 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property VideoId = new Property(1, String.class, "videoId", false, "VIDEO_ID");
         public final static Property VideoName = new Property(2, String.class, "videoName", false, "VIDEO_NAME");
-        public final static Property VideoUrl = new Property(3, String.class, "videoUrl", false, "VIDEO_URL");
-        public final static Property IsDownloaded = new Property(4, boolean.class, "isDownloaded", false, "IS_DOWNLOADED");
-        public final static Property TaskStatus = new Property(5, int.class, "taskStatus", false, "TASK_STATUS");
-        public final static Property TotalTime = new Property(6, long.class, "totalTime", false, "TOTAL_TIME");
-        public final static Property TotalFileSize = new Property(7, long.class, "totalFileSize", false, "TOTAL_FILE_SIZE");
-        public final static Property M3u8FilePath = new Property(8, String.class, "m3u8FilePath", false, "M3U8_FILE_PATH");
-        public final static Property DirFilePath = new Property(9, String.class, "dirFilePath", false, "DIR_FILE_PATH");
-        public final static Property CurTs = new Property(10, int.class, "curTs", false, "CUR_TS");
-        public final static Property TotalTs = new Property(11, int.class, "totalTs", false, "TOTAL_TS");
-        public final static Property Progress = new Property(12, float.class, "progress", false, "PROGRESS");
+        public final static Property VideoTotalName = new Property(3, String.class, "videoTotalName", false, "VIDEO_TOTAL_NAME");
+        public final static Property VideoUrl = new Property(4, String.class, "videoUrl", false, "VIDEO_URL");
+        public final static Property IsDownloaded = new Property(5, boolean.class, "isDownloaded", false, "IS_DOWNLOADED");
+        public final static Property TaskStatus = new Property(6, int.class, "taskStatus", false, "TASK_STATUS");
+        public final static Property TotalTime = new Property(7, long.class, "totalTime", false, "TOTAL_TIME");
+        public final static Property TotalFileSize = new Property(8, long.class, "totalFileSize", false, "TOTAL_FILE_SIZE");
+        public final static Property M3u8FilePath = new Property(9, String.class, "m3u8FilePath", false, "M3U8_FILE_PATH");
+        public final static Property DirFilePath = new Property(10, String.class, "dirFilePath", false, "DIR_FILE_PATH");
+        public final static Property CurTs = new Property(11, int.class, "curTs", false, "CUR_TS");
+        public final static Property TotalTs = new Property(12, int.class, "totalTs", false, "TOTAL_TS");
+        public final static Property Progress = new Property(13, float.class, "progress", false, "PROGRESS");
     }
 
 
@@ -55,16 +56,17 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"VIDEO_ID\" TEXT NOT NULL ," + // 1: videoId
                 "\"VIDEO_NAME\" TEXT NOT NULL ," + // 2: videoName
-                "\"VIDEO_URL\" TEXT NOT NULL ," + // 3: videoUrl
-                "\"IS_DOWNLOADED\" INTEGER NOT NULL ," + // 4: isDownloaded
-                "\"TASK_STATUS\" INTEGER NOT NULL ," + // 5: taskStatus
-                "\"TOTAL_TIME\" INTEGER NOT NULL ," + // 6: totalTime
-                "\"TOTAL_FILE_SIZE\" INTEGER NOT NULL ," + // 7: totalFileSize
-                "\"M3U8_FILE_PATH\" TEXT," + // 8: m3u8FilePath
-                "\"DIR_FILE_PATH\" TEXT," + // 9: dirFilePath
-                "\"CUR_TS\" INTEGER NOT NULL ," + // 10: curTs
-                "\"TOTAL_TS\" INTEGER NOT NULL ," + // 11: totalTs
-                "\"PROGRESS\" REAL NOT NULL );"); // 12: progress
+                "\"VIDEO_TOTAL_NAME\" TEXT NOT NULL ," + // 3: videoTotalName
+                "\"VIDEO_URL\" TEXT NOT NULL ," + // 4: videoUrl
+                "\"IS_DOWNLOADED\" INTEGER NOT NULL ," + // 5: isDownloaded
+                "\"TASK_STATUS\" INTEGER NOT NULL ," + // 6: taskStatus
+                "\"TOTAL_TIME\" INTEGER NOT NULL ," + // 7: totalTime
+                "\"TOTAL_FILE_SIZE\" INTEGER NOT NULL ," + // 8: totalFileSize
+                "\"M3U8_FILE_PATH\" TEXT," + // 9: m3u8FilePath
+                "\"DIR_FILE_PATH\" TEXT," + // 10: dirFilePath
+                "\"CUR_TS\" INTEGER NOT NULL ," + // 11: curTs
+                "\"TOTAL_TS\" INTEGER NOT NULL ," + // 12: totalTs
+                "\"PROGRESS\" REAL NOT NULL );"); // 13: progress
     }
 
     /** Drops the underlying database table. */
@@ -83,24 +85,25 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
         }
         stmt.bindString(2, entity.getVideoId());
         stmt.bindString(3, entity.getVideoName());
-        stmt.bindString(4, entity.getVideoUrl());
-        stmt.bindLong(5, entity.getIsDownloaded() ? 1L: 0L);
-        stmt.bindLong(6, entity.getTaskStatus());
-        stmt.bindLong(7, entity.getTotalTime());
-        stmt.bindLong(8, entity.getTotalFileSize());
+        stmt.bindString(4, entity.getVideoTotalName());
+        stmt.bindString(5, entity.getVideoUrl());
+        stmt.bindLong(6, entity.getIsDownloaded() ? 1L: 0L);
+        stmt.bindLong(7, entity.getTaskStatus());
+        stmt.bindLong(8, entity.getTotalTime());
+        stmt.bindLong(9, entity.getTotalFileSize());
  
         String m3u8FilePath = entity.getM3u8FilePath();
         if (m3u8FilePath != null) {
-            stmt.bindString(9, m3u8FilePath);
+            stmt.bindString(10, m3u8FilePath);
         }
  
         String dirFilePath = entity.getDirFilePath();
         if (dirFilePath != null) {
-            stmt.bindString(10, dirFilePath);
+            stmt.bindString(11, dirFilePath);
         }
-        stmt.bindLong(11, entity.getCurTs());
-        stmt.bindLong(12, entity.getTotalTs());
-        stmt.bindDouble(13, entity.getProgress());
+        stmt.bindLong(12, entity.getCurTs());
+        stmt.bindLong(13, entity.getTotalTs());
+        stmt.bindDouble(14, entity.getProgress());
     }
 
     @Override
@@ -113,24 +116,25 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
         }
         stmt.bindString(2, entity.getVideoId());
         stmt.bindString(3, entity.getVideoName());
-        stmt.bindString(4, entity.getVideoUrl());
-        stmt.bindLong(5, entity.getIsDownloaded() ? 1L: 0L);
-        stmt.bindLong(6, entity.getTaskStatus());
-        stmt.bindLong(7, entity.getTotalTime());
-        stmt.bindLong(8, entity.getTotalFileSize());
+        stmt.bindString(4, entity.getVideoTotalName());
+        stmt.bindString(5, entity.getVideoUrl());
+        stmt.bindLong(6, entity.getIsDownloaded() ? 1L: 0L);
+        stmt.bindLong(7, entity.getTaskStatus());
+        stmt.bindLong(8, entity.getTotalTime());
+        stmt.bindLong(9, entity.getTotalFileSize());
  
         String m3u8FilePath = entity.getM3u8FilePath();
         if (m3u8FilePath != null) {
-            stmt.bindString(9, m3u8FilePath);
+            stmt.bindString(10, m3u8FilePath);
         }
  
         String dirFilePath = entity.getDirFilePath();
         if (dirFilePath != null) {
-            stmt.bindString(10, dirFilePath);
+            stmt.bindString(11, dirFilePath);
         }
-        stmt.bindLong(11, entity.getCurTs());
-        stmt.bindLong(12, entity.getTotalTs());
-        stmt.bindDouble(13, entity.getProgress());
+        stmt.bindLong(12, entity.getCurTs());
+        stmt.bindLong(13, entity.getTotalTs());
+        stmt.bindDouble(14, entity.getProgress());
     }
 
     @Override
@@ -144,16 +148,17 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getString(offset + 1), // videoId
             cursor.getString(offset + 2), // videoName
-            cursor.getString(offset + 3), // videoUrl
-            cursor.getShort(offset + 4) != 0, // isDownloaded
-            cursor.getInt(offset + 5), // taskStatus
-            cursor.getLong(offset + 6), // totalTime
-            cursor.getLong(offset + 7), // totalFileSize
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // m3u8FilePath
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // dirFilePath
-            cursor.getInt(offset + 10), // curTs
-            cursor.getInt(offset + 11), // totalTs
-            cursor.getFloat(offset + 12) // progress
+            cursor.getString(offset + 3), // videoTotalName
+            cursor.getString(offset + 4), // videoUrl
+            cursor.getShort(offset + 5) != 0, // isDownloaded
+            cursor.getInt(offset + 6), // taskStatus
+            cursor.getLong(offset + 7), // totalTime
+            cursor.getLong(offset + 8), // totalFileSize
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // m3u8FilePath
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // dirFilePath
+            cursor.getInt(offset + 11), // curTs
+            cursor.getInt(offset + 12), // totalTs
+            cursor.getFloat(offset + 13) // progress
         );
         return entity;
     }
@@ -163,16 +168,17 @@ public class M3U8DownloadBeanDao extends AbstractDao<M3U8DownloadBean, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setVideoId(cursor.getString(offset + 1));
         entity.setVideoName(cursor.getString(offset + 2));
-        entity.setVideoUrl(cursor.getString(offset + 3));
-        entity.setIsDownloaded(cursor.getShort(offset + 4) != 0);
-        entity.setTaskStatus(cursor.getInt(offset + 5));
-        entity.setTotalTime(cursor.getLong(offset + 6));
-        entity.setTotalFileSize(cursor.getLong(offset + 7));
-        entity.setM3u8FilePath(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setDirFilePath(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setCurTs(cursor.getInt(offset + 10));
-        entity.setTotalTs(cursor.getInt(offset + 11));
-        entity.setProgress(cursor.getFloat(offset + 12));
+        entity.setVideoTotalName(cursor.getString(offset + 3));
+        entity.setVideoUrl(cursor.getString(offset + 4));
+        entity.setIsDownloaded(cursor.getShort(offset + 5) != 0);
+        entity.setTaskStatus(cursor.getInt(offset + 6));
+        entity.setTotalTime(cursor.getLong(offset + 7));
+        entity.setTotalFileSize(cursor.getLong(offset + 8));
+        entity.setM3u8FilePath(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setDirFilePath(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setCurTs(cursor.getInt(offset + 11));
+        entity.setTotalTs(cursor.getInt(offset + 12));
+        entity.setProgress(cursor.getFloat(offset + 13));
      }
     
     @Override

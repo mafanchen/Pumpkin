@@ -101,7 +101,7 @@ public class PlayerDownloadSelectItemAdapter extends RecyclerView.Adapter<Player
                     break;
                 default:
                     item.setDownloadStatus(AppConstant.M3U8_TASK_DOWNLOADING);
-                    mPlayerPresenter.setDownloadUrl(videoUrl, mVideoId, mVideoName + videoItemName);
+                    mPlayerPresenter.setDownloadUrl(videoUrl, mVideoId, mVideoName, videoItemName);
                     notifyDataSetChanged();
                     break;
             }

@@ -8,10 +8,14 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.video.test.R
 import com.video.test.javabean.DownloadBean
 import com.video.test.javabean.DownloadedBean
 import com.video.test.javabean.DownloadingBean
+import com.video.test.utils.FileUtils
+import com.video.test.utils.SDCardUtils
+import jaygoo.library.m3u8downloader.utils.MUtils
 
 class DownloadVideoAdapter : RecyclerView.Adapter<DownloadVideoAdapter.DownloadViewHolder>() {
 
@@ -47,12 +51,12 @@ class DownloadVideoAdapter : RecyclerView.Adapter<DownloadVideoAdapter.DownloadV
             onSelectListener?.onSelect(holder.checkboxSelect.isSelected, bean)
         }
         if (bean is DownloadingBean && holder is DownloadingViewHolder) {
-            holder.tvVideoCount.text = (if (bean.tasks == null) 0 else bean.tasks!!.size).toString()
+            holder.tvVideoCount.text = bean.tasks.size.toString()
             if (bean.isDownloading) {
                 holder.tvVideoName.visibility = View.VISIBLE
                 holder.tvVideoName.text = bean.videoName
-                holder.progressBar.progress = bean.progress
-                holder.tvSpeed.text = bean.downloadSpeed
+                holder.progressBar.progress = (bean.progress * 100).toInt()
+                holder.tvSpeed.text = MUtils.formatFileSize(bean.downloadSpeed) + "/s"
             } else {
                 holder.tvVideoName.visibility = View.GONE
                 holder.progressBar.progress = 0
@@ -60,8 +64,11 @@ class DownloadVideoAdapter : RecyclerView.Adapter<DownloadVideoAdapter.DownloadV
             }
         } else if (bean is DownloadedBean && holder is DownloadedViewHolder) {
             holder.tvVideoName.text = bean.videoName
-            holder.tvVideoCount.text = (if (bean.tasks == null) 0 else bean.tasks!!.size).toString()
-            holder.tvVideoSize.text = bean.size
+            holder.tvVideoCount.text = "${bean.tasks.size}个视频"
+            holder.tvVideoSize.text = MUtils.formatFileSize(bean.size)
+        }
+        holder.itemView.setOnClickListener {
+            ARouter.getInstance().build("/download/videoList/activity").withString("videoId", bean.videoId).navigation()
         }
     }
 

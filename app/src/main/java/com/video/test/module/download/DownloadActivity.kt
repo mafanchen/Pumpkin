@@ -80,7 +80,7 @@ class DownloadActivity : BaseActivity<DownloadPresenter>(), DownloadContract.Vie
         mRvDownload?.adapter = adapter
     }
 
-    @OnClick(R.id.tv_editBtn_toolbar, R.id.tv_selectAll, R.id.tv_delete)
+    @OnClick(R.id.ib_back_toolbar, R.id.tv_editBtn_toolbar, R.id.tv_selectAll, R.id.tv_delete)
     fun onViewClick(view: View) {
         when (view.id) {
             //点击编辑按钮
@@ -91,6 +91,7 @@ class DownloadActivity : BaseActivity<DownloadPresenter>(), DownloadContract.Vie
             }
             R.id.tv_selectAll -> mPresenter.onSelectAllClick()
             R.id.tv_delete -> mPresenter.onDeleteClick()
+            R.id.ib_back_toolbar -> finish()
         }
     }
 

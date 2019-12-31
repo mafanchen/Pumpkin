@@ -931,8 +931,6 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         mDownloadSelectItemAdapter.setData(mPresenter.queryDownloadStatus(videoListBean.getVod_urlArr(), mVodId));
         mDownloadSelectItemAdapter.setVideoInfo(mVideoId, mVideoTitle);
 
-        mPresenter.initM3U8DownloaderListener();  //初始化M3U8监听器
-
         //全部选集
 //        mSelectItemAdapter.setData(videoListBean.getVod_urlArr());
         mSelectItemPagerAdapter.setVideoList(videoListBean.getVod_urlArr());
@@ -1150,7 +1148,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     }
 
     @Override
-    public void showMobileNetworkDownloadDialog(final String downloadUrl, String videoId, String videoName) {
+    public void showMobileNetworkDownloadDialog(final String downloadUrl, String videoId, String videoName, String videoItemName) {
         new MaterialDialog.Builder(this)
                 .content(R.string.dialog_mobileNetwork)
                 .positiveText(R.string.dialog_continue_play)
@@ -1158,7 +1156,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        mPresenter.setDownloadUrl(downloadUrl, videoId, videoName);
+                        mPresenter.setDownloadUrl(downloadUrl, videoId, videoName, videoItemName);
                     }
                 }).show();
     }
@@ -1970,7 +1968,6 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     }
 
 
-
     @Override
     public void setVideoCollected(boolean isCollected) {
         if (getCurPlay() != null) {
@@ -2044,7 +2041,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         if (getCurPlay() != null) {
             getCurPlay().onVideoResume();
             //恢复时, 继续开始定时任务  需要先判断当前播放器是否在播放状态.
-            Log.d("PlayerPresenter", "PlayVideo statue : "+ getCurPlay().getCurrentState() + " isPlay : "+ getCurPlay().isInPlayingState());
+            Log.d("PlayerPresenter", "PlayVideo statue : " + getCurPlay().getCurrentState() + " isPlay : " + getCurPlay().isInPlayingState());
             if (getCurPlay().isInPlayingState()) {
                 mPresenter.watchVideoTimer(mVideoPlayer);
             }
@@ -2264,5 +2261,15 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                 mDownloadSelectItemAdapter.setData(mPresenter.queryDownloadStatus(new ArrayList<>(mDownloadSelectItemAdapter.getData()), mVodId));
             }
         }
+    }
+
+    @Override
+    public String getVideoId() {
+        return mVideoId;
+    }
+
+    @Override
+    public PlayerDownloadSelectItemAdapter getDownloadAdapter() {
+        return mDownloadSelectItemAdapter;
     }
 }

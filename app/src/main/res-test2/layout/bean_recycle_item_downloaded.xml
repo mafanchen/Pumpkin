@@ -30,6 +30,7 @@
         tools:text="我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题" />
 
     <TextView
+        android:id="@+id/tv_recycle_videoSize_download"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
