@@ -63,7 +63,8 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="12dp"
         android:layout_toStartOf="@+id/iv_share_toolbar_homepage"
-        android:src="@drawable/ic_home_history" />
+        android:src="@drawable/ic_home_history"
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/iv_share_toolbar_homepage"
@@ -72,6 +73,16 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="12dp"
-        android:src="@drawable/ic_home_share" />
+        android:src="@drawable/ic_home_share"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/iv_screen"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/selector_bg_btn_screen"
+        android:visibility="gone" />
 
 </RelativeLayout>

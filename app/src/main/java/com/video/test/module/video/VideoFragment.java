@@ -59,6 +59,13 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
     TextView mTvHistoryJump;
     @BindView(R.id.tv_searchBtn_toolbar_homepage)
     TextView mTvSearch;
+    @BindView(R.id.iv_screen)
+    ImageView mIvScreen;
+    @BindView(R.id.iv_history_toolbar_homepage)
+    ImageView mIvHistory;
+    @BindView(R.id.iv_share_toolbar_homepage)
+    ImageView mIvShare;
+    private int currentPid = 0;
     private String[] mTabTitles = {"热门", "电影", "电视剧", "综艺", "动漫"};
     private BeanViewStatePagerAdapter mBeanViewPagerAdapter;
 
@@ -99,7 +106,17 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
 
             @Override
             public void onPageSelected(int i) {
+                currentPid = ((BaseVideoTypeListFragment) fragments.get(i)).getPid();
                 mPresenter.onChangeHotSearchWord(String.valueOf(((BaseVideoTypeListFragment) mBeanViewPagerAdapter.getItem(i)).getPid()));
+                if (i == 0) {
+                    mIvScreen.setVisibility(View.GONE);
+                    mIvShare.setVisibility(View.VISIBLE);
+                    mIvHistory.setVisibility(View.VISIBLE);
+                } else {
+                    mIvScreen.setVisibility(View.VISIBLE);
+                    mIvShare.setVisibility(View.INVISIBLE);
+                    mIvHistory.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override
@@ -154,7 +171,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
     }
 
 
-    @OnClick({R.id.tv_searchBtn_toolbar_homepage, R.id.iv_history_toolbar_homepage, R.id.iv_share_toolbar_homepage, R.id.iv_search})
+    @OnClick({R.id.tv_searchBtn_toolbar_homepage, R.id.iv_history_toolbar_homepage, R.id.iv_share_toolbar_homepage, R.id.iv_search, R.id.iv_screen})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_search:
@@ -175,6 +192,12 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
                 LogUtils.d(TAG, "share btn");
                 showShareDialog();
                 break;
+            case R.id.iv_screen:
+                ARouter.getInstance().build("/screenVideo/activity")
+                        .withInt("pid", currentPid)
+//                        .withString("tag", videoTitleBean.getTag())
+//                        .withString("tagName", videoTitleBean.getType())
+                        .navigation();
             default:
                 break;
         }
