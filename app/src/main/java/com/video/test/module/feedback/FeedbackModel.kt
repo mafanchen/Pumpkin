@@ -11,7 +11,7 @@ import okhttp3.RequestBody
 class FeedbackModel : FeedbackContract.Model {
     override fun getFeedbackTypes(): Observable<List<FeedbackTypeBean>> {
         return RetrofitHelper.getInstance()
-                .getFeedbackTypes()
+                .feedbackTypes
                 .compose(RxSchedulers.handleResult())
                 .compose(RxSchedulers.io_main())
     }
@@ -23,9 +23,9 @@ class FeedbackModel : FeedbackContract.Model {
                 .compose(RxSchedulers.io_main())
     }
 
-    override fun commitFeedback(type: String, content: String, contact: String?, image: String?): Observable<String> {
+    override fun commitFeedback(type: String, content: String, contact: String?, image: String?, vodId: String?, phoneInfo: String?): Observable<String> {
         return RetrofitHelper.getInstance()
-                .commitFeedback(type, content, contact, image)
+                .commitFeedback(type, content, contact, image, vodId, phoneInfo)
                 .compose(RxSchedulers.handleResult())
                 .compose(RxSchedulers.io_main())
     }

@@ -1,5 +1,6 @@
 ext {
-    adVersion = "1"
+    adVersion = "1"    //统计广告的渠道号
+    adChannel = "1"    //用来分别广告的渠道，某些渠道可以不展示广告
     serverHost = ["http://www.aaa.me", "http://www.bbb.me", "http://www.ccc.me", "http://www.ddd.me", "http://www.eee.me"]
     testHost = ["http://test.csym.me", "http://test.csym.work"]
     uatHost = ["http://www.uat.me"]

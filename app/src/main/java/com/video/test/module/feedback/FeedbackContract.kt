@@ -24,7 +24,7 @@ interface FeedbackContract {
     interface Model : IModel {
         fun getFeedbackTypes(): Observable<List<FeedbackTypeBean>>
         fun uploadImage(tokenRequestBody: RequestBody, tokenIdRequestBody: RequestBody, imageBodyPart: MultipartBody.Part): Observable<UploadAvatarBean>
-        fun commitFeedback(type: String, content: String, contact: String?, image: String?): Observable<String>
+        fun commitFeedback(type: String, content: String, contact: String?, image: String?, vodId: String?, phoneInfo: String?): Observable<String>
     }
 
     abstract class Presenter<M : Model> : BasePresenter<M, View>() {

@@ -28,7 +28,7 @@ public class VideoListPresenter extends VideoListContract.Presenter<VideoListMod
                     mView.setPageTitle(videoListBean.getTitle());
                 }, new RxExceptionHandler<>(throwable -> {
                     mView.hideRefreshLayout(false);
-                    LogUtils.e(TAG, "getVideoList Error " + throwable.getMessage());
+                    LogUtils.e(TAG, "getTopicVideoList Error " + throwable.getMessage());
                 }));
         addDisposable(disposable);
     }
@@ -44,7 +44,7 @@ public class VideoListPresenter extends VideoListContract.Presenter<VideoListMod
                 }, new RxExceptionHandler<>(new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        LogUtils.e(TAG, "getVideoList Error " + throwable.getMessage());
+                        LogUtils.e(TAG, "getTopicVideoList Error " + throwable.getMessage());
                     }
                 }));
         addDisposable(disposable);

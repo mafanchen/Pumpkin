@@ -18,7 +18,7 @@ import io.reactivex.Observable;
 public interface BeanTopicContract {
 
     interface Model extends IModel {
-        Observable<BeanTopicListBean> getHomepageBeanTopicList(int pid);
+        Observable<BeanTopicListBean> getHomepageBeanTopicList(int pid, int order);
 
     }
 
@@ -34,7 +34,7 @@ public interface BeanTopicContract {
 
     abstract class Presenter<M extends Model> extends BasePresenter<Model, View> {
 
-        abstract void getHomepageBeanTopicList();
+        abstract void getHomepageBeanTopicList(int order);
 
         abstract void initWeChatApi();
 

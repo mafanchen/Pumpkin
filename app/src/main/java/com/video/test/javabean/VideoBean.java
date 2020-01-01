@@ -1,5 +1,7 @@
 package com.video.test.javabean;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * @author Enoch Created on 2018/7/26.
  */
@@ -27,6 +29,31 @@ public class VideoBean {
      * 3. 返回的是一个 8位数 的日期 长度 如 20191111  ,这种情况,该资源 是一个综艺类的节目, 右下方的位置,展示  更新至 xxxxxxxx 期  即可.
      */
     private String vod_continu;
+
+    // 电影资源类型
+    @SerializedName("d_total")
+    private String vodTotal;
+
+    // 资源是否已经完结  完结为 true 未完结 为false
+    @SerializedName("is_end")
+    private boolean vodIsEnd;
+
+
+    public String getVodTotal() {
+        return vodTotal;
+    }
+
+    public void setVodTotal(String vodTotal) {
+        this.vodTotal = vodTotal;
+    }
+
+    public boolean isVodIsEnd() {
+        return vodIsEnd;
+    }
+
+    public void setVodIsEnd(boolean vodIsEnd) {
+        this.vodIsEnd = vodIsEnd;
+    }
 
     public String getVod_douban_name() {
         return vod_douban_name;

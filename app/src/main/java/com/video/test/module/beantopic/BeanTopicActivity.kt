@@ -36,7 +36,7 @@ class BeanTopicActivity : BaseActivity<BeanTopicPresenter>(), BeanTopicContract.
         loadingView.setOnLoadingListener(object : LoadingView.OnLoadingListener {
             override fun onRetry() {
                 loadingView.showContent()
-                mPresenter.getHomepageBeanTopicList()
+                //  mPresenter.getHomepageBeanTopicList(1)
             }
 
             override fun onSolve() {
@@ -45,7 +45,7 @@ class BeanTopicActivity : BaseActivity<BeanTopicPresenter>(), BeanTopicContract.
         })
         layout_refresh.setEnableLoadMore(false)
         layout_refresh.setRefreshHeader(RefreshHeader(this))
-        layout_refresh.setOnRefreshListener { mPresenter.getHomepageBeanTopicList() }
+        layout_refresh.setOnRefreshListener { mPresenter.getHomepageBeanTopicList(1) }
         layout_refresh.autoRefresh()
     }
 

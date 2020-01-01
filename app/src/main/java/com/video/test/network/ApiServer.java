@@ -6,6 +6,7 @@ import com.video.test.javabean.AddCollectionBean;
 import com.video.test.javabean.BannerAndNoticeListBean;
 import com.video.test.javabean.BeanTopicListBean;
 import com.video.test.javabean.BindPhoneBean;
+import com.video.test.javabean.CollectionBean;
 import com.video.test.javabean.CollectionListBean;
 import com.video.test.javabean.ExchangeBean;
 import com.video.test.javabean.FeedbackBean;
@@ -18,6 +19,7 @@ import com.video.test.javabean.HottestVideoBean;
 import com.video.test.javabean.IndexPidBean;
 import com.video.test.javabean.LoginBean;
 import com.video.test.javabean.NoticeBean;
+import com.video.test.javabean.ProfilePictureBean;
 import com.video.test.javabean.ScreenBean;
 import com.video.test.javabean.ScreenResultBean;
 import com.video.test.javabean.SearchHotWordBean;
@@ -28,6 +30,7 @@ import com.video.test.javabean.ShareInfoBean;
 import com.video.test.javabean.SplashBean;
 import com.video.test.javabean.SwapHistoryBean;
 import com.video.test.javabean.UploadAvatarBean;
+import com.video.test.javabean.UserCenterAdBean;
 import com.video.test.javabean.UserCenterBean;
 import com.video.test.javabean.VersionInfoBean;
 import com.video.test.javabean.VideoAdDataBean;
@@ -76,17 +79,33 @@ public interface ApiServer {
     @POST("App/Index/appIndex")
     Observable<BaseResult<HomePageVideoListBean>> getSimpleHomepage();
 
+    /**
+     * @param pid   专题pid 都填2
+     * @param order 专题排序 1=> 权重排序 , 2=> 最新排序
+     * @return
+     */
     @FormUrlEncoded
     @POST("App/Index/newIndex")
-    Observable<BaseResult<BeanTopicListBean>> getHomepageBeanTopic(@Field("pid") int pid);
+    Observable<BaseResult<BeanTopicListBean>> getHomepageBeanTopic(@Field("pid") int pid, @Field("order") int order);
 
+    /**
+     * @param pid 1= 热门 2=电影 3=电视剧 4=综艺 5=动漫  不填写pid 默认为 1
+     * @return
+     */
+    @FormUrlEncoded
     @POST("App/Index/newBanner")
-    Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice();
+    Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice(@Field("pid") int pid);
+
 
     @FormUrlEncoded
     @POST("App/Index/indexList")
-    Observable<BaseResult<VideoListBean>> getVideoList(@Field("pid") int pid, @Field("tag") String tag, @Field("type") String type, @Field("page") int page, @Field("limit") int videoCount);
+    Observable<BaseResult<VideoListBean>> getTopicVideoList(@Field("app_id") int addId, @Field("pid") int pid, @Field("tag") String tag, @Field("type") String type, @Field("page") int page, @Field("limit") int videoCount);
 
+    /**
+     * @param keywords
+     * @param sort     排序 1=> 综合 ,2=> 上映时间 ,3=>播放量, 4=> 评分
+     * @return
+     */
     @FormUrlEncoded
     @POST("App/Index/findMoreVod")
     Observable<BaseResult<SearchResultBean>> getSearchResult(@Field("keywords") String keywords, @Field("order_val") String sort);
@@ -229,16 +248,16 @@ public interface ApiServer {
     /**
      * 反馈
      *
-     * @param feedType 类型
-     * @param content  内容
-     * @param image    图片地址
+     * @param feedType   类型
+     * @param content    内容
+     * @param image      图片地址
+     * @param vod_id     反馈的电影id  从播放页点击反馈时，传此值，可以为空
+     * @param phone_init 机型品牌及类型
      */
     @FormUrlEncoded
     @POST("App/FeedInfo/addInfo")
-    Observable<BaseResult<String>> commitFeedback(@Field("tag_id") String feedType,
-                                                  @Field("feed_cont") String content,
-                                                  @Field("contact_number") String contact,
-                                                  @Field("feed_pic") String image);
+    Observable<BaseResult<String>> commitFeedback(@Field("tag_id") String feedType, @Field("feed_cont") String content, @Field("contact_number") String contact,
+                                                  @Field("feed_pic") String image, @Field("vod_id") String vodId, @Field("phone_init") String phoneInfo);
 
     /**
      * 获取历史反馈
@@ -264,12 +283,12 @@ public interface ApiServer {
     Observable<BaseResult<List<HottestVideoBean>>> getHottestVideos(@Field("show_id") String showId);
 
     /**
-     * ad_type 广告类型    =1 启动 =2 轮播 =3 热门栏目 =4 电影栏目 =5 电视栏目 =6 综艺栏目 =7 动漫栏目 =8 播放页栏目 =9 片头 =10 暂停 =11 小卡片
+     * ad_type 广告类型 广告类型 1=>启动,2=>轮播,3=>热门栏目, 4=>电影栏目,5=>电视栏目,6=>综艺栏目,7=>动漫栏目,8=>播放页栏目,9=>片头,10=>暂停,11=>小卡片
      * ad_id  广告ID
      * app_id  应用ID =1 test1 =2 test2 =3 test3
      * app_type  手机类型 =1 安卓 =2 iOS
      * ad_version 广告版本号  1=> V1.3.3
-     * user_id   会员ID
+     * user_id   会员ID  TODO 接口参数为 token_id
      * 返回参数 bool
      *
      * @return
@@ -282,6 +301,110 @@ public interface ApiServer {
                                              @Field("app_type") int appType,
                                              @Field("ad_version") int adVersion,
                                              @Field("user_id") String userId);
+
+    // TODO 接口异常 未全部完成
+    @FormUrlEncoded
+    @POST("App/Index/backThinkVod")
+    Observable<BaseResult<Object>> getClewWord(@Field("words") int searchWord);
+
+
+    /**
+     * @param token
+     * @param tokenId
+     * @param version 版本号 1=>1.3.3 , 2=>1.3.4 ,3=>1.3.5
+     * @param appType 手机类型 1=>安卓, 2=>iOS
+     * @param cid     资源类型ID
+     * @param pid     栏目id 1=>热门, 3=> 电影, 4=> 电视剧 ,5=>动漫 ,6=>综艺
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("App/Index/addWatchInfo")
+    Observable<BaseResult<String>> uplodaWatchTime(@Field("app_id") int appId, @Field("token") String token, @Field("token_id") String tokenId,
+                                                   @Field("version") String version, @Field("app_type") String appType, @Field("cid") String cid, @Field("pid") String pid);
+
+
+    /**
+     * @param appId     appID
+     * @param adVersion 广告渠道号
+     * @return
+     */
+
+    @FormUrlEncoded
+    @POST("App/UserInfo/backUserAd")
+    Observable<BaseResult<UserCenterAdBean>> getUserCenterAd(@Field("app_id") int appId, @Field("ad_version") String adChannel,
+                                                             @Field("token") String token, @Field("token_id") String tokenId);
+
+    /**
+     * JAVABEAN 可以与之前的普通收藏复用
+     *
+     * @param token
+     * @param tokenId
+     * @param topicId 专题的ID
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("App/UserCollect/addZt")
+    Observable<BaseResult<AddCollectionBean>> addTopicCollection(@Field("token") String token, @Field("token_id") String tokenId,
+                                                                 @Field("app_id") int appId, @Field("zt_id") String topicId);
+
+    /**
+     * @param token
+     * @param tokenId
+     * @param topicArrayIds 专题的ID 要使用 jsonArray 样式 可传入多个 例如  {"ids":"[\"1\"]"}
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("App/UserCollect/deleteZt")
+    Observable<BaseResult<String>> delTopicCollection(@Field("token") String token, @Field("token_id") String tokenId,
+                                                      @Field("app_id") int appId, @Field("ids") String topicArrayIds);
+
+    /**
+     * TODO 一直报点击类型错误
+     * 快退 快进键统计
+     *
+     * @param clickType    点击类型 1=> 前进 ,2=> 后退
+     * @param clickVersion 上报版本 1=>1.3.3 , 2=>1.3.4 ,3=>1.3.5
+     * @param appType      手机类型 1=>android , 2=> iOS
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("App/Index/addButInfo")
+    Observable<BaseResult<String>> updateBackOrForward(@Field("click_type") String clickType, @Field("click_version") String clickVersion,
+                                                       @Field("app_type") String appType);
+
+
+    /**
+     * 获取服务器配置好的头像组
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("App/User/backUserPic")
+    Observable<BaseResult<List<ProfilePictureBean>>> getProfilePics();
+
+
+    /**
+     * @param appId appId
+     * @param picID 头像的ID
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("App/UserInfo/newUpdatePic")
+    Observable<BaseResult<String>> updateProfilePic(@Field("app_id") int appId, @Field("id") String picId, @Field("token") String token, @Field("token_id") String tokenId);
+
+
+    /**
+     * 获取用户分类别的全部收藏
+     *
+     * @param appId
+     * @param token
+     * @param tokenId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("App/UserCollect/newIndex")
+    Observable<BaseResult<CollectionBean>> getAllCollection(@Field("app_id") int appId, @Field("token") String token, @Field("token_id") String tokenId);
+
 }
 
 

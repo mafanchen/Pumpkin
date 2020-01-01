@@ -85,3 +85,7 @@ lint/tmp/
 # lint/reports/
 
 /gradle.properties
+
+# Dao
+src/main/java/com/video/test/db/DaoMaster.java
+src/main/java/com/video/test/db/DaoSession.java

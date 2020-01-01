@@ -12,7 +12,17 @@ public class SplashBean implements Serializable {
     private String jump_url;
     private String ad_name;
     private String end_time;
+    private String show_time;     // 系统可以在后排配置默认时间  默认单位为秒
     private String open_status;
+
+
+    public String getShow_time() {
+        return show_time;
+    }
+
+    public void setShow_time(String show_time) {
+        this.show_time = show_time;
+    }
 
     public String getPic_url() {
         return pic_url;

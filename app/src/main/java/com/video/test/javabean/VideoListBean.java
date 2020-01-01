@@ -15,9 +15,30 @@ public class VideoListBean {
     //专题图片
     @SerializedName("zt_pic")
     private String ztPic;
+    //专题描述
     @SerializedName("zt_detail")
     private String ztDetail;
-    //专题描述
+    @SerializedName("is_collect")
+    private boolean ztIsCollect;
+    @SerializedName("collect_id")
+    private String ztCollectId;
+
+
+    public boolean isZtIsCollect() {
+        return ztIsCollect;
+    }
+
+    public void setZtIsCollect(boolean ztIsCollect) {
+        this.ztIsCollect = ztIsCollect;
+    }
+
+    public String getZtCollectId() {
+        return ztCollectId;
+    }
+
+    public void setZtCollectId(String ztCollectId) {
+        this.ztCollectId = ztCollectId;
+    }
 
     public String getTitle() {
         return title;

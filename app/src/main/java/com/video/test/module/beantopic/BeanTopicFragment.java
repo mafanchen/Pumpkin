@@ -83,7 +83,8 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
 
         } else {
             if (mRefreshLayout != null) {
-                mRefreshLayout.autoRefresh();
+                // 不再每次展示时刷新
+                // mRefreshLayout.autoRefresh();
             }
         }
     }
@@ -110,7 +111,6 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
                 if (mLoadingView != null) {
                     mLoadingView.showContent();
                 }
-                mPresenter.getHomepageBeanTopicList();
             }
 
             @Override
@@ -127,22 +127,27 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
         mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-
+                //position １　为权重　　２为最新
+                mPresenter.getHomepageBeanTopicList(position + 1);
             }
+
             @Override
             public void onTabReselect(int position) {
 
             }
         });
+        //初始化时 默认最热TAG 并且请求最热TAG数据
         mTabLayout.setCurrentTab(0);
+        mPresenter.getHomepageBeanTopicList(1);
     }
-
 
 
     private void initRefreshLayout() {
         mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setRefreshHeader(new RefreshHeader(mContext));
-        mRefreshLayout.setOnRefreshListener(refreshLayout -> mPresenter.getHomepageBeanTopicList());
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            mPresenter.getHomepageBeanTopicList(1);
+        });
     }
 
     @Override

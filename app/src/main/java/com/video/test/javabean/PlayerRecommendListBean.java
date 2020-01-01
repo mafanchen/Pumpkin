@@ -1,5 +1,7 @@
 package com.video.test.javabean;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * @author Enoch Created on 2018/8/1.
  */
@@ -8,7 +10,39 @@ public class PlayerRecommendListBean {
     private String vod_name;
     private String vod_pic;
     private String vod_scroe;
+    // 资源更新到的集数
+    private String vod_continu;
+    // 资源的总集数
+    @SerializedName("d_total")
+    private String vodTotal;
+    // 资源是否已经完结
+    @SerializedName("is_end")
+    private boolean vodIsEnd;
 
+
+    public String getVod_continu() {
+        return vod_continu;
+    }
+
+    public void setVod_continu(String vod_continu) {
+        this.vod_continu = vod_continu;
+    }
+
+    public String getVodTotal() {
+        return vodTotal;
+    }
+
+    public void setVodTotal(String vodTotal) {
+        this.vodTotal = vodTotal;
+    }
+
+    public boolean getVodIsEnd() {
+        return vodIsEnd;
+    }
+
+    public void setVodIsEnd(boolean vodIsEnd) {
+        this.vodIsEnd = vodIsEnd;
+    }
 
     public String getVod_id() {
         return vod_id;

@@ -37,6 +37,28 @@ public class VideoRecommendBean {
     @SerializedName("vod_douban_score")
     private String vodScore;
 
+    @SerializedName("d_total")
+    private String vodTotal;
+
+    @SerializedName("is_end")
+    private String vodIsEnd;
+
+    public String getVodTotal() {
+        return vodTotal;
+    }
+
+    public void setVodTotal(String vodTotal) {
+        this.vodTotal = vodTotal;
+    }
+
+    public String getVodIsEnd() {
+        return vodIsEnd;
+    }
+
+    public void setVodIsEnd(String vodIsEnd) {
+        this.vodIsEnd = vodIsEnd;
+    }
+
     public String getMainTitle() {
         return mainTitle;
     }

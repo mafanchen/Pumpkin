@@ -1,5 +1,7 @@
 package com.video.test.javabean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -17,10 +19,20 @@ public class PlayerVideoListBean {
     private String vod_actor;
     private String vod_director;
     private String vod_pic;
+    // 该字段用来统计资源观看时长  上报资源的CID 使用
+    @SerializedName("cid")
+    private String vodCid;
     private String vod_use_content;
     private String vod_douban_name;
     private List<PlayerUrlListBean> vod_urlArr;
 
+    public String getVodCid() {
+        return vodCid;
+    }
+
+    public void setVodCid(String vodCid) {
+        this.vodCid = vodCid;
+    }
 
     public String getVod_year() {
         return vod_year;

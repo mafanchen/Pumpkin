@@ -14,9 +14,9 @@ public class TopicVideoListModel implements TopicVideoListContract.Model {
     @Override
     public Observable<VideoListBean> getVideoList(int pid, String tag, String type, int page, int limit) {
         return RetrofitHelper.getInstance()
-                .getVideoList(pid, tag, type, page, limit)
-                .compose(RxSchedulers.<VideoListBean>handleResult())
-                .compose(RxSchedulers.<VideoListBean>io_main());
+                .getTopicVideoList(pid, tag, type, page, limit)
+                .compose(RxSchedulers.handleResult())
+                .compose(RxSchedulers.io_main());
     }
 
 }

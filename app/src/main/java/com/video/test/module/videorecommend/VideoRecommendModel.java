@@ -1,5 +1,6 @@
 package com.video.test.module.videorecommend;
 
+import com.video.test.AppConstant;
 import com.video.test.javabean.BannerAndNoticeListBean;
 import com.video.test.javabean.BannerBean;
 import com.video.test.javabean.HomePageVideoListBean;
@@ -19,6 +20,8 @@ import io.reactivex.Observable;
  * @author Enoch Created on 2018/6/27.
  */
 public class VideoRecommendModel implements VideoRecommendContract.Model {
+
+    @NotNull
     @Override
     public Observable<HomePageVideoListBean> getHomepageVideoList(int pid) {
         return RetrofitHelper.getInstance()
@@ -30,7 +33,8 @@ public class VideoRecommendModel implements VideoRecommendContract.Model {
     @Override
     public Observable<BannerAndNoticeListBean> getBannerAndNotice() {
         return RetrofitHelper.getInstance()
-                .getBannerAndNotice()
+                // 热门栏目Banner 获取广告的pid 为1
+                .getBannerAndNotice(AppConstant.VIDEO_LIST_PID_HOT)
                 .compose(RxSchedulers.handleResult())
                 .compose(RxSchedulers.io_main());
 

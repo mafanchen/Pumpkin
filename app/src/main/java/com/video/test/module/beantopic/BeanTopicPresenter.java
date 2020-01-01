@@ -36,8 +36,8 @@ public class BeanTopicPresenter extends BeanTopicContract.Presenter<BeanTopicMod
 
 
     @Override
-    void getHomepageBeanTopicList() {
-        Disposable disposable = mModel.getHomepageBeanTopicList(2)
+    void getHomepageBeanTopicList(int order) {
+        Disposable disposable = mModel.getHomepageBeanTopicList(2, order)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable1 -> mView.showRefreshLayout())
                 .subscribeOn(AndroidSchedulers.mainThread())

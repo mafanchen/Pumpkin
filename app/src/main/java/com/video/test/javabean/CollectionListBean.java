@@ -1,6 +1,9 @@
 package com.video.test.javabean;
 
+import com.google.gson.annotations.SerializedName;
 import com.video.test.javabean.base.ISelectableBean;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Enoch Created on 2018/7/27.
@@ -18,7 +21,19 @@ public class CollectionListBean implements ISelectableBean {
     private String vod_id;
     private String vod_pic;
     private String vod_name;
+    // 收藏资源的类型  1 电影  2电视剧  3综艺 4动漫 5 专题
+    @SerializedName("t_id")
+    private String vodType;
     private boolean isSelected;
+
+
+    public String getVodType() {
+        return vodType;
+    }
+
+    public void setVodType(String vodType) {
+        this.vodType = vodType;
+    }
 
     @Override
     public boolean isSelected() {
@@ -62,6 +77,7 @@ public class CollectionListBean implements ISelectableBean {
         this.vod_name = vod_name;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "CollectionListBean{" +

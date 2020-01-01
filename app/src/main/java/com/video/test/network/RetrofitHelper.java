@@ -15,6 +15,7 @@ import com.video.test.javabean.AddCollectionBean;
 import com.video.test.javabean.BannerAndNoticeListBean;
 import com.video.test.javabean.BeanTopicListBean;
 import com.video.test.javabean.BindPhoneBean;
+import com.video.test.javabean.CollectionBean;
 import com.video.test.javabean.CollectionListBean;
 import com.video.test.javabean.ExchangeBean;
 import com.video.test.javabean.FeedbackBean;
@@ -27,6 +28,7 @@ import com.video.test.javabean.HottestVideoBean;
 import com.video.test.javabean.IndexPidBean;
 import com.video.test.javabean.LoginBean;
 import com.video.test.javabean.NoticeBean;
+import com.video.test.javabean.ProfilePictureBean;
 import com.video.test.javabean.ScreenBean;
 import com.video.test.javabean.ScreenResultBean;
 import com.video.test.javabean.SearchHotWordBean;
@@ -37,6 +39,7 @@ import com.video.test.javabean.ShareInfoBean;
 import com.video.test.javabean.SplashBean;
 import com.video.test.javabean.SwapHistoryBean;
 import com.video.test.javabean.UploadAvatarBean;
+import com.video.test.javabean.UserCenterAdBean;
 import com.video.test.javabean.UserCenterBean;
 import com.video.test.javabean.VersionInfoBean;
 import com.video.test.javabean.VideoAdDataBean;
@@ -278,25 +281,25 @@ public class RetrofitHelper implements IModel {
     /**
      * 获取首页专题的的数据
      */
-    public Observable<BaseResult<BeanTopicListBean>> getHomepageBeanTopic(int pid) {
-        return sRetrofitApiServer.getHomepageBeanTopic(pid);
+    public Observable<BaseResult<BeanTopicListBean>> getHomepageBeanTopic(int pid, int order) {
+        return sRetrofitApiServer.getHomepageBeanTopic(pid, order);
     }
 
 
     /**
-     * 获取广告数据
+     * 获取Banner 广告数据
      */
 
-    public Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice() {
-        return sRetrofitApiServer.getBannerAndNotice();
+    public Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice(int pid) {
+        return sRetrofitApiServer.getBannerAndNotice(pid);
     }
 
     /**
-     * 获取视频列表
+     * 获取专题播放详情页列表
      */
 
-    public Observable<BaseResult<VideoListBean>> getVideoList(int pid, String tag, String type, int page, int videoCount) {
-        return sRetrofitApiServer.getVideoList(pid, tag, type, page, videoCount);
+    public Observable<BaseResult<VideoListBean>> getTopicVideoList(int pid, String tag, String type, int page, int videoCount) {
+        return sRetrofitApiServer.getTopicVideoList(BuildConfig.APP_ID, pid, tag, type, page, videoCount);
     }
 
 
@@ -558,11 +561,9 @@ public class RetrofitHelper implements IModel {
         return sRetrofitApiServer.getFeedbackTypes();
     }
 
-    public Observable<BaseResult<String>> commitFeedback(@NotNull String feedType,
-                                                         @NotNull String content,
-                                                         @Nullable String contact,
-                                                         @Nullable String image) {
-        return sRetrofitApiServer.commitFeedback(feedType, content, contact, image);
+    public Observable<BaseResult<String>> commitFeedback(@NotNull String feedType, @NotNull String content, @Nullable String contact,
+                                                         @Nullable String image, @Nullable String vodId, @Nullable String phoneInfo) {
+        return sRetrofitApiServer.commitFeedback(feedType, content, contact, image, vodId, phoneInfo);
     }
 
     public Observable<BaseResult<List<FeedbackBean>>> getFeedbacks() {
@@ -590,6 +591,42 @@ public class RetrofitHelper implements IModel {
     public Observable<BaseResult<Object>> addAdInfo(int adType, String adId) {
         String userTokenId = SpUtils.getString(TestApp.getContext(), AppConstant.USER_TOKEN_ID, "no");
         return sRetrofitApiServer.addAdInfo(adType, adId, BuildConfig.APP_ID, 1, BuildConfig.AD_VERSION, userTokenId);
+    }
+
+    public Observable<BaseResult<Object>> getClewWord(int searchWord) {
+        return sRetrofitApiServer.getClewWord(searchWord);
+    }
+
+    public Observable<BaseResult<String>> uploadWatchTime(String token, String tokenId, String version, String cid, String pid) {
+        return sRetrofitApiServer.uplodaWatchTime(BuildConfig.APP_ID, token, tokenId, version, "1", cid, pid);
+    }
+
+    public Observable<BaseResult<AddCollectionBean>> addTopicCollection(String token, String tokenId, String topicId) {
+        return sRetrofitApiServer.addTopicCollection(token, tokenId, BuildConfig.APP_ID, topicId);
+    }
+
+    public Observable<BaseResult<String>> delTopicCollection(String token, String tokenId, String topicArrayIds) {
+        return sRetrofitApiServer.delTopicCollection(token, tokenId, BuildConfig.APP_ID, topicArrayIds);
+    }
+
+    public Observable<BaseResult<String>> updateBackOrForward(String clickType, String clickVersion) {
+        return sRetrofitApiServer.updateBackOrForward(clickType, clickVersion, "1");
+    }
+
+    public Observable<BaseResult<List<ProfilePictureBean>>> getProfilePics() {
+        return sRetrofitApiServer.getProfilePics();
+    }
+
+    public Observable<BaseResult<String>> updateProfilePic(String picId, String token, String tokenId) {
+        return sRetrofitApiServer.updateProfilePic(BuildConfig.APP_ID, picId, token, tokenId);
+    }
+
+    public Observable<BaseResult<CollectionBean>> getAllCollection(String token, String tokenId) {
+        return sRetrofitApiServer.getAllCollection(BuildConfig.APP_ID, token, tokenId);
+    }
+
+    public Observable<BaseResult<UserCenterAdBean>> getUserCenterAd(String adChannel, String token, String tokenId) {
+        return sRetrofitApiServer.getUserCenterAd(BuildConfig.APP_ID, adChannel, token, tokenId);
     }
 
 }

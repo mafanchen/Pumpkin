@@ -12,9 +12,9 @@ import io.reactivex.Observable;
 public class BeanTopicModel implements BeanTopicContract.Model {
 
     @Override
-    public Observable<BeanTopicListBean> getHomepageBeanTopicList(int pid) {
+    public Observable<BeanTopicListBean> getHomepageBeanTopicList(int pid, int order) {
         return RetrofitHelper.getInstance()
-                .getHomepageBeanTopic(pid)
+                .getHomepageBeanTopic(pid, order)
                 .compose(RxSchedulers.handleResult())
                 .compose(RxSchedulers.io_main());
     }

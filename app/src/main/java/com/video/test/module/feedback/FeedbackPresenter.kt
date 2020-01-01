@@ -80,7 +80,8 @@ class FeedbackPresenter : FeedbackContract.Presenter<FeedbackModel>() {
                 .subscribe(Consumer<UploadAvatarBean> { uploadAvatarBean ->
                     val picUrl = uploadAvatarBean.url_pic
                     mImageMap[imagePath] = picUrl
-                    commit(type!!.id, content!!, contact, picUrl)
+                    //TODO vodID 以及 phoneInfo 还未实现
+                    commit(type!!.id, content!!, contact, picUrl, "", "")
                 }, RxExceptionHandler<Throwable>(Consumer { throwable ->
                     LogUtils.e(TAG, "uploadImage Error == " + throwable.message)
                     mView.hideProgressDialog()
@@ -93,13 +94,15 @@ class FeedbackPresenter : FeedbackContract.Presenter<FeedbackModel>() {
         TextUtils.isEmpty(content) -> mView.showToast("请输入反馈详情")
         content!!.length <= 2 -> mView.showToast("请输入不少于2个字符")
         TextUtils.isEmpty(imagePath) -> {
-            commit(type!!.id, content!!, contact, null)
+            //TODO vodID and phoneInfo 未实现
+            commit(type!!.id, content!!, contact, null, "", "")
         }
         else -> {
             //这里通过一个map来存已经上传的图片路径，避免反馈接口报错后，点击提交导致同一张图片上传两次
             val netWorkPath = mImageMap[imagePath]
             if (netWorkPath != null) {
-                commit(type!!.id, content!!, contact, netWorkPath)
+                //TODO vodID and phoneInfo 未实现
+                commit(type!!.id, content!!, contact, netWorkPath, "", "")
             } else {
                 uploadImage(imagePath!!)
             }
@@ -119,8 +122,8 @@ class FeedbackPresenter : FeedbackContract.Presenter<FeedbackModel>() {
     /**
      * 调用反馈接口
      */
-    private fun commit(type: String, content: String, contact: String?, imageUrl: String?) {
-        val subscribe = mModel.commitFeedback(type, content, contact, imageUrl)
+    private fun commit(type: String, content: String, contact: String?, imageUrl: String?, vodId: String?, phoneInfo: String?) {
+        val subscribe = mModel.commitFeedback(type, content, contact, imageUrl, vodId, phoneInfo)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { mView.showProgressDialog() }
                 .subscribeOn(AndroidSchedulers.mainThread())
