@@ -8,6 +8,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -68,6 +69,8 @@ public class ScreenVideoActivity extends BaseActivity<ScreenVideoPresenter> impl
     RecyclerView mRvVideos;
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.iv_search_toolbar)
+    ImageView mIvSearch;
     //资源的种类
     @Autowired
     int pid;
@@ -112,6 +115,9 @@ public class ScreenVideoActivity extends BaseActivity<ScreenVideoPresenter> impl
         if (null != mIbBack && null != mTvTitle) {
             mTvTitle.setText(R.string.toolbar_screen);
             mIbBack.setVisibility(View.VISIBLE);
+        }
+        if (mIvSearch != null) {
+            mIvSearch.setVisibility(View.VISIBLE);
         }
     }
 
@@ -374,9 +380,18 @@ public class ScreenVideoActivity extends BaseActivity<ScreenVideoPresenter> impl
     }
 
 
-    @OnClick(R.id.ib_back_toolbar)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.ib_back_toolbar, R.id.iv_search_toolbar})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ib_back_toolbar:
+                finish();
+                break;
+            case R.id.iv_search_toolbar:
+                ARouter.getInstance().build("/search/activity").navigation();
+                break;
+            default:
+                break;
+        }
     }
 
 

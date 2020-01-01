@@ -5,6 +5,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.OnClick
@@ -37,7 +38,8 @@ class RecommendVideoActivity : BaseActivity<RecommendVideoPresenter>(), Recommen
     lateinit var mSwipeRefresh: SmartRefreshLayout
     @BindView(R.id.loadingView)
     lateinit var mLoadingView: LoadingView
-
+    @BindView(R.id.iv_search_toolbar)
+    lateinit var mIvSearch: ImageView
     private var mAdapter: MultiTypeAdapter? = null
 
     @JvmField
@@ -56,6 +58,7 @@ class RecommendVideoActivity : BaseActivity<RecommendVideoPresenter>(), Recommen
     override fun initToolBar() {
         mTvTitle.text = mTitle
         mIbBack.visibility = View.VISIBLE
+        mIvSearch.visibility = View.VISIBLE
     }
 
     override fun beforeSetContentView() {
@@ -112,10 +115,11 @@ class RecommendVideoActivity : BaseActivity<RecommendVideoPresenter>(), Recommen
         mAdapter?.notifyDataSetChanged()
     }
 
-    @OnClick(R.id.ib_back_toolbar)
+    @OnClick(R.id.ib_back_toolbar, R.id.iv_search_toolbar)
     fun onViewClick(view: View) {
         when (view.id) {
             R.id.ib_back_toolbar -> finish()
+            R.id.iv_search_toolbar -> ARouter.getInstance().build("/search/activity").navigation()
         }
     }
 

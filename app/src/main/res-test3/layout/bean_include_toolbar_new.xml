@@ -20,7 +20,6 @@
 		android:textSize="@dimen/text_size_18sp"
 		tools:text="标题" />
 
-
 	<ImageButton
 		android:id="@+id/ib_back_toolbar"
 		android:layout_width="16dp"
@@ -37,6 +36,14 @@
 		android:gravity="center_vertical"
 		android:text="@string/activity_history_edit"
 		android:textColor="@color/history_font_btn_edit"
+		android:visibility="gone" />
+
+	<ImageView
+		android:id="@+id/iv_search_toolbar"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:src="@drawable/ic_search_nav"
+		android:layout_gravity="end|center_vertical"
 		android:visibility="gone" />
 
 </FrameLayout>
