@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -1371,6 +1372,11 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             }
             //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusBar
             mVideoPlayer.startWindowFullscreen(PlayerActivity.this, true, true);
+            //隐藏软键盘
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (null != imm) {
+                imm.hideSoftInputFromWindow(mEtComment.getWindowToken(), 0);
+            }
         });
         mVideoPlayer.getStartButton().setOnClickListener(v -> {
             if (getCurPlay() == null) {
