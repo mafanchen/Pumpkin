@@ -43,10 +43,10 @@
         android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="310dp"
-        android:background="@drawable/shape_bg_loading_btn_retry"
+        android:background="@drawable/selector_bg_loading_btn_retry"
         android:gravity="center"
         android:text="点击重试"
-        android:textColor="#ffad43"
+        android:textColor="@color/color_selector_text_loading_retry"
         android:textSize="@dimen/text_size_13sp" />
 
 
