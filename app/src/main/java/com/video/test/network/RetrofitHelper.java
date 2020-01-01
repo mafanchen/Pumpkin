@@ -11,6 +11,7 @@ import com.video.test.R;
 import com.video.test.TestApp;
 import com.video.test.framework.IModel;
 import com.video.test.javabean.ActivityGiftBean;
+import com.video.test.javabean.AdBean;
 import com.video.test.javabean.AddCollectionBean;
 import com.video.test.javabean.BannerAndNoticeListBean;
 import com.video.test.javabean.BeanTopicListBean;
@@ -590,6 +591,10 @@ public class RetrofitHelper implements IModel {
     public Observable<BaseResult<Object>> addAdInfo(int adType, String adId) {
         String userTokenId = SpUtils.getString(TestApp.getContext(), AppConstant.USER_TOKEN_ID, "no");
         return sRetrofitApiServer.addAdInfo(adType, adId, BuildConfig.APP_ID, 1, BuildConfig.AD_VERSION, userTokenId);
+    }
+
+    public Observable<BaseResult<AdBean>> getUserCenterAdInfo() {
+        return sRetrofitApiServer.getUserCenterAdInfo(BuildConfig.APP_ID, BuildConfig.AD_VERSION);
     }
 
 }

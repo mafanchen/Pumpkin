@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.constraint.Group;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.video.test.AppConstant;
 import com.video.test.BuildConfig;
 import com.video.test.R;
 import com.video.test.TestApp;
+import com.video.test.javabean.AdInfoBean;
 import com.video.test.javabean.ButtonBean;
 import com.video.test.javabean.LoginBean;
 import com.video.test.javabean.UploadAvatarBean;
@@ -37,6 +39,7 @@ import com.video.test.utils.WeChatUtil;
 
 import java.io.File;
 
+import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.drakeet.multitype.MultiTypeAdapter;
@@ -286,12 +289,12 @@ public class UserCenterPresenter extends UserCenterContract.Presenter<UserCenter
         }
     }
 
-    @Override
-    RecyclerView.Adapter createAdapter() {
-        MultiTypeAdapter adapter = new MultiTypeAdapter();
-        adapter.register(ButtonBean.class, new UserCenterVipPermissionViewBinder());
-        adapter.setItems(mModel.getPermissionList());
-        return adapter;
+    void getAdInfo() {
+        Disposable subscribe = mModel.getUserCenterAdInfo()
+                .subscribe(
+                        adBean -> mView.setAdInfo(adBean),
+                        new RxExceptionHandler<>(throwable -> Log.e(TAG, "get ad error," + throwable.getMessage()))
+                );
+        addDisposable(subscribe);
     }
-
 }

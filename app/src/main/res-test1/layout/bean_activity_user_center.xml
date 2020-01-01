@@ -86,72 +86,19 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_nickname_userCenter"
             tools:text="2018-08-18" />
 
-        <View
-            style="@style/divider_userCenter"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_background_userCenter" />
-
         <ImageView
-            android:id="@+id/iv_background_vip"
+            android:id="@+id/iv_ad"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/userCenter_height_layout_vip"
-            android:layout_marginTop="@dimen/userCenter_height_divider"
-            android:background="@color/colorWhite"
+            android:layout_height="75dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_background_userCenter" />
-
-        <TextView
-            android:id="@+id/tv_title_vip_permission"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/userCenter_paddingLeft_vip_layout"
-            android:layout_marginTop="@dimen/userCenter_paddingTop_vip_layout"
-            android:drawablePadding="9dp"
-            android:gravity="center_vertical"
-            android:text="@string/activity_userCenter_vip_permission"
-            android:textColor="@color/text_primary"
-            android:textSize="@dimen/text_size_19sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_background_vip"
-
-            />
-
-        <TextView
-            android:id="@+id/tv_btn_share_participate_immediately"
-            style="@style/btn_userCenter_vip"
-            android:layout_marginTop="@dimen/userCenter_paddingTop_vip_layout"
-            android:layout_marginEnd="@dimen/userCenter_paddingRight_vip_layout"
-            android:background="@drawable/shape_bg_button_participate_immediately"
-            android:text="@string/share_participate_immediately"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toEndOf="@+id/iv_background_vip"
-            app:layout_constraintTop_toTopOf="@+id/iv_background_vip" />
-
-        <TextView
-            android:id="@+id/tv_btn_share_learn_more"
-            style="@style/btn_userCenter_vip"
-            android:layout_marginEnd="@dimen/userCenter_paddingRight_vip_layout"
-            android:background="@drawable/shape_bg_button_learn_more"
-            android:text="@string/activity_userCenter_vip_learn_more"
-            android:textColor="@color/userCenter_bg_btn_share"
-            app:layout_constraintEnd_toStartOf="@+id/tv_btn_share_participate_immediately"
-            app:layout_constraintTop_toTopOf="@+id/tv_btn_share_participate_immediately"
-            android:visibility="gone"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_vip_permission"
-            android:layout_width="match_parent"
-            android:layout_height="67dp"
-            android:layout_marginStart="@dimen/userCenter_paddingLeft_vip_layout"
-            android:layout_marginTop="21dp"
-            android:layout_marginEnd="@dimen/userCenter_paddingRight_vip_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title_vip_permission" />
 
         <View
             style="@style/divider_userCenter"
+            android:layout_height="1dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_ad" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -159,7 +106,7 @@
             android:layout_height="120dp"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip">
+            app:layout_constraintTop_toBottomOf="@+id/iv_ad">
 
             <TextView
                 android:id="@+id/tv_collection_userCenter"
@@ -170,7 +117,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorDivider"/>
+                android:background="@color/colorDivider" />
 
             <TextView
                 android:id="@+id/tv_history_userCenter"
@@ -181,7 +128,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorDivider"/>
+                android:background="@color/colorDivider" />
 
             <TextView
                 android:id="@+id/tv_download_userCenter"
@@ -194,9 +141,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip"
             android:layout_marginTop="120dp"
-            android:background="@color/colorDivider"/>
+            android:background="@color/colorDivider"
+            app:layout_constraintTop_toBottomOf="@+id/iv_ad" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -204,7 +151,7 @@
             android:layout_marginTop="120dp"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip">
+            app:layout_constraintTop_toBottomOf="@+id/iv_ad">
 
             <TextView
                 android:id="@+id/tv_bindPhone_userCenter"
@@ -215,7 +162,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorDivider"/>
+                android:background="@color/colorDivider" />
 
             <TextView
                 android:id="@+id/tv_update_userCenter"
@@ -226,7 +173,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorDivider"/>
+                android:background="@color/colorDivider" />
 
             <TextView
                 android:id="@+id/tv_feedback_userCenter"
@@ -239,9 +186,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip"
             android:layout_marginTop="241dp"
-            android:background="@color/colorDivider"/>
+            android:background="@color/colorDivider"
+            app:layout_constraintTop_toBottomOf="@+id/iv_ad" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -249,7 +196,7 @@
             android:layout_marginTop="242dp"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip">
+            app:layout_constraintTop_toBottomOf="@+id/iv_ad">
 
             <TextView
                 android:id="@+id/tv_setting_userCenter"
@@ -260,7 +207,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorDivider"/>
+                android:background="@color/colorDivider" />
 
             <TextView
                 style="@style/rectangle_btn_userCenter"
@@ -271,7 +218,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorDivider"/>
+                android:background="@color/colorDivider" />
 
             <TextView
                 style="@style/rectangle_btn_userCenter"
@@ -285,7 +232,7 @@
             style="@style/divider_userCenter"
             android:layout_marginTop="360dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_ad" />
 
         <TextView
             android:id="@+id/tv_about_userCenter"
@@ -297,7 +244,7 @@
             android:text="@string/activity_userCenter_about"
             android:textColor="#333333"
             android:textSize="@dimen/text_size_15sp"
-            app:layout_constraintTop_toBottomOf="@+id/iv_background_vip" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_ad" />
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/loadingImage_userCenter"

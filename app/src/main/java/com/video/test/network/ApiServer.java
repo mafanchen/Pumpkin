@@ -2,6 +2,7 @@ package com.video.test.network;
 
 import com.video.test.ApiUrl;
 import com.video.test.javabean.ActivityGiftBean;
+import com.video.test.javabean.AdBean;
 import com.video.test.javabean.AddCollectionBean;
 import com.video.test.javabean.BannerAndNoticeListBean;
 import com.video.test.javabean.BeanTopicListBean;
@@ -282,6 +283,10 @@ public interface ApiServer {
                                              @Field("app_type") int appType,
                                              @Field("ad_version") int adVersion,
                                              @Field("user_id") String userId);
+
+    @FormUrlEncoded
+    @POST("App/UserInfo/backUserAd")
+    Observable<BaseResult<AdBean>> getUserCenterAdInfo(@Field("app_id") int appId, @Field("ad_version") int adVersion);
 }
 
 

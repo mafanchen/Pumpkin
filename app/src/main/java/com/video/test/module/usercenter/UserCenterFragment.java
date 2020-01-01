@@ -22,6 +22,8 @@ import com.video.test.BuildConfig;
 import com.video.test.TestApp;
 import com.video.test.R;
 import com.video.test.framework.GlideApp;
+import com.video.test.javabean.AdBean;
+import com.video.test.javabean.AdInfoBean;
 import com.video.test.javabean.BindPhoneBean;
 import com.video.test.javabean.ShareJoinEventBean;
 import com.video.test.javabean.UploadAvatarBean;
@@ -31,6 +33,8 @@ import com.video.test.sp.SpUtils;
 import com.video.test.ui.base.BaseFragment;
 import com.video.test.ui.widget.ShareDialogFragment;
 import com.video.test.ui.widget.UpdateDialogFragment;
+import com.video.test.utils.DownloadUtil;
+import com.video.test.utils.IntentUtils;
 import com.video.test.utils.LogUtils;
 import com.video.test.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -67,10 +71,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     TextView mTvBindPhone;
     @BindView(R.id.iv_notice_userCenter)
     ImageView mIvNotice;
+    @BindView(R.id.iv_ad)
+    ImageView mIvAd;
     @BindView(R.id.loadingImage_userCenter)
     AVLoadingIndicatorView mLoadImage;
-    @BindView(R.id.rv_vip_permission)
-    RecyclerView mRvVipPermission;
     private MaterialDialog mProgressDialog;
     private String mCountryCode;
     private String mPhone;
@@ -107,17 +111,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    protected void initView() {
-        if (mRvVipPermission.getLayoutManager() == null) {
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-            mRvVipPermission.setLayoutManager(layoutManager);
-        }
-        if (mRvVipPermission.getAdapter() == null) {
-            mRvVipPermission.setAdapter(mPresenter.createAdapter());
-        }
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void bindPhoneSuccess(BindPhoneBean bindPhoneBean) {
         LogUtils.d(TAG, "bindPhoneSuccess");
@@ -132,6 +125,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
         } else {
             mPresenter.getUserInfo();
+            mPresenter.getAdInfo();
         }
     }
 
@@ -232,6 +226,20 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         UpdateDialogFragment.newInstance(bundle).show(getChildFragmentManager(), "updateDialog");
     }
 
+    @Override
+    public void setAdInfo(AdBean adBean) {
+        if (adBean.isAd()) {
+            mIvAd.setVisibility(View.VISIBLE);
+            GlideApp.with(this)
+                    .load(adBean.getAdInfo().getAdPic())
+                    .centerCrop()
+                    .into(mIvAd);
+            mIvAd.setTag(mIvAd.getId(), adBean.getAdInfo());
+        } else {
+            mIvAd.setVisibility(View.GONE);
+        }
+    }
+
 
     private void jump2Activity(String activityPath) {
         ARouter.getInstance().build(activityPath).navigation();
@@ -280,7 +288,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         mTvNickname.setCompoundDrawablesWithIntrinsicBounds(0, 0, icCrownId, 0);
     }
 
-    @OnClick({R.id.tv_setting_userCenter, R.id.civ_avatar_userCenter, R.id.tv_btn_share_learn_more, R.id.tv_btn_share_participate_immediately,
+    @OnClick({R.id.tv_setting_userCenter, R.id.civ_avatar_userCenter, R.id.iv_ad,
             R.id.tv_bindPhone_userCenter, R.id.tv_collection_userCenter, R.id.tv_history_userCenter, R.id.tv_download_userCenter,
             R.id.tv_feedback_userCenter, R.id.tv_about_userCenter, R.id.tv_nickname_userCenter, R.id.iv_notice_userCenter,
             R.id.tv_update_userCenter})
@@ -297,12 +305,6 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                             case R.id.civ_avatar_userCenter:
                                 // TODO: 2019/7/29 暂时屏蔽头像上传
 //                                openGallery();
-                                break;
-                            case R.id.tv_btn_share_learn_more:
-                                jump2Activity("/share/detail/activity");
-                                break;
-                            case R.id.tv_btn_share_participate_immediately:
-                                EventBus.getDefault().post(new ShareJoinEventBean());
                                 break;
                             case R.id.tv_bindPhone_userCenter:
                                 ARouter.getInstance().build("/setPhone/activity").withString("code", mCountryCode).withString("phone", mPhone).navigation();
@@ -326,10 +328,12 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                                 break;
                             case R.id.tv_feedback_userCenter:
                                 jump2Activity("/feedback/activity");
-//                                mPresenter.startFeedbackActivity(mLoadImage);
                                 break;
                             case R.id.tv_update_userCenter:
                                 mPresenter.getVersionInfo();
+                                break;
+                            case R.id.iv_ad:
+                                onAdClick();
                                 break;
                             default:
                                 break;
@@ -338,6 +342,33 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             mPresenter.addDisposable(disposable);
         }
         viewObservableEmitter.onNext(view);
+    }
+
+    private void onAdClick() {
+        Object tag = mIvAd.getTag(mIvAd.getId());
+        if (tag instanceof AdInfoBean) {
+            AdInfoBean adInfoBean = (AdInfoBean) tag;
+            switch (adInfoBean.getType()) {
+                case AdInfoBean.Type.WEB:
+                    LogUtils.d(TAG, "AD_TYPE_WEB");
+                    if (adInfoBean.getAdUrl() != null) {
+                        startActivity(IntentUtils.getBrowserIntent(adInfoBean.getAdUrl()));
+                    }
+                    break;
+                case AdInfoBean.Type.DOWNLOAD:
+                    LogUtils.d(TAG, "AD_TYPE_DOWNLOAD");
+                    String downloadUrl = adInfoBean.getAndroidUrl();
+                    Context context = getContext();
+                    if (downloadUrl != null) {
+                        DownloadUtil.startDownloadOrOpenDownloadedFile(context, downloadUrl);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            // TODO: 2020/1/1 这里是否需要统计
+//            mPresenter.addAdInfo(AppConstant.AD_TYPE_PLAYER, adInfoBean.getId());
+        }
     }
 
 

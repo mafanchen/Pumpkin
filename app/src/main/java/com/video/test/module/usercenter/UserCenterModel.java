@@ -1,7 +1,6 @@
 package com.video.test.module.usercenter;
 
-import com.video.test.R;
-import com.video.test.javabean.ButtonBean;
+import com.video.test.javabean.AdBean;
 import com.video.test.javabean.LoginBean;
 import com.video.test.javabean.UploadAvatarBean;
 import com.video.test.javabean.UserCenterBean;
@@ -9,11 +8,7 @@ import com.video.test.javabean.VersionInfoBean;
 import com.video.test.network.RetrofitHelper;
 import com.video.test.utils.RxSchedulers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
@@ -61,19 +56,14 @@ public class UserCenterModel implements UserCenterContract.Model {
         return RetrofitHelper.getInstance()
                 .getVersionInfo()
                 .compose(RxSchedulers.handleResult())
-                .map(new Function<VersionInfoBean, VersionInfoBean.InfoBean>() {
-                    @Override
-                    public VersionInfoBean.InfoBean apply(VersionInfoBean versionInfoBean) {
-                        return versionInfoBean.getAndroid();
-                    }
-                }).compose(RxSchedulers.io_main());
+                .map(VersionInfoBean::getAndroid).compose(RxSchedulers.io_main());
     }
 
     @Override
-    public List<ButtonBean> getPermissionList() {
-        List<ButtonBean> list = new ArrayList<>();
-        list.add(new ButtonBean("投屏功能", R.drawable.ic_vip_screen));
-        list.add(new ButtonBean("无限下载", R.drawable.ic_vip_download));
-        return list;
+    public Observable<AdBean> getUserCenterAdInfo() {
+        return RetrofitHelper.getInstance()
+                .getUserCenterAdInfo()
+                .compose(RxSchedulers.handleResult())
+                .compose(RxSchedulers.io_main());
     }
 }
