@@ -15,26 +15,17 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.request.target.CustomViewTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.umeng.analytics.MobclickAgent;
 import com.video.test.AppConstant;
 import com.video.test.R;
-import com.video.test.TestApp;
 import com.video.test.framework.GlideApp;
-import com.video.test.javabean.BannerBean;
 import com.video.test.javabean.HomePageNoticeBean;
 import com.video.test.javabean.NotificationBean;
-import com.video.test.javabean.base.IPageJumpBean;
 import com.video.test.module.videotype.BaseVideoTypeListFragment;
-import com.video.test.ui.widget.Banner;
-import com.video.test.ui.widget.GlideImageLoader;
 import com.video.test.ui.widget.TextSwitcher;
-import com.video.test.utils.IntentUtils;
 import com.video.test.utils.LogUtils;
 import com.video.test.utils.PixelUtils;
-import com.youth.banner.BannerConfig;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,8 +43,6 @@ import butterknife.OnClick;
 @Route(path = "/videoRecommend/fragment")
 public class VideoRecommendFragment extends BaseVideoTypeListFragment<VideoRecommendPresenter> implements VideoRecommendContract.View {
     private static final String TAG = "VideoRecommendFragment";
-    @BindView(R.id.banner_recommend_fragment)
-    Banner mBanner;
     @BindView(R.id.text_switcher_notice)
     TextSwitcher mSwitcherNotice;
     private ViewSwitcher.ViewFactory textFactory;
@@ -75,6 +64,7 @@ public class VideoRecommendFragment extends BaseVideoTypeListFragment<VideoRecom
     @Override
     protected void initViewBeforeLoadData() {
         if (getView() != null) {
+            mBanner = getView().findViewById(R.id.banner_recommend_fragment);
             mSwipeRefresh = getView().findViewById(R.id.refresh_recommend_fragment);
             mRvVideoList = getView().findViewById(R.id.rv_recommend_fragment);
             mLoadingView = getView().findViewById(R.id.loadingView);
@@ -84,24 +74,6 @@ public class VideoRecommendFragment extends BaseVideoTypeListFragment<VideoRecom
     @Override
     protected int getContentViewId() {
         return R.layout.bean_fragment_recommend;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        /*广告栏开始自动轮播*/
-        if (null != mBanner) {
-            mBanner.startAutoPlay();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        /*广告栏停止自动轮播*/
-        if (null != mBanner) {
-            mBanner.stopAutoPlay();
-        }
     }
 
     @Override
@@ -168,83 +140,6 @@ public class VideoRecommendFragment extends BaseVideoTypeListFragment<VideoRecom
         }
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void initBanner(List<String> bannerList, List<String> bannerContent, final List<BannerBean> bannerBeanList) {
-        if (null != mBanner) {
-            mBanner.setTag(bannerBeanList);
-            LogUtils.d(TAG, "initBanner banner == " + bannerList.toString());
-            mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
-            mBanner.setImageLoader(new GlideImageLoader());
-            mBanner.setImages(bannerList);
-            mBanner.setBannerTitles(bannerContent);
-            mBanner.setIndicatorGravity(BannerConfig.RIGHT);
-            mBanner.setDelayTime(2500);
-            mBanner.setOnBannerListener(position -> {
-                LogUtils.d(TAG, "OnBannerClick position == " + position);
-                //Banner 埋点
-                List<BannerBean> list = (List<BannerBean>) mBanner.getTag();
-                if (list != null) {
-                    BannerBean bannerBean = list.get(position);
-                    MobclickAgent.onEvent(TestApp.getContext(), "click_big_banner", bannerBean.getTargetName());
-                    getBannerType(bannerBean);
-                }
-            });
-            mBanner.start();
-        } else {
-            LogUtils.d(TAG, "initBanner  banner = null");
-        }
-    }
-
-    /**
-     * 获取当前Banner和通知的类型 根据类型的不同执行不同的方法
-     */
-    private void getBannerType(IPageJumpBean jumpBean) {
-
-        switch (jumpBean.getType()) {
-            case AppConstant.BANNER_TYPE_VIDEO:
-                LogUtils.d(TAG, "BANNER_TYPE_VIDEO");
-                ARouter.getInstance().build("/player/activity").withString("vodId", jumpBean.getVodId()).navigation();
-                break;
-            case AppConstant.BANNER_TYPE_ROUTER:
-                LogUtils.d(TAG, "BANNER_TYPE_ROUTER");
-                String path = jumpBean.getAndroidRouter();
-                if (TextUtils.isEmpty(path)) {
-                    break;
-                }
-                ARouter.getInstance().build(path).navigation();
-                break;
-            case AppConstant.BANNER_TYPE_WEBURL:
-                LogUtils.d(TAG, "BANNER_TYPE_WEBURL = " + jumpBean.getWebUrl());
-                startActivity(IntentUtils.getBrowserIntent(jumpBean.getWebUrl()));
-                MobclickAgent.onEvent(TestApp.getContext(), "click_ads_banner", jumpBean.getTargetName());
-                break;
-            case AppConstant.BANNER_TYPE_TOPIC:
-                LogUtils.d(TAG, "BANNER_TYPE_Topic");
-                int pid = jumpBean.getTopicRouter().getZt_pid();
-                String tag = jumpBean.getTopicRouter().getZt_tag();
-                String type = jumpBean.getTopicRouter().getZt_type();
-
-                ARouter.getInstance().build("/topicVideoList/activity")
-                        .withInt("pid", pid)
-                        .withString("tag", tag)
-                        .withString("type", type)
-                        .navigation();
-                break;
-            case AppConstant.BANNER_TYPE_AD:
-                if (jumpBean instanceof BannerBean) {
-                    String adId = ((BannerBean) jumpBean).getId();
-                    mPresenter.addAdInfo(AppConstant.AD_TYPE_BANNER, adId);
-                }
-                LogUtils.d(TAG, "BANNER_TYPE_WEBURL = " + jumpBean.getWebUrl());
-                startActivity(IntentUtils.getBrowserIntent(jumpBean.getWebUrl()));
-                MobclickAgent.onEvent(TestApp.getContext(), "click_ads_banner", jumpBean.getTargetName());
-                break;
-            default:
-                break;
-        }
-    }
-
     @OnClick(R.id.text_switcher_notice)
     void onViewClick() {
         LogUtils.d(TAG, "OnNoticeClick");
@@ -255,12 +150,6 @@ public class VideoRecommendFragment extends BaseVideoTypeListFragment<VideoRecom
         if (bean != null) {
             getBannerType(bean);
         }
-    }
-
-    @Override
-    protected void onRefresh() {
-        mPresenter.getHomePageVideoList(getPid());
-        mPresenter.getBannerAndNotice();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

@@ -286,10 +286,11 @@ public class RetrofitHelper implements IModel {
 
     /**
      * 获取广告数据
+     *
+     * @param pid
      */
-
-    public Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice() {
-        return sRetrofitApiServer.getBannerAndNotice();
+    public Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice(int pid) {
+        return sRetrofitApiServer.getBannerAndNotice(pid, BuildConfig.APP_ID, BuildConfig.AD_VERSION);
     }
 
     /**

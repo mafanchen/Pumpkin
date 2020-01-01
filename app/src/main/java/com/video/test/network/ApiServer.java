@@ -81,8 +81,9 @@ public interface ApiServer {
     @POST("App/Index/newIndex")
     Observable<BaseResult<BeanTopicListBean>> getHomepageBeanTopic(@Field("pid") int pid);
 
+    @FormUrlEncoded
     @POST("App/Index/newBanner")
-    Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice();
+    Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice(@Field("pid") int pid, @Field("app_id") int appId, @Field("ad_version") int adVersion);
 
     @FormUrlEncoded
     @POST("App/Index/indexList")
