@@ -11,6 +11,7 @@ import com.video.test.R;
 import com.video.test.TestApp;
 import com.video.test.framework.IModel;
 import com.video.test.javabean.ActivityGiftBean;
+import com.video.test.javabean.AdBean;
 import com.video.test.javabean.AddCollectionBean;
 import com.video.test.javabean.BannerAndNoticeListBean;
 import com.video.test.javabean.BeanTopicListBean;
@@ -287,11 +288,12 @@ public class RetrofitHelper implements IModel {
 
 
     /**
-     * 获取Banner 广告数据
+     * 获取Baneer 广告数据
+     *
+     * @param pid
      */
-
     public Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice(int pid) {
-        return sRetrofitApiServer.getBannerAndNotice(pid);
+        return sRetrofitApiServer.getBannerAndNotice(pid, BuildConfig.APP_ID, BuildConfig.AD_VERSION);
     }
 
     /**
@@ -627,6 +629,10 @@ public class RetrofitHelper implements IModel {
 
     public Observable<BaseResult<UserCenterAdBean>> getUserCenterAd(String adChannel, String token, String tokenId) {
         return sRetrofitApiServer.getUserCenterAd(BuildConfig.APP_ID, adChannel, token, tokenId);
+    }
+
+    public Observable<BaseResult<AdBean>> getUserCenterAdInfo() {
+        return sRetrofitApiServer.getUserCenterAdInfo(BuildConfig.APP_ID, BuildConfig.AD_VERSION);
     }
 
 }

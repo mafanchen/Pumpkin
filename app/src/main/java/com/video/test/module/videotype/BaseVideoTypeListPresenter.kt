@@ -1,12 +1,10 @@
 package com.video.test.module.videotype
 
-import com.video.test.javabean.FooterViewBean
-import com.video.test.javabean.HomePageVideoListBean
-import com.video.test.javabean.HomepageVideoBean
-import com.video.test.javabean.VideoTitleBean
+import com.video.test.javabean.*
 import com.video.test.network.RxExceptionHandler
 import com.video.test.utils.LogUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import me.drakeet.multitype.Items
@@ -105,6 +103,36 @@ abstract class BaseVideoTypeListPresenter<M : VideoTypeListContract.Model, V : V
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(Consumer { }, RxExceptionHandler<Throwable>(Consumer { e -> LogUtils.e(TAG, e.message) }))
         addDisposable(subscribe)
+    }
+
+    /**
+     * 获取banner和通知
+     */
+    override fun getBannerAndNotice(pid: Int) {
+        val disposable: Disposable = mModel.getBannerAndNotice(pid)
+                .subscribe(Consumer<BannerAndNoticeListBean> { data: BannerAndNoticeListBean -> this.setBannerAndNotice(data) },
+                        RxExceptionHandler<Throwable>(Consumer { throwable: Throwable -> LogUtils.e(TAG, "getBannerAndNotice Error == " + throwable.message) }))
+        addDisposable(disposable)
+    }
+
+    /**
+     * 根据获取到的数据，加载页面的banner和通知
+     *
+     * @param data 获取到的banner和通知数据
+     */
+    protected open fun setBannerAndNotice(data: BannerAndNoticeListBean) { //banner
+        val bannerList = data.bannerList
+        if (bannerList != null) {
+            val count = bannerList.size
+            val picUrls: MutableList<String> = java.util.ArrayList(count)
+            val bannerContent: MutableList<String> = java.util.ArrayList(count)
+            for (bannerBean in bannerList) {
+                picUrls.add(bannerBean.slidePic)
+                bannerContent.add(bannerBean.banner_content)
+                LogUtils.i(TAG, "picUrls == " + bannerBean.slidePic + " vodId == " + bannerBean.vodId + " bannerContent : " + bannerBean.banner_content)
+            }
+            mView.initBanner(picUrls, bannerContent, bannerList)
+        }
     }
 }
 

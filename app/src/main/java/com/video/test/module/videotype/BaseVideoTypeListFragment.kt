@@ -4,10 +4,15 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.umeng.analytics.MobclickAgent
+import com.video.test.AppConstant
+import com.video.test.TestApp
 import com.video.test.javabean.*
+import com.video.test.javabean.base.IPageJumpBean
 import com.video.test.javabean.event.HotSearchWordRetryEvent
 import com.video.test.module.videorecommend.VideoRecommendHorizontalViewBinder
 import com.video.test.module.videorecommend.VideoRecommendViewBinder
@@ -15,11 +20,11 @@ import com.video.test.ui.base.BaseLazyFragment
 import com.video.test.ui.viewbinder.FooterViewBinder
 import com.video.test.ui.viewbinder.VideoAdItemViewBinder
 import com.video.test.ui.viewbinder.VideoTitleItemViewBinder
-import com.video.test.ui.widget.DividerItemDecoration
-import com.video.test.ui.widget.GlideOnScrollListener
-import com.video.test.ui.widget.LoadingView
-import com.video.test.ui.widget.RefreshHeader
+import com.video.test.ui.widget.*
+import com.video.test.utils.IntentUtils
+import com.video.test.utils.LogUtils
 import com.video.test.utils.PixelUtils
+import com.youth.banner.BannerConfig
 import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
 import org.greenrobot.eventbus.EventBus
@@ -45,6 +50,8 @@ abstract class BaseVideoTypeListFragment<P : BaseVideoTypeListPresenter<*, *>> :
     protected var mRvVideoList: RecyclerView? = null
     @JvmField
     protected var mLoadingView: LoadingView? = null
+    @JvmField
+    protected var mBanner: Banner? = null
 
     var pid: Int = 0
 
@@ -147,6 +154,7 @@ abstract class BaseVideoTypeListFragment<P : BaseVideoTypeListPresenter<*, *>> :
 
     protected open fun onRefresh() {
         mPresenter.getHomePageVideoList(pid)
+        mPresenter.getBannerAndNotice(pid)
     }
 
     override fun onDestroyView() {
@@ -165,4 +173,90 @@ abstract class BaseVideoTypeListFragment<P : BaseVideoTypeListPresenter<*, *>> :
         mLoadingView?.showError()
     }
 
+
+    @Suppress("UNCHECKED_CAST")
+    override fun initBanner(bannerList: List<String>, bannerContent: List<String>, bannerBeanList: List<BannerBean>) {
+        if (null != mBanner) {
+            mBanner!!.setTag(bannerBeanList)
+            LogUtils.d(TAG, "initBanner banner == $bannerList")
+            mBanner!!.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE)
+            mBanner!!.setImageLoader(GlideImageLoader())
+            mBanner!!.setImages(bannerList)
+            mBanner!!.setBannerTitles(bannerContent)
+            mBanner!!.setIndicatorGravity(BannerConfig.RIGHT)
+            mBanner!!.setDelayTime(2500)
+            mBanner!!.setOnBannerListener { position: Int ->
+                LogUtils.d(TAG, "OnBannerClick position == $position")
+                //Banner 埋点
+                val list = mBanner!!.getTag()
+                if (list != null) {
+                    list as List<BannerBean>
+                    val bannerBean = list[position]
+                    MobclickAgent.onEvent(TestApp.getContext(), "click_big_banner", bannerBean.targetName)
+                    getBannerType(bannerBean)
+                }
+            }
+            mBanner!!.start()
+        } else {
+            LogUtils.d(TAG, "initBanner  banner = null")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        /*广告栏开始自动轮播*/
+        mBanner?.startAutoPlay()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        /*广告栏停止自动轮播*/
+        mBanner?.stopAutoPlay()
+    }
+
+    /**
+     * 获取当前Banner和通知的类型 根据类型的不同执行不同的方法
+     */
+    protected fun getBannerType(jumpBean: IPageJumpBean) {
+        when (jumpBean.type) {
+            AppConstant.BANNER_TYPE_VIDEO -> {
+                LogUtils.d(TAG, "BANNER_TYPE_VIDEO")
+                ARouter.getInstance().build("/player/activity").withString("vodId", jumpBean.vodId).navigation()
+            }
+            AppConstant.BANNER_TYPE_ROUTER -> {
+                LogUtils.d(TAG, "BANNER_TYPE_ROUTER")
+                val path = jumpBean.androidRouter
+                if (!TextUtils.isEmpty(path)) {
+                    ARouter.getInstance().build(path).navigation()
+                }
+            }
+            AppConstant.BANNER_TYPE_WEBURL -> {
+                LogUtils.d(TAG, "BANNER_TYPE_WEBURL = " + jumpBean.webUrl)
+                startActivity(IntentUtils.getBrowserIntent(jumpBean.webUrl))
+                MobclickAgent.onEvent(TestApp.getContext(), "click_ads_banner", jumpBean.targetName)
+            }
+            AppConstant.BANNER_TYPE_TOPIC -> {
+                LogUtils.d(TAG, "BANNER_TYPE_Topic")
+                val pid = jumpBean.topicRouter.zt_pid
+                val tag = jumpBean.topicRouter.zt_tag
+                val type = jumpBean.topicRouter.zt_type
+                ARouter.getInstance().build("/topicVideoList/activity")
+                        .withInt("pid", pid)
+                        .withString("tag", tag)
+                        .withString("type", type)
+                        .navigation()
+            }
+            AppConstant.BANNER_TYPE_AD -> {
+                if (jumpBean is BannerBean) {
+                    val adId = jumpBean.id
+                    mPresenter.addAdInfo(AppConstant.AD_TYPE_BANNER, adId)
+                }
+                LogUtils.d(TAG, "BANNER_TYPE_WEBURL = " + jumpBean.webUrl)
+                startActivity(IntentUtils.getBrowserIntent(jumpBean.webUrl))
+                MobclickAgent.onEvent(TestApp.getContext(), "click_ads_banner", jumpBean.targetName)
+            }
+            else -> {
+            }
+        }
+    }
 }

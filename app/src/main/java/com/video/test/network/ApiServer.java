@@ -2,6 +2,7 @@ package com.video.test.network;
 
 import com.video.test.ApiUrl;
 import com.video.test.javabean.ActivityGiftBean;
+import com.video.test.javabean.AdBean;
 import com.video.test.javabean.AddCollectionBean;
 import com.video.test.javabean.BannerAndNoticeListBean;
 import com.video.test.javabean.BeanTopicListBean;
@@ -88,14 +89,9 @@ public interface ApiServer {
     @POST("App/Index/newIndex")
     Observable<BaseResult<BeanTopicListBean>> getHomepageBeanTopic(@Field("pid") int pid, @Field("order") int order);
 
-    /**
-     * @param pid 1= 热门 2=电影 3=电视剧 4=综艺 5=动漫  不填写pid 默认为 1
-     * @return
-     */
     @FormUrlEncoded
     @POST("App/Index/newBanner")
-    Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice(@Field("pid") int pid);
-
+    Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice(@Field("pid") int pid, @Field("app_id") int appId, @Field("ad_version") int adVersion);
 
     @FormUrlEncoded
     @POST("App/Index/indexList")
@@ -405,6 +401,10 @@ public interface ApiServer {
     @POST("App/UserCollect/newIndex")
     Observable<BaseResult<CollectionBean>> getAllCollection(@Field("app_id") int appId, @Field("token") String token, @Field("token_id") String tokenId);
 
+
+    @FormUrlEncoded
+    @POST("App/UserInfo/backUserAd")
+    Observable<BaseResult<AdBean>> getUserCenterAdInfo(@Field("app_id") int appId, @Field("ad_version") int adVersion);
 }
 
 

@@ -19,6 +19,7 @@ class VideoTypeListFragment : BaseVideoTypeListFragment<VideoTypeListPresenter>(
     }
 
     override fun initViewBeforeLoadData() {
+        mBanner = view!!.findViewById(R.id.banner_videoList_fragment)
         mSwipeRefresh = view?.findViewById(R.id.refresh_videoList_Fragment)
         mRvVideoList = view?.findViewById(R.id.rv_videoList_Fragment)
         mLoadingView = view?.findViewById(R.id.loadingView)
