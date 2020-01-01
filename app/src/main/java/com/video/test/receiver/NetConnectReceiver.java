@@ -25,6 +25,4 @@ public class NetConnectReceiver extends BroadcastReceiver {
             NetworkUtils.checkNetConnectChange();
         }
     }
-
-
 }

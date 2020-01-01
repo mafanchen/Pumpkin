@@ -10,7 +10,10 @@ import android.text.format.Formatter;
 
 import com.video.test.AppConstant;
 import com.video.test.TestApp;
+import com.video.test.javabean.event.NetworkChangeEvent;
 import com.video.test.sp.SpUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
@@ -65,12 +68,15 @@ public class NetworkUtils {
             if (isWifiConnected(TestApp.getContext())) {
                 LogUtils.i(TAG, "目前WIFI网络可用");
                 onNetworkStatusChange(true, false, true);
+                EventBus.getDefault().post(new NetworkChangeEvent(NetworkChangeEvent.NetworkType.WIFI));
             } else if (isMobileConnected(TestApp.getContext())) {
                 LogUtils.i(TAG, "目前移动网络可用");
+                EventBus.getDefault().post(new NetworkChangeEvent(NetworkChangeEvent.NetworkType.MOBILE));
                 onNetworkStatusChange(true, true, false);
             }
         } else {
             LogUtils.i(TAG, "目前网络不可用");
+            EventBus.getDefault().post(new NetworkChangeEvent(NetworkChangeEvent.NetworkType.NONE));
             onNetworkStatusChange(false, false, false);
         }
     }

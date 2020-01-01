@@ -31,6 +31,7 @@ import com.video.test.javabean.VideoCommentBean;
 import com.video.test.javabean.VideoPlayerBean;
 import com.video.test.javabean.event.CollectEvent;
 import com.video.test.javabean.event.DownloadEvent;
+import com.video.test.javabean.event.NetworkChangeEvent;
 import com.video.test.network.RxExceptionHandler;
 import com.video.test.sp.SpUtils;
 import com.video.test.ui.widget.LandLayoutVideo;
@@ -884,6 +885,28 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
                 return;
             }
             adapter.notifyDataSetChanged();
+        }
+    }
+
+
+    private long lastNetworkToastTime = 0;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onHandleNetworkChangeEvent(NetworkChangeEvent event) {
+        //一分钟提示一次
+        long currentTimeMillis = System.currentTimeMillis();
+        if (currentTimeMillis - lastNetworkToastTime <= 60 * 1000) {
+            return;
+        }
+        boolean isMobilePlayOpen = SpUtils.getBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_PLAY, true);
+        if (isMobilePlayOpen) {
+            return;
+        }
+        lastNetworkToastTime = currentTimeMillis;
+        if (event.getType() == NetworkChangeEvent.NetworkType.MOBILE) {
+            ToastUtils.showToast(TestApp.getContext(), "wifi链接断开,已切换至移动数据播放");
+        } else if (event.getType() == NetworkChangeEvent.NetworkType.WIFI) {
+            ToastUtils.showToast(TestApp.getContext(), "已切换至wifi网络播放");
         }
     }
 }
