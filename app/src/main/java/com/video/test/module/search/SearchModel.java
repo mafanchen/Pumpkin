@@ -53,4 +53,12 @@ public class SearchModel implements SearchContract.Model {
         return RetrofitHelper.getInstance()
                 .addVideoInfo(vodId, "3");
     }
+
+    @Override
+    public Observable<List<String>> getAssociationWord(String searchWord) {
+        return RetrofitHelper.getInstance()
+                .getClewWord(searchWord)
+                .compose(RxSchedulers.io_main())
+                .compose(RxSchedulers.handleResult());
+    }
 }

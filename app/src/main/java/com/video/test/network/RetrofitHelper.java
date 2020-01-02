@@ -595,7 +595,7 @@ public class RetrofitHelper implements IModel {
         return sRetrofitApiServer.addAdInfo(adType, adId, BuildConfig.APP_ID, AppConstant.PHONE_TYPE_ANDROID, BuildConfig.AD_VERSION, userTokenId);
     }
 
-    public Observable<BaseResult<List<String>>> getClewWord(int searchWord) {
+    public Observable<BaseResult<List<String>>> getClewWord(String searchWord) {
         return sRetrofitApiServer.getClewWord(searchWord);
     }
 

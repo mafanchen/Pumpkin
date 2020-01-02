@@ -190,10 +190,10 @@ public class BeanSearchBarView extends ConstraintLayout {
      */
     public void setEditTextContentAndSearchImmediately(String content) {
         if (null != mEtSearchContent) {
-            mEtSearchContent.setText(content);
             if (mSearchViewListener != null) {
                 mSearchViewListener.stopAssociation();
             }
+            mEtSearchContent.setText(content);
             notifyStartSearching(mEtSearchContent.getText().toString().trim());
         }
     }

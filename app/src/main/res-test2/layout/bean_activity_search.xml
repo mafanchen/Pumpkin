@@ -5,37 +5,52 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<TextView
-		android:id="@+id/tv_title_radio_group"
+	<android.support.constraint.Guideline
+		android:id="@+id/guideLine"
 		android:layout_width="wrap_content"
-		android:layout_height="45dp"
-		android:layout_marginStart="12dp"
-		android:layout_marginTop="44dp"
-		android:background="@color/colorWhite"
-		android:gravity="center_vertical"
-		android:text="排序方式:"
-		android:textColor="@color/text_primary"
-		android:textSize="15sp"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_begin="44dp" />
 
 	<RadioGroup
-		android:id="@+id/radio_group"
+		android:id="@+id/radio_group_videoType"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:background="@color/colorWhite"
 		android:orientation="horizontal"
-		app:layout_constraintBottom_toBottomOf="@+id/tv_title_radio_group"
+		android:visibility="gone"
+		app:layout_constraintEnd_toStartOf="@+id/iv_sort_expand"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/guideLine"
+		tools:layout_height="43dp" />
+
+	<ImageView
+		android:id="@+id/iv_sort_expand"
+		android:layout_width="wrap_content"
+		android:layout_height="0dp"
+		android:paddingStart="12dp"
+		android:paddingEnd="12dp"
+		android:src="@drawable/ic_arrow_down_nav"
+		android:visibility="gone"
+		app:layout_constraintBottom_toBottomOf="@+id/radio_group_videoType"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toEndOf="@+id/tv_title_radio_group"
-		app:layout_constraintTop_toTopOf="@+id/tv_title_radio_group" />
+		app:layout_constraintTop_toTopOf="@+id/radio_group_videoType" />
+
+	<RadioGroup
+		android:id="@+id/radio_group_sort"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/colorWhite"
+		android:orientation="horizontal"
+		android:visibility="gone"
+		app:layout_constraintTop_toBottomOf="@+id/radio_group_videoType" />
 
 	<View
 		android:id="@+id/divider_sort"
 		android:layout_width="match_parent"
 		android:layout_height="1dp"
 		android:background="@color/colorDivider"
-		app:layout_constraintTop_toBottomOf="@+id/tv_title_radio_group" />
+		app:layout_constraintTop_toBottomOf="@+id/radio_group_sort" />
 
 	<com.video.test.ui.widget.LoadingView
 		android:id="@+id/loadingView"
@@ -43,8 +58,7 @@
 		android:layout_height="0dp"
 		android:layout_marginTop="1dp"
 		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/tv_title_radio_group"
-		app:layout_goneMarginTop="44dp">
+		app:layout_constraintTop_toBottomOf="@+id/radio_group_sort">
 
 		<android.support.v4.widget.SwipeRefreshLayout
 			android:id="@+id/swipeRefresh_search"
@@ -101,17 +115,9 @@
 	<android.support.v7.widget.RecyclerView
 		android:id="@+id/rv_association"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_marginTop="44dp"
+		android:layout_height="wrap_content"
 		android:background="@color/colorWhite"
 		android:visibility="gone"
 		app:layout_constraintTop_toTopOf="@+id/tv_no_association" />
-
-	<android.support.constraint.Group
-		android:id="@+id/group_sort"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:visibility="gone"
-		app:constraint_referenced_ids="radio_group,tv_title_radio_group,radio_group" />
 
 </android.support.constraint.ConstraintLayout>

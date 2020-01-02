@@ -8,6 +8,7 @@ import com.video.test.javabean.SearchResultBean;
 import com.video.test.javabean.SearchSortTypeBean;
 import com.video.test.network.BaseResult;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -39,6 +40,8 @@ public interface SearchContract {
 
         void setSwipeRefreshStatus(Boolean status);
 
+        void initVideoTypeRadioGroup(LinkedHashMap<String, Integer> videoTypeList);
+
         void initSortRadioGroup(List<SearchSortTypeBean> sortTypeList);
 
         void addCollectionSuccess(String collectId, String vodId);
@@ -52,6 +55,8 @@ public interface SearchContract {
         void showSortType();
 
         void showNetworkErrorView();
+
+        void setAssociationWords(List<String> data);
     }
 
     abstract class Presenter<M extends Model> extends BasePresenter<Model, View> {
@@ -69,6 +74,8 @@ public interface SearchContract {
         abstract void onCollect(boolean isCollect, String vodId, String collectId);
 
         public abstract void getAssociationWord(String searchWord);
+
+        public abstract void filterSearchResultByVideoType(int type);
     }
 
 }

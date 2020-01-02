@@ -25,7 +25,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -39,7 +42,17 @@ import me.drakeet.multitype.Items;
  */
 public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
     private static final String TAG = "SearchPresenter";
+    private static final int VIDEO_TYPE_ALL = 0;
+    private static final int VIDEO_TYPE_MOVIE = 1;
+    private static final int VIDEO_TYPE_TELEPLAY = 2;
+    private static final int VIDEO_TYPE_VARIETY = 3;
+    private static final int VIDEO_TYPE_CARTOON = 4;
     private List<SearchSortTypeBean> sortTypeList;
+    private LinkedHashMap<String, Integer> videoTypeList = new LinkedHashMap<>();
+    /**
+     * 当前选中的视频类型筛选条件
+     */
+    private int currentVideoType = VIDEO_TYPE_ALL;
     /**
      * 当前选中的筛选条件
      */
@@ -48,7 +61,11 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
      * 当前搜索的关键词
      */
     private String currentSearchWord;
+    /**
+     * 搜索词联想的请求
+     */
     private Disposable associationRequest;
+    private SearchResultBean mSearchResultBean;
 
     @Override
     public void subscribe() {
@@ -131,6 +148,7 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
 
     /**
      * 获取搜索词联想
+     *
      * @param searchWord
      */
     @Override
@@ -140,9 +158,7 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
             associationRequest.dispose();
         }
         associationRequest = mModel.getAssociationWord(searchWord)
-                .subscribe(list->{
-                    // TODO: 2020/1/2 设置关联词
-                });
+                .subscribe(list -> mView.setAssociationWords(list));
         addDisposable(associationRequest);
     }
 
@@ -155,7 +171,7 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
         currentSearchWord = keyword;
         mView.setSwipeRefreshStatus(true);
         //如果没有获取到排序规则，则先获取排序规则，然后取第一个
-        Observable<SearchResultBean> observable = sortTypeList == null || currentSortType == null ? mModel.getSortType()
+        Observable<SearchResultBean> observable = (sortTypeList == null || currentSortType == null) ? mModel.getSortType()
                 .flatMap((Function<List<SearchSortTypeBean>, ObservableSource<SearchResultBean>>) searchSortTypeBeans -> {
                     sortTypeList = searchSortTypeBeans;
                     //初始化筛选条件的videoGroup
@@ -176,21 +192,43 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
     }
 
     private void searchSuccess(SearchResultBean resultBean) {
+        mSearchResultBean = resultBean;
         Items items = new Items();
         List<SearchResultVideoBean> searchVideoList = resultBean.getList();
-        items.addAll(searchVideoList);
-        if (searchVideoList.isEmpty()) {
+        //如果总的结果少于一条，则直接隐藏筛选和排序（没意义）
+        if (searchVideoList.size() <= 1) {
             mView.hideSortType();
         } else {
             mView.showSortType();
         }
+        //这里按照选定的视频类型对结果进行筛选
+        items.addAll(filterSearchResultByVideoType(searchVideoList));
         //少于两条显示推荐视频和专题
-        if (searchVideoList.size() <= 1) {
+        if (items.size() <= 1) {
             addRecommend(resultBean, items);
         } else {
             addFooter(items);
         }
         mView.setSearchResult(items, currentSearchWord);
+    }
+
+    @Override
+    public void filterSearchResultByVideoType(int type) {
+        currentVideoType = type;
+        searchSuccess(mSearchResultBean);
+    }
+
+    private List<SearchResultVideoBean> filterSearchResultByVideoType(List<SearchResultVideoBean> list) {
+        if (currentVideoType == VIDEO_TYPE_ALL) {
+            return list;
+        }
+        List<SearchResultVideoBean> result = new ArrayList<>();
+        for (SearchResultVideoBean bean : list) {
+            if (bean.getVideoType() == currentVideoType) {
+                result.add(bean);
+            }
+        }
+        return result;
     }
 
     private void addRecommend(SearchResultBean resultBean, Items items) {
@@ -242,11 +280,21 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
         currentSortType = sortTypeList.get(0).getValue();
     }
 
+    private void initVideoType() {
+        LinkedHashMap<String, Integer> videoTypeList = initVideoTypeList();
+        mView.initVideoTypeRadioGroup(videoTypeList);
+        Iterator<Map.Entry<String, Integer>> iterator = videoTypeList.entrySet().iterator();
+        if (iterator.hasNext()) {
+            currentVideoType = iterator.next().getValue();
+        }
+    }
+
     @Override
     void getSearchResult(String keyword) {
         if (keyword != null) {
             //这里每次重新输入关键词搜索时，要初始化筛选条件
             initSortType(sortTypeList);
+            initVideoType();
             getSearchResult(keyword, currentSortType);
         }
     }
@@ -256,6 +304,17 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
         if (sortType != null) {
             getSearchResult(currentSearchWord, sortType.getValue());
         }
+    }
+
+    private LinkedHashMap<String, Integer> initVideoTypeList() {
+        if (videoTypeList.isEmpty()) {
+            videoTypeList.put("全部", VIDEO_TYPE_ALL);
+            videoTypeList.put("电影", VIDEO_TYPE_MOVIE);
+            videoTypeList.put("电视剧", VIDEO_TYPE_TELEPLAY);
+            videoTypeList.put("综艺", VIDEO_TYPE_VARIETY);
+            videoTypeList.put("动漫", VIDEO_TYPE_CARTOON);
+        }
+        return videoTypeList;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
