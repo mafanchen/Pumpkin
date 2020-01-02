@@ -45,6 +45,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     SwitchButton mSwitchMobileDown;
     @BindView(R.id.tv_cache_space_setting)
     TextView mTvCacheSpace;
+    private MaterialDialog mProgressDialog;
 
     @Override
     protected int getContextViewId() {
@@ -96,6 +97,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             case R.id.tv_clearLocal_setting:
                 LogUtils.d(TAG, "清空本地缓存被点击了");
                 requireStoragePerm();
+                mPresenter.removeLocalCache();
                 break;
             case R.id.ib_back_toolbar:
                 finish();
@@ -115,6 +117,21 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     @Override
     public void clearVideoCacheSuccess() {
 
+    }
+
+    @Override
+    public void showLoadingDialog() {
+        mProgressDialog = new MaterialDialog.Builder(this)
+                .content("正在清理缓存")
+                .progress(true, 0)
+                .show();
+    }
+
+    @Override
+    public void hideLoadingDialog() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
     }
 
 
