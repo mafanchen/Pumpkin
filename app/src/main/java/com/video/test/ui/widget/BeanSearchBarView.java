@@ -34,6 +34,8 @@ import com.video.test.ui.listener.OnItemClickListener;
 import com.video.test.ui.listener.SearchViewListener;
 import com.video.test.utils.LogUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 
@@ -125,7 +127,7 @@ public class BeanSearchBarView extends ConstraintLayout {
             public void onItemClick(View view, int position) {
                 LogUtils.d(TAG, "onFeedbackClick  position == " + position);
                 CharSequence searchWord = ((TextView) view).getText();
-                setEditTextContent(searchWord.toString());
+                setEditTextContentAndSearchImmediately(searchWord.toString());
             }
 
             @Override
@@ -139,7 +141,7 @@ public class BeanSearchBarView extends ConstraintLayout {
             public void onItemClick(View view, int position) {
                 LogUtils.d(TAG, "onFeedbackClick  position == " + position);
                 CharSequence searchWord = ((TextView) view).getText();
-                setEditTextContent(searchWord.toString());
+                setEditTextContentAndSearchImmediately(searchWord.toString());
             }
 
             @Override
@@ -184,12 +186,14 @@ public class BeanSearchBarView extends ConstraintLayout {
     }
 
     /**
-     * 设置EditText内容
+     * 设置EditText内容,并且立即进行搜索，此时应该停止搜索词联想
      */
-
-    public void setEditTextContent(String content) {
+    public void setEditTextContentAndSearchImmediately(String content) {
         if (null != mEtSearchContent) {
             mEtSearchContent.setText(content);
+            if (mSearchViewListener != null) {
+                mSearchViewListener.stopAssociation();
+            }
             notifyStartSearching(mEtSearchContent.getText().toString().trim());
         }
     }
@@ -204,7 +208,7 @@ public class BeanSearchBarView extends ConstraintLayout {
     /**
      * 通知监听器, 进行搜索操作
      */
-    private void notifyStartSearching(String text) {
+    public void notifyStartSearching(String text) {
         if (null != mSearchViewListener) {
             LogUtils.i(TAG, "notifyStartSearching  Start");
             mSearchViewListener.onSearch(text);
@@ -293,7 +297,10 @@ public class BeanSearchBarView extends ConstraintLayout {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (!"".equals(s.toString())) {
+            String string = s.toString();
+            //这里进行搜索词联想，当搜索词为空，则隐藏联想列表，否则显示联想词列表并且进行联想
+            mSearchViewListener.onAssociation(string);
+            if (!"".equals(string)) {
                 mIvDelete.setVisibility(VISIBLE);
             } else {
                 mIvDelete.setVisibility(INVISIBLE);
@@ -336,4 +343,10 @@ public class BeanSearchBarView extends ConstraintLayout {
             }
         }
     }
+
+    @NotNull
+    public String getInputWord() {
+        return mEtSearchContent.getText().toString().trim();
+    }
+
 }

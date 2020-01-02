@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -46,6 +47,7 @@ import com.video.test.utils.ToastUtils;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
@@ -70,11 +72,17 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     Group mGroupSort;
     @BindView(R.id.loadingView)
     LoadingView mLoadingView;
+    @BindView(R.id.tv_no_association)
+    TextView mTvNoAssociaton;
+    @BindView(R.id.rv_association)
+    RecyclerView mRvAssociation;
 
     private MultiTypeAdapter mAdapter;
 
     @Autowired(name = "searchWord")
     String searchWord;
+    //这里由外部点击进入，会传入搜索关键词，此时触发了联想词搜索，这里无需进行联想
+    private boolean isSearchImmediately = false;
     private SearchViewBinder mSearchViewBinder;
 
     @Override
@@ -86,7 +94,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (!TextUtils.isEmpty(searchWord)) {
-            mTbSearch.setEditTextContent(searchWord);
+            mTbSearch.setEditTextContentAndSearchImmediately(searchWord);
+            isSearchImmediately = true;
         }
     }
 
@@ -276,6 +285,40 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
                 ToastUtils.showToast(TestApp.getContext(), "请输入您想搜索的内容");
             }
         }
+
+        @Override
+        public void onAssociation(String string) {
+            mLoadingView.showContent();
+            mTvNoAssociaton.setText(getString(R.string.search_association, string));
+            //展示联想词列表
+            //如果是点击了关键字直接搜索，则无需进行联想词搜索
+            if (isSearchImmediately) {
+                isSearchImmediately = false;
+            } else {
+                //这里进行搜索词联想，当搜索词为空，则隐藏联想列表，否则显示联想词列表并且进行联想
+                if (TextUtils.isEmpty(string)) {
+                    hideAssociationView();
+                } else {
+                    showAssociationView();
+                    mPresenter.getAssociationWord(string);
+                }
+            }
+        }
+
+        @Override
+        public void stopAssociation() {
+            isSearchImmediately = true;
+        }
+    }
+
+    private void showAssociationView() {
+        mRvAssociation.setVisibility(View.VISIBLE);
+        mTvNoAssociaton.setVisibility(View.VISIBLE);
+    }
+
+    private void hideAssociationView() {
+        mRvAssociation.setVisibility(View.GONE);
+        mTvNoAssociaton.setVisibility(View.GONE);
     }
 
     @Override
@@ -283,6 +326,14 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         if (mLoadingView != null) {
             mLoadingView.showError();
         }
+    }
+
+    @OnClick(R.id.tv_no_association)
+    public void onViewClick() {
+//        这里直接开始搜索，并且隐藏联想界面
+        hideAssociationView();
+        searchWord = mTbSearch.getInputWord();
+        mTbSearch.notifyStartSearching(searchWord);
     }
 
     @Override

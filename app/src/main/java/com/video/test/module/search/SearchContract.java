@@ -29,6 +29,8 @@ public interface SearchContract {
         Observable<String> delCollections(String ids, String userToken, String userTokenId);
 
         Observable<BaseResult> addCollectCount(String vodId);
+
+        Observable<List<String>> getAssociationWord(String searchWord);
     }
 
     interface View extends IView {
@@ -65,6 +67,8 @@ public interface SearchContract {
         abstract void delCollections(String ids);
 
         abstract void onCollect(boolean isCollect, String vodId, String collectId);
+
+        public abstract void getAssociationWord(String searchWord);
     }
 
 }

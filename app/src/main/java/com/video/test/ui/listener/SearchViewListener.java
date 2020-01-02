@@ -18,4 +18,7 @@ public interface SearchViewListener {
      */
     void onSearch(String text);
 
+    void onAssociation(String string);
+
+    void stopAssociation();
 }

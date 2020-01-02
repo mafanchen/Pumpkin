@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
@@ -60,7 +61,6 @@
 
 	</com.video.test.ui.widget.LoadingView>
 
-
 	<com.video.test.ui.widget.CenterDrawableTextView
 		android:id="@+id/tv_background_noResult_search"
 		android:layout_width="wrap_content"
@@ -79,6 +79,33 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		app:layout_constraintTop_toTopOf="parent" />
+
+	<TextView
+		android:id="@+id/tv_no_association"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginTop="44dp"
+		android:background="@color/colorWhite"
+		android:ellipsize="middle"
+		android:gravity="center_horizontal"
+		android:paddingStart="38dp"
+		android:paddingTop="18dp"
+		android:paddingEnd="38dp"
+		android:singleLine="true"
+		android:textColor="#8ea9c0"
+		android:textSize="@dimen/text_size_14sp"
+		android:visibility="gone"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="查看「海贼王」的搜索结果" />
+
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/rv_association"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginTop="44dp"
+		android:background="@color/colorWhite"
+		android:visibility="gone"
+		app:layout_constraintTop_toTopOf="@+id/tv_no_association" />
 
 	<android.support.constraint.Group
 		android:id="@+id/group_sort"

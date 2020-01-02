@@ -118,6 +118,7 @@
     <string name="searchBar_cancel">取消</string>
     <string name="searchBar_search">搜索</string>
     <string name="play_immediately">立即播放</string>
+    <string name="search_association">查看「%s」的搜索结果</string>
 
     <!--设置昵称-->
 

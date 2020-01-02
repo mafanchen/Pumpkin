@@ -48,6 +48,7 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
      * 当前搜索的关键词
      */
     private String currentSearchWord;
+    private Disposable associationRequest;
 
     @Override
     public void subscribe() {
@@ -126,6 +127,23 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
                 delCollections(collectId);
             }
         }
+    }
+
+    /**
+     * 获取搜索词联想
+     * @param searchWord
+     */
+    @Override
+    public void getAssociationWord(String searchWord) {
+        //这里由于搜索输入字段变化很快，网络是耗时操作，因此将同时只会有一个请求，当收到一个新的请求，会将上一个请求给取消
+        if (associationRequest != null) {
+            associationRequest.dispose();
+        }
+        associationRequest = mModel.getAssociationWord(searchWord)
+                .subscribe(list->{
+                    // TODO: 2020/1/2 设置关联词
+                });
+        addDisposable(associationRequest);
     }
 
     @Override
