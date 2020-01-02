@@ -53,4 +53,9 @@ public class SearchModel implements SearchContract.Model {
         return RetrofitHelper.getInstance()
                 .addVideoInfo(vodId, "3");
     }
+
+    @Override
+    public Observable<List<String>> getAssociationWord(String searchWord) {
+        return null;
+    }
 }

@@ -131,6 +131,7 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
 
     /**
      * 获取搜索词联想
+     *
      * @param searchWord
      */
     @Override
@@ -140,9 +141,7 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
             associationRequest.dispose();
         }
         associationRequest = mModel.getAssociationWord(searchWord)
-                .subscribe(list->{
-                    // TODO: 2020/1/2 设置关联词
-                });
+                .subscribe(list -> mView.setAssociationWords(list));
         addDisposable(associationRequest);
     }
 

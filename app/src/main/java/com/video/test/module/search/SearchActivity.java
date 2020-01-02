@@ -1,10 +1,12 @@
 package com.video.test.module.search;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.Group;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,6 +34,7 @@ import com.video.test.javabean.SearchResultVideoBean;
 import com.video.test.javabean.SearchSortTypeBean;
 import com.video.test.javabean.VideoRecommendBean;
 import com.video.test.module.videorecommend.VideoRecommendHorizontalViewBinder;
+import com.video.test.ui.adapter.SearchAssociationAdapter;
 import com.video.test.ui.base.BaseActivity;
 import com.video.test.ui.listener.SearchViewListener;
 import com.video.test.ui.viewbinder.FooterViewBinder;
@@ -43,6 +46,8 @@ import com.video.test.ui.widget.LoadingView;
 import com.video.test.utils.LogUtils;
 import com.video.test.utils.PixelUtils;
 import com.video.test.utils.ToastUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -77,6 +82,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     @BindView(R.id.rv_association)
     RecyclerView mRvAssociation;
 
+    private SearchAssociationAdapter mAdapterAssociation;
     private MultiTypeAdapter mAdapter;
 
     @Autowired(name = "searchWord")
@@ -127,6 +133,17 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
     @Override
     protected void setAdapter() {
+        mAdapterAssociation = new SearchAssociationAdapter();
+        mAdapterAssociation.setOnItemClickListener(word -> mTbSearch.notifyStartSearching(word));
+        if (mRvAssociation.getItemDecorationCount() == 0) {
+            android.support.v7.widget.DividerItemDecoration decoration =
+                    new android.support.v7.widget.DividerItemDecoration(this, android.support.v7.widget.DividerItemDecoration.VERTICAL);
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.shape_bg_item_divider_1dp);
+            assert drawable != null;
+            decoration.setDrawable(drawable);
+            mRvAssociation.addItemDecoration(decoration);
+        }
+
         mAdapter = new MultiTypeAdapter();
         mSearchViewBinder = new SearchViewBinder();
         mSearchViewBinder.setOnCollectListener((isCollect, item) -> mPresenter.onCollect(isCollect, item.getVod_id(), item.getCollect_id()));
@@ -326,6 +343,12 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         if (mLoadingView != null) {
             mLoadingView.showError();
         }
+    }
+
+    @Override
+    public void setAssociationWords(List<String> data) {
+        mAdapterAssociation.setData(data);
+        mAdapterAssociation.notifyDataSetChanged();
     }
 
     @OnClick(R.id.tv_no_association)
