@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,7 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
     Unbinder unbinder;
     private String[] mTabContent = {"最热", "最新"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
-
+    private int order = 1;
     private MultiTypeAdapter mAdapter;
     private Items mItems;
     private DividerItemDecoration mDecoration;
@@ -128,7 +129,9 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
             @Override
             public void onTabSelect(int position) {
                 //position １　为权重　　２为最新
-                mPresenter.getHomepageBeanTopicList(position + 1);
+                order = position + 1;
+                Log.d(TAG, "onTabSelect order=" + order);
+                mPresenter.getHomepageBeanTopicList(order);
             }
 
             @Override
@@ -138,16 +141,14 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
         });
         //初始化时 默认最热TAG 并且请求最热TAG数据
         mTabLayout.setCurrentTab(0);
-        mPresenter.getHomepageBeanTopicList(1);
+        mPresenter.getHomepageBeanTopicList(order);
     }
 
 
     private void initRefreshLayout() {
         mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setRefreshHeader(new RefreshHeader(mContext));
-        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            mPresenter.getHomepageBeanTopicList(1);
-        });
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> mPresenter.getHomepageBeanTopicList(order));
     }
 
     @Override

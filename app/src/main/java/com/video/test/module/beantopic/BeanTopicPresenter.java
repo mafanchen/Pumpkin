@@ -35,6 +35,9 @@ public class BeanTopicPresenter extends BeanTopicContract.Presenter<BeanTopicMod
     }
 
 
+    /**
+     * @param order 专题排序 1=> 权重排序 , 2=> 最新排序
+     */
     @Override
     void getHomepageBeanTopicList(int order) {
         Disposable disposable = mModel.getHomepageBeanTopicList(2, order)

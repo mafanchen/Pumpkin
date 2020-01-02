@@ -3,6 +3,7 @@ package com.video.test.module.topicvideolist;
 import com.video.test.framework.BasePresenter;
 import com.video.test.framework.IModel;
 import com.video.test.framework.IView;
+import com.video.test.javabean.AddCollectionBean;
 import com.video.test.javabean.VideoBean;
 import com.video.test.javabean.VideoListBean;
 
@@ -19,7 +20,9 @@ public interface TopicVideoListContract {
 
         Observable<VideoListBean> getVideoList(int pid, String tag, String type, int page, int limit);
 
+        Observable<AddCollectionBean> addTopicCollection(String token, String tokenId, String topicId);
 
+        Observable<String> delTopicCollection(String token, String tokenId, String topicArrayIds);
     }
 
     interface View extends IView {
@@ -39,6 +42,10 @@ public interface TopicVideoListContract {
         void setTopicNum();
 
         void showNetworkErrorView();
+
+        void setCollectCheckBoxChecked(boolean checked);
+
+        void showToast(String s);
     }
 
     abstract class Presenter<M extends Model> extends BasePresenter<Model, View> {

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.video.test.ui.widget.LoadingView;
 import com.video.test.ui.widget.RefreshHeader;
 import com.video.test.utils.LogUtils;
 import com.video.test.utils.PixelUtils;
+import com.video.test.utils.ToastUtils;
 
 import java.util.List;
 
@@ -56,6 +58,8 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
     LoadingView mLoadingView;
     @BindView(R.id.tv_topic_videoNum)
     TextView mTopicNum;
+    @BindView(R.id.ck_topic_collect)
+    CheckBox mCheckBoxCollect;
     @Autowired
     int pid;
     @Autowired
@@ -191,9 +195,19 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
         }
     }
 
-    @OnClick(R.id.ib_back_toolbar)
-    void onViewClicked() {
-        finish();
+    @OnClick({R.id.ib_back_toolbar, R.id.ck_topic_collect})
+    void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ib_back_toolbar:
+                finish();
+                break;
+            case R.id.ck_topic_collect:
+                //调用接口，请求失败之后，再把状态改回来
+                boolean checked = mCheckBoxCollect.isChecked();
+                //tag就是专题id
+                mPresenter.collect(checked, tag);
+                break;
+        }
     }
 
     @Override
@@ -201,5 +215,17 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
         if (mLoadingView != null) {
             mLoadingView.showError();
         }
+    }
+
+    @Override
+    public void setCollectCheckBoxChecked(boolean checked) {
+        if (mCheckBoxCollect != null) {
+            mCheckBoxCollect.setChecked(checked);
+        }
+    }
+
+    @Override
+    public void showToast(String s) {
+        ToastUtils.showToast(this, s);
     }
 }
