@@ -47,7 +47,19 @@
             android:name="com.video.test.module.homepage.HomepageActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="video"
+                    android:scheme="puvideo" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="com.video.test.module.about.AboutActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"

@@ -811,9 +811,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
 
 
     /**
-     * @param intervalTime    定时间隔
-     * @param landLayoutVideo 播放器
-     * @param watchTime       当前已观看的时间
+     * @param landLayoutVideo播放器
      */
     @Override
     public void watchVideoTimer(LandLayoutVideo landLayoutVideo) {
@@ -855,6 +853,41 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
         if (null != mWatchVideoTimer && !mWatchVideoTimer.isDisposed()) {
             mWatchVideoTimer.dispose();
         }
+    }
+
+    @Override
+    void uploadWatchTime(String cid, String pid) {
+        Disposable disposable = mModel.uploadWatchTime(cid, pid)
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String message) throws Exception {
+                        LogUtils.d(TAG, "uploadWatchTime Success  message : " + message);
+                    }
+                }, new RxExceptionHandler<>(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        LogUtils.e(TAG, "uploadWatchTime error  message : " + throwable.getMessage());
+                    }
+                }));
+        addDisposable(disposable);
+    }
+
+    @Override
+    void clickBackOrForward(int clickType) {
+        Disposable disposable = mModel.clickBackOrForward(clickType)
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String message) throws Exception {
+                        LogUtils.d(TAG, "clickBackOrForward Success  message : " + message);
+                    }
+                }, new RxExceptionHandler<>(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        LogUtils.e(TAG, "clickBackOrForward error  message : " + throwable.getMessage());
+                    }
+                }));
+        addDisposable(disposable);
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -316,7 +316,7 @@
     <dimen name="videoPlayer_margin_between">6dp</dimen>
     <dimen name="videoPlayer_margin_icon2icon">10dp</dimen>
     <dimen name="videoPlayer_between_synopsis_content">12dp</dimen>
-    <dimen name="videoPlayer_height_player">203dp</dimen>
+    <dimen name="videoPlayer_height_player">230dp</dimen>
     <dimen name="videoPlayer_margin_detailsTitle2Bottom">10dp</dimen>
     <dimen name="videoPlayer_margin_closeBtn2Around">12dp</dimen>
     <dimen name="videoPlayer_around_closeBtn">30dp</dimen>

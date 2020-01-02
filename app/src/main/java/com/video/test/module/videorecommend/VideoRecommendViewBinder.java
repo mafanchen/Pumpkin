@@ -42,10 +42,10 @@ public class VideoRecommendViewBinder extends ItemViewBinder<VideoBean, VideoRec
         GlideApp.with(holder.itemView.getContext()).load(videoBean.getVod_pic()).transition(withCrossFade()).error(R.drawable.bg_video_default_vertical).into(holder.mIvPic);
         holder.itemView.setOnClickListener(v -> {
             LogUtils.i(TAG, "mFl Click == " + videoBean.toString());
-            ARouter.getInstance().build("/player/activity").withString("vodId", videoBean.getVod_id()).navigation();
+            ARouter.getInstance().build("/player/activity").withString("vodId", videoBean.getVod_id()).withString("vodPid", String.valueOf(videoBean.getVodPid())).navigation();
         });
-        String vodContinu = videoBean.getVod_continu();
-        if (TextUtils.isEmpty(vodContinu) || Integer.parseInt(vodContinu) == 0) {
+        String vodContinue = videoBean.getVod_continu();
+        if (TextUtils.isEmpty(vodContinue) || Integer.parseInt(vodContinue) == 0) {
             //不连载，显示豆瓣评分
             String vodScore = videoBean.getVod_scroe();
             if (TextUtils.isEmpty(vodScore) || Double.parseDouble(vodScore) == 0 || Double.parseDouble(vodScore) == 10) {
@@ -55,12 +55,12 @@ public class VideoRecommendViewBinder extends ItemViewBinder<VideoBean, VideoRec
                 holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_grade));
                 holder.mTvPoint.setText(vodScore);
             }
-        } else if (vodContinu.length() <= 4) {
+        } else if (vodContinue.length() <= 4) {
             holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-            holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode, vodContinu));
+            holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode, vodContinue));
         } else {
             holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-            holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_stage, vodContinu));
+            holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_stage, vodContinue));
         }
     }
 

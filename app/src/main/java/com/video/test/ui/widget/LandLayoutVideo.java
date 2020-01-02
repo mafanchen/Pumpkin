@@ -519,11 +519,21 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         });
         //快退
         if (mTvRewind != null) {
-            mTvRewind.setOnClickListener(view -> rewind());
+            mTvRewind.setOnClickListener(view -> {
+                rewind();
+                if (null != mVideoFunctionListener) {
+                    mVideoFunctionListener.clickBackOrForward(AppConstant.VIDEO_BACK);
+                }
+            });
         }
         //快进
         if (mTvFastForward != null) {
-            mTvFastForward.setOnClickListener(view -> fastForward());
+            mTvFastForward.setOnClickListener(view -> {
+                fastForward();
+                if (null != mVideoFunctionListener) {
+                    mVideoFunctionListener.clickBackOrForward(AppConstant.VIDEO_FORWARD);
+                }
+            });
         }
         //播放速度
         if (mGroupSpeed != null) {
@@ -2036,6 +2046,4 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     public void addAddInfo(int adType, @Nullable String adId) {
         mVideoFunctionListener.addAdInfo(adType, adId);
     }
-
-
 }

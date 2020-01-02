@@ -222,7 +222,6 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     LoadingView mLoadingView;
     @BindView(R.id.layout_player_no_network)
     View mLayoutPlayerNoNetwork;
-
     @Autowired(name = "vodId")
     String mVodId;
     /**
@@ -232,6 +231,11 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     String mVideoUrl;
     @Autowired(name = "videoDegree")
     String mVideoDegree;
+    // 从上级页面传递过来的栏目类型
+    @Autowired(name = "vodPid")
+    String mVideoPid;
+    // 资源类型
+    private String mVideoCid;
 
     private boolean isBindingPhone = false;
 
@@ -286,28 +290,159 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         mPresenter.initCloseTimer();
     }
 
+    private IUIUpdateListener mIUIUpdateListener = new IUIUpdateListener() {
 
-    @Override
-    protected void setAdapter() {
-        mAdapterTopic = new MultiTypeAdapter();
-        mAdapterTopic.register(BeanTopicContentBean.class, new TopicViewBinderHorizontal());
-        mRvTopic.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mRvTopic.setAdapter(mAdapterTopic);
-        mRecommendItemAdapter = new PlayerRecommendItemAdapter();
-//        mSelectItemAdapter = new PlayerSelectItemAdapter(mPresenter);
-        mSelectItemPagerAdapter = new SelectVideoPagerAdapter(mPresenter);
-        mPagerVideoSelect.setAdapter(mSelectItemPagerAdapter);
-        mDownloadSelectItemAdapter = new PlayerDownloadSelectItemAdapter(mPresenter);
-        mHorizontalSelectItemAdapter = new PlayerHorizontalSelectItemAdapter(mPresenter);
-        mPlayerCommentItemAdapter = new PlayerCommentItemAdapter();
-        //   投屏控制进度条
-        setCastProgressListener();
+        @Override
+        public void onUpdateState(int state, Object object) {
+            LogUtils.d(TAG, "IUIUpdateListener state:" + state + " text:" + object);
+            ImageView startButton;
+            //进入到投屏状态时，首先停止定时器
+            mPresenter.cancelWatchVideoTimer();
+            switch (state) {
+                case IUIUpdateListener.STATE_SEARCH_SUCCESS:
+                    if (null != mPresenter) {
+                        mPresenter.updateDeviceAdapter();
+                    }
+                    break;
+                case IUIUpdateListener.STATE_SEARCH_ERROR:
+                    ToastUtils.showToast(TestApp.getContext(), "Auth错误");
+                    break;
+                case IUIUpdateListener.STATE_SEARCH_NO_RESULT:
+                    LogUtils.d(TAG, "IUI  搜索成功 无设备");
+                    //判断横竖屏
+                    if (null != mPresenter) {
+                        mPresenter.updateDeviceAdapter();
+                    }
+                    break;
+                case IUIUpdateListener.STATE_CONNECT_SUCCESS:
+                    LogUtils.d(TAG, "IUI connect success:" + object);
+                    // 更新列表
+                    castPlay(mVideoOriginalUrl);
+                    break;
+                case IUIUpdateListener.STATE_DISCONNECT:
+                    LogUtils.d(TAG, "IUI disConnect success:" + object);
 
-        // 设置播放器的返回监听
-        if (null != mVideoPlayer) {
-            mVideoPlayer.getBackButton().setOnClickListener(v -> onBackPressed());
+                    // mBrowseAdapter.setSelectInfo(null);
+                    // mBrowseAdapter.notifyDataSetChanged();
+                    // 更新列表
+                    //播放链接断开 停止链接
+                    mPresenter.cancelWatchVideoTimer();
+                    break;
+                case IUIUpdateListener.STATE_CONNECT_FAILURE:
+                    LogUtils.d(TAG, "IUI connect failure:" + object);
+                    // LogUtils.d(TAG, "ToastUtil " + object);
+                  /*  mBrowseAdapter.setSelectInfo(null);
+                    mBrowseAdapter.notifyDataSetChanged();*/
+                    break;
+                case IUIUpdateListener.STATE_PLAY:
+                    LogUtils.d(TAG, "IUI callback play");
+                    castIsPause = false;
+                    if (null != mIvCastStart) {
+                        GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_pause_selector).into(mIvCastStart);
+                    }
+                    if (getCurPlay() != null) {
+                        startButton = getCurPlay().getCastStartButton();
+                        if (startButton != null) {
+                            GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_pause_selector).into(startButton);
+                        }
+                    }
+                    // 处于投屏幕播放状态时，后台开始计时
+                    if (null != mVideoPlayer) {
+                        mPresenter.watchVideoTimer(mVideoPlayer);
+                    }
+                    break;
+                case IUIUpdateListener.STATE_LOADING:
+                    LogUtils.d(TAG, "IUI callback loading");
+                    castIsPause = false;
+                    if (mIvCastStart != null) {
+                        GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_pause_selector).into(mIvCastStart);
+                    }
+                    if (getCurPlay() != null) {
+                        startButton = getCurPlay().getCastStartButton();
+                        if (startButton != null) {
+                            GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_pause_selector).into(startButton);
+                        }
+                    }
+                    break;
+                case IUIUpdateListener.STATE_PAUSE:
+                    LogUtils.d(TAG, "IUI callback pause");
+                    castIsPause = true;
+                    if (null != mIvCastStart) {
+                        GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_play_selector).into(mIvCastStart);
+                    }
+                    if (getCurPlay() != null) {
+                        startButton = getCurPlay().getCastStartButton();
+                        if (startButton != null) {
+                            GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_play_selector).into(startButton);
+                        }
+                    }
+                    break;
+                case IUIUpdateListener.STATE_STOP:
+                    LogUtils.d(TAG, "IUI callback stop");
+                    castIsPause = false;
+                    if (null != mIvCastStart) {
+                        GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_pause_selector).into(mIvCastStart);
+                    }
+                    if (getCurPlay() != null) {
+                        startButton = getCurPlay().getCastStartButton();
+                        if (startButton != null) {
+                            GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_pause_selector).into(startButton);
+                        }
+                    }
+                    break;
+                case IUIUpdateListener.STATE_SEEK:
+                    LogUtils.d(TAG, "IUI callback seek:" + object);
+
+                    break;
+                case IUIUpdateListener.STATE_PLAY_ERROR:
+                    LogUtils.d(TAG, "IUI callback error:" + object);
+                    break;
+                case IUIUpdateListener.STATE_POSITION_UPDATE:
+                    LogUtils.d(TAG, "IUI callback position update:" + object);
+                    long[] arr = (long[]) object;
+                    long duration = arr[0];
+                    long position = arr[1];
+                    LogUtils.d(TAG, "IUI 总长度：" + duration + " 当前进度:" + position);
+                    if (null != mProgressCast && null != mCurrentTimeCast && null != mTotalTimeCast) {
+                        mProgressCast.setMax((int) duration);
+                        mProgressCast.setProgress((int) position);
+                        mCurrentTimeCast.setText(StringUtils.stringForTime((int) position));
+                        mTotalTimeCast.setText(StringUtils.stringForTime((int) duration));
+                        if (getCurPlay() != null) {
+                            getCurPlay().setCastPlayProgress(((int) duration), ((int) position));
+                        }
+                    }
+                    break;
+                case IUIUpdateListener.STATE_COMPLETION:
+                    LogUtils.d(TAG, "IUI callback completion");
+                    if (null != mIvCastStart) {
+                        GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_play_selector).into(mIvCastStart);
+                    }
+                    break;
+                case IUIUpdateListener.STATE_INPUT_SCREENCODE:
+                    LogUtils.d(TAG, "IUI input screencode");
+
+                    break;
+                case IUIUpdateListener.RELEVANCE_DATA_UNSUPPORT:
+                    LogUtils.d(TAG, "IUI unSupport relevance data");
+                    ToastUtils.showToast(TestApp.getContext(), object.toString());
+                    break;
+                default:
+                    break;
+            }
         }
-    }
+
+        @Override
+        public void onUpdateText(String msg) {
+            Log.d(TAG, "IUI onUpdateText: msg : " + msg);
+            if (null != mTvCastStatusCast && !TextUtils.isEmpty(msg)) {
+                mTvCastStatusCast.setText(msg);
+                if (getCurPlay() != null) {
+                    getCurPlay().setCastPlayStatus(msg);
+                }
+            }
+        }
+    };
 
 
     @Override
@@ -503,158 +638,27 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         }
     }
 
-    private IUIUpdateListener mIUIUpdateListener = new IUIUpdateListener() {
+    @Override
+    protected void setAdapter() {
+        mAdapterTopic = new MultiTypeAdapter();
+        mAdapterTopic.register(BeanTopicContentBean.class, new TopicViewBinderHorizontal());
+        mRvTopic.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mRvTopic.setAdapter(mAdapterTopic);
+        mRecommendItemAdapter = new PlayerRecommendItemAdapter();
+//      mSelectItemAdapter = new PlayerSelectItemAdapter(mPresenter);
+        mSelectItemPagerAdapter = new SelectVideoPagerAdapter(mPresenter);
+        mPagerVideoSelect.setAdapter(mSelectItemPagerAdapter);
+        mDownloadSelectItemAdapter = new PlayerDownloadSelectItemAdapter(mPresenter);
+        mHorizontalSelectItemAdapter = new PlayerHorizontalSelectItemAdapter(mPresenter);
+        mPlayerCommentItemAdapter = new PlayerCommentItemAdapter();
+        //   投屏控制进度条
+        setCastProgressListener();
 
-        @Override
-        public void onUpdateState(int state, Object object) {
-            LogUtils.d(TAG, "IUIUpdateListener state:" + state + " text:" + object);
-            ImageView startButton;
-            switch (state) {
-                case IUIUpdateListener.STATE_SEARCH_SUCCESS:
-                    if (null != mPresenter) {
-                        mPresenter.updateDeviceAdapter();
-                    }
-                    break;
-                case IUIUpdateListener.STATE_SEARCH_ERROR:
-                    ToastUtils.showToast(TestApp.getContext(), "Auth错误");
-                    break;
-                case IUIUpdateListener.STATE_SEARCH_NO_RESULT:
-                    LogUtils.d(TAG, "IUI  搜索成功 无设备");
-                    //判断横竖屏
-                    if (null != mPresenter) {
-                        mPresenter.updateDeviceAdapter();
-                    }
-                    break;
-                case IUIUpdateListener.STATE_CONNECT_SUCCESS:
-                    LogUtils.d(TAG, "IUI connect success:" + object);
-                    // 更新列表
-                    castPlay(mVideoOriginalUrl);
-
-                    break;
-                case IUIUpdateListener.STATE_DISCONNECT:
-                    LogUtils.d(TAG, "IUI disConnect success:" + object);
-
-                    // mBrowseAdapter.setSelectInfo(null);
-                    // mBrowseAdapter.notifyDataSetChanged();
-                    // 更新列表
-
-                    break;
-                case IUIUpdateListener.STATE_CONNECT_FAILURE:
-                    LogUtils.d(TAG, "IUI connect failure:" + object);
-                    // LogUtils.d(TAG, "ToastUtil " + object);
-
-                  /*  mBrowseAdapter.setSelectInfo(null);
-                    mBrowseAdapter.notifyDataSetChanged();*/
-                    // 更新列表
-                    break;
-                case IUIUpdateListener.STATE_PLAY:
-                    LogUtils.d(TAG, "IUI callback play");
-                    castIsPause = false;
-                    if (null != mIvCastStart) {
-                        GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_pause_selector).into(mIvCastStart);
-                    }
-                    if (getCurPlay() != null) {
-                        startButton = getCurPlay().getCastStartButton();
-                        if (startButton != null) {
-                            GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_pause_selector).into(startButton);
-                        }
-                    }
-                    break;
-                case IUIUpdateListener.STATE_LOADING:
-                    LogUtils.d(TAG, "IUI callback loading");
-                    castIsPause = false;
-                    if (mIvCastStart != null) {
-                        GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_pause_selector).into(mIvCastStart);
-                    }
-                    if (getCurPlay() != null) {
-                        startButton = getCurPlay().getCastStartButton();
-                        if (startButton != null) {
-                            GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_pause_selector).into(startButton);
-                        }
-                    }
-                    break;
-                case IUIUpdateListener.STATE_PAUSE:
-                    LogUtils.d(TAG, "IUI callback pause");
-                    castIsPause = true;
-                    if (null != mIvCastStart) {
-                        GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_play_selector).into(mIvCastStart);
-                    }
-                    if (getCurPlay() != null) {
-                        startButton = getCurPlay().getCastStartButton();
-                        if (startButton != null) {
-                            GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_play_selector).into(startButton);
-                        }
-                    }
-                    break;
-
-                case IUIUpdateListener.STATE_STOP:
-                    LogUtils.d(TAG, "IUI callback stop");
-                    castIsPause = false;
-                    if (null != mIvCastStart) {
-                        GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_pause_selector).into(mIvCastStart);
-                    }
-                    if (getCurPlay() != null) {
-                        startButton = getCurPlay().getCastStartButton();
-                        if (startButton != null) {
-                            GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_pause_selector).into(startButton);
-                        }
-                    }
-                    break;
-                case IUIUpdateListener.STATE_SEEK:
-                    LogUtils.d(TAG, "IUI callback seek:" + object);
-
-                    break;
-                case IUIUpdateListener.STATE_PLAY_ERROR:
-                    LogUtils.d(TAG, "IUI callback error:" + object);
-
-                    break;
-                case IUIUpdateListener.STATE_POSITION_UPDATE:
-                    LogUtils.d(TAG, "IUI callback position update:" + object);
-                    long[] arr = (long[]) object;
-                    long duration = arr[0];
-                    long position = arr[1];
-                    LogUtils.d(TAG, "IUI 总长度：" + duration + " 当前进度:" + position);
-                    if (null != mProgressCast && null != mCurrentTimeCast && null != mTotalTimeCast) {
-                        mProgressCast.setMax((int) duration);
-                        mProgressCast.setProgress((int) position);
-                        mCurrentTimeCast.setText(StringUtils.stringForTime((int) position));
-                        mTotalTimeCast.setText(StringUtils.stringForTime((int) duration));
-                        if (getCurPlay() != null) {
-                            getCurPlay().setCastPlayProgress(((int) duration), ((int) position));
-                        }
-                    }
-                    break;
-                case IUIUpdateListener.STATE_COMPLETION:
-                    LogUtils.d(TAG, "IUI callback completion");
-                    if (null != mIvCastStart) {
-                        GlideApp.with(PlayerActivity.this).load(R.drawable.video_click_play_selector).into(mIvCastStart);
-                    }
-
-                    break;
-                case IUIUpdateListener.STATE_INPUT_SCREENCODE:
-                    LogUtils.d(TAG, "IUI input screencode");
-
-                    break;
-                case IUIUpdateListener.RELEVANCE_DATA_UNSUPPORT:
-                    LogUtils.d(TAG, "IUI unSupport relevance data");
-                    ToastUtils.showToast(TestApp.getContext(), object.toString());
-                    break;
-                default:
-                    break;
-            }
+        // 设置播放器的返回监听
+        if (null != mVideoPlayer) {
+            mVideoPlayer.getBackButton().setOnClickListener(v -> onBackPressed());
         }
-
-        @Override
-        public void onUpdateText(String msg) {
-            Log.d(TAG, "IUI onUpdateText: msg : " + msg);
-            if (null != mTvCastStatusCast && !TextUtils.isEmpty(msg)) {
-                mTvCastStatusCast.setText(msg);
-                if (getCurPlay() != null) {
-                    getCurPlay().setCastPlayStatus(msg);
-                }
-            }
-        }
-    };
+    }
 
 
     @Override
@@ -894,7 +898,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         PlayerVideoListBean videoListBean = videoPlayerBean.getList().get(0);
         this.mVideoId = videoListBean.getVod_id();
         this.mVideoTitle = videoListBean.getVod_name();
-
+        this.mVideoCid = videoListBean.getVodCid();
         initGridLayoutManager(videoPlayerBean);
 
         //判断是否收藏
@@ -906,7 +910,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 
         //首页数据
         mTvVideoName.setText(videoListBean.getVod_name());
-//        mTvBeanPoint.setText(videoListBean.getVod_scroe());
+//      mTvBeanPoint.setText(videoListBean.getVod_scroe());
         mTvUpdate.setText(videoListBean.getVod_addtime());
         mTvVideoArea.setText(videoListBean.getVod_area());
         //详情页
@@ -1516,6 +1520,11 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                 return false;
             }
 
+            @Override
+            public void clickBackOrForward(int btnType) {
+                LogUtils.d(TAG, "clickBackOrForward" + "btnType : " + btnType);
+                mPresenter.clickBackOrForward(btnType);
+            }
         });
 
         mVideoPlayer.setCastListener(new FullscreenCastListener() {
@@ -1830,7 +1839,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                 break;
             case R.id.iv_feedback:
             case R.id.tv_feedback:
-                ARouter.getInstance().build("/feedback/activity").navigation();
+                ARouter.getInstance().build("/feedback/activity").withString("vodId", mVideoId).navigation();
                 break;
             case R.id.tv_download_jump:
                 ARouter.getInstance().build("/download/activity").navigation(this, ACTIVITY_REQUEST_CODE_DOWNLOAD);
@@ -2064,7 +2073,8 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     @Override
     public void uploadWatchTime() {
         //TODO  此处需要实现上报接口
-        LogUtils.d("PlayerPresenter", "观看时长已满 3分钟 上报一次");
+        mPresenter.uploadWatchTime(mVideoCid, mVideoPid);
+        LogUtils.d("PlayerPresenter", "uploadWatchTime :" + " Cid :" + mVideoCid + " Pid : " + mVideoPid);
     }
 
     @Override

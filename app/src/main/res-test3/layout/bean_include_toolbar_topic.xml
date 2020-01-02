@@ -5,7 +5,7 @@
 	android:layout_height="56dp"
 	android:background="@color/toolbar_background_homepage">
 
-	<android.support.design.widget.TabLayout
+    <com.video.test.ui.widget.BeanTopicTabLayout
 		android:id="@+id/tabLayout_topic_toolbar"
 		android:layout_width="136dp"
 		android:layout_height="match_parent"

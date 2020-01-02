@@ -592,15 +592,15 @@ public class RetrofitHelper implements IModel {
 
     public Observable<BaseResult<Object>> addAdInfo(int adType, String adId) {
         String userTokenId = SpUtils.getString(TestApp.getContext(), AppConstant.USER_TOKEN_ID, "no");
-        return sRetrofitApiServer.addAdInfo(adType, adId, BuildConfig.APP_ID, 1, BuildConfig.AD_VERSION, userTokenId);
+        return sRetrofitApiServer.addAdInfo(adType, adId, BuildConfig.APP_ID, AppConstant.PHONE_TYPE_ANDROID, BuildConfig.AD_VERSION, userTokenId);
     }
 
     public Observable<BaseResult<List<String>>> getClewWord(String searchWord) {
         return sRetrofitApiServer.getClewWord(searchWord);
     }
 
-    public Observable<BaseResult<String>> uploadWatchTime(String version, String cid, String pid) {
-        return sRetrofitApiServer.uploadWatchTime(version, "1", cid, pid);
+    public Observable<BaseResult<String>> uploadWatchTime(String cid, String pid) {
+        return sRetrofitApiServer.uploadWatchTime(BuildConfig.AD_VERSION, AppConstant.PHONE_TYPE_ANDROID, cid, pid);
     }
 
     public Observable<BaseResult<AddCollectionBean>> addTopicCollection(String token, String tokenId, String topicId) {
@@ -611,8 +611,8 @@ public class RetrofitHelper implements IModel {
         return sRetrofitApiServer.delTopicCollection(token, tokenId, BuildConfig.APP_ID, topicArrayIds);
     }
 
-    public Observable<BaseResult<String>> updateBackOrForward(String clickType, String clickVersion) {
-        return sRetrofitApiServer.updateBackOrForward(clickType, clickVersion, "1");
+    public Observable<BaseResult<String>> updateBackOrForward(int clickType) {
+        return sRetrofitApiServer.updateBackOrForward(clickType, BuildConfig.AD_VERSION, AppConstant.PHONE_TYPE_ANDROID);
     }
 
     public Observable<BaseResult<List<ProfilePictureBean>>> getProfilePics() {

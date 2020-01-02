@@ -110,6 +110,8 @@ public class HomepageActivity extends BaseActivity<HomepagePresenter> implements
 
         EventBus.getDefault().register(this);
 
+        initVideoInfos(getIntent());
+
     }
 
     /**
@@ -438,6 +440,17 @@ public class HomepageActivity extends BaseActivity<HomepagePresenter> implements
                             ARouter.getInstance().build("/setting/activity").navigation();
                         }
                     }).show();
+        }
+    }
+
+    private void initVideoInfos(Intent intent) {
+        LogUtils.d(TAG, "Intent data : " + intent.toString());
+        if (null != intent.getData()) {
+            LogUtils.d(TAG, "Intent data H5页面传递参数");
+            String vodId = intent.getData().getQueryParameter("vodId");
+            LogUtils.d(TAG, "Intent data  query : " + vodId);
+            //如果是h5传参数，直接跳转至播放页播放
+            ARouter.getInstance().build("/player/activity").withString("vodId", vodId).navigation();
         }
     }
 

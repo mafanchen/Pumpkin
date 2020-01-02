@@ -52,7 +52,7 @@ public class VideoRecommendHorizontalViewBinder extends ItemViewBinder<VideoReco
         holder.tvSubTitle.setText(item.getSubTitle());
         holder.itemView.setOnClickListener(view -> {
             LogUtils.i(TAG, "video Click == " + item.toString());
-            ARouter.getInstance().build("/player/activity").withString("vodId", item.getVideoId()).navigation();
+            ARouter.getInstance().build("/player/activity").withString("vodId", item.getVideoId()).withString("vodPid", String.valueOf(item.getVodPid())).navigation();
         });
         String vodContinue = item.getVodContinue();
         if (TextUtils.isEmpty(vodContinue) || Integer.parseInt(vodContinue) == 0) {

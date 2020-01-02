@@ -17,6 +17,7 @@ import butterknife.BindView
 import butterknife.OnClick
 import butterknife.OnTextChanged
 import com.afollestad.materialdialogs.MaterialDialog
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.flexbox.AlignItems
@@ -47,12 +48,21 @@ class FeedbackActivity : BaseActivity<FeedbackPresenter>(), FeedbackContract.Vie
     @JvmField
     @BindView(R.id.et_feedback_contact)
     var mEtContact: EditText? = null
+    @JvmField
+    @Autowired(name = "vodId")
+    var mVodId: String? = ""
 
     private var mProgressDialog: MaterialDialog? = null
 
     private var mTypeAdapter: FeedbackTypeAdapter? = null
 
     override fun getContextViewId(): Int = R.layout.bean_activity_feedback
+
+
+    override fun beforeSetContentView() {
+        super.beforeSetContentView()
+        ARouter.getInstance().inject(this)
+    }
 
     override fun initData() {
         mPresenter.getFeedbackTypes()
@@ -128,7 +138,7 @@ class FeedbackActivity : BaseActivity<FeedbackPresenter>(), FeedbackContract.Vie
             }
             R.id.tv_feedback_commit -> {
                 //提交反馈
-                mPresenter.commitFeedback()
+                mPresenter.commitFeedback(mVodId)
             }
         }
     }

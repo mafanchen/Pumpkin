@@ -52,6 +52,10 @@ public interface PlayerContract {
         Observable<BaseResult> addVideoInfo(String vodId, String type);
 
         Observable<BaseResult<Object>> addAdInfo(int adType, String adId);
+
+        Observable<String> uploadWatchTime(String cid, String pid);
+
+        Observable<String> clickBackOrForward(int clickType);
     }
 
     interface View extends IView {
@@ -202,5 +206,9 @@ public interface PlayerContract {
         abstract void watchVideoTimer(LandLayoutVideo landLayoutVideo);
 
         abstract void cancelWatchVideoTimer();
+
+        abstract void uploadWatchTime(String cid, String pid);
+
+        abstract void clickBackOrForward(int clickType);
     }
 }

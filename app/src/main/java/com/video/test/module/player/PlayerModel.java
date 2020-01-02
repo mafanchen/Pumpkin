@@ -103,4 +103,19 @@ public class PlayerModel implements PlayerContract.Model {
         return RetrofitHelper.getInstance().addAdInfo(adType, adId);
     }
 
+    @Override
+    public Observable<String> uploadWatchTime(String cid, String pid) {
+        return RetrofitHelper.getInstance().uploadWatchTime(cid, pid)
+                .compose(RxSchedulers.handleResult())
+                .compose(RxSchedulers.io_main());
+    }
+
+
+    @Override
+    public Observable<String> clickBackOrForward(int clickType) {
+        return RetrofitHelper.getInstance().updateBackOrForward(clickType)
+                .compose(RxSchedulers.handleResult())
+                .compose(RxSchedulers.io_main());
+    }
+
 }
