@@ -1,11 +1,10 @@
 package com.video.test.module.collection;
 
+import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.constraint.Group;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
@@ -13,13 +12,14 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.video.test.R;
 import com.video.test.TestApp;
-import com.video.test.javabean.CollectionListBean;
+import com.video.test.javabean.TabEntityBean;
+import com.video.test.javabean.base.ISelectableBean;
 import com.video.test.ui.base.BaseActivity;
 import com.video.test.ui.widget.CenterDrawableTextView;
 import com.video.test.ui.widget.DividerItemDecoration;
@@ -30,6 +30,7 @@ import com.video.test.utils.LogUtils;
 import com.video.test.utils.PixelUtils;
 import com.video.test.utils.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -62,8 +63,8 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
     TextView mTvEditBtn;
     @BindView(R.id.loadingView)
     LoadingView mLoadingView;
-    private int mLimit = 30;
-    private int mPage;
+    @BindView(R.id.tabLayout_collection)
+    CommonTabLayout mTabLayout;
     private CollectionAdapter mCollectionAdapter;
     private boolean mIsManager;
 
@@ -87,14 +88,14 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mRefreshLayout.autoRefresh();
+    protected void initData() {
+
     }
 
     @Override
-    protected void initData() {
-
+    protected void onResume() {
+        super.onResume();
+        mRefreshLayout.autoRefresh();
     }
 
     @Override
@@ -105,8 +106,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
                 if (mLoadingView != null) {
                     mLoadingView.showContent();
                 }
-                mPage = 1;
-                mPresenter.getUserCollection(mPage, mLimit);
+                mPresenter.getUserCollection();
             }
 
             @Override
@@ -114,24 +114,34 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
                 ARouter.getInstance().build("/solve/activity").navigation();
             }
         });
+        mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setRefreshHeader(new RefreshHeader(this));
-        mRefreshLayout.setRefreshFooter(new ClassicsFooter(this));
-        mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
-        mRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> mPresenter.getUserCollection());
+        initTabLayout();
+    }
+
+    private void initTabLayout() {
+        String[] tabContent = {"电影", "电视剧", "综艺", "动漫", "专题"};
+        ArrayList<CustomTabEntity> tabEntities = new ArrayList<>();
+        for (String s : tabContent) {
+            tabEntities.add(new TabEntityBean(s, 0, 0));
+        }
+        mTabLayout.setTabData(tabEntities);
+        mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mPage++;
-                mPresenter.getMoreCollection(mPage, mLimit);
+            public void onTabSelect(int position) {
+                mPresenter.changePage(position + 1);
             }
 
             @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mPage = 1;
-                mPresenter.getUserCollection(mPage, mLimit);
-                mRefreshLayout.setEnableRefresh(false);
+            public void onTabReselect(int position) {
+
             }
         });
+        //初始化时 默认最热TAG 并且请求最热TAG数据
+        mTabLayout.setCurrentTab(0);
     }
+
 
     @Override
     protected void setAdapter() {
@@ -139,6 +149,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
         mCollectionAdapter = new CollectionAdapter();
         mRvCollection.setAdapter(mCollectionAdapter);
         mRvCollection.addItemDecoration(new DividerItemDecoration(leftRight, leftRight, Color.WHITE));
+        mRvCollection.setLayoutManager(new GridLayoutManager(this, 3));
         mRvCollection.addOnScrollListener(new GlideOnScrollListener());
     }
 
@@ -195,41 +206,17 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
     @Override
     public void getDeleteCollectionMessage(String message) {
         ToastUtils.showLongToast(TestApp.getContext(), message);
-        // 竖线第一页完成的时候,已经关闭了下拉刷新,故此处需要重新打开下来刷新
-        mRefreshLayout.setEnableRefresh(true);
         mRefreshLayout.autoRefresh();
     }
 
     @Override
-    public void setUserCollection(List<CollectionListBean> collectionListBeans) {
+    public void setUserCollection(List<ISelectableBean> collectionListBeans) {
         if (!collectionListBeans.isEmpty()) {
             mTvNoCollection.setVisibility(View.INVISIBLE);
             mCollectionAdapter.setData(collectionListBeans);
-            if (collectionListBeans.size() < 30 && null != mRefreshLayout) {
-                mRefreshLayout.finishLoadMoreWithNoMoreData();
-            }
         } else {
             mTvNoCollection.setVisibility(View.VISIBLE);
             mCollectionAdapter.setData(collectionListBeans);
-        }
-    }
-
-    @Override
-    public void addMoreCollection(List<CollectionListBean> collectionListBeans) {
-        if (!collectionListBeans.isEmpty()) {
-            mCollectionAdapter.addData(collectionListBeans);
-        } else {
-            if (null != mRefreshLayout) {
-                mRefreshLayout.finishLoadMoreWithNoMoreData();
-            }
-        }
-    }
-
-
-    @Override
-    public void loadingComplete() {
-        if (null != mRefreshLayout) {
-            mRefreshLayout.finishLoadMore();
         }
     }
 
@@ -247,21 +234,32 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
         }
     }
 
-    /**
-     * 首次刷新成功之后 就关闭下来刷新功能
-     * @param page
-     */
-    @Override
-    public void cancelRefreshLayout(int page) {
-        if (null != mRefreshLayout && 1 == page) {
-            mRefreshLayout.setEnableRefresh(false);
-        }
-    }
-
     @Override
     public void showNetworkErrorView() {
         if (mLoadingView != null) {
             mLoadingView.showError();
+        }
+    }
+
+    @Override
+    public void setItemDecoration(RecyclerView.ItemDecoration decoration) {
+        if (mRvCollection != null) {
+            if (mRvCollection.getItemDecorationCount() > 0) {
+                mRvCollection.removeItemDecorationAt(0);
+            }
+            mRvCollection.addItemDecoration(decoration);
+        }
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public void setLayoutManager(RecyclerView.LayoutManager manager) {
+        if (mRvCollection != null) {
+            mRvCollection.setLayoutManager(manager);
         }
     }
 

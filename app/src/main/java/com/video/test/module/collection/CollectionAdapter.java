@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Group;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,10 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.video.test.R;
-import com.video.test.framework.BaseViewHolder;
 import com.video.test.framework.GlideApp;
 import com.video.test.javabean.CollectionListBean;
+import com.video.test.javabean.CollectionTopicListBean;
+import com.video.test.javabean.base.ISelectableBean;
 import com.video.test.ui.adapter.BaseSelectableAdapter;
 import com.video.test.utils.LogUtils;
 
@@ -31,29 +33,45 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 /**
  * @author Enoch Created on 2018/8/7.
  */
-public class CollectionAdapter extends BaseSelectableAdapter<CollectionListBean, CollectionAdapter.CollectionViewHolder> {
+public class CollectionAdapter extends BaseSelectableAdapter<ISelectableBean, RecyclerView.ViewHolder> {
     private static final String TAG = "CollectionAdapter";
+    private static final int ITEM_TYPE_VIDEO = 1;
+    private static final int ITEM_TYPE_TOPIC = 2;
     private boolean mIsShow;
-    private List<CollectionListBean> mCollectionList;
 
+    private List<ISelectableBean> mCollectionList;
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mCollectionList.get(position) instanceof CollectionListBean) {
+            return ITEM_TYPE_VIDEO;
+        } else {
+            return ITEM_TYPE_TOPIC;
+        }
+    }
 
     @NonNull
     @Override
-    public CollectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bean_recycle_item_collection_video, parent, false);
-        return new CollectionViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        if (viewType == ITEM_TYPE_VIDEO) {
+            View view = inflater.inflate(R.layout.bean_recycle_item_collection_video, parent, false);
+            return new VideoViewHolder(view);
+        } else {
+            View view = inflater.inflate(R.layout.bean_recycle_item_collection_topic, parent, false);
+            return new TopicViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CollectionViewHolder holder, int position) {
-        holder.bindData(position, holder.getItemViewType(), mCollectionList);
-        if (mIsShow) {
-            holder.mGroupCollection.setVisibility(View.VISIBLE);
-            LogUtils.d(TAG, "onBindViewHolder True mGroup ==" + holder.mCheckBox.getVisibility());
-        } else {
-            holder.mGroupCollection.setVisibility(View.GONE);
-            LogUtils.d(TAG, "onBindViewHolder True mGroup ==" + holder.mCheckBox.getVisibility());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        ISelectableBean item = mCollectionList.get(position);
+        if (holder instanceof VideoViewHolder && item instanceof CollectionListBean) {
+            ((VideoViewHolder) holder).bindData((CollectionListBean) item, mIsShow);
+        } else if (holder instanceof TopicViewHolder) {
+            ((TopicViewHolder) holder).bindData((CollectionTopicListBean) item, mIsShow);
         }
+
     }
 
 
@@ -62,19 +80,12 @@ public class CollectionAdapter extends BaseSelectableAdapter<CollectionListBean,
         return null == mCollectionList ? 0 : mCollectionList.size();
     }
 
-    public void setData(List<CollectionListBean> historyListBeans) {
+    public void setData(List<ISelectableBean> historyListBeans) {
         if (null == mCollectionList) {
             mCollectionList = new ArrayList<>();
             mCollectionList.addAll(historyListBeans);
         } else {
             mCollectionList.clear();
-            mCollectionList.addAll(historyListBeans);
-        }
-        notifyDataSetChanged();
-    }
-
-    public void addData(List<CollectionListBean> historyListBeans) {
-        if (null != mCollectionList) {
             mCollectionList.addAll(historyListBeans);
         }
         notifyDataSetChanged();
@@ -88,9 +99,13 @@ public class CollectionAdapter extends BaseSelectableAdapter<CollectionListBean,
 
     public String getSelectItem() {
         List<String> selectItem = new ArrayList<>();
-        for (CollectionListBean collectionListBean : mCollectionList) {
-            if (collectionListBean.isSelected()) {
-                selectItem.add(collectionListBean.getId());
+        for (ISelectableBean bean : mCollectionList) {
+            if (bean.isSelected()) {
+                if (bean instanceof CollectionListBean) {
+                    selectItem.add(((CollectionListBean) bean).getId());
+                } else if (bean instanceof CollectionTopicListBean) {
+                    selectItem.add(((CollectionTopicListBean) bean).getTopicId());
+                }
             }
         }
         Gson gson = new Gson();
@@ -98,11 +113,11 @@ public class CollectionAdapter extends BaseSelectableAdapter<CollectionListBean,
     }
 
     @Override
-    protected List<CollectionListBean> getList() {
+    protected List<ISelectableBean> getList() {
         return mCollectionList;
     }
 
-    static class CollectionViewHolder extends BaseViewHolder<List<CollectionListBean>> {
+    static class VideoViewHolder extends RecyclerView.ViewHolder {
 
         private final Context context;
         @BindView(R.id.iv_recycle_item_videoPic_collection)
@@ -118,33 +133,75 @@ public class CollectionAdapter extends BaseSelectableAdapter<CollectionListBean,
         @BindView(R.id.group_recycle_item_collection)
         Group mGroupCollection;
 
-        CollectionViewHolder(View itemView) {
+        VideoViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
             ButterKnife.bind(this, itemView);
         }
 
-        @Override
-        public void bindData(int position, int viewType, List<CollectionListBean> data) {
-            final CollectionListBean collectionListBean = data.get(position);
-            GlideApp.with(context).load(collectionListBean.getVod_pic()).transition(withCrossFade()).error(R.drawable.bg_video_default_vertical).into(mIvVideoPic);
-            mTvName.setText(collectionListBean.getVod_name());
-            mCheckBox.setChecked(collectionListBean.isSelected());
 
+        public void bindData(CollectionListBean item, boolean mIsShow) {
+            if (mIsShow) {
+                mGroupCollection.setVisibility(View.VISIBLE);
+            } else {
+                mGroupCollection.setVisibility(View.GONE);
+            }
+            GlideApp.with(context).load(item.getVod_pic()).transition(withCrossFade()).error(R.drawable.bg_video_default_vertical).into(mIvVideoPic);
+            mTvName.setText(item.getVod_name());
+            mCheckBox.setChecked(item.isSelected());
             mCl.setOnClickListener(v -> {
-                LogUtils.d(TAG, "mll == " + collectionListBean.toString());
-                ARouter.getInstance().build("/player/activity").withString("vodId", collectionListBean.getVod_id()).navigation();
+                LogUtils.d(TAG, "mll == " + item.toString());
+                ARouter.getInstance().build("/player/activity").withString("vodId", item.getVod_id()).navigation();
             });
-
             mCheckBox.setOnClickListener(v -> {
-                collectionListBean.setSelected(mCheckBox.isChecked());
-                LogUtils.d(TAG, "mCheckBox == " + collectionListBean.toString());
+                item.setSelected(mCheckBox.isChecked());
+                LogUtils.d(TAG, "mCheckBox == " + item.toString());
             });
-
             mViewPicBackground.setOnClickListener(v -> {
                 mCheckBox.setChecked(!mCheckBox.isChecked());
-                collectionListBean.setSelected(mCheckBox.isChecked());
-                LogUtils.d(TAG, "PicBackground == " + collectionListBean.toString());
+                item.setSelected(mCheckBox.isChecked());
+                LogUtils.d(TAG, "PicBackground == " + item.toString());
+            });
+        }
+    }
+
+    static class TopicViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.iv_topic_cover)
+        ImageView mIvCover;
+        @BindView(R.id.tv_topic_name)
+        TextView mTvName;
+        @BindView(R.id.tv_topic_video_count)
+        TextView mTvCount;
+        @BindView(R.id.checkbox_select)
+        CheckBox mCheckBox;
+
+        TopicViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        public void bindData(CollectionTopicListBean item, boolean mIsShow) {
+            if (mIsShow) {
+                mCheckBox.setVisibility(View.VISIBLE);
+            } else {
+                mCheckBox.setVisibility(View.GONE);
+            }
+            Context context = itemView.getContext();
+            GlideApp.with(context).load(item.getTopicPic()).transition(withCrossFade()).error(R.drawable.bg_video_default_horizontal).into(mIvCover);
+            mTvName.setText(item.getTopicTitle());
+            mCheckBox.setChecked(item.isSelected());
+            mTvCount.setText(context.getString(R.string.activity_collect_topic_video_count, item.getTopicNum()));
+            itemView.setOnClickListener(v ->
+                    ARouter.getInstance().build("/topicVideoList/activity")
+                            .withInt("pid", 2)
+                            .withString("tag", item.getTopicTag())
+                            .withString("type", item.getTopicTitle())
+                            .withString("videoNum", item.getTopicNum())
+                            .navigation()
+            );
+            mCheckBox.setOnClickListener(v -> {
+                item.setSelected(mCheckBox.isChecked());
+                LogUtils.d(TAG, "mCheckBox == " + item.toString());
             });
         }
     }

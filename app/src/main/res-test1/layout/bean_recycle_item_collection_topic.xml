@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="12dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="10dp">
+
+    <CheckBox
+        android:id="@+id/checkbox_select"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:button="@drawable/selector_checkbox"
+        android:gravity="start"
+        android:paddingEnd="18dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_topic_cover"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_topic_cover" />
+
+    <ImageView
+        android:id="@+id/iv_topic_cover"
+        android:layout_width="128dp"
+        android:layout_height="72dp"
+        app:layout_constraintStart_toEndOf="@+id/checkbox_select"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/colorBlack" />
+
+    <TextView
+        android:id="@+id/tv_topic_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:lines="2"
+        android:textColor="#333333"
+        android:textSize="@dimen/text_size_15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_topic_cover"
+        app:layout_constraintTop_toTopOf="@+id/iv_topic_cover"
+        tools:text="天坑动漫之有生之年完结系列天坑动漫之有生之年完结系列天坑动漫之有生之年完结系列" />
+
+    <TextView
+        android:id="@+id/tv_topic_video_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:textColor="#aaaaaa"
+        android:textSize="@dimen/text_size_13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_topic_cover"
+        app:layout_constraintStart_toStartOf="@+id/tv_topic_name"
+        tools:text="50部影片" />
+
+</android.support.constraint.ConstraintLayout>
