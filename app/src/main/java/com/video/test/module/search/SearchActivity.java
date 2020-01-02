@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.constraint.Group;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -48,7 +48,9 @@ import com.video.test.utils.LogUtils;
 import com.video.test.utils.PixelUtils;
 import com.video.test.utils.ToastUtils;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -70,10 +72,12 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     SwipeRefreshLayout mSwipeRefresh;
     @BindView(R.id.tv_background_noResult_search)
     CenterDrawableTextView mTvCacheBackground;
-    @BindView(R.id.radio_group)
-    RadioGroup mRadioGroup;
-    @BindView(R.id.group_sort)
-    Group mGroupSort;
+    @BindView(R.id.radio_group_videoType)
+    RadioGroup mRadioGroupVideoType;
+    @BindView(R.id.radio_group_sort)
+    RadioGroup mRadioGroupSort;
+    @BindView(R.id.iv_sort_expand)
+    ImageView mIvSortExpand;
     @BindView(R.id.loadingView)
     LoadingView mLoadingView;
     @BindView(R.id.tv_no_association)
@@ -196,15 +200,54 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     }
 
     @Override
-    public void initSortRadioGroup(List<SearchSortTypeBean> sortTypeList) {
-        if (mRadioGroup.getChildCount() == 0) {
-            for (SearchSortTypeBean bean : sortTypeList) {
-                mRadioGroup.addView(buildSortButton(bean));
+    public void initVideoTypeRadioGroup(LinkedHashMap<String, Integer> videoTypeList) {
+        if (mRadioGroupVideoType.getChildCount() == 0) {
+            for (Map.Entry<String, Integer> entry : videoTypeList.entrySet()) {
+                mRadioGroupVideoType.addView(buildVideoTypeButton(entry.getKey(), entry.getValue()));
             }
         }
-        if (mRadioGroup.getChildCount() != 0) {
-            ((RadioButton) mRadioGroup.getChildAt(0)).setChecked(true);
+        if (mRadioGroupVideoType.getChildCount() != 0) {
+            ((RadioButton) mRadioGroupVideoType.getChildAt(0)).setChecked(true);
         }
+    }
+
+    @Override
+    public void initSortRadioGroup(List<SearchSortTypeBean> sortTypeList) {
+        if (mRadioGroupSort.getChildCount() == 0) {
+            for (SearchSortTypeBean bean : sortTypeList) {
+                mRadioGroupSort.addView(buildSortButton(bean));
+            }
+        }
+        if (mRadioGroupSort.getChildCount() != 0) {
+            ((RadioButton) mRadioGroupSort.getChildAt(0)).setChecked(true);
+        }
+    }
+
+    private RadioButton buildVideoTypeButton(String name, int type) {
+        RadioButton radioButton = (RadioButton) LayoutInflater.from(this).inflate(R.layout.bean_radio_button_search_sort, mRadioGroupSort, false);
+        radioButton.setTag(type);
+        radioButton.setText(name);
+        radioButton.setOnClickListener(v -> {
+            //这里这里对视频进行筛选
+            Object tag = v.getTag();
+            if (tag instanceof Integer) {
+                mPresenter.filterSearchResultByVideoType((int) tag);
+            }
+        });
+        return radioButton;
+    }
+
+    private RadioButton buildSortButton(SearchSortTypeBean bean) {
+        RadioButton radioButton = (RadioButton) LayoutInflater.from(this).inflate(R.layout.bean_radio_button_search_sort, mRadioGroupSort, false);
+        radioButton.setTag(bean);
+        radioButton.setText(bean.getKey());
+        radioButton.setOnClickListener(v -> {
+            Object tag = v.getTag();
+            if (tag instanceof SearchSortTypeBean) {
+                mPresenter.getSearchResult(bean);
+            }
+        });
+        return radioButton;
     }
 
     @Override
@@ -267,20 +310,15 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
     @Override
     public void hideSortType() {
-        mGroupSort.setVisibility(View.GONE);
+        mRadioGroupVideoType.setVisibility(View.GONE);
+        mIvSortExpand.setVisibility(View.GONE);
+        mRadioGroupSort.setVisibility(View.GONE);
     }
 
     @Override
     public void showSortType() {
-        mGroupSort.setVisibility(View.VISIBLE);
-    }
-
-    private RadioButton buildSortButton(SearchSortTypeBean bean) {
-        RadioButton radioButton = (RadioButton) LayoutInflater.from(this).inflate(R.layout.bean_radio_button_search_sort, mRadioGroup, false);
-        radioButton.setTag(bean);
-        radioButton.setText(bean.getKey());
-        radioButton.setOnClickListener(v -> mPresenter.getSearchResult(bean));
-        return radioButton;
+        mRadioGroupVideoType.setVisibility(View.VISIBLE);
+        mIvSortExpand.setVisibility(View.VISIBLE);
     }
 
     private void initSwipeRefresh() {
@@ -358,12 +396,27 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         mAdapterAssociation.notifyDataSetChanged();
     }
 
-    @OnClick(R.id.tv_no_association)
-    public void onViewClick() {
-//        这里直接开始搜索，并且隐藏联想界面
-        hideAssociationView();
-        searchWord = mTbSearch.getInputWord();
-        mTbSearch.notifyStartSearching(searchWord);
+    @OnClick({R.id.tv_no_association, R.id.iv_sort_expand})
+    public void onViewClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_no_association:
+                //这里直接开始搜索，并且隐藏联想界面
+                hideAssociationView();
+                searchWord = mTbSearch.getInputWord();
+                mTbSearch.notifyStartSearching(searchWord);
+                break;
+            case R.id.iv_sort_expand:
+                if (mRadioGroupSort.getVisibility() == View.VISIBLE) {
+                    mRadioGroupSort.setVisibility(View.GONE);
+                    mIvSortExpand.setImageResource(R.drawable.ic_arrow_down_nav);
+                } else {
+                    mRadioGroupSort.setVisibility(View.VISIBLE);
+                    mIvSortExpand.setImageResource(R.drawable.ic_arrow_up_nav);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

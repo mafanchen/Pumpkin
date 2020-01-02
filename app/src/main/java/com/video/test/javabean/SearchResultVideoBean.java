@@ -1,5 +1,7 @@
 package com.video.test.javabean;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * @author Enoch Created on 2018/7/26.
  */
@@ -31,7 +33,14 @@ public class SearchResultVideoBean {
     private String vod_continu;
     private boolean is_collect;
     private String collect_id;
-
+    /**
+     * 视频类型，用于搜索筛选，
+     * 1=>电影 , 2=>电视剧 ,3=>综艺 ,4=>动漫
+     */
+    @SerializedName("t_id")
+    private int videoType;
+    @SerializedName("is_end")
+    private boolean isEnd;
 
     public String getVod_douban_name() {
         return vod_douban_name;
@@ -143,5 +152,21 @@ public class SearchResultVideoBean {
 
     public void setCollect_id(String collect_id) {
         this.collect_id = collect_id;
+    }
+
+    public int getVideoType() {
+        return videoType;
+    }
+
+    public void setVideoType(int videoType) {
+        this.videoType = videoType;
+    }
+
+    public boolean isEnd() {
+        return isEnd;
+    }
+
+    public void setEnd(boolean end) {
+        isEnd = end;
     }
 }
