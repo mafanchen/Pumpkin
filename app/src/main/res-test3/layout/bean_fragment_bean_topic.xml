@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/bean_include_toolbar_home_new" />
+    <include layout="@layout/bean_include_toolbar_topic" />
 
     <com.video.test.ui.widget.LoadingView
         android:id="@+id/loadingView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/toolbar_height_modify">
+        android:layout_marginTop="56dp">
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/layout_refresh"
@@ -27,7 +27,5 @@
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </com.video.test.ui.widget.LoadingView>
-
-
 
 </FrameLayout>

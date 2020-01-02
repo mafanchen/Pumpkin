@@ -247,4 +247,14 @@ public class AppConstant {
     public static final String SWITCH_PUSH_NOTICE ="SettingSwitchPushNotice";
     public static final String SWITCH_AUTO_PLAY ="SettingSwitchAutoPlay";
 
+    /**
+     * 快进 快退
+     */
+
+    public static final int VIDEO_FORWARD = 1;
+    public static final int VIDEO_BACK = 2;
+    public static final int PHONE_TYPE_ANDROID = 1;
+    public static final int PHONT_TYPE_IOS = 2;
+
+
 }

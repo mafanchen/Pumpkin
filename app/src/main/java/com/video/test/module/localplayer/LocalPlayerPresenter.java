@@ -307,6 +307,11 @@ public class LocalPlayerPresenter extends LocalPlayerContract.Presenter<LocalPla
                 return false;
             }
 
+            @Override
+            public void clickBackOrForward(int btnType) {
+
+            }
+
         });
 
     }

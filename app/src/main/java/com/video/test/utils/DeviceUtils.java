@@ -285,4 +285,8 @@ public final class DeviceUtils {
     private static TelephonyManager getTelephonyManager() {
         return (TelephonyManager) TestApp.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
     }
+
+    public static String getPhoneInfo() {
+        return getModel() + "-" + getSDKVersion();
+    }
 }

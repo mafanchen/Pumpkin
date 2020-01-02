@@ -14,8 +14,8 @@
 
     <FrameLayout
         android:id="@+id/layout_skip"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginTop="@dimen/splash_margin_skip_right"
         android:layout_marginEnd="@dimen/splash_margin_skip_top"
         android:enabled="false"
@@ -25,14 +25,13 @@
         <TextView
             android:id="@+id/tv_skip_splash"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
-            android:background="@drawable/ic_close_bg_splash"
+            android:background="@drawable/bg_btn_close"
             android:enabled="false"
             android:gravity="center"
-            android:textSize="21sp"
-            android:textColor="@color/splash_skip_font"
-            android:alpha="80"/>
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp" />
     </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

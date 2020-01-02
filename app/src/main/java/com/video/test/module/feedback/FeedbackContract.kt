@@ -33,6 +33,6 @@ interface FeedbackContract {
         internal abstract var contact: String?
         internal abstract fun getFeedbackTypes()
         internal abstract fun getImageFromGallery(intent: Intent?)
-        internal abstract fun commitFeedback()
+        internal abstract fun commitFeedback(vodId: String?)
     }
 }

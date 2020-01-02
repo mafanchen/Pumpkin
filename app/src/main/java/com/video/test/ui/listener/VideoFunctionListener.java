@@ -79,4 +79,12 @@ public interface VideoFunctionListener {
      * 是否有存储权限权限
      */
     boolean hasStoragePermission();
+
+
+    /**
+     * @param btnType 点击类型  1 快进 2快退
+     */
+
+    void clickBackOrForward(int btnType);
+
 }

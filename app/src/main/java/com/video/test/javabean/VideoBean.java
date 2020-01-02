@@ -38,6 +38,16 @@ public class VideoBean {
     @SerializedName("is_end")
     private boolean vodIsEnd;
 
+    @SerializedName("pid")
+    private int vodPid;
+
+    public int getVodPid() {
+        return vodPid;
+    }
+
+    public void setVodPid(int vodPid) {
+        this.vodPid = vodPid;
+    }
 
     public String getVodTotal() {
         return vodTotal;

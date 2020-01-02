@@ -327,7 +327,7 @@ public interface ApiServer {
      */
     @FormUrlEncoded
     @POST("App/Index/addWatchInfo")
-    Observable<BaseResult<String>> uploadWatchTime(@Field("version") String version, @Field("app_type") String appType,
+    Observable<BaseResult<String>> uploadWatchTime(@Field("version") int adVersion, @Field("app_type") int appType,
                                                    @Field("cid") String cid, @Field("pid") String pid);
 
 
@@ -376,8 +376,8 @@ public interface ApiServer {
      */
     @FormUrlEncoded
     @POST("App/Index/addButInfo")
-    Observable<BaseResult<String>> updateBackOrForward(@Field("click_type") String clickType, @Field("click_version") String clickVersion,
-                                                       @Field("app_type") String appType);
+    Observable<BaseResult<String>> updateBackOrForward(@Field("click_type") int clickType, @Field("click_version") int clickVersion,
+                                                       @Field("app_type") int appType);
 
 
     /**
