@@ -227,6 +227,8 @@ public class EncryptInterceptor implements Interceptor {
                 //如果是上线版本  app_versions=101
                 builder.addFormDataPart("app_versions", BuildConfig.STORE_CHANNEL);
             }
+            // 新字段  跟广告有关的接口 都需要通过上传 ad_version (实际应该为adChannel)  判断是否展示广告。
+            builder.addFormDataPart("ad_version", String.valueOf(BuildConfig.AD_CHANNEL));
             body = builder.build();
         } else {
             FormBody.Builder builder = new FormBody.Builder();
@@ -241,6 +243,8 @@ public class EncryptInterceptor implements Interceptor {
                 //如果是上线版本  app_versions=101
                 builder.add("app_versions", BuildConfig.STORE_CHANNEL);
             }
+            // 新字段  跟广告有关的接口 都需要通过上传 ad_version(实际应该为adChannel)  判断是否展示广告。
+            builder.add("ad_version", String.valueOf(BuildConfig.AD_CHANNEL));
             body = builder.build();
         }
         return request.newBuilder().method(request.method(), body).build();

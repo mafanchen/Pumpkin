@@ -595,12 +595,12 @@ public class RetrofitHelper implements IModel {
         return sRetrofitApiServer.addAdInfo(adType, adId, BuildConfig.APP_ID, 1, BuildConfig.AD_VERSION, userTokenId);
     }
 
-    public Observable<BaseResult<Object>> getClewWord(int searchWord) {
+    public Observable<BaseResult<List<String>>> getClewWord(int searchWord) {
         return sRetrofitApiServer.getClewWord(searchWord);
     }
 
-    public Observable<BaseResult<String>> uploadWatchTime(String token, String tokenId, String version, String cid, String pid) {
-        return sRetrofitApiServer.uplodaWatchTime(BuildConfig.APP_ID, token, tokenId, version, "1", cid, pid);
+    public Observable<BaseResult<String>> uploadWatchTime(String version, String cid, String pid) {
+        return sRetrofitApiServer.uploadWatchTime(version, "1", cid, pid);
     }
 
     public Observable<BaseResult<AddCollectionBean>> addTopicCollection(String token, String tokenId, String topicId) {
@@ -619,16 +619,16 @@ public class RetrofitHelper implements IModel {
         return sRetrofitApiServer.getProfilePics();
     }
 
-    public Observable<BaseResult<String>> updateProfilePic(String picId, String token, String tokenId) {
-        return sRetrofitApiServer.updateProfilePic(BuildConfig.APP_ID, picId, token, tokenId);
+    public Observable<BaseResult<String>> updateProfilePic(String picId) {
+        return sRetrofitApiServer.updateProfilePic(picId);
     }
 
-    public Observable<BaseResult<CollectionBean>> getAllCollection(String token, String tokenId) {
-        return sRetrofitApiServer.getAllCollection(BuildConfig.APP_ID, token, tokenId);
+    public Observable<BaseResult<CollectionBean>> getAllCollection() {
+        return sRetrofitApiServer.getAllCollection();
     }
 
-    public Observable<BaseResult<UserCenterAdBean>> getUserCenterAd(String adChannel, String token, String tokenId) {
-        return sRetrofitApiServer.getUserCenterAd(BuildConfig.APP_ID, adChannel, token, tokenId);
+    public Observable<BaseResult<UserCenterAdBean>> getUserCenterAd(String adChannel) {
+        return sRetrofitApiServer.getUserCenterAd(adChannel);
     }
 
     public Observable<BaseResult<AdBean>> getUserCenterAdInfo() {
