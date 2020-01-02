@@ -89,9 +89,17 @@ public interface ApiServer {
     @POST("App/Index/newIndex")
     Observable<BaseResult<BeanTopicListBean>> getHomepageBeanTopic(@Field("pid") int pid, @Field("order") int order);
 
+
+    /**
+     * @param pid       栏目id
+     * @param appId     app ID
+     * @param adChannel 广告渠道标识符
+     * @return
+     */
     @FormUrlEncoded
     @POST("App/Index/newBanner")
-    Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice(@Field("pid") int pid, @Field("app_id") int appId, @Field("ad_version") int adVersion);
+    Observable<BaseResult<BannerAndNoticeListBean>> getBannerAndNotice(@Field("pid") int pid, @Field("app_id") int appId, @Field("ad_version") int adChannel);
+
 
     @FormUrlEncoded
     @POST("App/Index/indexList")
@@ -161,6 +169,7 @@ public interface ApiServer {
     @POST("App/VersionInfo/index")
     Observable<BaseResult<VersionInfoBean>> getVersionInfo();
 
+    // TODO 缺字段
     @POST("App/Config/splashInfo")
     Observable<BaseResult<SplashBean>> getSplashInfo();
 
@@ -205,6 +214,11 @@ public interface ApiServer {
                                                              @Field("type_val") String type, @Field("year_val") String year,
                                                              @Field("play_val") String sort);
 
+    /**
+     * 获取筛选页面上方筛选词的词组
+     *
+     * @return
+     */
     @POST("App/Index/screenData")
     Observable<BaseResult<ScreenBean>> getScreenType();
 
@@ -283,7 +297,7 @@ public interface ApiServer {
      * ad_id  广告ID
      * app_id  应用ID =1 test1 =2 test2 =3 test3
      * app_type  手机类型 =1 安卓 =2 iOS
-     * ad_version 广告版本号  1=> V1.3.3
+     * ad_version 统计广告版本号  1=> V1.3.3
      * user_id   会员ID  TODO 接口参数为 token_id
      * 返回参数 bool
      *
@@ -298,15 +312,13 @@ public interface ApiServer {
                                              @Field("ad_version") int adVersion,
                                              @Field("user_id") String userId);
 
-    // TODO 接口异常 未全部完成
+    //
     @FormUrlEncoded
     @POST("App/Index/backThinkVod")
-    Observable<BaseResult<Object>> getClewWord(@Field("words") int searchWord);
+    Observable<BaseResult<List<String>>> getClewWord(@Field("words") int searchWord);
 
 
     /**
-     * @param token
-     * @param tokenId
      * @param version 版本号 1=>1.3.3 , 2=>1.3.4 ,3=>1.3.5
      * @param appType 手机类型 1=>安卓, 2=>iOS
      * @param cid     资源类型ID
@@ -315,20 +327,19 @@ public interface ApiServer {
      */
     @FormUrlEncoded
     @POST("App/Index/addWatchInfo")
-    Observable<BaseResult<String>> uplodaWatchTime(@Field("app_id") int appId, @Field("token") String token, @Field("token_id") String tokenId,
-                                                   @Field("version") String version, @Field("app_type") String appType, @Field("cid") String cid, @Field("pid") String pid);
+    Observable<BaseResult<String>> uploadWatchTime(@Field("version") String version, @Field("app_type") String appType,
+                                                   @Field("cid") String cid, @Field("pid") String pid);
 
 
     /**
-     * @param appId     appID
-     * @param adVersion 广告渠道号
+     * @param appId      appID
+     * @param adVersion  广告渠道号  用来判断这个广告渠道号的广告是否展示
      * @return
      */
 
     @FormUrlEncoded
     @POST("App/UserInfo/backUserAd")
-    Observable<BaseResult<UserCenterAdBean>> getUserCenterAd(@Field("app_id") int appId, @Field("ad_version") String adChannel,
-                                                             @Field("token") String token, @Field("token_id") String tokenId);
+    Observable<BaseResult<UserCenterAdBean>> getUserCenterAd(@Field("ad_version") String adChannel);
 
     /**
      * JAVABEAN 可以与之前的普通收藏复用
@@ -380,31 +391,28 @@ public interface ApiServer {
 
 
     /**
-     * @param appId appId
      * @param picID 头像的ID
      * @return
      */
     @FormUrlEncoded
     @POST("App/UserInfo/newUpdatePic")
-    Observable<BaseResult<String>> updateProfilePic(@Field("app_id") int appId, @Field("id") String picId, @Field("token") String token, @Field("token_id") String tokenId);
+    Observable<BaseResult<String>> updateProfilePic(@Field("id") String picId);
 
 
     /**
      * 获取用户分类别的全部收藏
      *
-     * @param appId
-     * @param token
-     * @param tokenId
      * @return
      */
-    @FormUrlEncoded
     @POST("App/UserCollect/newIndex")
-    Observable<BaseResult<CollectionBean>> getAllCollection(@Field("app_id") int appId, @Field("token") String token, @Field("token_id") String tokenId);
+    Observable<BaseResult<CollectionBean>> getAllCollection();
 
 
     @FormUrlEncoded
     @POST("App/UserInfo/backUserAd")
     Observable<BaseResult<AdBean>> getUserCenterAdInfo(@Field("app_id") int appId, @Field("ad_version") int adVersion);
+
+
 }
 
 
