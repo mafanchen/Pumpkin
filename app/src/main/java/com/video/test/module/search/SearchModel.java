@@ -56,6 +56,9 @@ public class SearchModel implements SearchContract.Model {
 
     @Override
     public Observable<List<String>> getAssociationWord(String searchWord) {
-        return null;
+        return RetrofitHelper.getInstance()
+                .getClewWord(searchWord)
+                .compose(RxSchedulers.io_main())
+                .compose(RxSchedulers.handleResult());
     }
 }

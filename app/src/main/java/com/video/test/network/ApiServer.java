@@ -315,7 +315,7 @@ public interface ApiServer {
     //
     @FormUrlEncoded
     @POST("App/Index/backThinkVod")
-    Observable<BaseResult<List<String>>> getClewWord(@Field("words") int searchWord);
+    Observable<BaseResult<List<String>>> getClewWord(@Field("words") String searchWord);
 
 
     /**

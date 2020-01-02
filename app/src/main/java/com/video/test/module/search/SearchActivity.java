@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -47,8 +48,6 @@ import com.video.test.utils.LogUtils;
 import com.video.test.utils.PixelUtils;
 import com.video.test.utils.ToastUtils;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -78,7 +77,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     @BindView(R.id.loadingView)
     LoadingView mLoadingView;
     @BindView(R.id.tv_no_association)
-    TextView mTvNoAssociaton;
+    TextView mTvNoAssociation;
     @BindView(R.id.rv_association)
     RecyclerView mRvAssociation;
 
@@ -99,14 +98,15 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!TextUtils.isEmpty(searchWord)) {
-            mTbSearch.setEditTextContentAndSearchImmediately(searchWord);
-            isSearchImmediately = true;
-        }
+
     }
 
     @Override
     protected void initData() {
+        mTbSearch.setSearchViewListener(new BeanSearchListener());
+        if (!TextUtils.isEmpty(searchWord)) {
+            mTbSearch.setEditTextContentAndSearchImmediately(searchWord);
+        }
         mLoadingView.setOnLoadingListener(new LoadingView.OnLoadingListener() {
             @Override
             public void onRetry() {
@@ -134,7 +134,11 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     @Override
     protected void setAdapter() {
         mAdapterAssociation = new SearchAssociationAdapter();
-        mAdapterAssociation.setOnItemClickListener(word -> mTbSearch.notifyStartSearching(word));
+        mAdapterAssociation.setOnItemClickListener(word -> {
+                    hideAssociationView();
+                    mTbSearch.notifyStartSearching(word);
+                }
+        );
         if (mRvAssociation.getItemDecorationCount() == 0) {
             android.support.v7.widget.DividerItemDecoration decoration =
                     new android.support.v7.widget.DividerItemDecoration(this, android.support.v7.widget.DividerItemDecoration.VERTICAL);
@@ -143,6 +147,10 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
             decoration.setDrawable(drawable);
             mRvAssociation.addItemDecoration(decoration);
         }
+        if (mRvAssociation.getLayoutManager() == null) {
+            mRvAssociation.setLayoutManager(new LinearLayoutManager(this));
+        }
+        mRvAssociation.setAdapter(mAdapterAssociation);
 
         mAdapter = new MultiTypeAdapter();
         mSearchViewBinder = new SearchViewBinder();
@@ -171,7 +179,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         mRvSearchResult.addItemDecoration(new DividerItemDecoration(width, 0, Color.WHITE));
         mRvSearchResult.setAdapter(mAdapter);
         mRvSearchResult.addOnScrollListener(new GlideOnScrollListener());
-        mTbSearch.setSearchViewListener(new BeanSearchListener());
     }
 
     @Override
@@ -306,7 +313,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         @Override
         public void onAssociation(String string) {
             mLoadingView.showContent();
-            mTvNoAssociaton.setText(getString(R.string.search_association, string));
+            mTvNoAssociation.setText(getString(R.string.search_association, string));
             //展示联想词列表
             //如果是点击了关键字直接搜索，则无需进行联想词搜索
             if (isSearchImmediately) {
@@ -330,12 +337,12 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
     private void showAssociationView() {
         mRvAssociation.setVisibility(View.VISIBLE);
-        mTvNoAssociaton.setVisibility(View.VISIBLE);
+        mTvNoAssociation.setVisibility(View.VISIBLE);
     }
 
     private void hideAssociationView() {
         mRvAssociation.setVisibility(View.GONE);
-        mTvNoAssociaton.setVisibility(View.GONE);
+        mTvNoAssociation.setVisibility(View.GONE);
     }
 
     @Override
