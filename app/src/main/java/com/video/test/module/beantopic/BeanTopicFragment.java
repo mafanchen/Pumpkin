@@ -242,10 +242,10 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
     }*/
 
 
-    @OnClick({R.id.search_topic_toolbar})
+    @OnClick({R.id.iv_search_toolbar})
     void click(View view) {
         switch (view.getId()) {
-            case R.id.search_topic_toolbar:
+            case R.id.iv_search_toolbar:
                 LogUtils.d(TAG, "search btn");
                 jump2Activity("/search/activity");
                 break;
