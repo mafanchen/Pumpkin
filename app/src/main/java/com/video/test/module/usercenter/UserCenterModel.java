@@ -5,6 +5,7 @@ import com.video.test.javabean.LoginBean;
 import com.video.test.javabean.UploadAvatarBean;
 import com.video.test.javabean.UserCenterBean;
 import com.video.test.javabean.VersionInfoBean;
+import com.video.test.network.BaseResult;
 import com.video.test.network.RetrofitHelper;
 import com.video.test.utils.RxSchedulers;
 
@@ -65,5 +66,10 @@ public class UserCenterModel implements UserCenterContract.Model {
                 .getUserCenterAdInfo()
                 .compose(RxSchedulers.handleResult())
                 .compose(RxSchedulers.io_main());
+    }
+
+    @Override
+    public Observable<BaseResult<Object>> addAdInfo(int adType, String adId) {
+        return RetrofitHelper.getInstance().addAdInfo(adType, adId);
     }
 }

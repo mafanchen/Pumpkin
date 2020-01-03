@@ -230,6 +230,10 @@ public class AppConstant {
      * 小卡片
      */
     public static final int AD_TYPE_VIDEO_CARD = 11;
+    /**
+     * 个人中心
+     */
+    public static final int AD_TYPE_USER_CENTER = 12;
 
 
     /**
