@@ -11,13 +11,16 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.umeng.analytics.MobclickAgent;
 import com.video.test.AppConstant;
 import com.video.test.BuildConfig;
 import com.video.test.R;
 import com.video.test.TestApp;
 import com.video.test.javabean.ScreenBean;
+import com.video.test.javabean.TabEntityBean;
 import com.video.test.javabean.event.HotSearchWordRetryEvent;
 import com.video.test.module.videotype.BaseVideoTypeListFragment;
 import com.video.test.sp.SpUtils;
@@ -46,7 +49,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
     @BindView(R.id.vp_video_fragment)
     BeanViewPager mViewPager;
     @BindView(R.id.tabLayout_video_fragment)
-    SlidingTabLayout mTabLayout;
+    CommonTabLayout mTabLayout;
     @BindView(R.id.layout_history_window)
     LinearLayout mLayoutHistory;
     @BindView(R.id.iv_history_close)
@@ -66,7 +69,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
     @BindView(R.id.iv_share_toolbar_homepage)
     ImageView mIvShare;
     private int currentPid = 0;
-    private String[] mTabTitles = {"热门", "电影", "电视剧", "综艺", "动漫"};
+    private String[] mTabTitles = {"", "热门", "电影", "电视剧", "综艺", "动漫"};
     private BeanViewStatePagerAdapter mBeanViewPagerAdapter;
 
     public static Fragment newInstance(String title) {
@@ -89,15 +92,37 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
         return R.layout.bean_fragment_video;
     }
 
+    private void initTabLayout() {
+        ArrayList<CustomTabEntity> tabEntities = new ArrayList<>();
+        for (int i = 0; i < mTabTitles.length; i++) {
+            int imageId = i == 0 ? R.drawable.pic_2019_nav : 0;
+            tabEntities.add(new TabEntityBean(mTabTitles[i], imageId, imageId));
+        }
+        mTabLayout.setTabData(tabEntities);
+        mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                if (mViewPager != null) {
+                    mViewPager.setCurrentItem(position);
+                }
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
+        //初始化时 默认最热TAG 并且请求最热TAG数据
+        mTabLayout.setCurrentTab(0);
+    }
 
     @Override
     protected void setAdapter() {
         ArrayList<Fragment> fragments = mPresenter.initFragmentList();
         mBeanViewPagerAdapter = new BeanViewStatePagerAdapter(getChildFragmentManager());
         mBeanViewPagerAdapter.setItems(fragments, mTabTitles);
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(5);
         mViewPager.setAdapter(mBeanViewPagerAdapter);
-        mTabLayout.setViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -106,9 +131,10 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
 
             @Override
             public void onPageSelected(int i) {
+                mTabLayout.setCurrentTab(i);
                 currentPid = ((BaseVideoTypeListFragment) fragments.get(i)).getPid();
                 mPresenter.onChangeHotSearchWord(String.valueOf(((BaseVideoTypeListFragment) mBeanViewPagerAdapter.getItem(i)).getPid()));
-                if (i == 0) {
+                if (i <= 1) {
                     mIvScreen.setVisibility(View.GONE);
                     mIvShare.setVisibility(View.VISIBLE);
                     mIvHistory.setVisibility(View.VISIBLE);
@@ -124,6 +150,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
 
             }
         });
+        initTabLayout();
     }
 
     @Override

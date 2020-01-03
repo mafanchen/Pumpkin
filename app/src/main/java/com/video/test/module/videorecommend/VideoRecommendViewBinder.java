@@ -1,5 +1,6 @@
 package com.video.test.module.videorecommend;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.video.test.R;
 import com.video.test.framework.GlideApp;
+import com.video.test.framework.GlideRequest;
 import com.video.test.javabean.VideoBean;
 import com.video.test.utils.LogUtils;
 
@@ -28,18 +31,37 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public class VideoRecommendViewBinder extends ItemViewBinder<VideoBean, VideoRecommendViewBinder.VideoRecommendViewHolder> {
     private static final String TAG = "VideoRecommendViewBinder";
 
+    private boolean isSpecial = false;
+
+    public VideoRecommendViewBinder() {
+    }
+
+    public VideoRecommendViewBinder(boolean isSpecial) {
+        this.isSpecial = isSpecial;
+    }
 
     @NonNull
     @Override
     protected VideoRecommendViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        View view = inflater.inflate(R.layout.bean_recycle_item_video, parent, false);
+        int viewId = isSpecial ? R.layout.bean_recycle_item_video_special : R.layout.bean_recycle_item_video;
+        View view = inflater.inflate(viewId, parent, false);
         return new VideoRecommendViewHolder(view);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull VideoRecommendViewHolder holder, @NonNull final VideoBean videoBean) {
         holder.mTvVideoName.setText(videoBean.getVod_name());
-        GlideApp.with(holder.itemView.getContext()).load(videoBean.getVod_pic()).transition(withCrossFade()).error(R.drawable.bg_video_default_vertical).into(holder.mIvPic);
+        GlideRequest<Drawable> request = GlideApp
+                .with(holder.itemView.getContext())
+                .load(videoBean.getVod_pic())
+                .override(208, 313)
+                .fitCenter()
+                .transition(withCrossFade())
+                .error(R.drawable.bg_video_default_vertical);
+        if (isSpecial) {
+            request = request.transform(new RoundedCorners(15));
+        }
+        request.into(holder.mIvPic);
         holder.itemView.setOnClickListener(v -> {
             LogUtils.i(TAG, "mFl Click == " + videoBean.toString());
             ARouter.getInstance().build("/player/activity").withString("vodId", videoBean.getVod_id()).withString("vodPid", String.valueOf(videoBean.getVodPid())).navigation();

@@ -586,8 +586,8 @@ public class RetrofitHelper implements IModel {
         return sRetrofitApiServer.getHotSearchWord();
     }
 
-    public Observable<BaseResult<List<HottestVideoBean>>> getHottestVideos(String showId) {
-        return sRetrofitApiServer.getHottestVideos(showId);
+    public Observable<BaseResult<List<HottestVideoBean>>> getHottestVideos(@NotNull String showId, @Nullable String showPid) {
+        return sRetrofitApiServer.getHottestVideos(showId, showPid);
     }
 
     public Observable<BaseResult<Object>> addAdInfo(int adType, String adId) {

@@ -1,5 +1,6 @@
 package com.video.test.module.videorecommend;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +13,10 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.video.test.R;
 import com.video.test.framework.GlideApp;
+import com.video.test.framework.GlideRequest;
 import com.video.test.javabean.VideoRecommendBean;
 import com.video.test.utils.LogUtils;
 
@@ -33,20 +36,34 @@ public class VideoRecommendHorizontalViewBinder extends ItemViewBinder<VideoReco
 
     private static final String TAG = "VideoRecommendHorizontalViewBinder";
 
+    private boolean isSpecial = false;
+
+    public VideoRecommendHorizontalViewBinder() {
+    }
+
+    public VideoRecommendHorizontalViewBinder(boolean isSpecial) {
+        this.isSpecial = isSpecial;
+    }
+
     @NonNull
     @Override
     protected ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        View view = inflater.inflate(R.layout.bean_recycle_item_recommend_video, parent, false);
+        int layoutId = isSpecial ? R.layout.bean_recycle_item_recommend_video_special : R.layout.bean_recycle_item_recommend_video;
+        View view = inflater.inflate(layoutId, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull VideoRecommendBean item) {
-        GlideApp.with(holder.itemView.getContext())
+        GlideRequest<Drawable> request = GlideApp.with(holder.itemView.getContext())
                 .load(item.getImageUrl())
-                .transform(new CenterCrop())
-                .transition(withCrossFade())
-                .error(R.drawable.bg_video_default_horizontal)
+                .override(324, 182)
+                .centerCrop()
+                .transition(withCrossFade());
+        if (isSpecial) {
+            request = request.transform(new RoundedCorners(15));
+        }
+        request.error(R.drawable.bg_video_default_horizontal)
                 .into(holder.ivCover);
         holder.tvMainTitle.setText(item.getMainTitle());
         holder.tvSubTitle.setText(item.getSubTitle());

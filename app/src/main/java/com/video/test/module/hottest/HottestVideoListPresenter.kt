@@ -8,8 +8,8 @@ class HottestVideoListPresenter : HottestVideoListContract.Presenter<HottestVide
     override fun subscribe() {
     }
 
-    override fun getHottestVideo(showId: String) {
-        val subscribe = mModel.getHottestVideo(showId)
+    override fun getHottestVideo(showId: String, showPid: String?) {
+        val subscribe = mModel.getHottestVideo(showId, showPid)
                 .subscribe(Consumer { list ->
                     mView.hideRefreshLayout(true)
                     mView.setVideoData(Items(list))

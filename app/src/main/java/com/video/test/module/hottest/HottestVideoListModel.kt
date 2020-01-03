@@ -6,9 +6,9 @@ import com.video.test.utils.RxSchedulers
 import io.reactivex.Observable
 
 class HottestVideoListModel : HottestVideoListContract.Model {
-    override fun getHottestVideo(showId: String): Observable<List<HottestVideoBean>> =
+    override fun getHottestVideo(showId: String, showPid: String?): Observable<List<HottestVideoBean>> =
             RetrofitHelper.getInstance()
-                    .getHottestVideos(showId)
+                    .getHottestVideos(showId, showPid)
                     .compose(RxSchedulers.io_main())
                     .compose(RxSchedulers.handleResult())
 }

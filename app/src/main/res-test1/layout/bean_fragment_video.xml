@@ -20,7 +20,7 @@
             android:paddingEnd="12dp"
             android:src="@drawable/ic_nav_logo" />
 
-        <com.flyco.tablayout.SlidingTabLayout
+        <com.flyco.tablayout.CommonTabLayout
             android:id="@+id/tabLayout_video_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,7 +30,8 @@
             app:tl_indicator_color="@color/homepage_font_chose"
             app:tl_indicator_height="3dp"
             app:tl_indicator_width="12dp"
-            app:tl_tab_padding="12dp"
+            app:tl_tab_padding="3dp"
+            app:tl_tab_space_equal="true"
             app:tl_textBold="SELECT"
             app:tl_textSelectColor="@color/homepage_font_chose"
             app:tl_textUnselectColor="@color/homepage_font_no_chose"

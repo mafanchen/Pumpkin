@@ -19,10 +19,10 @@ interface HottestVideoListContract {
     }
 
     interface Model : IModel {
-        fun getHottestVideo(showId: String): Observable<List<HottestVideoBean>>
+        fun getHottestVideo(showId: String, showPid: String?): Observable<List<HottestVideoBean>>
     }
 
     abstract class Presenter<M : Model> : BasePresenter<M, View>() {
-        abstract fun getHottestVideo(showId: String)
+        abstract fun getHottestVideo(showId: String, showPid: String?)
     }
 }

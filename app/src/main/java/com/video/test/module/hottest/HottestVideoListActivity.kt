@@ -49,6 +49,10 @@ class HottestVideoListActivity : BaseActivity<HottestVideoListPresenter>(), Hott
     @Autowired(name = "title")
     var mTitle: String? = null
 
+    @JvmField
+    @Autowired(name = "showPid")
+    var mShowPid: String? = null
+
 
     override fun getContextViewId(): Int {
         return R.layout.bean_activity_recommend_video
@@ -69,7 +73,7 @@ class HottestVideoListActivity : BaseActivity<HottestVideoListPresenter>(), Hott
         mLoadingView.setOnLoadingListener(object : LoadingView.OnLoadingListener {
             override fun onRetry() {
                 mLoadingView.showContent()
-                mShowId?.let { mPresenter.getHottestVideo(it) }
+                mShowId?.let { mPresenter.getHottestVideo(it, mShowPid) }
             }
 
             override fun onSolve() {
@@ -92,7 +96,7 @@ class HottestVideoListActivity : BaseActivity<HottestVideoListPresenter>(), Hott
         mSwipeRefresh.setEnableLoadMore(false)
         mSwipeRefresh.setRefreshHeader(RefreshHeader(this))
         mSwipeRefresh.setOnRefreshListener {
-            mShowId?.let { mPresenter.getHottestVideo(it) }
+            mShowId?.let { mPresenter.getHottestVideo(it, mShowPid) }
         }
     }
 

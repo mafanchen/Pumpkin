@@ -288,9 +288,14 @@ public interface ApiServer {
     @POST("App/Index/getSearchInfo")
     Observable<BaseResult<HotSearchWordListBean>> getHotSearchWord();
 
+    /**
+     * @param showId  栏目showId
+     * @param showPid 只有当页面是2019页面时，传入7
+     * @return
+     */
     @FormUrlEncoded
     @POST("App/Index/getPopulars")
-    Observable<BaseResult<List<HottestVideoBean>>> getHottestVideos(@Field("show_id") String showId);
+    Observable<BaseResult<List<HottestVideoBean>>> getHottestVideos(@Field("show_id") String showId, @Field("show_pid") String showPid);
 
     /**
      * ad_type 广告类型 广告类型 1=>启动,2=>轮播,3=>热门栏目, 4=>电影栏目,5=>电视栏目,6=>综艺栏目,7=>动漫栏目,8=>播放页栏目,9=>片头,10=>暂停,11=>小卡片
@@ -332,8 +337,8 @@ public interface ApiServer {
 
 
     /**
-     * @param appId      appID
-     * @param adVersion  广告渠道号  用来判断这个广告渠道号的广告是否展示
+     * @param appId     appID
+     * @param adVersion 广告渠道号  用来判断这个广告渠道号的广告是否展示
      * @return
      */
 

@@ -16,6 +16,7 @@
 
 package com.video.test.ui.viewbinder;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.video.test.R;
 import com.video.test.framework.GlideApp;
@@ -41,6 +43,15 @@ public class VideoTitleItemViewBinder extends ItemViewBinder<VideoTitleBean, Vid
 
     private static final String TAG = "VideoTitleItemViewBinder";
 
+    private boolean isSpecial = false;
+
+    public VideoTitleItemViewBinder() {
+    }
+
+    public VideoTitleItemViewBinder(boolean isSpecial) {
+        this.isSpecial = isSpecial;
+    }
+
     @Override
     protected @NonNull
     ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
@@ -52,6 +63,11 @@ public class VideoTitleItemViewBinder extends ItemViewBinder<VideoTitleBean, Vid
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull final VideoTitleBean videoTitleBean) {
         if (null != holder.mTvTitle) {
             holder.mDivider.setVisibility(videoTitleBean.isShowDivider() ? View.VISIBLE : View.GONE);
+            if (isSpecial) {
+                holder.mDivider.setBackgroundColor(Color.TRANSPARENT);
+                holder.mTvMore.setTextColor(Color.parseColor("#333333"));
+                holder.mTvMore.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_more_black, 0);
+            }
             holder.mTvTitle.setText(videoTitleBean.getType());
             GlideApp.with(holder.itemView.getContext()).load(videoTitleBean.getTypePic()).into(holder.mIvTitlePic);
             switch (videoTitleBean.getColumnType()) {
@@ -96,8 +112,12 @@ public class VideoTitleItemViewBinder extends ItemViewBinder<VideoTitleBean, Vid
     }
 
     private void jump2Hottest(String showId, String title) {
-        ARouter.getInstance().build("/hottest/activity")
-                .withString("showId", showId)
+        Postcard build = ARouter.getInstance().build("/hottest/activity");
+        if (isSpecial) {
+            //2019 showPid = 7,其他类型的页面不用传
+            build.withString("showPid", "7");
+        }
+        build.withString("showId", showId)
                 .withString("title", title)
                 .navigation();
     }

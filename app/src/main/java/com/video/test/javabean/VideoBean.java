@@ -30,6 +30,12 @@ public class VideoBean {
      */
     private String vod_continu;
 
+    /**
+     * 资源类型 1电影 2电视剧 3综艺 4动漫
+     */
+    @SerializedName("t_id")
+    private String vodType;
+
     // 电影资源类型
     @SerializedName("d_total")
     private String vodTotal;
@@ -136,6 +142,14 @@ public class VideoBean {
 
     public void setVod_continu(String vod_continu) {
         this.vod_continu = vod_continu;
+    }
+
+    public String getVodType() {
+        return vodType;
+    }
+
+    public void setVodType(String vodType) {
+        this.vodType = vodType;
     }
 
     @Override

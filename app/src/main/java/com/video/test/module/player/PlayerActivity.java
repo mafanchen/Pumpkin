@@ -2073,8 +2073,10 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     @Override
     public void uploadWatchTime() {
         //TODO  此处需要实现上报接口
-        mPresenter.uploadWatchTime(mVideoCid, mVideoPid);
-        LogUtils.d("PlayerPresenter", "uploadWatchTime :" + " Cid :" + mVideoCid + " Pid : " + mVideoPid);
+        if (mVideoPid != null) {
+            mPresenter.uploadWatchTime(mVideoCid, mVideoPid);
+            LogUtils.d("PlayerPresenter", "uploadWatchTime :" + " Cid :" + mVideoCid + " Pid : " + mVideoPid);
+        }
     }
 
     @Override

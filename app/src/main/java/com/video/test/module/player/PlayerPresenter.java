@@ -811,7 +811,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
 
 
     /**
-     * @param landLayoutVideo播放器
+     * @param landLayoutVideo 播放器
      */
     @Override
     public void watchVideoTimer(LandLayoutVideo landLayoutVideo) {

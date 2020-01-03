@@ -22,6 +22,7 @@ import com.video.test.javabean.HistoryListBean;
 import com.video.test.javabean.ScreenBean;
 import com.video.test.module.videorecommend.VideoRecommendFragment;
 import com.video.test.module.videotype.BaseVideoTypeListFragment;
+import com.video.test.module.videotype.SpecialFragment;
 import com.video.test.module.videotype.VideoTypeListFragment;
 import com.video.test.network.RxExceptionHandler;
 import com.video.test.sp.SpUtils;
@@ -67,12 +68,14 @@ public class VideoPresenter extends VideoContract.Presenter<VideoModel> {
 
         ArrayList<Fragment> fragments = new ArrayList<>();
 
+        Fragment specialFragment = SpecialFragment.Companion.newInstance();
         Fragment recommendFragment = VideoRecommendFragment.newInstance();
         Fragment movieFragment = VideoTypeListFragment.Companion.newInstance(AppConstant.VIDEO_LIST_PID_MOVIE, AppConstant.AD_TYPE_MOVIE);
         Fragment teleplayFragment = VideoTypeListFragment.Companion.newInstance(AppConstant.VIDEO_LIST_PID_TELEPLAY, AppConstant.AD_TYPE_TELEPLAY);
         Fragment cartoonFragment = VideoTypeListFragment.Companion.newInstance(AppConstant.VIDEO_LIST_PID_CARTOON, AppConstant.AD_TYPE_CARTOON);
         Fragment varietyShowFragment = VideoTypeListFragment.Companion.newInstance(AppConstant.VIDEO_LIST_PID_VARIETYSHOW, AppConstant.AD_TYPE_VARIETY);
 
+        fragments.add(specialFragment);
         fragments.add(recommendFragment);
         fragments.add(movieFragment);
         fragments.add(teleplayFragment);
