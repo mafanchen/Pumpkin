@@ -95,6 +95,7 @@ public class AppConstant {
     public static final String BANNER_TYPE_WEBURL = "3";
     public static final String BANNER_TYPE_AD = "13";
     public static final String BANNER_TYPE_TOPIC = "21";
+    public static final String BANNER_TYPE_WEB_PROGRAM = "27";
     public static final String TYPE_CLOSE_NOTICE = "97";
 
     public static final int LIST_POSITION_ZERO = 0;
@@ -238,14 +239,14 @@ public class AppConstant {
 
 
     /**
-     *  设置中的 储存变量
+     * 设置中的 储存变量
      */
 
-    public static final String SWITCH_MOBILE_PLAY ="SettingSwitchMobilePlay";
-    public static final String SWITCH_MOBILE_DOWN ="SettingSwitchMobileDown";
-    public static final String SWITCH_HOMEPAGE_HISTORY ="SettingSwitchHomeHistory";
-    public static final String SWITCH_PUSH_NOTICE ="SettingSwitchPushNotice";
-    public static final String SWITCH_AUTO_PLAY ="SettingSwitchAutoPlay";
+    public static final String SWITCH_MOBILE_PLAY = "SettingSwitchMobilePlay";
+    public static final String SWITCH_MOBILE_DOWN = "SettingSwitchMobileDown";
+    public static final String SWITCH_HOMEPAGE_HISTORY = "SettingSwitchHomeHistory";
+    public static final String SWITCH_PUSH_NOTICE = "SettingSwitchPushNotice";
+    public static final String SWITCH_AUTO_PLAY = "SettingSwitchAutoPlay";
 
     /**
      * 快进 快退

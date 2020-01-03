@@ -7,7 +7,6 @@ class WebProgramPresenter : WebProgramContract.Persenter<WebProgramModel>() {
 
     override fun subscribe() {
 
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

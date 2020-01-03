@@ -255,6 +255,9 @@ abstract class BaseVideoTypeListFragment<P : BaseVideoTypeListPresenter<*, *>> :
                 startActivity(IntentUtils.getBrowserIntent(jumpBean.webUrl))
                 MobclickAgent.onEvent(TestApp.getContext(), "click_ads_banner", jumpBean.targetName)
             }
+            AppConstant.BANNER_TYPE_WEB_PROGRAM -> {
+                ARouter.getInstance().build("/webProgram/activity").withString("webUrl", jumpBean.webUrl).navigation()
+            }
             else -> {
             }
         }

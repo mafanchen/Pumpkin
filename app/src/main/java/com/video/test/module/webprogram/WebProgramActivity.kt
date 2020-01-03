@@ -8,7 +8,10 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
+import android.webkit.WebResourceRequest
+import android.webkit.WebSettings
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import butterknife.BindView
 import butterknife.OnClick
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -32,7 +35,7 @@ class WebProgramActivity : BaseActivity<WebProgramPresenter>(), WebProgramContra
     @JvmField
     @Autowired(name = "webUrl")
     var mWebUrl: String? = null
-    var catchHomeKey = false;
+    var catchHomeKey = false
 
     companion object {
         private const val TAG = "WebProgramActivity"
@@ -41,13 +44,6 @@ class WebProgramActivity : BaseActivity<WebProgramPresenter>(), WebProgramContra
     override fun beforeSetContentView() {
         super.beforeSetContentView()
         ARouter.getInstance().inject(this)
-    }
-
-    override fun onAttachedToWindow() {
-        if (!catchHomeKey) {
-            window.setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG)
-        }
-        super.onAttachedToWindow()
     }
 
     override fun getContextViewId(): Int {
@@ -74,7 +70,7 @@ class WebProgramActivity : BaseActivity<WebProgramPresenter>(), WebProgramContra
         settings.setSupportZoom(true)
         settings.defaultTextEncodingName = "UTF-8"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            settings.mixedContentMode;
+            settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
         settings.blockNetworkLoads = false
         mWebView!!.setDownloadListener { url: String?, userAgent: String?, contentDisposition: String?, mimeType: String?, contentLength: Long ->
@@ -83,8 +79,8 @@ class WebProgramActivity : BaseActivity<WebProgramPresenter>(), WebProgramContra
             intent.data = Uri.parse(url)
             startActivity(intent)
         }
+        mWebView!!.webViewClient = object : WebViewClient() {}
         mWebView!!.loadUrl(mWebUrl)
-
     }
 
 
@@ -129,7 +125,7 @@ class WebProgramActivity : BaseActivity<WebProgramPresenter>(), WebProgramContra
     }
 
     override fun onBackPressed() {
-        if (mWebView!= null && mWebView!!.canGoBack()) {
+        if (mWebView != null && mWebView!!.canGoBack()) {
             mWebView!!.goBack()
         }
     }
