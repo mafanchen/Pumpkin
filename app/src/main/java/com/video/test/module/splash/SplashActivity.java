@@ -115,13 +115,14 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements Spl
     }
 
     @Override
-    public void jumpToAdPage(String adName, String jumpUrl, String picUrl, String adId) {
+    public void jumpToAdPage(String adName, String jumpUrl, String picUrl, String adId, int showTime) {
         ARouter.getInstance().build("/ad/activity")
                 .withString("ad_name", adName)
                 .withString("jump_url", jumpUrl)
                 .withString("pic_url", picUrl)
                 .withString("ad_id", adId)
                 .withBoolean("isSplash", true)
+                .withInt("showTime", showTime)
                 .navigation();
         finish();
     }

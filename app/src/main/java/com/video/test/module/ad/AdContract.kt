@@ -26,7 +26,7 @@ interface AdContract {
     }
 
     abstract class Presenter<M : Model> : BasePresenter<M, View>() {
-        abstract fun countDownSplash(context: Context)
+        abstract fun countDownSplash(context: Context, showTime: Int)
 
         abstract fun addAdInfo(adId: String?)
 

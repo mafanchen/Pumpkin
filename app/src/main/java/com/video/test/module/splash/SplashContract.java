@@ -31,7 +31,7 @@ public interface SplashContract {
 
         void skipSplashActivity();
 
-        void jumpToAdPage(String adName, String jumpUrl, String picUrl, String adId);
+        void jumpToAdPage(String adName, String jumpUrl, String picUrl, String adId, int showTime);
     }
 
     abstract class Presenter<M extends Model> extends BasePresenter<Model, View> {
