@@ -1,10 +1,11 @@
 package com.video.test.javabean;
 
 import com.google.gson.annotations.SerializedName;
+import com.video.test.javabean.base.ISelectableBean;
 
 import org.jetbrains.annotations.NotNull;
 
-public class CollectionTopicListBean {
+public class CollectionTopicListBean implements ISelectableBean {
     @SerializedName("id")
     private String topicId;
 
@@ -19,6 +20,8 @@ public class CollectionTopicListBean {
 
     @SerializedName("zt_num")
     private String topicNum;
+
+    private boolean isSelect;
 
     public String getTopicId() {
         return topicId;
@@ -70,5 +73,15 @@ public class CollectionTopicListBean {
                 ", topicPic='" + topicPic + '\'' +
                 ", topicNum='" + topicNum + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean isSelected() {
+        return isSelect;
+    }
+
+    @Override
+    public void setSelected(boolean selected) {
+        isSelect = selected;
     }
 }

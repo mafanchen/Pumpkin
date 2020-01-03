@@ -37,8 +37,8 @@ class AdPresenter : AdContract.Presenter<AdModel>() {
         }
     }
 
-    override fun countDownSplash(context: Context) {
-        val subscribe = RxCountdown.countdown(5).subscribe({ integer ->
+    override fun countDownSplash(context: Context, showTime: Int) {
+        val subscribe = RxCountdown.countdown(if (showTime == 0) 5 else showTime).subscribe({ integer ->
             mView.getLayoutSkip()?.isEnabled = false
             mView.getTvSkip()?.text = context.resources.getString(R.string.splash_skip_count, integer)
         }, {}, {

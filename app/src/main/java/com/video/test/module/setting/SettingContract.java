@@ -20,6 +20,9 @@ public interface SettingContract {
     interface View extends IView {
         void clearVideoCacheSuccess();
 
+        void showLoadingDialog();
+
+        void hideLoadingDialog();
     }
 
     abstract class Presenter<M extends Model> extends BasePresenter<Model, View> {
@@ -40,6 +43,7 @@ public interface SettingContract {
 
         public abstract void getSwitchPushNoticeStatus(SwitchButton switchButton);
 
+        public abstract void removeLocalCache();
     }
 
 

@@ -171,6 +171,7 @@
     <!--collection-->
     <string name="activity_collection">个人收藏</string>
     <string name="activity_collect_none">暂无收藏记录</string>
+    <string name="activity_collect_topic_video_count">%s部影视</string>
 
     <!--VideoList-->
 

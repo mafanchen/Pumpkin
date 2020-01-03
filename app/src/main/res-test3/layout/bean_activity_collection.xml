@@ -16,9 +16,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.flyco.tablayout.CommonTabLayout
+                android:id="@+id/tabLayout_collection"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tl_iconVisible="false"
+                app:tl_indicator_color="@color/colorWhite"
+                app:tl_textSelectColor="#ffad43"
+                app:tl_textUnselectColor="#666666"
+                app:tl_textsize="@dimen/text_size_15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDivider"
+                app:layout_constraintTop_toBottomOf="@+id/tabLayout_collection" />
+
             <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:id="@+id/layout_refresh"
                 style="@style/historyList_recycle_module"
+                android:layout_marginTop="39dp"
                 app:layout_constraintBottom_toTopOf="@+id/tv_selectAll_collection_activity"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -26,9 +46,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_collection_activity"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
-                    app:spanCount="3" />
+                    android:layout_height="match_parent" />
 
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

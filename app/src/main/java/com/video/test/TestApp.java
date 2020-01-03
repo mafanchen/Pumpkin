@@ -506,6 +506,7 @@ public class TestApp extends MultiDexApplication {
                                     .withString("jump_url", saveSplashBean.getJump_url())
                                     .withString("pic_url", saveSplashBean.getPic_url())
                                     .withString("ad_id", saveSplashBean.getId())
+                                    .withInt("showTime", saveSplashBean.getShow_time())
                                     .navigation();
                         }
                     }

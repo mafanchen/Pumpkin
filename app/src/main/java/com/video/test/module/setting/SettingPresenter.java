@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.tencent.mm.opensdk.utils.Log;
 import com.video.test.AppConstant;
 import com.video.test.R;
 import com.video.test.TestApp;
@@ -21,8 +22,13 @@ import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import jaygoo.library.m3u8downloader.M3U8Downloader;
 
 /**
@@ -122,6 +128,23 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
                 switchButton.setChecked(false);
             }
         }
+    }
+
+    @Override
+    public void removeLocalCache() {
+        Disposable subscribe = Observable.create((ObservableOnSubscribe<Boolean>) emitter -> {
+            FileUtils.deleteDir(DownloadUtil.getImageDirFile());
+            emitter.onNext(true);
+            emitter.onComplete();
+        })
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> mView.showLoadingDialog())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(() -> mView.hideLoadingDialog())
+                .subscribe(success -> ToastUtils.showToast(TestApp.getContext(), "清理缓存成功"),
+                        throwable -> Log.d(TAG, "removeLocalCache error," + throwable.getMessage()));
+        addDisposable(subscribe);
     }
 
     @Override

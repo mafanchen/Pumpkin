@@ -75,7 +75,7 @@ public class SplashPresenter extends SplashContract.Presenter<SplashModel> {
                     } else if (TextUtils.isEmpty(splashBean.getPic_url()) || TextUtils.isEmpty(splashBean.getJump_url())) {
                         mView.skipSplashActivity();
                     } else {
-                        mView.jumpToAdPage(splashBean.getAd_name(), splashBean.getJump_url(), splashBean.getPic_url(), splashBean.getId());
+                        mView.jumpToAdPage(splashBean.getAd_name(), splashBean.getJump_url(), splashBean.getPic_url(), splashBean.getId(),splashBean.getShow_time());
                     }
                 });
         addDisposable(subscribe);

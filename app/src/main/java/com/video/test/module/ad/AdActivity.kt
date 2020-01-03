@@ -42,6 +42,9 @@ class AdActivity : BaseActivity<AdPresenter>(), AdContract.View {
     @JvmField
     @Autowired(name = "isSplash")
     var mIsSplash: Boolean = false
+    @JvmField
+    @Autowired(name = "showTime")
+    var mShowTime: Int = 0
 
     override fun getContextViewId(): Int {
         return R.layout.bean_activity_ad
@@ -54,7 +57,7 @@ class AdActivity : BaseActivity<AdPresenter>(), AdContract.View {
 
     override fun initData() {
         //开始计时
-        mPresenter.countDownSplash(this.applicationContext)
+        mPresenter.countDownSplash(this.applicationContext, mShowTime)
         //展示广告图片
         mPicUrl?.let {
             LogUtils.d(TAG, mPicUrl)
