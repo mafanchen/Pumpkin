@@ -27,6 +27,7 @@ import com.video.test.javabean.BindPhoneBean;
 import com.video.test.javabean.UploadAvatarBean;
 import com.video.test.javabean.UserCenterBean;
 import com.video.test.javabean.VersionInfoBean;
+import com.video.test.javabean.event.ProfilePicEvent;
 import com.video.test.sp.SpUtils;
 import com.video.test.ui.base.BaseFragment;
 import com.video.test.ui.widget.ShareDialogFragment;
@@ -75,6 +76,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     private MaterialDialog mProgressDialog;
     private String mCountryCode;
     private String mPhone;
+    private String mPicUrl;
     private ObservableEmitter<View> viewObservableEmitter;
 
 
@@ -114,6 +116,12 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         mPresenter.getUserInfo(); //成功后通知 获取新的手机号码
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateProfilePicSuccess(ProfilePicEvent profilePicEvent) {
+        LogUtils.d(TAG, "updateProfilePicSuccess");
+        mPresenter.getUserInfo();
+    }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -144,8 +152,10 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
         SpUtils.putSerializable(TestApp.getContext(), AppConstant.USER_INFO, userCenterBean);
         if (!TextUtils.isEmpty(userCenterBean.getPic())) {
             GlideApp.with(this).load(userCenterBean.getPic()).into(mCivAvatar);
+            mPicUrl = userCenterBean.getPic();
         } else {
             GlideApp.with(this).load(R.drawable.ic_avatar_default).into(mCivAvatar);
+            mPicUrl = "";
         }
 
         mTvNickname.setText(userCenterBean.getUsername());
@@ -300,8 +310,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
                                 jump2Activity("/setting/activity");
                                 break;
                             case R.id.civ_avatar_userCenter:
-                                // TODO: 2019/7/29 暂时屏蔽头像上传
-//                                openGallery();
+                                ARouter.getInstance().build("/profilePic/activity").withString("picUrl", mPicUrl).navigation();
                                 break;
                             case R.id.tv_bindPhone_userCenter:
                                 ARouter.getInstance().build("/setPhone/activity").withString("code", mCountryCode).withString("phone", mPhone).navigation();

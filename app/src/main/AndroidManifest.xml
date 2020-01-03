@@ -211,6 +211,11 @@
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name="com.video.test.module.profilepic.ProfilePicActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:screenOrientation="portrait" />
+
         <receiver
             android:name="com.video.test.receiver.JPushReceiver"
             android:enabled="true"
