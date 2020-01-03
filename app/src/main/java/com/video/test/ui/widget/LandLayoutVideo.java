@@ -2,6 +2,9 @@ package com.video.test.ui.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -1273,6 +1276,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
                 mLayoutControl.setBackgroundResource(R.drawable.bg_shelter_player);
             }
         }
+        getBatterStatus();
     }
 
     @Override
@@ -2045,5 +2049,18 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     @Override
     public void addAddInfo(int adType, @Nullable String adId) {
         mVideoFunctionListener.addAdInfo(adType, adId);
+
     }
+
+    void getBatterStatus() {
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = mContext.registerReceiver(null, intentFilter);
+        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+        float batteryPct = level / (float) scale;
+
+        LogUtils.d(TAG, "Batter Pct : " + batteryPct + " level : " + level + " scale : " + scale);
+    }
+
+
 }

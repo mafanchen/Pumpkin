@@ -131,7 +131,7 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
                 //position １　为权重　　２为最新
                 order = position + 1;
                 Log.d(TAG, "onTabSelect order=" + order);
-                mPresenter.getHomepageBeanTopicList(order);
+                mRefreshLayout.autoRefresh();
             }
 
             @Override
@@ -141,14 +141,16 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
         });
         //初始化时 默认最热TAG 并且请求最热TAG数据
         mTabLayout.setCurrentTab(0);
-        mPresenter.getHomepageBeanTopicList(order);
+        mRefreshLayout.autoRefresh();
     }
 
 
     private void initRefreshLayout() {
         mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setRefreshHeader(new RefreshHeader(mContext));
-        mRefreshLayout.setOnRefreshListener(refreshLayout -> mPresenter.getHomepageBeanTopicList(order));
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            mPresenter.getHomepageBeanTopicList(order);
+        });
     }
 
     @Override
