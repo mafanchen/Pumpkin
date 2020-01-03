@@ -385,7 +385,6 @@ public interface ApiServer {
      *
      * @return
      */
-    @FormUrlEncoded
     @POST("App/User/backUserPic")
     Observable<BaseResult<List<ProfilePictureBean>>> getProfilePics();
 

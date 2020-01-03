@@ -438,6 +438,10 @@
     <string name="player_text_pause">暂停</string>
     <string name="player_text_skip">跳过</string>
 
+    <!--profile-->
+    <string name="profile_title">头像选择</string>
+    <string name="profile_commit">确定</string>
+    <string name="profile_saving">保存中&#8230;</string>
 
     <!--feedback-->
     <string name="feedback_content_hint">请描述您在使用过程中遇到的问题，便于我们更好的为您解决问题哦~</string>
