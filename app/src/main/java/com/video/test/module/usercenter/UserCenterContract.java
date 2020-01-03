@@ -14,6 +14,7 @@ import com.video.test.javabean.LoginBean;
 import com.video.test.javabean.UploadAvatarBean;
 import com.video.test.javabean.UserCenterBean;
 import com.video.test.javabean.VersionInfoBean;
+import com.video.test.network.BaseResult;
 
 import java.io.File;
 
@@ -38,6 +39,8 @@ public interface UserCenterContract {
         Observable<VersionInfoBean.InfoBean> getVersionInfo();
 
         Observable<AdBean> getUserCenterAdInfo();
+
+        Observable<BaseResult<Object>> addAdInfo(int adType, String adId);
     }
 
     interface View extends IView {
