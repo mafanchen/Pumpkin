@@ -415,6 +415,7 @@
     <string name="video_ad_default_count">5s</string>
     <string name="video_episode">更新至%s集</string>
     <string name="video_stage">更新至%s期</string>
+    <string name="video_episode_all">全%s集</string>
     <string name="dialog_download_for_vip">下载功能仅对特权用户开放</string>
     <string name="dialog_cast_for_vip">投屏功能仅对特权用户开放</string>
     <string name="dialog_cast_castHelper">投屏助手</string>

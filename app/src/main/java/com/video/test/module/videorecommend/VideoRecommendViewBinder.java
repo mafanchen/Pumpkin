@@ -67,22 +67,32 @@ public class VideoRecommendViewBinder extends ItemViewBinder<VideoBean, VideoRec
             ARouter.getInstance().build("/player/activity").withString("vodId", videoBean.getVod_id()).withString("vodPid", String.valueOf(videoBean.getVodPid())).navigation();
         });
         String vodContinue = videoBean.getVod_continu();
-        if (TextUtils.isEmpty(vodContinue) || Integer.parseInt(vodContinue) == 0) {
-            //不连载，显示豆瓣评分
-            String vodScore = videoBean.getVod_scroe();
-            if (TextUtils.isEmpty(vodScore) || Double.parseDouble(vodScore) == 0 || Double.parseDouble(vodScore) == 10) {
-                holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-                holder.mTvPoint.setText("暂无评分");
+        //这里只有电视剧，才会有完结状态
+        if (TextUtils.equals(videoBean.getVodType(), "3")) {
+            holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
+            if (videoBean.isVodIsEnd()) {
+                holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode_all, vodContinue));
             } else {
-                holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_grade));
-                holder.mTvPoint.setText(vodScore);
+                holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode, vodContinue));
             }
-        } else if (vodContinue.length() <= 4) {
-            holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-            holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode, vodContinue));
         } else {
-            holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-            holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_stage, vodContinue));
+            if (TextUtils.isEmpty(vodContinue) || Integer.parseInt(vodContinue) == 0) {
+                //不连载，显示豆瓣评分
+                String vodScore = videoBean.getVod_scroe();
+                if (TextUtils.isEmpty(vodScore) || Double.parseDouble(vodScore) == 0 || Double.parseDouble(vodScore) == 10) {
+                    holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
+                    holder.mTvPoint.setText("暂无评分");
+                } else {
+                    holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_grade));
+                    holder.mTvPoint.setText(vodScore);
+                }
+            } else if (vodContinue.length() <= 4) {
+                holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
+                holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode, vodContinue));
+            } else {
+                holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
+                holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_stage, vodContinue));
+            }
         }
     }
 

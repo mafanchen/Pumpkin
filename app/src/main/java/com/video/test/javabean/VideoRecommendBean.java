@@ -41,10 +41,16 @@ public class VideoRecommendBean {
     private String vodTotal;
 
     @SerializedName("is_end")
-    private String vodIsEnd;
+    private boolean vodIsEnd;
 
     @SerializedName("pid")
     private int vodPid;
+
+    /**
+     * 资源类型 1电影 2电视剧 3综艺 4动漫
+     */
+    @SerializedName("t_id")
+    private String vodType;
 
     public int getVodPid() {
         return vodPid;
@@ -60,14 +66,6 @@ public class VideoRecommendBean {
 
     public void setVodTotal(String vodTotal) {
         this.vodTotal = vodTotal;
-    }
-
-    public String getVodIsEnd() {
-        return vodIsEnd;
-    }
-
-    public void setVodIsEnd(String vodIsEnd) {
-        this.vodIsEnd = vodIsEnd;
     }
 
     public String getMainTitle() {
@@ -124,5 +122,21 @@ public class VideoRecommendBean {
 
     public void setVodScore(String vodScore) {
         this.vodScore = vodScore;
+    }
+
+    public String getVodType() {
+        return vodType;
+    }
+
+    public void setVodType(String vodType) {
+        this.vodType = vodType;
+    }
+
+    public boolean isVodIsEnd() {
+        return vodIsEnd;
+    }
+
+    public void setVodIsEnd(boolean vodIsEnd) {
+        this.vodIsEnd = vodIsEnd;
     }
 }
