@@ -2,7 +2,6 @@
 /dg-android.iml
 /build/
 /.idea/
-/local.properties
 *.iml
 .gradle
 gradle/
