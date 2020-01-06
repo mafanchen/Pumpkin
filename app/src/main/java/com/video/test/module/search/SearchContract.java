@@ -57,7 +57,7 @@ public interface SearchContract {
 
         void showNetworkErrorView();
 
-        void setAssociationWords(List<String> data);
+        void setAssociationWords(List<String> data, String searchWord);
     }
 
     abstract class Presenter<M extends Model> extends BasePresenter<Model, View> {

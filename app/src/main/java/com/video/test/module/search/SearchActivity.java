@@ -389,8 +389,9 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     }
 
     @Override
-    public void setAssociationWords(List<String> data) {
+    public void setAssociationWords(List<String> data, String searchWord) {
         mAdapterAssociation.setData(data);
+        mAdapterAssociation.setSearchWord(searchWord);
         mAdapterAssociation.notifyDataSetChanged();
     }
 
