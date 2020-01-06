@@ -138,10 +138,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     @Override
     protected void setAdapter() {
         mAdapterAssociation = new SearchAssociationAdapter();
-        mAdapterAssociation.setOnItemClickListener(word -> {
-                    hideAssociationView();
-                    mTbSearch.notifyStartSearching(word);
-                }
+        mAdapterAssociation.setOnItemClickListener(word -> mTbSearch.notifyStartSearching(word)
         );
         if (mRvAssociation.getItemDecorationCount() == 0) {
             android.support.v7.widget.DividerItemDecoration decoration =
@@ -339,6 +336,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         @Override
         public void onSearch(String text) {
             if (!TextUtils.isEmpty(text)) {
+                hideAssociationView();
                 searchWord = text;
                 LogUtils.i(getClass(), "FFSearchViewListener onSearch == " + text);
                 mPresenter.getSearchResult(text);
@@ -401,7 +399,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         switch (view.getId()) {
             case R.id.tv_no_association:
                 //这里直接开始搜索，并且隐藏联想界面
-                hideAssociationView();
                 searchWord = mTbSearch.getInputWord();
                 mTbSearch.notifyStartSearching(searchWord);
                 break;
