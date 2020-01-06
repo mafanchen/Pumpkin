@@ -4,6 +4,7 @@ import com.video.test.framework.BasePresenter;
 import com.video.test.framework.IModel;
 import com.video.test.framework.IView;
 import com.video.test.javabean.AddCollectionBean;
+import com.video.test.javabean.AssociationBean;
 import com.video.test.javabean.SearchResultBean;
 import com.video.test.javabean.SearchSortTypeBean;
 import com.video.test.network.BaseResult;
@@ -31,7 +32,7 @@ public interface SearchContract {
 
         Observable<BaseResult> addCollectCount(String vodId);
 
-        Observable<List<String>> getAssociationWord(String searchWord);
+        Observable<AssociationBean> getAssociationWord(String searchWord);
     }
 
     interface View extends IView {

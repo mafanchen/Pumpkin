@@ -13,6 +13,7 @@ import com.video.test.framework.IModel;
 import com.video.test.javabean.ActivityGiftBean;
 import com.video.test.javabean.AdBean;
 import com.video.test.javabean.AddCollectionBean;
+import com.video.test.javabean.AssociationBean;
 import com.video.test.javabean.BannerAndNoticeListBean;
 import com.video.test.javabean.BeanTopicListBean;
 import com.video.test.javabean.BindPhoneBean;
@@ -595,7 +596,7 @@ public class RetrofitHelper implements IModel {
         return sRetrofitApiServer.addAdInfo(adType, adId, BuildConfig.APP_ID, AppConstant.PHONE_TYPE_ANDROID, BuildConfig.AD_VERSION, userTokenId);
     }
 
-    public Observable<BaseResult<List<String>>> getClewWord(String searchWord) {
+    public Observable<BaseResult<AssociationBean>> getClewWord(String searchWord) {
         return sRetrofitApiServer.getClewWord(searchWord);
     }
 

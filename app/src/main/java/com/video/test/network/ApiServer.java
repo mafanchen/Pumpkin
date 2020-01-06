@@ -4,6 +4,7 @@ import com.video.test.ApiUrl;
 import com.video.test.javabean.ActivityGiftBean;
 import com.video.test.javabean.AdBean;
 import com.video.test.javabean.AddCollectionBean;
+import com.video.test.javabean.AssociationBean;
 import com.video.test.javabean.BannerAndNoticeListBean;
 import com.video.test.javabean.BeanTopicListBean;
 import com.video.test.javabean.BindPhoneBean;
@@ -320,7 +321,7 @@ public interface ApiServer {
     //
     @FormUrlEncoded
     @POST("App/Index/backThinkVod")
-    Observable<BaseResult<List<String>>> getClewWord(@Field("words") String searchWord);
+    Observable<BaseResult<AssociationBean>> getClewWord(@Field("words") String searchWord);
 
 
     /**
