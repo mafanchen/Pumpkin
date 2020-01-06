@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.alibaba.android.arouter.launcher.ARouter
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.video.test.R
 import com.video.test.framework.GlideApp
 import com.video.test.javabean.BeanTopicContentBean
@@ -20,7 +19,8 @@ class TopicViewBinderHorizontal : ItemViewBinder<BeanTopicContentBean, TopicView
     override fun onBindViewHolder(holder: TopicViewHolder, item: BeanTopicContentBean) {
         GlideApp.with(holder.itemView.context)
                 .load(item.zt_pic)
-                .transform(RoundedCorners(15))
+                .override(holder.ivBg.width, holder.ivBg.height)
+                .centerCrop()
                 .into(holder.ivBg)
         holder.tvTitle.text = item.zt_title
         holder.tvCount.text = "${item.zt_num}部影片"

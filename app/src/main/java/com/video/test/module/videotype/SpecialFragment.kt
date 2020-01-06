@@ -109,9 +109,8 @@ class SpecialFragment : BaseVideoTypeListFragment<SpecialPresenter>(), SpecialVi
             mIvTopVideo?.let {
                 GlideApp.with(this)
                         .load(topVideo.imageUrl)
-                        .override(1008, 448)
+                        .override(it.width, it.height)
                         .centerCrop()
-                        .transform(RoundedCorners(20))
                         .into(it)
             }
             mTvTopVideo?.text = "${topVideo.name}-${topVideo.content}"

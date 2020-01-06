@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.alibaba.android.arouter.launcher.ARouter
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.video.test.R
 import com.video.test.framework.GlideApp
 import com.video.test.javabean.VideoBean
@@ -34,9 +33,8 @@ class ColumnVideoHorizontalAdapter : RecyclerView.Adapter<ColumnVideoHorizontalA
         val item = data[position]
         GlideApp.with(holder.itemView.context)
                 .load(item.vod_pic)
-                .override(240, 360)
+                .override(holder.ivCover.width, holder.ivCover.height)
                 .centerCrop()
-                .transform(RoundedCorners(15))
                 .into(holder.ivCover)
         holder.tvName.text = item.vod_name
 

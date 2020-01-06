@@ -23,13 +23,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider_title" />
 
-    <ImageView
+    <com.video.test.ui.widget.CornerImageView
         android:id="@+id/iv_topic_bg"
         android:layout_width="162dp"
         android:layout_height="72dp"
         android:layout_marginStart="12dp"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_topic_column_title"
+        app:radius="20"
         tools:src="@color/colorBlack" />
 
     <TextView

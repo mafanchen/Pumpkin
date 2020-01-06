@@ -9,13 +9,14 @@
     android:paddingEnd="6dp"
     android:paddingBottom="9dp">
 
-    <ImageView
+    <com.video.test.ui.widget.CornerImageView
         android:id="@+id/iv_recycle_item_pic_video"
         android:layout_width="match_parent"
         android:layout_height="157dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:radius="20" />
 
     <ImageView
         android:layout_width="match_parent"

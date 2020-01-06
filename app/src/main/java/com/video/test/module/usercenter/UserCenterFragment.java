@@ -15,7 +15,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.umeng.analytics.MobclickAgent;
 import com.video.test.AppConstant;
 import com.video.test.BuildConfig;
@@ -240,9 +239,8 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             mIvAd.setVisibility(View.VISIBLE);
             GlideApp.with(this)
                     .load(adBean.getAdInfo().getAdPic())
-                    .override(1080, 225)
+                    .override(mIvAd.getWidth(), mIvAd.getHeight())
                     .centerCrop()
-                    .transform(new RoundedCorners(20))
                     .into(mIvAd);
             mIvAd.setTag(mIvAd.getId(), adBean.getAdInfo());
         } else {

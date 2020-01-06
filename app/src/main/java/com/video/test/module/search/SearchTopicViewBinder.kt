@@ -27,8 +27,8 @@ class SearchTopicViewBinder : ItemViewBinder<BeanTopicContentBean, SearchTopicVi
     override fun onBindViewHolder(holder: ViewHolder, item: BeanTopicContentBean) {
         GlideApp.with(holder.itemView.context)
                 .load(item.zt_pic)
+                .override(holder.mIvCover.width, holder.mIvCover.height)
                 .centerCrop()
-                .transform(RoundedCorners(6))
                 .transition(withCrossFade()).into(holder.mIvCover)
         holder.mTvTitle.text = item.zt_title
         holder.mTvVideoCount.text = "${item.zt_num}部影片"

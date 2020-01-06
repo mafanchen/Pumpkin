@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.video.test.R;
 import com.video.test.framework.GlideApp;
@@ -55,15 +54,12 @@ public class VideoRecommendHorizontalViewBinder extends ItemViewBinder<VideoReco
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull VideoRecommendBean item) {
-        GlideRequest<Drawable> request = GlideApp.with(holder.itemView.getContext())
+        GlideApp.with(holder.itemView.getContext())
                 .load(item.getImageUrl())
-                .override(324, 182)
+                .override(holder.ivCover.getWidth(), holder.ivCover.getHeight())
                 .centerCrop()
-                .transition(withCrossFade());
-        if (isSpecial) {
-            request = request.transform(new RoundedCorners(15));
-        }
-        request.error(R.drawable.bg_video_default_horizontal)
+                .transition(withCrossFade())
+                .error(R.drawable.bg_video_default_horizontal)
                 .into(holder.ivCover);
         holder.tvMainTitle.setText(item.getMainTitle());
         holder.tvSubTitle.setText(item.getSubTitle());

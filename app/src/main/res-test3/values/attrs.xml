@@ -70,4 +70,8 @@
 		</attr>
 	</declare-styleable>
 
+    <declare-styleable name="CornerImageView">
+        <attr name="radius" format="float" />
+    </declare-styleable>
+
 </resources>
