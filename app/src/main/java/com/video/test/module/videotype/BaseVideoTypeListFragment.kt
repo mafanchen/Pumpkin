@@ -177,6 +177,7 @@ abstract class BaseVideoTypeListFragment<P : BaseVideoTypeListPresenter<*, *>> :
     @Suppress("UNCHECKED_CAST")
     override fun initBanner(bannerList: List<String>, bannerContent: List<String>, bannerBeanList: List<BannerBean>) {
         if (null != mBanner) {
+            mBanner!!.visibility = View.VISIBLE
             mBanner!!.setTag(bannerBeanList)
             LogUtils.d(TAG, "initBanner banner == $bannerList")
             mBanner!!.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE)
@@ -261,5 +262,9 @@ abstract class BaseVideoTypeListFragment<P : BaseVideoTypeListPresenter<*, *>> :
             else -> {
             }
         }
+    }
+
+    override fun hideBanner() {
+        mBanner?.visibility = View.GONE
     }
 }

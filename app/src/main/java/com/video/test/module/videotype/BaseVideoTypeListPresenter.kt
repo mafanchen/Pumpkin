@@ -122,7 +122,7 @@ abstract class BaseVideoTypeListPresenter<M : VideoTypeListContract.Model, V : V
      */
     protected open fun setBannerAndNotice(data: BannerAndNoticeListBean) { //banner
         val bannerList = data.bannerList
-        if (bannerList != null) {
+        if (bannerList != null && bannerList.isNotEmpty()) {
             val count = bannerList.size
             val picUrls: MutableList<String> = java.util.ArrayList(count)
             val bannerContent: MutableList<String> = java.util.ArrayList(count)
@@ -132,6 +132,8 @@ abstract class BaseVideoTypeListPresenter<M : VideoTypeListContract.Model, V : V
                 LogUtils.i(TAG, "picUrls == " + bannerBean.slidePic + " vodId == " + bannerBean.vodId + " bannerContent : " + bannerBean.banner_content)
             }
             mView.initBanner(picUrls, bannerContent, bannerList)
+        } else {
+            mView.hideBanner()
         }
     }
 }

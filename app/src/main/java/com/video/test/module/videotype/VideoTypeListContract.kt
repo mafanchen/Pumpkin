@@ -27,6 +27,8 @@ interface VideoTypeListContract {
         fun showNetworkErrorView()
 
         fun initBanner(bannerList: List<String>, bannerContent: List<String>, bannerBeanList: List<BannerBean>)
+
+        fun hideBanner()
     }
 
     interface Model : IModel {
