@@ -65,7 +65,29 @@ class FeedbackPresenter : FeedbackContract.Presenter<FeedbackModel>() {
         }
     }
 
-    private fun uploadImage(imagePath: String) {
+
+
+    override fun commitFeedback(vodId: String?) = when {
+        type == null -> mView.showToast("请选择反馈类型")
+        TextUtils.isEmpty(content) -> mView.showToast("请输入反馈详情")
+        content!!.length <= 2 -> mView.showToast("请输入不少于2个字符")
+        TextUtils.isEmpty(imagePath) -> {
+            val phoneInfo = DeviceUtils.getPhoneInfo()
+            commit(type!!.id, content!!, contact, null, vodId, phoneInfo)
+        }
+        else -> {
+            //这里通过一个map来存已经上传的图片路径，避免反馈接口报错后，点击提交导致同一张图片上传两次
+            val netWorkPath = mImageMap[imagePath]
+            if (netWorkPath != null) {
+                val phoneInfo = DeviceUtils.getPhoneInfo()
+                commit(type!!.id, content!!, contact, netWorkPath, vodId, phoneInfo)
+            } else {
+                uploadImageAndFeedback(imagePath!!, vodId)
+            }
+        }
+    }
+
+    private fun uploadImageAndFeedback(imagePath: String, vodId: String?) {
         val imageFile = File(imagePath)
         val userToken = SpUtils.getString(TestApp.getContext(), AppConstant.USER_TOKEN, "no")
         val userTokenId = SpUtils.getString(TestApp.getContext(), AppConstant.USER_TOKEN_ID, "no")
@@ -81,8 +103,8 @@ class FeedbackPresenter : FeedbackContract.Presenter<FeedbackModel>() {
                 .subscribe(Consumer<UploadAvatarBean> { uploadAvatarBean ->
                     val picUrl = uploadAvatarBean.url_pic
                     mImageMap[imagePath] = picUrl
-                    //TODO vodID 以及 phoneInfo 还未实现
-                    commit(type!!.id, content!!, contact, picUrl, "", "")
+                    val phoneInfo = DeviceUtils.getPhoneInfo()
+                    commit(type!!.id, content!!, contact, picUrl, vodId, phoneInfo)
                 }, RxExceptionHandler<Throwable>(Consumer { throwable ->
                     LogUtils.e(TAG, "uploadImage Error == " + throwable.message)
                     mView.hideProgressDialog()
@@ -90,28 +112,6 @@ class FeedbackPresenter : FeedbackContract.Presenter<FeedbackModel>() {
         addDisposable(disposable)
     }
 
-    override fun commitFeedback(vodId: String?) = when {
-        type == null -> mView.showToast("请选择反馈类型")
-        TextUtils.isEmpty(content) -> mView.showToast("请输入反馈详情")
-        content!!.length <= 2 -> mView.showToast("请输入不少于2个字符")
-        TextUtils.isEmpty(imagePath) -> {
-            //TODO vodID and phoneInfo 未实现
-            val phoneInfo = DeviceUtils.getPhoneInfo()
-            commit(type!!.id, content!!, contact, null, vodId, phoneInfo)
-        }
-        else -> {
-            //这里通过一个map来存已经上传的图片路径，避免反馈接口报错后，点击提交导致同一张图片上传两次
-            val netWorkPath = mImageMap[imagePath]
-            if (netWorkPath != null) {
-                //TODO vodID and phoneInfo 未实现
-                val phoneInfo = DeviceUtils.getPhoneInfo()
-                commit(type!!.id, content!!, contact, netWorkPath, vodId, phoneInfo)
-
-            } else {
-                uploadImage(imagePath!!)
-            }
-        }
-    }
 
     override fun getFeedbackTypes() {
         val subscribe = mModel.getFeedbackTypes()
