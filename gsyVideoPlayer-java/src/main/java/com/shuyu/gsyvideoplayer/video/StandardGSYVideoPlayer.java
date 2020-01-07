@@ -9,12 +9,10 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 
 import com.shuyu.gsyvideoplayer.R;
 import com.shuyu.gsyvideoplayer.listener.GSYVideoShotListener;
@@ -173,35 +171,29 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
         if (mProgressDialog == null) {
             View localView = LayoutInflater.from(getActivityContext()).inflate(getProgressDialogLayoutId(), null);
             if (localView.findViewById(getProgressDialogProgressId()) instanceof ProgressBar) {
-                mDialogProgressBar = ((ProgressBar) localView.findViewById(getProgressDialogProgressId()));
+                mDialogProgressBar = localView.findViewById(getProgressDialogProgressId());
                 if (mDialogProgressBarDrawable != null) {
                     mDialogProgressBar.setProgressDrawable(mDialogProgressBarDrawable);
                 }
             }
             if (localView.findViewById(getProgressDialogCurrentDurationTextId()) instanceof TextView) {
-                mDialogSeekTime = ((TextView) localView.findViewById(getProgressDialogCurrentDurationTextId()));
+                mDialogSeekTime = localView.findViewById(getProgressDialogCurrentDurationTextId());
             }
             if (localView.findViewById(getProgressDialogAllDurationTextId()) instanceof TextView) {
-                mDialogTotalTime = ((TextView) localView.findViewById(getProgressDialogAllDurationTextId()));
+                mDialogTotalTime = localView.findViewById(getProgressDialogAllDurationTextId());
             }
             if (localView.findViewById(getProgressDialogImageId()) instanceof ImageView) {
-                mDialogIcon = ((ImageView) localView.findViewById(getProgressDialogImageId()));
+                mDialogIcon = localView.findViewById(getProgressDialogImageId());
             }
             mProgressDialog = new Dialog(getActivityContext(), R.style.video_style_dialog_progress);
             mProgressDialog.setContentView(localView);
-            mProgressDialog.getWindow().addFlags(Window.FEATURE_ACTION_BAR);
+            mProgressDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            mProgressDialog.getWindow().addFlags(8);
             mProgressDialog.getWindow().addFlags(32);
             mProgressDialog.getWindow().addFlags(16);
             mProgressDialog.getWindow().setLayout(getWidth(), getHeight());
-            if (mDialogProgressNormalColor != -11 && mDialogTotalTime != null) {
-                mDialogTotalTime.setTextColor(mDialogProgressNormalColor);
-            }
-            if (mDialogProgressHighLightColor != -11 && mDialogSeekTime != null) {
-                mDialogSeekTime.setTextColor(mDialogProgressHighLightColor);
-            }
             WindowManager.LayoutParams localLayoutParams = mProgressDialog.getWindow().getAttributes();
             localLayoutParams.gravity = Gravity.TOP;
-
             localLayoutParams.width = getWidth();
             localLayoutParams.height = getHeight();
             //  注释之前的无用参数代码.
@@ -210,6 +202,13 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
             //  localLayoutParams.x = location[0];
             //  localLayoutParams.y = location[1];
             mProgressDialog.getWindow().setAttributes(localLayoutParams);
+
+            if (mDialogProgressNormalColor != -11 && mDialogTotalTime != null) {
+                mDialogTotalTime.setTextColor(mDialogProgressNormalColor);
+            }
+            if (mDialogProgressHighLightColor != -11 && mDialogSeekTime != null) {
+                mDialogSeekTime.setTextColor(mDialogProgressHighLightColor);
+            }
         }
         if (!mProgressDialog.isShowing()) {
             mProgressDialog.show();
@@ -253,13 +252,14 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
         if (mVolumeDialog == null) {
             View localView = LayoutInflater.from(getActivityContext()).inflate(getVolumeLayoutId(), null);
             if (localView.findViewById(getVolumeProgressId()) instanceof ProgressBar) {
-                mDialogVolumeProgressBar = ((ProgressBar) localView.findViewById(getVolumeProgressId()));
+                mDialogVolumeProgressBar = localView.findViewById(getVolumeProgressId());
                 if (mVolumeProgressDrawable != null && mDialogVolumeProgressBar != null) {
                     mDialogVolumeProgressBar.setProgressDrawable(mVolumeProgressDrawable);
                 }
             }
             mVolumeDialog = new Dialog(getActivityContext(), R.style.video_style_dialog_progress);
             mVolumeDialog.setContentView(localView);
+            mVolumeDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             mVolumeDialog.getWindow().addFlags(8);
             mVolumeDialog.getWindow().addFlags(32);
             mVolumeDialog.getWindow().addFlags(16);
@@ -299,13 +299,14 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
         if (mBrightnessDialog == null) {
             View localView = LayoutInflater.from(getActivityContext()).inflate(getBrightnessLayoutId(), null);
             if (localView.findViewById(getBrightnessProgressId()) instanceof ProgressBar) {
-                mBrightnessProgressBar = (ProgressBar) localView.findViewById(getBrightnessProgressId());
+                mBrightnessProgressBar = localView.findViewById(getBrightnessProgressId());
                 if (mBrightProgressDrawable != null && mDialogProgressBar != null) {
                     mBrightnessProgressBar.setProgressDrawable(mBrightProgressDrawable);
                 }
             }
             mBrightnessDialog = new Dialog(getActivityContext(), R.style.video_style_dialog_progress);
             mBrightnessDialog.setContentView(localView);
+            mBrightnessDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             mBrightnessDialog.getWindow().addFlags(8);
             mBrightnessDialog.getWindow().addFlags(32);
             mBrightnessDialog.getWindow().addFlags(16);
