@@ -3,6 +3,7 @@ package com.video.test.module.homepage;
 import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -22,6 +24,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.umeng.analytics.MobclickAgent;
 import com.video.test.AppConstant;
+import com.video.test.BuildConfig;
 import com.video.test.R;
 import com.video.test.TestApp;
 import com.video.test.javabean.HomeDialogBean;
@@ -42,6 +45,8 @@ import com.video.test.ui.base.BaseActivity;
 import com.video.test.ui.widget.BaseHomeDialogFragment;
 import com.video.test.ui.widget.HomeDialogFragment;
 import com.video.test.ui.widget.HomeNoticeDialogFragment;
+import com.video.test.utils.AppInfoUtils;
+import com.video.test.utils.EncryptUtils;
 import com.video.test.utils.IntentUtils;
 import com.video.test.utils.LogUtils;
 import com.video.test.utils.ToastUtils;
@@ -76,7 +81,6 @@ public class HomepageActivity extends BaseActivity<HomepagePresenter> implements
     private Fragment mUserCenterFragment;
     private DownloadReceiver mDownloadReceiver;
     private List<Fragment> fragments;
-
 
 
     @Override
@@ -142,6 +146,9 @@ public class HomepageActivity extends BaseActivity<HomepagePresenter> implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFragments(savedInstanceState);
+        if (illegalKey()) {
+            showIllegalKeyDialog();
+        }
     }
 
     @Override
@@ -466,5 +473,31 @@ public class HomepageActivity extends BaseActivity<HomepagePresenter> implements
                 }
             }
         }
+    }
+
+
+    private boolean illegalKey() {
+        String sha1Native = EncryptUtils.getSHA1FromJNI();
+        String sha1Now = AppInfoUtils.getSignInfo(this, getPackageName(), AppInfoUtils.SHA1);
+        Log.d(TAG, "sha1Now = " + sha1Now);
+        return !TextUtils.equals(sha1Native, sha1Now);
+    }
+
+    private void showIllegalKeyDialog() {
+        new MaterialDialog.Builder(this)
+                .cancelable(false)
+                .canceledOnTouchOutside(false)
+                .content("您的安装包异常，请前往官网下载最新安装包。")
+                .contentColor(Color.parseColor("#333333"))
+                .positiveColor(Color.parseColor("#ffad43"))
+                .positiveText("确定")
+                .onPositive((dialog, which) -> {
+                    startActivity(IntentUtils.getBrowserIntent(BuildConfig.OFFICAL_WEBSITE));
+                    finish();
+                })
+                .negativeText("取消")
+                .onNegative(((dialog, which) -> System.exit(0)))
+                .build()
+                .show();
     }
 }

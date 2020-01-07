@@ -84,10 +84,10 @@ public class TestApp extends MultiDexApplication {
         super.onCreate();
 //        MultiDex.install(this);
         //防二次打包
-        if (illegalKey()) {
-            ToastUtils.showToast(this, "您的安装包异常，请前往官网下载最新安装包");
-            new Handler().postDelayed(() -> System.exit(0), 5000);
-        }
+//        if (illegalKey()) {
+//            ToastUtils.showToast(this, "您的安装包异常，请前往官网下载最新安装包");
+//            new Handler().postDelayed(() -> System.exit(0), 5000);
+//        }
 
         LogUtils.d(TAG, "onCreate");
         sApp = this;

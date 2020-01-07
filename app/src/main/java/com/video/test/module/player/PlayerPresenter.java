@@ -910,7 +910,13 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
             if (event.getType() == DownloadEvent.Type.TYPE_DELETE) {
                 bean.setDownloadStatus(M3U8TaskState.DEFAULT);
             } else if (event.getType() == DownloadEvent.Type.TYPE_UPDATE_STATUS) {
-                bean.setDownloadStatus(task.getState());
+                int state = task.getState();
+                if (state == M3U8TaskState.PENDING) {
+                    ToastUtils.showLongToast(TestApp.getContext(), task.getVideoName() + " 已添加缓存队列");
+                } else if (state == M3U8TaskState.SUCCESS) {
+                    ToastUtils.showLongToast(TestApp.getContext(), task.getVideoName() + " 已完成缓存");
+                }
+                bean.setDownloadStatus(state);
             } else {
                 return;
             }
