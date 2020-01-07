@@ -44,8 +44,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import cn.jpush.android.api.JPushInterface;
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.schedulers.Schedulers;
 import jaygoo.library.m3u8downloader.M3U8Downloader;
 import jaygoo.library.m3u8downloader.M3U8DownloaderConfig;
 import jaygoo.library.m3u8downloader.OnM3U8DownloadListener;
@@ -194,11 +201,28 @@ public class TestApp extends MultiDexApplication {
      */
     private void startDownloadAllTask() {
         new Thread(() -> {
-            List<M3U8DownloadBean> allTask = DBManager.getInstance(this).queryM3U8Tasks();
-            for (M3U8DownloadBean bean : allTask) {
-                M3U8Downloader.getInstance().download(bean.getVideoUrl(), bean.getVideoId(), bean.getVideoName(), bean.getVideoTotalName());
-            }
+
         }).run();
+        Disposable subscribe = Observable
+                .zip(Observable
+                                .create(e -> {
+                                    List<M3U8DownloadBean> allTask = DBManager.getInstance(TestApp.this).queryM3U8DownloadingTasks();
+                                    for (M3U8DownloadBean bean : allTask) {
+                                        e.onNext(bean);
+                                    }
+                                    e.onComplete();
+                                })
+                        , Observable.interval(200, TimeUnit.MILLISECONDS)
+                        , (BiFunction<M3U8DownloadBean, Long, M3U8DownloadBean>) (m3U8DownloadBean, aLong) -> {
+                            Log.d("startDownloadTask", String.valueOf(System.currentTimeMillis()));
+                            return m3U8DownloadBean;
+                        }
+
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> M3U8Downloader.getInstance().download(bean.getVideoUrl(), bean.getVideoId(), bean.getVideoName(), bean.getVideoTotalName()));
+
     }
 
     private void updateM3U8TaskTsItem(M3U8Task task, int totalTs, int curTs) {

@@ -70,11 +70,12 @@ public class DownloadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void updateDownloadingStatus(M3U8Task m3u8) {
-        if (data != null && data.size() > 0) {
+        if (data != null) {
             for (int i = 0; i < data.size(); i++) {
-                if (TextUtils.equals(data.get(i).getVideoUrl(), m3u8.getUrl()))
+                if (TextUtils.equals(data.get(i).getVideoUrl(), m3u8.getUrl())) {
                     notifyItemChanged(i, m3u8);
-                break;
+                    break;
+                }
             }
         }
     }
