@@ -2,25 +2,25 @@ package com.video.test.module.video;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.flyco.tablayout.CommonTabLayout;
-import com.flyco.tablayout.listener.CustomTabEntity;
-import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.umeng.analytics.MobclickAgent;
 import com.video.test.AppConstant;
 import com.video.test.BuildConfig;
 import com.video.test.R;
 import com.video.test.TestApp;
 import com.video.test.javabean.ScreenBean;
-import com.video.test.javabean.TabEntityBean;
 import com.video.test.javabean.event.HotSearchWordRetryEvent;
 import com.video.test.module.videotype.BaseVideoTypeListFragment;
 import com.video.test.sp.SpUtils;
@@ -49,7 +49,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
     @BindView(R.id.vp_video_fragment)
     BeanViewPager mViewPager;
     @BindView(R.id.tabLayout_video_fragment)
-    CommonTabLayout mTabLayout;
+    TabLayout mTabLayout;
     @BindView(R.id.layout_history_window)
     LinearLayout mLayoutHistory;
     @BindView(R.id.iv_history_close)
@@ -93,27 +93,62 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
     }
 
     private void initTabLayout() {
-        ArrayList<CustomTabEntity> tabEntities = new ArrayList<>();
-        for (int i = 0; i < mTabTitles.length; i++) {
-            int imageId = i == 0 ? R.drawable.pic_2019_nav : 0;
-            tabEntities.add(new TabEntityBean(mTabTitles[i], imageId, imageId));
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            if (tab != null) {
+                tab.setCustomView(getTabView(i, tab.view));
+                tab.setTag(i);
+            }
         }
-        mTabLayout.setTabData(tabEntities);
-        mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelect(int position) {
-                if (mViewPager != null) {
-                    mViewPager.setCurrentItem(position);
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getTag() instanceof Integer) {
+                    int position = (int) tab.getTag();
+                    if (position != 0) {
+                        View customView = tab.getCustomView();
+                        if (customView != null) {
+                            TextView tvTitle = customView.findViewById(R.id.tv_title);
+                            tvTitle.setTextColor(ContextCompat.getColor(tvTitle.getContext(), R.color.homepage_font_chose));
+                        }
+                    }
                 }
             }
 
             @Override
-            public void onTabReselect(int position) {
+            public void onTabUnselected(TabLayout.Tab tab) {
+                if (tab.getTag() instanceof Integer) {
+                    int position = (int) tab.getTag();
+                    if (position != 0) {
+                        View customView = tab.getCustomView();
+                        if (customView != null) {
+                            TextView tvTitle = customView.findViewById(R.id.tv_title);
+                            tvTitle.setTextColor(ContextCompat.getColor(tvTitle.getContext(), R.color.homepage_font_no_chose));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
-        //初始化时 默认最热TAG 并且请求最热TAG数据
-        mTabLayout.setCurrentTab(0);
+    }
+
+    private View getTabView(int position, ViewGroup parent) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        if (position == 0) {
+            View view = inflater.inflate(R.layout.layout_tab_image, parent, false);
+            ImageView ivTitle = view.findViewById(R.id.iv_title);
+            ivTitle.setImageResource(R.drawable.pic_2019_nav);
+            return view;
+        } else {
+            View view = inflater.inflate(R.layout.layout_tab_text, parent, false);
+            TextView tvTitle = view.findViewById(R.id.tv_title);
+            tvTitle.setText(mTabTitles[position]);
+            return view;
+        }
     }
 
     @Override
@@ -131,7 +166,6 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
 
             @Override
             public void onPageSelected(int i) {
-                mTabLayout.setCurrentTab(i);
                 currentPid = ((BaseVideoTypeListFragment) fragments.get(i)).getPid();
                 mPresenter.onChangeHotSearchWord(String.valueOf(((BaseVideoTypeListFragment) mBeanViewPagerAdapter.getItem(i)).getPid()));
                 if (i <= 1) {
@@ -150,6 +184,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
 
             }
         });
+        mTabLayout.setupWithViewPager(mViewPager);
         initTabLayout();
     }
 

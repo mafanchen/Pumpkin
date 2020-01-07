@@ -263,6 +263,9 @@ public class VideoPresenter extends VideoContract.Presenter<VideoModel> {
         mHotSearchWord = null;
         //这里如接口请求失败了，map会为空
         if (mHotSearchWordMap != null && pid != null) {
+            if (pid.equals("7")) {
+                pid = "1";
+            }
             mHotSearchWordList = mHotSearchWordMap.get(pid);
         }
         startHotSearchWordTimer();
