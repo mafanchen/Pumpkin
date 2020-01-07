@@ -48,6 +48,7 @@ import com.video.test.utils.DownloadUtil;
 import com.video.test.utils.GifHelper;
 import com.video.test.utils.LogUtils;
 import com.video.test.utils.StringUtils;
+import com.video.test.utils.TimeUtils;
 import com.video.test.utils.ToastUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -148,6 +149,11 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
      */
     private ImageView mIvMore;
     private View mLayoutMore;
+
+    /**
+     * 电量时间
+     */
+    private CenterDrawableTextView mTvTimeBatter;
 
     /**
      * 收藏，在{@link #mLayoutMore}里面
@@ -322,6 +328,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     private ImageView mIvRestartVideo;
     private TextView mTvPlayNextNotice;
 
+
     /**
      * 1.5.0开始加入，如果需要不同布局区分功能，需要重载
      */
@@ -417,6 +424,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         mVideoStart = findViewById(R.id.start);
         mIvRestartVideo = findViewById(R.id.iv_restart_video);
         mTvPlayNextNotice = findViewById(R.id.tv_play_next_notice_video);
+        mTvTimeBatter = findViewById(R.id.cdtv_time_batter);
 
 
         if (mLayoutPauseAd != null) {
@@ -1208,6 +1216,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
             hideRightDialogView(mLayoutMore);
             return;
         }
+
         if (mLayoutCastDevice != null && mLayoutCastDevice.getVisibility() == VISIBLE) {
             hideRightDialogView(mLayoutCastDevice);
                     /*
@@ -1253,6 +1262,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         setViewShowState(mRvVideoList, INVISIBLE);
         setViewShowState(mLayoutShare, INVISIBLE);
         setViewShowState(mLayoutMore, INVISIBLE);
+
         setViewShowState(mIvRestartVideo, INVISIBLE);  //重播按钮
         // 自动隐藏 controlView 时,也隐藏黑色半透明遮罩层
         if (null != mLayoutControl) {
@@ -2058,9 +2068,22 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         float batteryPct = level / (float) scale;
-
+        String nowHourMinuteString = TimeUtils.getNowHourMinuteString();
         LogUtils.d(TAG, "Batter Pct : " + batteryPct + " level : " + level + " scale : " + scale);
+        if (null != mTvTimeBatter) {
+            mTvTimeBatter.setText(nowHourMinuteString);
+            if (0.8f < batteryPct && 1f >= batteryPct) {
+                mTvTimeBatter.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_batter_100, 0, 0);
+            } else if (0.5f < batteryPct && 0.8f >= batteryPct) {
+                mTvTimeBatter.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_batter_80, 0, 0);
+            } else if (0.2f < batteryPct && 0.5f >= batteryPct) {
+                mTvTimeBatter.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_batter_50, 0, 0);
+            } else if (0.1f < batteryPct && 0.2f >= batteryPct) {
+                mTvTimeBatter.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_batter_20, 0, 0);
+            } else if (0.1f >= batteryPct) {
+                mTvTimeBatter.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_batter_10, 0, 0);
+            }
+        }
     }
-
-
 }
+

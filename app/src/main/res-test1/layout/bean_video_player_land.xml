@@ -296,15 +296,27 @@
 				android:id="@+id/iv_share"
 				android:layout_width="25dp"
 				android:layout_height="25dp"
-				android:layout_marginEnd="27dp"
+				android:layout_marginEnd="25dp"
 				android:src="@drawable/ic_player_icon_share" />
 
 			<ImageView
 				android:id="@+id/iv_more"
 				android:layout_width="25dp"
 				android:layout_height="25dp"
-				android:layout_marginEnd="20dp"
+				android:layout_marginEnd="25dp"
 				android:src="@drawable/ic_player_more_player" />
+
+			<com.video.test.ui.widget.CenterDrawableTextView
+				android:id="@+id/cdtv_time_batter"
+				android:layout_width="25dp"
+				android:layout_height="25dp"
+				android:layout_marginEnd="20dp"
+				android:drawableTop="@drawable/ic_batter_100"
+				android:gravity="center"
+				android:textColor="@color/colorWhite"
+				android:textSize="8sp"
+				tools:text="12:30" />
+
 
 		</LinearLayout>
 
