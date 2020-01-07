@@ -119,7 +119,8 @@ public class M3U8Downloader {
      *
      * @return
      */
-    private boolean isQuicklyClick() {
+    private boolean
+    isQuicklyClick() {
         boolean result = false;
         if (System.currentTimeMillis() - currentTime <= 100) {
             result = true;
@@ -287,6 +288,7 @@ public class M3U8Downloader {
 
     private void startDownloadTask(M3U8Task task) {
         if (task == null) {
+            M3U8Log.d("start download task, but task is null");
             return;
         }
         pendingTask(task);
