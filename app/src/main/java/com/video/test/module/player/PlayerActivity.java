@@ -1350,6 +1350,10 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                 Debuger.printfError("***** onEnterFullscreen **** " + objects[0]);
                 //当前全屏player
                 Debuger.printfError("***** onEnterFullscreen **** " + objects[1]);
+                InputMethodManager imm = (InputMethodManager) PlayerActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (null != imm) {
+                    imm.hideSoftInputFromWindow(mEtComment.getWindowToken(), 0);
+                }
             }
 
             @Override
@@ -1376,11 +1380,6 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             }
             //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusBar
             mVideoPlayer.startWindowFullscreen(PlayerActivity.this, true, true);
-            //隐藏软键盘
-            InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (null != imm) {
-                imm.hideSoftInputFromWindow(mEtComment.getWindowToken(), 0);
-            }
         });
         mVideoPlayer.getStartButton().setOnClickListener(v -> {
             if (getCurPlay() == null) {
