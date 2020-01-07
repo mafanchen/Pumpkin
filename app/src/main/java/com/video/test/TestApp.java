@@ -48,7 +48,6 @@ import java.util.concurrent.TimeUnit;
 
 import cn.jpush.android.api.JPushInterface;
 import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
@@ -139,7 +138,7 @@ public class TestApp extends MultiDexApplication {
             public void onDownloadSuccess(M3U8Task task) {
                 super.onDownloadSuccess(task);
                 LogUtils.d(M3U8TAG, "Success taskName : " + task.getVideoName());
-                ToastUtils.showLongToast(TestApp.getContext(), task.getVideoName() + " 已完成缓存");
+//                ToastUtils.showLongToast(TestApp.getContext(), task.getVideoName() + " 已完成缓存");
                 updateM3U8TaskSuccess(task);
                 EventBus.getDefault().post(new DownloadEvent(DownloadEvent.Type.TYPE_UPDATE_STATUS, task));
             }
@@ -161,7 +160,7 @@ public class TestApp extends MultiDexApplication {
             public void onDownloadPending(M3U8Task task) {
                 super.onDownloadPending(task);
                 LogUtils.d(M3U8TAG, "Pending task status : " + task.getState());
-                ToastUtils.showLongToast(TestApp.getContext(), task.getVideoName() + " 已添加缓存队列");
+//                ToastUtils.showLongToast(TestApp.getContext(), task.getVideoName() + " 已添加缓存队列");
                 updateM3U8TaskStatus(task);
                 EventBus.getDefault().post(new DownloadEvent(DownloadEvent.Type.TYPE_UPDATE_STATUS, task));
             }
