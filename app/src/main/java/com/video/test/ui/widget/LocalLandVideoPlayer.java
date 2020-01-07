@@ -2,6 +2,9 @@ package com.video.test.ui.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +23,7 @@ import com.video.test.ui.listener.VideoFunctionListener;
 import com.video.test.utils.DownloadUtil;
 import com.video.test.utils.GifHelper;
 import com.video.test.utils.LogUtils;
+import com.video.test.utils.TimeUtils;
 import com.video.test.utils.ToastUtils;
 
 import java.io.File;
@@ -107,6 +111,7 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
     private static final int MIN_CAPTURE_LENGTH = 3000;
     private static final int MAX_CAPTURE_LENGTH = 10000;
     private static final int CAPTURE_TIMER_DELAY = 50;
+    private CenterDrawableTextView mTvTimeBatter;
 
     public LocalLandVideoPlayer(Context context, Boolean fullFlag) {
         super(context, fullFlag);
@@ -148,6 +153,8 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
         mTvCaptureTimer = findViewById(R.id.tv_capture_gif_timer);
         mTVCaptureStatus = findViewById(R.id.tv_capture_gif_status);
         mLayoutControl = findViewById(R.id.layout_control);
+        mTvTimeBatter = findViewById(R.id.cdtv_time_batter);
+
         hideUselessView();
         //快退
         if (mIvRewind != null) {
@@ -465,6 +472,8 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
         if (null != mLayoutControl) {
             mLayoutControl.setBackgroundResource(R.drawable.shape_background_player_control);
         }
+        //获取电量信息
+        getBatterStatus();
     }
 
     @Override
@@ -579,6 +588,31 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
     private void changeSpeed(float speed) {
         LogUtils.d(TAG, "mVideoPlayer change play speed to " + speed);
         setSpeed(speed);
+    }
+
+
+    void getBatterStatus() {
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = mContext.registerReceiver(null, intentFilter);
+        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+        float batteryPct = level / (float) scale;
+        String nowHourMinuteString = TimeUtils.getNowHourMinuteString();
+        LogUtils.d(TAG, "Batter Pct : " + batteryPct + " level : " + level + " scale : " + scale);
+        if (null != mTvTimeBatter) {
+            mTvTimeBatter.setText(nowHourMinuteString);
+            if (0.8f < batteryPct && 1f >= batteryPct) {
+                mTvTimeBatter.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_batter_100, 0, 0);
+            } else if (0.5f < batteryPct && 0.8f >= batteryPct) {
+                mTvTimeBatter.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_batter_80, 0, 0);
+            } else if (0.2f < batteryPct && 0.5f >= batteryPct) {
+                mTvTimeBatter.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_batter_50, 0, 0);
+            } else if (0.1f < batteryPct && 0.2f >= batteryPct) {
+                mTvTimeBatter.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_batter_20, 0, 0);
+            } else if (0.1f >= batteryPct) {
+                mTvTimeBatter.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_batter_10, 0, 0);
+            }
+        }
     }
 
 }
