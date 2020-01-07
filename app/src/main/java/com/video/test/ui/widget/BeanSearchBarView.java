@@ -216,6 +216,7 @@ public class BeanSearchBarView extends ConstraintLayout {
             if (!TextUtils.isEmpty(text)) {
                 hideSoftInput();
                 hideSearchRecycleView();
+                mEtSearchContent.clearFocus();
             }
         }
     }
