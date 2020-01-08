@@ -92,11 +92,11 @@ public class SearchViewBinder extends ItemViewBinder<SearchResultVideoBean, Sear
 
         }
 
-        public void bindData(String searchWord, final SearchResultVideoBean searchResultVideoBean, OnCollectListener onCollectListener) {
+        public void bindData(String searchWord, final SearchResultVideoBean videoBean, OnCollectListener onCollectListener) {
             final int adapterPosition = getAdapterPosition();
 
-            GlideApp.with(context).load(searchResultVideoBean.getVod_pic()).transition(withCrossFade()).error(R.drawable.bg_video_default_vertical).into(mIvPic);
-            String vodName = searchResultVideoBean.getVod_name();
+            GlideApp.with(context).load(videoBean.getVod_pic()).transition(withCrossFade()).error(R.drawable.bg_video_default_vertical).into(mIvPic);
+            String vodName = videoBean.getVod_name();
             if (TextUtils.isEmpty(searchWord) || vodName == null) {
                 mTvVideoName.setText(vodName);
             } else {
@@ -110,43 +110,15 @@ public class SearchViewBinder extends ItemViewBinder<SearchResultVideoBean, Sear
                     mTvVideoName.setText(builder);
                 }
             }
-            mTvActor.setText(searchResultVideoBean.getVod_actor());
-            mTvDirector.setText(searchResultVideoBean.getVod_director());
-            mTvPicGrade.setText(searchResultVideoBean.getVod_scroe());
-            mTvRegion.setText(searchResultVideoBean.getVod_area());
-            mTvUpdate.setText(searchResultVideoBean.getVod_addtime());
-            mTvYear.setText(searchResultVideoBean.getVod_year());
+            mTvActor.setText(videoBean.getVod_actor());
+            mTvDirector.setText(videoBean.getVod_director());
+            mTvPicGrade.setText(videoBean.getVod_scroe());
+            mTvRegion.setText(videoBean.getVod_area());
+            mTvUpdate.setText(videoBean.getVod_addtime());
+            mTvYear.setText(videoBean.getVod_year());
 
-            String vodContinu = searchResultVideoBean.getVod_continu();
-            //这里只有电视剧，才会有完结状态
-            if (searchResultVideoBean.getVideoType() == 2) {
-                mTvPicGrade.setTextColor(ContextCompat.getColor(mTvPicGrade.getContext(), R.color.homepage_font_episode));
-                if (searchResultVideoBean.isEnd()) {
-                    mTvPicGrade.setText(itemView.getResources().getString(R.string.video_episode_all, vodContinu));
-                } else {
-                    mTvPicGrade.setText(itemView.getResources().getString(R.string.video_episode, vodContinu));
-                }
-            } else {
-                if (TextUtils.isEmpty(vodContinu) || Integer.parseInt(vodContinu) == 0) {
-                    //不连载，显示豆瓣评分
-                    String vodScore = searchResultVideoBean.getVod_scroe();
-                    if (TextUtils.isEmpty(vodScore) || Double.parseDouble(vodScore) == 0 || Double.parseDouble(vodScore) == 10) {
-                        mTvPicGrade.setTextColor(ContextCompat.getColor(mTvPicGrade.getContext(), R.color.homepage_font_episode));
-                        mTvPicGrade.setText("暂无评分");
-                    } else {
-                        mTvPicGrade.setTextColor(ContextCompat.getColor(mTvPicGrade.getContext(), R.color.homepage_font_grade));
-                        mTvPicGrade.setText(vodScore);
-                    }
-                } else if (vodContinu.length() <= 4) {
-                    mTvPicGrade.setTextColor(ContextCompat.getColor(mTvPicGrade.getContext(), R.color.homepage_font_episode));
-                    mTvPicGrade.setText(itemView.getResources().getString(R.string.video_episode, vodContinu));
-                } else {
-                    mTvPicGrade.setTextColor(ContextCompat.getColor(mTvPicGrade.getContext(), R.color.homepage_font_episode));
-                    mTvPicGrade.setText(itemView.getResources().getString(R.string.video_stage, vodContinu));
-                }
-            }
-
-            String vodScore = searchResultVideoBean.getVod_scroe();
+            setScore(mTvPicGrade, String.valueOf(videoBean.getVideoType()), videoBean.getVod_continu(), videoBean.getVod_scroe(), videoBean.isEnd());
+            String vodScore = videoBean.getVod_scroe();
             if (TextUtils.isEmpty(vodScore) || Double.parseDouble(vodScore) == 0 || Double.parseDouble(vodScore) == 10) {
                 mTvGrade.setTextColor(ContextCompat.getColor(mTvGrade.getContext(), R.color.homepage_font_episode));
                 mTvGrade.setText("暂无评分");
@@ -159,18 +131,51 @@ public class SearchViewBinder extends ItemViewBinder<SearchResultVideoBean, Sear
 
                 @Override
                 public void onClick(View v) {
-                    LogUtils.d(TAG, "mCl Click  position == " + adapterPosition + " id == " + searchResultVideoBean.getVod_id());
-                    ARouter.getInstance().build("/player/activity").withString("vodId", searchResultVideoBean.getVod_id()).navigation();
+                    LogUtils.d(TAG, "mCl Click  position == " + adapterPosition + " id == " + videoBean.getVod_id());
+                    ARouter.getInstance().build("/player/activity").withString("vodId", videoBean.getVod_id()).navigation();
                 }
             });
-            mCheckBoxCollect.setChecked(searchResultVideoBean.isIs_collect());
-            mCheckBoxCollect.setText(searchResultVideoBean.isIs_collect() ? "已收藏" : "收藏");
+            mCheckBoxCollect.setChecked(videoBean.isIs_collect());
+            mCheckBoxCollect.setText(videoBean.isIs_collect() ? "已收藏" : "收藏");
             mCheckBoxCollect.setOnClickListener(v -> {
                 if (onCollectListener != null) {
-                    onCollectListener.onCollect(!searchResultVideoBean.isIs_collect(), searchResultVideoBean);
+                    onCollectListener.onCollect(!videoBean.isIs_collect(), videoBean);
                 }
             });
         }
+
+        private void setScore(TextView tvScore, String vodType, String vodContinue, String score, boolean isEnd) {
+            //continue 字段等于0说明视频有多集
+            if (TextUtils.isEmpty(vodContinue) || Integer.parseInt(vodContinue) == 0) {
+                //不连载，显示豆瓣评分
+                if (TextUtils.isEmpty(score) || Double.parseDouble(score) == 0 || Double.parseDouble(score) == 10) {
+                    tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_episode));
+                    tvScore.setText("暂无评分");
+                } else {
+                    tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_grade));
+                    tvScore.setText(score);
+                }
+            }
+            //视频已经完结
+            else if (isEnd && !TextUtils.equals(vodType, "3")) {
+                tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_episode));
+                tvScore.setText(tvScore.getResources().getString(R.string.video_episode_all, vodContinue));
+            }
+            //视频还在更新
+            else {
+                //长度小于4 说明是电视剧或连载动漫
+                if (vodContinue.length() <= 4) {
+                    tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_episode));
+                    tvScore.setText(tvScore.getResources().getString(R.string.video_episode, vodContinue));
+                }
+                //大于4 说明是综艺节目
+                else {
+                    tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_episode));
+                    tvScore.setText(tvScore.getResources().getString(R.string.video_stage, vodContinue));
+                }
+            }
+        }
+
     }
 
     interface OnCollectListener {

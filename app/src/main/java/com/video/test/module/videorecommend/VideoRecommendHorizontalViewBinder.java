@@ -1,6 +1,5 @@
 package com.video.test.module.videorecommend;
 
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.video.test.R;
 import com.video.test.framework.GlideApp;
-import com.video.test.framework.GlideRequest;
 import com.video.test.javabean.VideoRecommendBean;
 import com.video.test.utils.LogUtils;
 
@@ -67,35 +64,41 @@ public class VideoRecommendHorizontalViewBinder extends ItemViewBinder<VideoReco
             LogUtils.i(TAG, "video Click == " + item.toString());
             ARouter.getInstance().build("/player/activity").withString("vodId", item.getVideoId()).withString("vodPid", String.valueOf(item.getVodPid())).navigation();
         });
-        String vodContinue = item.getVodContinue();
-        //这里只有电视剧，才会有完结状态
-        if (TextUtils.equals(item.getVodType(), "2")) {
-            holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-            if (item.isVodIsEnd()) {
-                holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode_all, vodContinue));
+        setScore(holder.mTvPoint, item.getVodType(), item.getVodContinue(), item.getVodScore(), item.isVodIsEnd());
+    }
+
+    private void setScore(TextView tvScore, String vodType, String vodContinue, String score, boolean isEnd) {
+        //continue 字段等于0说明视频有多集
+        if (TextUtils.isEmpty(vodContinue) || Integer.parseInt(vodContinue) == 0) {
+            //不连载，显示豆瓣评分
+            if (TextUtils.isEmpty(score) || Double.parseDouble(score) == 0 || Double.parseDouble(score) == 10) {
+                tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_episode));
+                tvScore.setText("暂无评分");
             } else {
-                holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode, vodContinue));
+                tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_grade));
+                tvScore.setText(score);
             }
-        } else {
-            if (TextUtils.isEmpty(vodContinue) || Integer.parseInt(vodContinue) == 0) {
-                //不连载，显示豆瓣评分
-                String vodScore = item.getVodScore();
-                if (TextUtils.isEmpty(vodScore) || Double.parseDouble(vodScore) == 0 || Double.parseDouble(vodScore) == 10) {
-                    holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-                    holder.mTvPoint.setText("暂无评分");
-                } else {
-                    holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_grade));
-                    holder.mTvPoint.setText(vodScore);
-                }
-            } else if (vodContinue.length() <= 4) {
-                holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-                holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode, vodContinue));
-            } else {
-                holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-                holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_stage, vodContinue));
+        }
+        //视频已经完结
+        else if (isEnd && !TextUtils.equals(vodType, "3")) {
+            tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_episode));
+            tvScore.setText(tvScore.getResources().getString(R.string.video_episode_all, vodContinue));
+        }
+        //视频还在更新
+        else {
+            //长度小于4 说明是电视剧或连载动漫
+            if (vodContinue.length() <= 4) {
+                tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_episode));
+                tvScore.setText(tvScore.getResources().getString(R.string.video_episode, vodContinue));
+            }
+            //大于4 说明是综艺节目
+            else {
+                tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_episode));
+                tvScore.setText(tvScore.getResources().getString(R.string.video_stage, vodContinue));
             }
         }
     }
+
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 

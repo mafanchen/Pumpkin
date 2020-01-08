@@ -59,32 +59,37 @@ public class VideoRecommendViewBinder extends ItemViewBinder<VideoBean, VideoRec
             LogUtils.i(TAG, "mFl Click == " + videoBean.toString());
             ARouter.getInstance().build("/player/activity").withString("vodId", videoBean.getVod_id()).withString("vodPid", String.valueOf(videoBean.getVodPid())).navigation();
         });
-        String vodContinue = videoBean.getVod_continu();
-        //这里只有电视剧，才会有完结状态
-        if (TextUtils.equals(videoBean.getVodType(), "2")) {
-            holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-            if (videoBean.isVodIsEnd()) {
-                holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode_all, vodContinue));
+        setScore(holder.mTvPoint, videoBean.getVodType(), videoBean.getVod_continu(), videoBean.getVod_scroe(), videoBean.isVodIsEnd());
+    }
+
+    private void setScore(TextView tvScore, String vodType, String vodContinue, String score, boolean isEnd) {
+        //continue 字段等于0说明视频有多集
+        if (TextUtils.isEmpty(vodContinue) || Integer.parseInt(vodContinue) == 0) {
+            //不连载，显示豆瓣评分
+            if (TextUtils.isEmpty(score) || Double.parseDouble(score) == 0 || Double.parseDouble(score) == 10) {
+                tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_episode));
+                tvScore.setText("暂无评分");
             } else {
-                holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode, vodContinue));
+                tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_grade));
+                tvScore.setText(score);
             }
-        } else {
-            if (TextUtils.isEmpty(vodContinue) || Integer.parseInt(vodContinue) == 0) {
-                //不连载，显示豆瓣评分
-                String vodScore = videoBean.getVod_scroe();
-                if (TextUtils.isEmpty(vodScore) || Double.parseDouble(vodScore) == 0 || Double.parseDouble(vodScore) == 10) {
-                    holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-                    holder.mTvPoint.setText("暂无评分");
-                } else {
-                    holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_grade));
-                    holder.mTvPoint.setText(vodScore);
-                }
-            } else if (vodContinue.length() <= 4) {
-                holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-                holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode, vodContinue));
-            } else {
-                holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
-                holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_stage, vodContinue));
+        }
+        //视频已经完结 ,综艺节目始终显示更新至xx期
+        else if (isEnd && !TextUtils.equals(vodType, "3")) {
+            tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_episode));
+            tvScore.setText(tvScore.getResources().getString(R.string.video_episode_all, vodContinue));
+        }
+        //视频还在更新
+        else {
+            //长度小于4 说明是电视剧或连载动漫
+            if (vodContinue.length() <= 4) {
+                tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_episode));
+                tvScore.setText(tvScore.getResources().getString(R.string.video_episode, vodContinue));
+            }
+            //大于4 说明是综艺节目
+            else {
+                tvScore.setTextColor(ContextCompat.getColor(tvScore.getContext(), R.color.homepage_font_episode));
+                tvScore.setText(tvScore.getResources().getString(R.string.video_stage, vodContinue));
             }
         }
     }
