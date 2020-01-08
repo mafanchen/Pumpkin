@@ -287,6 +287,7 @@
 		<item name="android:layout_width">wrap_content</item>
 		<!--<item name="android:layout_marginRight">@dimen/search_margin_between_left_videoContent-->
 		<!--</item>-->
+		<item name="android:textSize">@dimen/text_size_12sp</item>
 		<item name="android:layout_marginTop">@dimen/search_margin_between_top_videoContent</item>
 	</style>
 
@@ -333,7 +334,7 @@
 	<style name="videoDetail_videoContent">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
-		<item name="android:textSize">@dimen/text_size_16sp</item>
+		<item name="android:textSize">13sp</item>
 		<item name="android:textColor">@color/videoPlayer_font_details_content</item>
 		<item name="android:singleLine">true</item>
 		<item name="android:ellipsize">end</item>

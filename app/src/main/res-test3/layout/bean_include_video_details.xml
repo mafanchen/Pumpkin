@@ -22,9 +22,11 @@
 		android:singleLine="true"
 		android:textColor="@color/videoPlayer_font_title"
 		android:textSize="@dimen/text_size_18sp"
+		android:textStyle="bold"
 		app:layout_constraintEnd_toStartOf="@+id/iv_close_videoDetail"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="加勒比海盗5 死无对证" />
 
 	<ImageView
 		android:id="@+id/iv_close_videoDetail"
@@ -88,7 +90,7 @@
 		android:id="@+id/tv_area_videoDetails"
 		style="@style/videoDetail_videoContent"
 		android:layout_width="0dp"
-		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/tv_yearTitle_videoDetails"
 		app:layout_constraintStart_toEndOf="@+id/tv_areaTitle_videoDetails"
 		app:layout_constraintTop_toTopOf="@+id/tv_areaTitle_videoDetails" />
 
@@ -96,8 +98,9 @@
 	<TextView
 		android:id="@+id/tv_yearTitle_videoDetails"
 		style="@style/videoDetail_videoContent"
+		android:layout_marginStart="150dp"
 		android:text="@string/videoPlayer_release_year"
-		app:layout_constraintStart_toEndOf="@+id/tv_update_videoDetails"
+		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="@+id/tv_areaTitle_videoDetails" />
 
 	<TextView
@@ -120,7 +123,8 @@
 	<TextView
 		android:id="@+id/tv_update_videoDetails"
 		style="@style/videoDetail_videoContent"
-		android:layout_width="140dp"
+		android:layout_width="0dp"
+		app:layout_constraintEnd_toStartOf="@+id/tv_yearTitle_videoDetails"
 		app:layout_constraintStart_toEndOf="@+id/tv_updateTitle_videoDetails"
 		app:layout_constraintTop_toTopOf="@+id/tv_updateTitle_videoDetails" />
 
@@ -128,7 +132,7 @@
 		android:id="@+id/tv_beanTitle_videoDetails"
 		style="@style/videoDetail_videoContent"
 		android:text="@string/videoPlayer_beanPoint"
-		app:layout_constraintStart_toEndOf="@+id/tv_update_videoDetails"
+		app:layout_constraintStart_toStartOf="@+id/tv_yearTitle_videoDetails"
 		app:layout_constraintTop_toTopOf="@+id/tv_updateTitle_videoDetails" />
 
 	<TextView
@@ -147,7 +151,8 @@
 		android:layout_marginTop="@dimen/videoDetails_margin_update2synopsisTitle"
 		android:text="@string/videoPlayer_detailContent"
 		android:textColor="@color/videoPlayer_font_title"
-		android:textSize="@dimen/text_size_18sp"
+		android:textSize="17sp"
+		android:textStyle="bold"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/tv_updateTitle_videoDetails" />
 
@@ -159,7 +164,7 @@
 		android:layout_marginTop="@dimen/videoDetails_margin_synopsisTitle2synopsisContent"
 		android:scrollbars="vertical"
 		android:textColor="@color/videoPlayer_font_details_content"
-		android:textSize="@dimen/text_size_16sp"
+		android:textSize="13sp"
 		app:layout_constrainedHeight="true"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/tv_synopsisTitle_videoDetails" />

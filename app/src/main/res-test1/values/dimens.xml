@@ -330,10 +330,10 @@
 
 
     <!--video details-->
-    <dimen name="videoDetails_margin_title2content">20dp</dimen>
-    <dimen name="videoDetails_margin_between_content">10dp</dimen>
-    <dimen name="videoDetails_margin_update2synopsisTitle">20dp</dimen>
-    <dimen name="videoDetails_margin_synopsisTitle2synopsisContent">10dp</dimen>
+    <dimen name="videoDetails_margin_title2content">24dp</dimen>
+    <dimen name="videoDetails_margin_between_content">15dp</dimen>
+    <dimen name="videoDetails_margin_update2synopsisTitle">30dp</dimen>
+    <dimen name="videoDetails_margin_synopsisTitle2synopsisContent">24dp</dimen>
 
     <!--contact-->
     <dimen name="contact_margin_content2content">5dp</dimen>
