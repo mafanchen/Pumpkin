@@ -11,9 +11,12 @@ public class SplashBean implements Serializable {
     private String pic_url;
     private String jump_url;
     private String ad_name;
-    private String end_time;
     private int show_time;     // 系统可以在后排配置默认时间  默认单位为秒
     private String open_status;
+    /**
+     * 进入后台xx秒后，进入前台展示广告
+     */
+    private int count_time;
 
 
     public int getShow_time() {
@@ -48,14 +51,6 @@ public class SplashBean implements Serializable {
         this.ad_name = ad_name;
     }
 
-    public String getEnd_time() {
-        return end_time;
-    }
-
-    public void setEnd_time(String end_time) {
-        this.end_time = end_time;
-    }
-
     public String getOpen_status() {
         return open_status;
     }
@@ -70,5 +65,13 @@ public class SplashBean implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getCount_time() {
+        return count_time;
+    }
+
+    public void setCount_time(int count_time) {
+        this.count_time = count_time;
     }
 }

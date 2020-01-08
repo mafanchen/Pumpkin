@@ -239,7 +239,7 @@ public class AppConstant {
     /**
      * 当 应用切换到后台 到 再次切换到前台时，允许跳转到广告界面 的计时时间
      */
-    public static final int TIME_PLAY_AD_WHEN_BACKGROUND = 5 * 60 * 1000;
+    public static final int TIME_PLAY_AD_WHEN_BACKGROUND = 5 * 60;
 
 
     /**

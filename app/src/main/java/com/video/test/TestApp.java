@@ -520,17 +520,23 @@ public class TestApp extends MultiDexApplication {
             public void onActivityResumed(Activity activity) {
                 if (isBackground) {
                     isBackground = false;
-                    if (System.currentTimeMillis() - currentBackgroundTime >= AppConstant.TIME_PLAY_AD_WHEN_BACKGROUND && isOpen) {
-                        //这里判断是否有缓存
-                        SplashBean saveSplashBean = SpUtils.getSerializable(TestApp.getContext(), "splashBean");
-                        if (saveSplashBean != null && !TextUtils.isEmpty(saveSplashBean.getJump_url()) && !TextUtils.isEmpty(saveSplashBean.getPic_url())) {
-                            ARouter.getInstance().build("/ad/activity")
-                                    .withString("ad_name", saveSplashBean.getAd_name())
-                                    .withString("jump_url", saveSplashBean.getJump_url())
-                                    .withString("pic_url", saveSplashBean.getPic_url())
-                                    .withString("ad_id", saveSplashBean.getId())
-                                    .withInt("showTime", saveSplashBean.getShow_time())
-                                    .navigation();
+                    SplashBean saveSplashBean = SpUtils.getSerializable(TestApp.getContext(), "splashBean");
+                    if (saveSplashBean != null) {
+                        int countTime = saveSplashBean.getCount_time();
+                        if (countTime == 0) {
+                            countTime = AppConstant.TIME_PLAY_AD_WHEN_BACKGROUND;
+                        }
+                        if (System.currentTimeMillis() - currentBackgroundTime >= countTime && isOpen) {
+                            //这里判断是否有缓存
+                            if (!TextUtils.isEmpty(saveSplashBean.getJump_url()) && !TextUtils.isEmpty(saveSplashBean.getPic_url())) {
+                                ARouter.getInstance().build("/ad/activity")
+                                        .withString("ad_name", saveSplashBean.getAd_name())
+                                        .withString("jump_url", saveSplashBean.getJump_url())
+                                        .withString("pic_url", saveSplashBean.getPic_url())
+                                        .withString("ad_id", saveSplashBean.getId())
+                                        .withInt("showTime", saveSplashBean.getShow_time())
+                                        .navigation();
+                            }
                         }
                     }
                 }
