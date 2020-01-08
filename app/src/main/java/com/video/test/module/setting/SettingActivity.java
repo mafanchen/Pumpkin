@@ -59,6 +59,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         mPresenter.getSwitchPushNoticeStatus(mSwitchPushBtn);
         mPresenter.getSwitchMobileDownStatus(mSwitchMobileDown);
         mPresenter.getSwitchAutoPlayStatus(mSwitchAutoPlay);
+        mPresenter.getCacheSize();
     }
 
     @Override
@@ -132,6 +133,11 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void setCacheSize(String size) {
+        mTvCacheSpace.setText(size);
     }
 
 

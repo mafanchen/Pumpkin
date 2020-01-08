@@ -22,14 +22,12 @@ import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import jaygoo.library.m3u8downloader.M3U8Downloader;
+import jaygoo.library.m3u8downloader.utils.MUtils;
 
 /**
  * @author Enoch Created on 2018/6/27.
@@ -82,7 +80,7 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
                     @Override
                     public void onClick(@android.support.annotation.NonNull MaterialDialog dialog, @android.support.annotation.NonNull DialogAction which) {
                         dialog.dismiss();
-                        clearAllCache();
+                        clearDownloadVideo();
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -131,9 +129,30 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
     }
 
     @Override
+    public void getCacheSize() {
+        long size = 0;
+        File cacheDirFile = DownloadUtil.getCacheDirFile();
+        if (cacheDirFile.exists()) {
+            long cacheDirSize = FileUtils.getDirLength(cacheDirFile);
+            if (cacheDirSize >= 0) {
+                size += cacheDirSize;
+            }
+        }
+        File imageDirFile = DownloadUtil.getImageDirFile();
+        if (imageDirFile.exists()) {
+            long imageDirSize = FileUtils.getDirLength(imageDirFile);
+            if (imageDirSize >= 0) {
+                size += imageDirSize;
+            }
+        }
+        mView.setCacheSize(MUtils.formatFileSize(size));
+    }
+
+    @Override
     public void removeLocalCache() {
         Disposable subscribe = Observable.create((ObservableOnSubscribe<Boolean>) emitter -> {
-            FileUtils.deleteDir(DownloadUtil.getImageDirFile());
+            deleteChildFile(DownloadUtil.getCacheDirFile());
+            deleteChildFile(DownloadUtil.getImageDirFile());
             emitter.onNext(true);
             emitter.onComplete();
         })
@@ -142,7 +161,10 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(() -> mView.hideLoadingDialog())
-                .subscribe(success -> ToastUtils.showToast(TestApp.getContext(), "清理缓存成功"),
+                .subscribe(success -> {
+                            ToastUtils.showToast(TestApp.getContext(), "清理缓存成功");
+                            getCacheSize();
+                        },
                         throwable -> Log.d(TAG, "removeLocalCache error," + throwable.getMessage()));
         addDisposable(subscribe);
     }
@@ -172,7 +194,7 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
 
     }
 
-    private void clearAllCache() {
+    private void clearDownloadVideo() {
         Disposable subscribe = Observable.create((ObservableOnSubscribe<String>) emitter -> {
             List<M3U8DownloadBean> allTaskList = DBManager.getInstance(TestApp.getContext()).queryM3U8Tasks();
             for (M3U8DownloadBean bean : allTaskList) {
@@ -180,9 +202,7 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
             }
             DBManager.getInstance(TestApp.getContext()).deleteAllM3U8Task();
             deleteChildFile(DownloadUtil.getDownloadDirFile());
-            deleteChildFile(DownloadUtil.getCacheDirFile());
-            deleteChildFile(DownloadUtil.getImageDirFile());
-            emitter.onNext("本地缓存已清理");
+            emitter.onNext("视频缓存已清理");
             emitter.onComplete();
         })
                 .compose(RxSchedulers.io_main())

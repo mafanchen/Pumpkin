@@ -23,6 +23,8 @@ public interface SettingContract {
         void showLoadingDialog();
 
         void hideLoadingDialog();
+
+        void setCacheSize(String size);
     }
 
     abstract class Presenter<M extends Model> extends BasePresenter<Model, View> {
@@ -44,6 +46,8 @@ public interface SettingContract {
         public abstract void getSwitchPushNoticeStatus(SwitchButton switchButton);
 
         public abstract void removeLocalCache();
+
+        public abstract void getCacheSize();
     }
 
 
