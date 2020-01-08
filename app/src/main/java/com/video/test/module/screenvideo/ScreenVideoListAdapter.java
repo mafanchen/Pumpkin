@@ -90,7 +90,7 @@ public class ScreenVideoListAdapter extends RecyclerView.Adapter<ScreenVideoList
             mTvVideoName.setText(videoBean.getVod_name());
             String vodContinu = videoBean.getVod_continu();
             //这里只有电视剧，才会有完结状态
-            if (TextUtils.equals(videoBean.getVodType(), "3")) {
+            if (TextUtils.equals(videoBean.getVodType(), "2")) {
                 mTvPoint.setTextColor(ContextCompat.getColor(mTvPoint.getContext(), R.color.homepage_font_episode));
                 if (videoBean.isVodIsEnd()) {
                     mTvPoint.setText(itemView.getResources().getString(R.string.video_episode_all, vodContinu));

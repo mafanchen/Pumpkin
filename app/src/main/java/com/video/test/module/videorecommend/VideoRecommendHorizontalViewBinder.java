@@ -69,7 +69,7 @@ public class VideoRecommendHorizontalViewBinder extends ItemViewBinder<VideoReco
         });
         String vodContinue = item.getVodContinue();
         //这里只有电视剧，才会有完结状态
-        if (TextUtils.equals(item.getVodType(), "3")) {
+        if (TextUtils.equals(item.getVodType(), "2")) {
             holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
             if (item.isVodIsEnd()) {
                 holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode_all, vodContinue));
