@@ -119,7 +119,7 @@ public class SearchViewBinder extends ItemViewBinder<SearchResultVideoBean, Sear
 
             String vodContinu = searchResultVideoBean.getVod_continu();
             //这里只有电视剧，才会有完结状态
-            if (searchResultVideoBean.getVideoType() == 3) {
+            if (searchResultVideoBean.getVideoType() == 2) {
                 mTvPicGrade.setTextColor(ContextCompat.getColor(mTvPicGrade.getContext(), R.color.homepage_font_episode));
                 if (searchResultVideoBean.isEnd()) {
                     mTvPicGrade.setText(itemView.getResources().getString(R.string.video_episode_all, vodContinu));

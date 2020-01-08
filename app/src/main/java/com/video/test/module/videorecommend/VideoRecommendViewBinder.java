@@ -61,7 +61,7 @@ public class VideoRecommendViewBinder extends ItemViewBinder<VideoBean, VideoRec
         });
         String vodContinue = videoBean.getVod_continu();
         //这里只有电视剧，才会有完结状态
-        if (TextUtils.equals(videoBean.getVodType(), "3")) {
+        if (TextUtils.equals(videoBean.getVodType(), "2")) {
             holder.mTvPoint.setTextColor(ContextCompat.getColor(holder.mTvPoint.getContext(), R.color.homepage_font_episode));
             if (videoBean.isVodIsEnd()) {
                 holder.mTvPoint.setText(holder.itemView.getResources().getString(R.string.video_episode_all, vodContinue));
