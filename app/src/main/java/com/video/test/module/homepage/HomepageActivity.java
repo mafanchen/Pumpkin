@@ -409,7 +409,9 @@ public class HomepageActivity extends BaseActivity<HomepagePresenter> implements
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        setIntent(intent);
         LogUtils.d(TAG, "onNewIntent");
+        initVideoInfos(getIntent());
         mPresenter.shareGetInfo(getIntent());
     }
 
