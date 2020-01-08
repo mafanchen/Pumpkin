@@ -511,7 +511,6 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
                     @Override
                     public void accept(Throwable throwable) {
                         LogUtils.e(getClass(), "getSDCardFreeSize onError" + throwable.getMessage());
-
                     }
                 }));
         addDisposable(disposable);
@@ -844,7 +843,6 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
                         }
                     }
                 });
-
         addDisposable(mWatchVideoTimer);
     }
 
@@ -863,12 +861,12 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
                     public void accept(String message) throws Exception {
                         LogUtils.d(TAG, "uploadWatchTime Success  message : " + message);
                     }
-                }, new RxExceptionHandler<>(new Consumer<Throwable>() {
+                }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         LogUtils.e(TAG, "uploadWatchTime error  message : " + throwable.getMessage());
                     }
-                }));
+                });
         addDisposable(disposable);
     }
 
