@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -105,6 +106,7 @@ public class BrowserActivity extends BaseActivity<BrowserPresenter> implements B
                 intent.setData(Uri.parse(url));
                 startActivity(intent);
             });
+            mWebView.setWebViewClient(new WebViewClient());
             mWebView.loadUrl(mWebUrl);
         } else {
 
