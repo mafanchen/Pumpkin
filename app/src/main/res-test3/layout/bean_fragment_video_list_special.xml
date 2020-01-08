@@ -51,12 +51,18 @@
                             app:radius="20"
                             tools:src="@color/colorWhite" />
 
+                        <com.video.test.ui.widget.CornerImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_gravity="bottom"
+                            android:src="@drawable/ic_shadow_cover"
+                            app:radius="20" />
+
                         <TextView
                             android:id="@+id/tv_top_video"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
-                            android:background="@drawable/ic_shadow_cover"
                             android:gravity="end"
                             android:lines="1"
                             android:paddingStart="12dp"

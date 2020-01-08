@@ -17,15 +17,26 @@
         app:layout_constraintTop_toTopOf="parent"
         app:radius="20" />
 
+    <com.video.test.ui.widget.CornerImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_shadow_cover"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_score"
+        app:layout_constraintEnd_toEndOf="@+id/tv_score"
+        app:layout_constraintStart_toStartOf="@+id/tv_score"
+        app:layout_constraintTop_toTopOf="@+id/tv_score"
+        app:radius="20" />
+
     <TextView
         android:id="@id/tv_score"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_shadow_cover"
         android:gravity="end|center_vertical"
         android:lines="1"
         android:paddingStart="6dp"
+        android:paddingTop="6dp"
         android:paddingEnd="6dp"
+        android:paddingBottom="6dp"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_size_12sp"
         app:layout_constraintBottom_toBottomOf="@id/iv_cover"

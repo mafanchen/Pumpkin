@@ -18,11 +18,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:radius="20" />
 
-    <ImageView
+    <com.video.test.ui.widget.CornerImageView
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:background="@drawable/ic_shadow_cover"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_recycle_item_pic_video" />
+        android:src="@drawable/ic_shadow_cover"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_recycle_item_pic_video"
+        app:radius="20" />
 
     <TextView
         android:id="@+id/tv_recycle_item_point_video"
