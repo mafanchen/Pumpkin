@@ -93,8 +93,10 @@ class DownloadPresenter : DownloadContract.Presenter<DownloadModel>() {
                     mView.adapter?.data = list
                     if (list.isEmpty()) {
                         mView.hideEditBtn()
+                        mView.showNoCacheBackground()
                     } else {
                         mView.showEditBtn()
+                        mView.hideNoCacheBackground()
                     }
                     mView.adapter?.notifyDataSetChanged()
                 }, { it.printStackTrace() })
