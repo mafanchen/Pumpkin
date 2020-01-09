@@ -3,12 +3,9 @@ package com.video.test.module.beantopic;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -31,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.drakeet.multitype.Items;
@@ -53,12 +49,11 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
     @BindView(R.id.tabLayout_topic_toolbar)
     BeanTopicTabLayout mTabLayout;
     Unbinder unbinder;
-    private String[] mTabContent = {"最热", "最新"};
+    private String[] mTabContent = {"最新", "最热"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
-    private int order = 1;
+    private int order = 2;
     private MultiTypeAdapter mAdapter;
     private Items mItems;
-    private DividerItemDecoration mDecoration;
 
     public static Fragment newInstance(String title) {
         BeanTopicFragment beanTopicFragment = new BeanTopicFragment();
@@ -68,13 +63,6 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
         return beanTopicFragment;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -128,8 +116,17 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
         mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-                //position １　为权重　　２为最新
-                order = position + 1;
+                //position 0 为最新　order 传2 　1 为最热 order 传1
+                switch (position) {
+                    case 0:
+                        order = 2;
+                        break;
+                    case 1:
+                        order = 1;
+                        break;
+                    default:
+                        break;
+                }
                 Log.d(TAG, "onTabSelect order=" + order);
                 mRefreshLayout.autoRefresh();
             }
