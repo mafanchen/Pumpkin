@@ -15,6 +15,7 @@ ext {
             //渠道
             flavor       : "test2",
             website      : "http://www.test2.com",
+            email        : "test@gmail.com",
             //极光推送
             jpush        : [
                     appKey : "极光appKey",
@@ -49,6 +50,7 @@ ext {
             //渠道
             flavor       : "test1",
             website      : "http://www.test.com",
+            email        : "test@gmail.com",
             //极光推送
             jpush        : [
                     appKey : "极光appKey",
@@ -92,6 +94,7 @@ ext {
             //渠道
             flavor       : "test3",
             website      : "http://www.test.com",
+            email        : "test@gmail.com",
             //极光推送
             jpush        : [
                     appKey : "极光appKey",

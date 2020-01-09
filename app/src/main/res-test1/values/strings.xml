@@ -369,24 +369,9 @@
     <string name="errcode_unknown">分享返回</string>
     <string name="errcode_error">分享错误</string>
 
-
-    <!--Facebook-->
-    <string name="facebook_app_id">263014844414331</string>
-
-    <!--umeng-->
-    <string name="umeng_app_key">5c495cfab465f58831000114</string>
-    <string name="umeng_channel_id">Official</string>
-
-
-    <!--LeCast-->
-    <string name="leCast_app_id">10943</string>
-    <string name="leCast_app_secret">bd331dd401ae69870c7135ca585b8a29</string>
-
     <!--contact-->
     <string name="contact_website_title">官网：</string>
     <string name="contact_email_title">邮箱：</string>
-    <string name="contact_website_content"><u>test.com</u></string>
-    <string name="contact_email_content"><u>test@gmail.com</u></string>
 
     <!--permission-->
     <string name="permission_camera_error">未能获取照相机权限、请您开启权限后尝试</string>

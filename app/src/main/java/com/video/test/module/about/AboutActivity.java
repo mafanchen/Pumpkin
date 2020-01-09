@@ -29,6 +29,10 @@ public class AboutActivity extends BaseActivity<AboutPresenter> implements About
     TextView mTvTitle;
     @BindView(R.id.ib_back_toolbar)
     ImageButton mIbBack;
+    @BindView(R.id.tv_email)
+    TextView mTvEmail;
+    @BindView(R.id.tv_website)
+    TextView mTvWebsite;
     private long mClickTime;
 
 
@@ -48,6 +52,8 @@ public class AboutActivity extends BaseActivity<AboutPresenter> implements About
     protected void initData() {
         String appVersionName = TestApp.getAppVersionName();
         mTvVersion.setText(String.format("V %s", appVersionName));
+        mTvEmail.setText(BuildConfig.EMAIL);
+        mTvWebsite.setText(BuildConfig.OFFICAL_WEBSITE);
     }
 
 

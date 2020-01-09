@@ -56,11 +56,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tv_email"
             style="@style/contact_content"
             android:autoLink="email"
-            android:text="@string/contact_email_content"
             app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toTopOf="@+id/tv_emailTitle_about" />
+            app:layout_constraintTop_toTopOf="@+id/tv_emailTitle_about"
+            tools:text="test@gmail.com" />
 
         <TextView
             android:id="@+id/tv_websiteTitle_about"
@@ -70,10 +71,11 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_emailTitle_about" />
 
         <TextView
+            android:id="@+id/tv_website"
             style="@style/contact_content"
-            android:text="@string/contact_website_content"
             app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toTopOf="@+id/tv_websiteTitle_about" />
+            app:layout_constraintTop_toTopOf="@+id/tv_websiteTitle_about"
+            tools:text="www.test.com" />
 
 
         <android.support.constraint.Barrier

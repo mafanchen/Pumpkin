@@ -148,6 +148,8 @@ android {
             buildConfigField "String", "WECHAT_APP_ID", "\"$CONFIG_TEST2.weChat.appId\""
             //官网地址
             buildConfigField "String", "OFFICAL_WEBSITE", "\"$CONFIG_TEST2.website\""
+            //邮箱地址
+            buildConfigField "String", "EMAIL", "\"$CONFIG_TEST2.email\""
             //友盟appKey
             buildConfigField "String", "UMENG_APP_KEY", "\"$CONFIG_TEST2.umeng.appKey\""
             buildConfigField "String", "STORE_CHANNEL", "\"\""
@@ -185,6 +187,8 @@ android {
             buildConfigField "String", "WECHAT_APP_ID", "\"$CONFIG_TEST1.weChat.appId\""
             //官网地址
             buildConfigField "String", "OFFICAL_WEBSITE", "\"$CONFIG_TEST1.website\""
+            //邮箱地址
+            buildConfigField "String", "EMAIL", "\"$CONFIG_TEST1.email\""
             //友盟appKey
             buildConfigField "String", "UMENG_APP_KEY", "\"$CONFIG_TEST1.umeng.appKey\""
             buildConfigField "String", "STORE_CHANNEL", "\"\""
@@ -222,6 +226,8 @@ android {
             buildConfigField "String", "WECHAT_APP_ID", "\"$CONFIG_TEST1.weChat.appId\""
             //官网地址
             buildConfigField "String", "OFFICAL_WEBSITE", "\"$CONFIG_TEST1.website\""
+            //邮箱地址
+            buildConfigField "String", "EMAIL", "\"$CONFIG_TEST1.email\""
             //友盟appKey
             buildConfigField "String", "UMENG_APP_KEY", "\"$rootProject.ext.testStore.umeng.appKey\""
             buildConfigField "String", "STORE_CHANNEL", "\"$rootProject.ext.testStore.storeChannel\""
@@ -259,6 +265,8 @@ android {
             buildConfigField "String", "WECHAT_APP_ID", "\"$CONFIG_TEST3.weChat.appId\""
             //官网地址
             buildConfigField "String", "OFFICAL_WEBSITE", "\"$CONFIG_TEST3.website\""
+            //邮箱地址
+            buildConfigField "String", "EMAIL", "\"$CONFIG_TEST3.email\""
             //友盟appKey
             buildConfigField "String", "UMENG_APP_KEY", "\"$CONFIG_TEST3.umeng.appKey\""
             buildConfigField "String", "STORE_CHANNEL", "\"\""
