@@ -192,6 +192,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
         });
         mTabLayout.setupWithViewPager(mViewPager);
         initTabLayout();
+        mViewPager.setCurrentItem(1);
     }
 
     @Override
