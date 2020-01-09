@@ -105,11 +105,14 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getTag() instanceof Integer) {
                     int position = (int) tab.getTag();
-                    if (position != 0) {
-                        View customView = tab.getCustomView();
-                        if (customView != null) {
+                    View customView = tab.getCustomView();
+                    if (customView != null) {
+                        if (position != 0) {
                             TextView tvTitle = customView.findViewById(R.id.tv_title);
                             tvTitle.setTextColor(ContextCompat.getColor(tvTitle.getContext(), R.color.homepage_font_chose));
+                        } else {
+                            ImageView ivTitle = customView.findViewById(R.id.iv_title);
+                            ivTitle.setImageResource(R.drawable.pic_2019_nav_selected);
                         }
                     }
                 }
@@ -119,11 +122,14 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
             public void onTabUnselected(TabLayout.Tab tab) {
                 if (tab.getTag() instanceof Integer) {
                     int position = (int) tab.getTag();
-                    if (position != 0) {
-                        View customView = tab.getCustomView();
-                        if (customView != null) {
+                    View customView = tab.getCustomView();
+                    if (customView != null) {
+                        if (position != 0) {
                             TextView tvTitle = customView.findViewById(R.id.tv_title);
                             tvTitle.setTextColor(ContextCompat.getColor(tvTitle.getContext(), R.color.homepage_font_no_chose));
+                        } else {
+                            ImageView ivTitle = customView.findViewById(R.id.iv_title);
+                            ivTitle.setImageResource(R.drawable.pic_2019_nav_default);
                         }
                     }
                 }
@@ -141,7 +147,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> implements Video
         if (position == 0) {
             View view = inflater.inflate(R.layout.layout_tab_image, parent, false);
             ImageView ivTitle = view.findViewById(R.id.iv_title);
-            ivTitle.setImageResource(R.drawable.pic_2019_nav);
+            ivTitle.setImageResource(R.drawable.pic_2019_nav_selected);
             return view;
         } else {
             View view = inflater.inflate(R.layout.layout_tab_text, parent, false);
