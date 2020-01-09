@@ -466,7 +466,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                 //如果不是播放视频广告时退出，则添加历史纪录
                 if (!getCurPlay().isShowingHeadAd()) {
                     long currentPosition = getCurPlay().getCurrentPositionWhenPlaying();
-                    long duration = getCurPlay().getGSYVideoManager().getDuration();
+                    long duration = getCurPlay().getDuration();
                     mPresenter.addHistory(mVideoId, mVideoTitle, mVideoName, mVideoOriginalUrl, currentPosition, duration);
                     LogUtils.d(TAG, "onPause currentPosition == " + currentPosition + "duration == " + duration);
 
@@ -1313,8 +1313,8 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         mVideoPlayer.setVideoAllCallBack(new GSYSampleCallBack() {
             @Override
             public void onPrepared(String url, Object... objects) {
-                LogUtils.d(TAG, "onPrepared" + objects[0]);
-                LogUtils.d(TAG, "onPrepared" + objects[1]);
+                LogUtils.d(TAG, "onPrepared object[0]" + objects[0] + "objects[1]" + objects[1]);
+                LogUtils.d(TAG, "onPrepared  url " + url);
                 super.onPrepared(url, objects);
                 //需要先播放片头广告
                 if (getCurPlay() != null && !getCurPlay().isShowingHeadAd()) {
@@ -1324,7 +1324,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                         String percentStr = mVideoDegree.substring(0, mVideoDegree.length() - 1);
                         try {
                             float percentFloat = Float.parseFloat(percentStr) / 100;
-                            mCurrentTime = (long) (getCurPlay().getGSYVideoManager().getDuration() * percentFloat);
+                            mCurrentTime = (long) (getCurPlay().getDuration() * percentFloat);
                             getCurPlay().seekTo(mCurrentTime);
                         } catch (NumberFormatException e) {
                             LogUtils.e(TAG, e.getMessage());
@@ -1339,8 +1339,12 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                     mOrientationUtils.setEnable(true);
                     isPlay = true;
                 }
-                //开始播放之后隐藏等待提示图
-                // hideWaitPic();
+                //资源准备完成后  并判断当前不是播放片头广告时 上报到播放历史
+                if (null != getCurPlay() && !getCurPlay().isShowingHeadAd()) {
+                    int totalTime = getCurPlay().getDuration();
+                    LogUtils.d(TAG, "add history total : " + totalTime + " originalUrl : " + mVideoOriginalUrl + " url : " + url);
+                    mPresenter.addHistory(mVideoId, mVideoTitle, mVideoName, mVideoOriginalUrl, mCurrentTime, totalTime);
+                }
             }
 
             @Override
@@ -1644,7 +1648,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         mVideoName = videoName;
         mPresenter.getCurrentNetSpeed(getCurPlay());
         mPresenter.getSDCardFreeSize();
-        LogUtils.d(TAG, "startVideoPlay videoPlayUrl ==" + videoPlayUrl);
+        LogUtils.d(TAG, "startVideoPlay videoPlayUrl ==" + videoPlayUrl + " videoOriginalUrl" + videoOriginalUrl);
         if (getCurPlay() == null) {
             return;
         }
@@ -1654,16 +1658,6 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         } else {
             getCurPlay().setAdUp(mVideoAdData, videoPlayUrl, videoFullName, mUserLevel.equals(AppConstant.USER_VIP) || mUserLevel.equals(AppConstant.USER_VIP_LASTDAY));
             preloadImages(mVideoAdData);
-        }
-        //添加到历史纪录
-        if (videoPlayUrl.startsWith(AppConstant.FFHD_HEAD)) {
-            if (null != getCurPlay()) {
-                mPresenter.addHistory(mVideoId, mVideoTitle, mVideoName, mVideoOriginalUrl, mCurrentTime, getCurPlay().getGSYVideoManager().getDuration());
-            }
-        } else {
-            if (null != getCurPlay()) {
-                mPresenter.addHistory(mVideoId, mVideoTitle, mVideoName, videoPlayUrl, mCurrentTime, getCurPlay().getGSYVideoManager().getDuration());
-            }
         }
     }
 
