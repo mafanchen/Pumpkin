@@ -50,8 +50,12 @@ class RecommendVideoActivity : BaseActivity<RecommendVideoPresenter>(), Recommen
     @Autowired(name = "title")
     var mTitle: String? = null
 
+    @JvmField
+    @Autowired(name = "vodPid")
+    var mVodPid: Int = 0
 
     override fun getContextViewId(): Int {
+
         return R.layout.bean_activity_recommend_video
     }
 
@@ -100,7 +104,7 @@ class RecommendVideoActivity : BaseActivity<RecommendVideoPresenter>(), Recommen
     override fun setAdapter() {
         super.setAdapter()
         mAdapter = MultiTypeAdapter()
-        mAdapter!!.register(VideoRecommendBean::class.java, VideoRecommendHorizontalViewBinder())
+        mAdapter!!.register(VideoRecommendBean::class.java, VideoRecommendHorizontalViewBinder(mVodPid))
         val layoutManger = GridLayoutManager(this, 2)
         val leftRight = PixelUtils.dp2px(this, 3f)
         mRecycleView.addItemDecoration(DividerItemDecoration(leftRight, leftRight, Color.WHITE))

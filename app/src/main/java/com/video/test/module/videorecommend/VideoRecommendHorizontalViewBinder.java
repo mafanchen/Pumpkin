@@ -33,6 +33,7 @@ public class VideoRecommendHorizontalViewBinder extends ItemViewBinder<VideoReco
     private static final String TAG = "VideoRecommendHorizontalViewBinder";
 
     private boolean isSpecial = false;
+    private int vodPid;
 
     public VideoRecommendHorizontalViewBinder() {
     }
@@ -40,6 +41,11 @@ public class VideoRecommendHorizontalViewBinder extends ItemViewBinder<VideoReco
     public VideoRecommendHorizontalViewBinder(boolean isSpecial) {
         this.isSpecial = isSpecial;
     }
+
+    public VideoRecommendHorizontalViewBinder(int vodPid) {
+        this.vodPid = vodPid;
+    }
+
 
     @NonNull
     @Override
@@ -61,6 +67,7 @@ public class VideoRecommendHorizontalViewBinder extends ItemViewBinder<VideoReco
         holder.tvMainTitle.setText(item.getMainTitle());
         holder.tvSubTitle.setText(item.getSubTitle());
         holder.itemView.setOnClickListener(view -> {
+            LogUtils.i(TAG, "video Click vodPid == " + vodPid);
             LogUtils.i(TAG, "video Click == " + item.toString());
             ARouter.getInstance().build("/player/activity").withString("vodId", item.getVideoId()).withString("vodPid", String.valueOf(item.getVodPid())).navigation();
         });
