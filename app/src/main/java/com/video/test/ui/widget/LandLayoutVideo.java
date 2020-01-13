@@ -1300,16 +1300,19 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     }
 
     @Override
-    protected void changeUiToPlayingClear() {
-        super.changeUiToPlayingClear();
-        changeUiToClear();
-
-    }
-
-
-    @Override
     protected void changeUiToPreparingShow() {
         super.changeUiToPreparingShow();
+        setViewShowState(mTvFastForward, INVISIBLE);
+        setViewShowState(mTvRewind, INVISIBLE);
+        setViewShowState(mIvCapturePhoto, INVISIBLE);
+        setViewShowState(mIvCaptureGif, INVISIBLE);
+        setViewShowState(mIvRestartVideo, INVISIBLE);
+        setViewShowState(mTvPlayNextNotice, INVISIBLE);
+    }
+
+    @Override
+    protected void changeUiToPlayingClear() {
+        super.changeUiToPlayingClear();
         changeUiToClear();
     }
 
@@ -1327,7 +1330,12 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     @Override
     protected void changeUiToPlayingBufferingShow() {
         super.changeUiToPlayingBufferingShow();
-        changeUiToClear();
+        setViewShowState(mTvFastForward, INVISIBLE);
+        setViewShowState(mTvRewind, INVISIBLE);
+        setViewShowState(mIvCapturePhoto, INVISIBLE);
+        setViewShowState(mIvCaptureGif, INVISIBLE);
+        setViewShowState(mIvRestartVideo, INVISIBLE);
+        setViewShowState(mTvPlayNextNotice, INVISIBLE);
     }
 
     @Override
