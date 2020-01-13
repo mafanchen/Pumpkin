@@ -53,6 +53,9 @@ class HottestVideoListActivity : BaseActivity<HottestVideoListPresenter>(), Hott
     @Autowired(name = "showPid")
     var mShowPid: String? = null
 
+    @JvmField
+    @Autowired(name = "vodPid")
+    var mVodPid: Int = 0
 
     override fun getContextViewId(): Int {
         return R.layout.bean_activity_recommend_video
@@ -103,7 +106,7 @@ class HottestVideoListActivity : BaseActivity<HottestVideoListPresenter>(), Hott
     override fun setAdapter() {
         super.setAdapter()
         mAdapter = MultiTypeAdapter()
-        mAdapter!!.register(VideoBean::class.java, VideoRecommendViewBinder())
+        mAdapter!!.register(VideoBean::class.java, VideoRecommendViewBinder(mVodPid))
         val layoutManger = GridLayoutManager(this, 3)
         val leftRight = PixelUtils.dp2px(this, 3f)
         mRecycleView.addItemDecoration(DividerItemDecoration(leftRight, leftRight, Color.WHITE))

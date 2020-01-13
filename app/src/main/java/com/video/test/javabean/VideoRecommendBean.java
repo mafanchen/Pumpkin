@@ -139,4 +139,21 @@ public class VideoRecommendBean {
     public void setVodIsEnd(boolean vodIsEnd) {
         this.vodIsEnd = vodIsEnd;
     }
+
+    @Override
+    public String toString() {
+        return "VideoRecommendBean{" +
+                "mainTitle='" + mainTitle + '\'' +
+                ", subTitle='" + subTitle + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", videoId='" + videoId + '\'' +
+                ", parentId='" + parentId + '\'' +
+                ", vodContinue='" + vodContinue + '\'' +
+                ", vodScore='" + vodScore + '\'' +
+                ", vodTotal='" + vodTotal + '\'' +
+                ", vodIsEnd=" + vodIsEnd +
+                ", vodPid=" + vodPid +
+                ", vodType='" + vodType + '\'' +
+                '}';
+    }
 }

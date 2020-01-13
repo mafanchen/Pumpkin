@@ -73,11 +73,11 @@ public class VideoTitleItemViewBinder extends ItemViewBinder<VideoTitleBean, Vid
             switch (videoTitleBean.getColumnType()) {
                 case VideoTitleBean.TYPE_RECOMMEND:
                     holder.mTvMore.setVisibility(View.VISIBLE);
-                    holder.mTvMore.setOnClickListener(v -> jump2RecommendList(videoTitleBean.getParentId(), videoTitleBean.getType()));
+                    holder.mTvMore.setOnClickListener(v -> jump2RecommendList(videoTitleBean.getParentId(), videoTitleBean.getType(), videoTitleBean.getPid()));
                     break;
                 case VideoTitleBean.TYPE_HOTEST:
                     holder.mTvMore.setVisibility(View.VISIBLE);
-                    holder.mTvMore.setOnClickListener(v -> jump2Hottest(videoTitleBean.getShowId(), videoTitleBean.getType()));
+                    holder.mTvMore.setOnClickListener(v -> jump2Hottest(videoTitleBean.getShowId(), videoTitleBean.getType(), videoTitleBean.getPid()));
                     break;
                 case VideoTitleBean.TYPE_CATEGORY:
                     holder.mTvMore.setVisibility(View.VISIBLE);
@@ -95,10 +95,11 @@ public class VideoTitleItemViewBinder extends ItemViewBinder<VideoTitleBean, Vid
         }
     }
 
-    private void jump2RecommendList(String parentId, String title) {
+    private void jump2RecommendList(String parentId, String title, int vodPid) {
         ARouter.getInstance().build("/recommend/activity")
                 .withString("parentId", parentId)
                 .withString("title", title)
+                .withInt("vodPid", vodPid)
                 .navigation();
     }
 
@@ -111,7 +112,7 @@ public class VideoTitleItemViewBinder extends ItemViewBinder<VideoTitleBean, Vid
                 .navigation();
     }
 
-    private void jump2Hottest(String showId, String title) {
+    private void jump2Hottest(String showId, String title, int vodPid) {
         Postcard build = ARouter.getInstance().build("/hottest/activity");
         if (isSpecial) {
             //2019 showPid = 7,其他类型的页面不用传
@@ -119,6 +120,7 @@ public class VideoTitleItemViewBinder extends ItemViewBinder<VideoTitleBean, Vid
         }
         build.withString("showId", showId)
                 .withString("title", title)
+                .withInt("vodPid", vodPid)
                 .navigation();
     }
 

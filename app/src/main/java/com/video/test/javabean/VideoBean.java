@@ -159,8 +159,15 @@ public class VideoBean {
                 ", vod_pic='" + vod_pic + '\'' +
                 ", vod_name='" + vod_name + '\'' +
                 ", vod_scroe='" + vod_scroe + '\'' +
+                ", vod_year='" + vod_year + '\'' +
                 ", vod_keywords='" + vod_keywords + '\'' +
                 ", vod_area='" + vod_area + '\'' +
+                ", vod_douban_name='" + vod_douban_name + '\'' +
+                ", vod_continu='" + vod_continu + '\'' +
+                ", vodType='" + vodType + '\'' +
+                ", vodTotal='" + vodTotal + '\'' +
+                ", vodIsEnd=" + vodIsEnd +
+                ", vodPid=" + vodPid +
                 '}';
     }
 }

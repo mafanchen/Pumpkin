@@ -27,7 +27,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  */
 public class VideoRecommendViewBinder extends ItemViewBinder<VideoBean, VideoRecommendViewBinder.VideoRecommendViewHolder> {
     private static final String TAG = "VideoRecommendViewBinder";
-
+    private int mVodPid;
     private boolean isSpecial = false;
 
     public VideoRecommendViewBinder() {
@@ -35,6 +35,10 @@ public class VideoRecommendViewBinder extends ItemViewBinder<VideoBean, VideoRec
 
     public VideoRecommendViewBinder(boolean isSpecial) {
         this.isSpecial = isSpecial;
+    }
+
+    public VideoRecommendViewBinder(int vodPid) {
+        this.mVodPid = vodPid;
     }
 
     @NonNull
@@ -56,8 +60,14 @@ public class VideoRecommendViewBinder extends ItemViewBinder<VideoBean, VideoRec
                 .error(R.drawable.bg_video_default_vertical)
                 .into(holder.mIvPic);
         holder.itemView.setOnClickListener(v -> {
-            LogUtils.i(TAG, "mFl Click == " + videoBean.toString());
-            ARouter.getInstance().build("/player/activity").withString("vodId", videoBean.getVod_id()).withString("vodPid", String.valueOf(videoBean.getVodPid())).navigation();
+            LogUtils.i(TAG, "mFl Click vodPid : " + mVodPid + " videoBean : " + videoBean.toString());
+            // 等于0的时候 是首页进去播放页的，使用首页的vodID如果；  传过来的值 不等于0 说明是 从首页栏目点入的更多的播放页，使用传入过来的pid 值
+            if (0 == mVodPid) {
+                ARouter.getInstance().build("/player/activity").withString("vodId", videoBean.getVod_id()).withString("vodPid", String.valueOf(videoBean.getVodPid())).navigation();
+            } else {
+                ARouter.getInstance().build("/player/activity").withString("vodId", videoBean.getVod_id()).withString("vodPid", String.valueOf(mVodPid)).navigation();
+            }
+
         });
         setScore(holder.mTvPoint, videoBean.getVodType(), videoBean.getVod_continu(), videoBean.getVod_scroe(), videoBean.isVodIsEnd());
     }
