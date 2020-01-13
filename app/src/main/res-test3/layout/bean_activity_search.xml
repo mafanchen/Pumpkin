@@ -12,17 +12,25 @@
 		android:orientation="horizontal"
 		app:layout_constraintGuide_begin="44dp" />
 
-	<RadioGroup
-		android:id="@+id/radio_group_videoType"
+	<HorizontalScrollView
+		android:id="@+id/layout_filter_videoType"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:background="@color/colorWhite"
-		android:orientation="horizontal"
+		android:scrollbars="none"
 		android:visibility="gone"
 		app:layout_constraintEnd_toStartOf="@+id/iv_sort_expand"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="@+id/guideLine"
-		tools:layout_height="43dp" />
+		app:layout_constraintTop_toTopOf="@+id/guideLine">
+
+		<RadioGroup
+			android:id="@+id/radio_group_videoType"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@color/colorWhite"
+			android:orientation="horizontal"
+			tools:layout_height="43dp" />
+
+	</HorizontalScrollView>
 
 	<ImageView
 		android:id="@+id/iv_sort_expand"
@@ -32,25 +40,32 @@
 		android:paddingEnd="12dp"
 		android:src="@drawable/ic_arrow_down_nav"
 		android:visibility="gone"
-		app:layout_constraintBottom_toBottomOf="@+id/radio_group_videoType"
+		app:layout_constraintBottom_toBottomOf="@+id/layout_filter_videoType"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toTopOf="@+id/radio_group_videoType" />
+		app:layout_constraintTop_toTopOf="@+id/layout_filter_videoType" />
 
-	<RadioGroup
-		android:id="@+id/radio_group_sort"
+	<HorizontalScrollView
+		android:id="@+id/layout_sort"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@color/colorWhite"
-		android:orientation="horizontal"
 		android:visibility="gone"
-		app:layout_constraintTop_toBottomOf="@+id/radio_group_videoType" />
+		app:layout_constraintTop_toBottomOf="@+id/layout_filter_videoType">
+
+		<RadioGroup
+			android:id="@+id/radio_group_sort"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@color/colorWhite"
+			android:orientation="horizontal" />
+
+	</HorizontalScrollView>
 
 	<View
 		android:id="@+id/divider_sort"
 		android:layout_width="match_parent"
 		android:layout_height="1dp"
 		android:background="@color/colorDivider"
-		app:layout_constraintTop_toBottomOf="@+id/radio_group_sort" />
+		app:layout_constraintTop_toBottomOf="@+id/layout_sort" />
 
 	<com.video.test.ui.widget.LoadingView
 		android:id="@+id/loadingView"
@@ -58,7 +73,7 @@
 		android:layout_height="0dp"
 		android:layout_marginTop="1dp"
 		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/radio_group_sort">
+		app:layout_constraintTop_toBottomOf="@+id/layout_sort">
 
 		<android.support.v4.widget.SwipeRefreshLayout
 			android:id="@+id/swipeRefresh_search"

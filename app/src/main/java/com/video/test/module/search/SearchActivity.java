@@ -72,8 +72,12 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     SwipeRefreshLayout mSwipeRefresh;
     @BindView(R.id.tv_background_noResult_search)
     CenterDrawableTextView mTvCacheBackground;
+    @BindView(R.id.layout_filter_videoType)
+    View mLayoutFilterVideoType;
     @BindView(R.id.radio_group_videoType)
     RadioGroup mRadioGroupVideoType;
+    @BindView(R.id.layout_sort)
+    View mLayoutSort;
     @BindView(R.id.radio_group_sort)
     RadioGroup mRadioGroupSort;
     @BindView(R.id.iv_sort_expand)
@@ -307,14 +311,15 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
     @Override
     public void hideSortType() {
-        mRadioGroupVideoType.setVisibility(View.GONE);
+        mLayoutFilterVideoType.setVisibility(View.GONE);
+        mIvSortExpand.setImageResource(R.drawable.ic_arrow_down_nav);
         mIvSortExpand.setVisibility(View.GONE);
-        mRadioGroupSort.setVisibility(View.GONE);
+        mLayoutSort.setVisibility(View.GONE);
     }
 
     @Override
     public void showSortType() {
-        mRadioGroupVideoType.setVisibility(View.VISIBLE);
+        mLayoutFilterVideoType.setVisibility(View.VISIBLE);
         mIvSortExpand.setVisibility(View.VISIBLE);
     }
 
@@ -404,11 +409,11 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
                 mTbSearch.notifyStartSearching(searchWord);
                 break;
             case R.id.iv_sort_expand:
-                if (mRadioGroupSort.getVisibility() == View.VISIBLE) {
-                    mRadioGroupSort.setVisibility(View.GONE);
+                if (mLayoutSort.getVisibility() == View.VISIBLE) {
+                    mLayoutSort.setVisibility(View.GONE);
                     mIvSortExpand.setImageResource(R.drawable.ic_arrow_down_nav);
                 } else {
-                    mRadioGroupSort.setVisibility(View.VISIBLE);
+                    mLayoutSort.setVisibility(View.VISIBLE);
                     mIvSortExpand.setImageResource(R.drawable.ic_arrow_up_nav);
                 }
                 break;
