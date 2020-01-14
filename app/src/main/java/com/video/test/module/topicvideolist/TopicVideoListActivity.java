@@ -66,8 +66,6 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
     String tag;
     @Autowired
     String type;
-    @Autowired
-    String videoNum;
 
     private TopicVideoListAdapter mVideoListAdapter;
 
@@ -196,7 +194,7 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
     public void setTopicNum(int videoNum) {
         if (null != mTopicNum) {
             mTopicNum.setVisibility(View.VISIBLE);
-            mTopicNum.setText(getResources().getString(R.string.topic_video_num, videoNum));
+            mTopicNum.setText(getResources().getString(R.string.topic_video_num, String.valueOf(videoNum)));
         }
     }
 
@@ -235,4 +233,5 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
     public void showToast(String s) {
         ToastUtils.showToast(this, s);
     }
+
 }
