@@ -5,12 +5,12 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.video.test.AppConstant;
 import com.video.test.TestApp;
+import com.video.test.javabean.VideoBean;
 import com.video.test.network.RxExceptionHandler;
 import com.video.test.sp.SpUtils;
 import com.video.test.utils.LogUtils;
-import com.video.test.utils.RxSchedulers;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
@@ -34,12 +34,13 @@ public class TopicVideoListPresenter extends TopicVideoListContract.Presenter<To
         Disposable disposable = mModel.getVideoList(pid, tag, type, mPage, mLimit)
                 .subscribe(videoListBean -> {
                     mView.setCollectCheckBoxChecked(videoListBean.isZtIsCollect());
+                    List<VideoBean> videoList = videoListBean.getList();
                     ztCollectId = videoListBean.getZtCollectId();
-                    mView.setVideoList(videoListBean.getList());
+                    mView.setVideoList(videoList);
                     mView.setPageTitle(videoListBean.getTitle());
                     mView.setPic(videoListBean.getZtPic());
                     mView.setContent(videoListBean.getZtDetail());
-                    mView.setTopicNum();
+                    mView.setTopicNum(videoList.size());
                     mView.hideRefreshLayout(true);
                 }, new RxExceptionHandler<>(throwable -> {
                     LogUtils.e(TAG, "getTopicVideoList Error " + throwable.getMessage());
@@ -61,8 +62,11 @@ public class TopicVideoListPresenter extends TopicVideoListContract.Presenter<To
         String userToken = SpUtils.getString(TestApp.getContext(), AppConstant.USER_TOKEN, "no");
         String userTokenId = SpUtils.getString(TestApp.getContext(), AppConstant.USER_TOKEN_ID, "no");
         Disposable subscribe = mModel.addTopicCollection(userToken, userTokenId, topicId)
-                .subscribe(i -> ztCollectId = i.getCollect_id(), new RxExceptionHandler<>(throwable -> {
-                    mView.showToast("操作失败，请稍后重试");
+                .subscribe(i -> {
+                    ztCollectId = i.getCollect_id();
+                    mView.showToast("收藏成功");
+                }, new RxExceptionHandler<>(throwable -> {
+                    // 失败不提示，直接修改状态
                     LogUtils.e(TAG, "addCollect Error " + throwable.getMessage());
                     collectFailure(true);
                 }));
@@ -81,8 +85,9 @@ public class TopicVideoListPresenter extends TopicVideoListContract.Presenter<To
         Log.d(TAG, "deleteCollect,ids = " + topicIds);
         Disposable subscribe = mModel.delTopicCollection(userToken, userTokenId, topicIds)
                 .subscribe(i -> {
+                    mView.showToast("取消收藏成功");
                 }, new RxExceptionHandler<>(throwable -> {
-                    mView.showToast("操作失败，请稍后重试");
+                    // 失败不提示，直接修改状态
                     LogUtils.e(TAG, "deleteCollect Error " + throwable.getMessage());
                     collectFailure(false);
                 }));

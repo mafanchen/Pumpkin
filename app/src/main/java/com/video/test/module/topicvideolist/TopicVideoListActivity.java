@@ -112,13 +112,13 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
                     ARouter.getInstance().build("/solve/activity").navigation();
                 }
             });
-
         }
         if (null != mRefreshLayout) {
             mRefreshLayout.setEnableLoadMore(false);
             mRefreshLayout.setRefreshHeader(new RefreshHeader(this));
             mRefreshLayout.setOnRefreshListener(refreshLayout -> mPresenter.getVideoList(pid, tag, type));
         }
+
         if (null != mAppBarLayout) {
             mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                 @Override
@@ -146,6 +146,10 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
     public void setVideoList(List<VideoBean> videoBeanList) {
         LogUtils.d("TopicVideoListActivity", "setVideoList");
         mVideoListAdapter.setData(videoBeanList);
+        //数据都加载完成之后，再展示收藏按钮，默认隐藏
+        mCheckBoxCollect.setVisibility(View.VISIBLE);
+
+
     }
 
 
@@ -187,8 +191,9 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
         }
     }
 
+
     @Override
-    public void setTopicNum() {
+    public void setTopicNum(int videoNum) {
         if (null != mTopicNum) {
             mTopicNum.setVisibility(View.VISIBLE);
             mTopicNum.setText(getResources().getString(R.string.topic_video_num, videoNum));
@@ -206,6 +211,8 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
                 boolean checked = mCheckBoxCollect.isChecked();
                 //tag就是专题id
                 mPresenter.collect(checked, tag);
+                break;
+            default:
                 break;
         }
     }

@@ -83,6 +83,7 @@
 						android:layout_height="28dp"
 						android:layout_gravity="center_horizontal"
 						android:layout_marginTop="19dp"
+						android:visibility="invisible"
 						android:button="@drawable/selector_checkbox_beantopic"
 						app:layout_scrollFlags="scroll" />
 
