@@ -1,19 +1,19 @@
 ext {
-    adVersion = "3"    //统计广告的渠道号
-    adChannel = "1"    //用来分别广告的渠道，某些渠道可以不展示广告
+    adVersion = "3"    //统计广告的渠道号  请勿修改
+    adChannel = "1"    //用来分别广告的渠道，某些渠道可以不展示广告  请勿修改
     serverHost = ["http://www.aaa.me", "http://www.bbb.me", "http://www.ccc.me", "http://www.ddd.me", "http://www.eee.me"]   //正式服务器域名
-    testHost = ["http://test.csym.me", "http://test.csym.work"]  //测试服务器域名
+    testHost = ["http://test.csym.me", "http://test.csym.work"]  //测试服务器域名  请勿修改
     uatHost = ["http://www.uat.me"]  //UAT 服务器域名
 
     test2 = [
             //包名
             applicationId: "com.video.test2",  //需要修改
-            versionName  : "1.1.0",
-            versionCode  : 10,
+            versionName  : "1.1.2",
+            versionCode  : 12,
             betaVersion  : "1",
             appId        : "2",   //请勿修改
             //渠道
-            flavor       : "test2",   //需要修改
+            flavor       : "test2",
             website      : "http://www.test2.com",  //需要修改 官网
             email        : "test@gmail.com",  //需要修改 电子邮箱
             //极光推送
@@ -48,7 +48,7 @@ ext {
             betaVersion  : "1",
             appId        : "1",   //请勿修改
             //渠道
-            flavor       : "test1",  //需要修改
+            flavor       : "test1",
             website      : "http://www.test.com", //需要修改 官网
             email        : "test@gmail.com",  //需要修改  电子邮箱
             //极光推送
@@ -87,12 +87,12 @@ ext {
     test3 = [
             //包名
             applicationId: "com.video.test3",  //需要修改
-            versionName  : "1.0.7",
-            versionCode  : 7,
+            versionName  : "1.0.9",
+            versionCode  : 9,
             betaVersion  : "1",
             appId        : "3",  //请勿修改
             //渠道
-            flavor       : "test3",   //需要修改
+            flavor       : "test3",
             website      : "http://www.test.com",  //需要修改 官网
             email        : "test@gmail.com", //需要修改  电子邮箱
             //极光推送
