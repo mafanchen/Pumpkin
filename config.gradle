@@ -1,122 +1,122 @@
 ext {
     adVersion = "3"    //统计广告的渠道号
     adChannel = "1"    //用来分别广告的渠道，某些渠道可以不展示广告
-    serverHost = ["http://www.aaa.me", "http://www.bbb.me", "http://www.ccc.me", "http://www.ddd.me", "http://www.eee.me"]
-    testHost = ["http://test.csym.me", "http://test.csym.work"]
-    uatHost = ["http://www.uat.me"]
+    serverHost = ["http://www.aaa.me", "http://www.bbb.me", "http://www.ccc.me", "http://www.ddd.me", "http://www.eee.me"]   //正式服务器域名
+    testHost = ["http://test.csym.me", "http://test.csym.work"]  //测试服务器域名
+    uatHost = ["http://www.uat.me"]  //UAT 服务器域名
 
     test2 = [
             //包名
-            applicationId: "com.video.test2",
+            applicationId: "com.video.test2",  //需要修改
             versionName  : "1.1.0",
             versionCode  : 10,
             betaVersion  : "1",
-            appId        : "2",
+            appId        : "2",   //请勿修改
             //渠道
-            flavor       : "test2",
-            website      : "http://www.test2.com",
-            email        : "test@gmail.com",
+            flavor       : "test2",   //需要修改
+            website      : "http://www.test2.com",  //需要修改 官网
+            email        : "test@gmail.com",  //需要修改 电子邮箱
             //极光推送
             jpush        : [
-                    appKey : "极光appKey",
-                    channel: "developer-default",
+                    appKey : "极光appKey",  //需要修改
+                    channel: "developer-default", // 可选修改
             ],
             //友盟
             umeng        : [
-                    appKey : "友盟appKey",
-                    channel: "Official",
+                    appKey : "友盟appKey", //需要修改
+                    channel: "Official",    // 可选修改
             ],
             //openInstall
             openInstall  : [
-                    appKey: "openInstall的appKey"
+                    appKey: "openInstall的appKey" //需要修改
             ],
             //微信sdk
             weChat       : [
-                    appId: "微信appId",
+                    appId: "微信appId",  //需要修改
             ],
             //乐播
             leCast       : [
-                    appId    : "乐播appId",
-                    appSecret: "乐播appSecret",
+                    appId    : "乐播appId", //需要修改
+                    appSecret: "乐播appSecret", //需要修改
             ],
     ]
     test1 = [
             //包名
-            applicationId: "com.video.test1",
+            applicationId: "com.video.test1",  //需要修改
             versionName  : "1.3.5",
             versionCode  : 18,
             betaVersion  : "1",
-            appId        : "1",
+            appId        : "1",   //请勿修改
             //渠道
-            flavor       : "test1",
-            website      : "http://www.test.com",
-            email        : "test@gmail.com",
+            flavor       : "test1",  //需要修改
+            website      : "http://www.test.com", //需要修改 官网
+            email        : "test@gmail.com",  //需要修改  电子邮箱
             //极光推送
             jpush        : [
-                    appKey : "极光appKey",
+                    appKey : "极光appKey",  //需要修改
                     channel: "developer-default",
             ],
             //友盟
             umeng        : [
-                    appKey : "友盟appKey",
+                    appKey : "友盟appKey", //需要修改
                     channel: "Official",
             ],
             //openInstall
             openInstall  : [
-                    appKey: "openInstall的appKey"
+                    appKey: "openInstall的appKey" //需要修改
             ],
             //微信sdk
             weChat       : [
-                    appId: "微信appId",
+                    appId: "微信appId", //需要修改
             ],
             //乐播
             leCast       : [
-                    appId    : "乐播appId",
-                    appSecret: "乐播appSecret",
+                    appId    : "乐播appId",  //需要修改
+                    appSecret: "乐播appSecret", //需要修改
             ],
     ]
     testStore = [
             //商店渠道
-            storeChannel: "101",
+            storeChannel: "101",            // 可修改，根据后台应用市场审核功能进行修改
             //友盟
             umeng       : [
-                    appKey : "友盟appKey",
-                    channel: "Official",
+                    appKey : "友盟appKey",  //需要修改
+                    channel: "Official",    //可选修改
             ]
     ]
     test3 = [
             //包名
-            applicationId: "com.video.test3",
+            applicationId: "com.video.test3",  //需要修改
             versionName  : "1.0.7",
             versionCode  : 7,
             betaVersion  : "1",
-            appId        : "3",
+            appId        : "3",  //请勿修改
             //渠道
-            flavor       : "test3",
-            website      : "http://www.test.com",
-            email        : "test@gmail.com",
+            flavor       : "test3",   //需要修改
+            website      : "http://www.test.com",  //需要修改 官网
+            email        : "test@gmail.com", //需要修改  电子邮箱
             //极光推送
             jpush        : [
-                    appKey : "极光appKey",
-                    channel: "developer-default",
+                    appKey : "极光appKey",  //需要修改
+                    channel: "developer-default", // 可选修改
             ],
             //友盟
             umeng        : [
-                    appKey : "友盟appKey",
-                    channel: "Official",
+                    appKey : "友盟appKey",  //需要修改
+                    channel: "Official",   //可选修改
             ],
             //openInstall
             openInstall  : [
-                    appKey: "openInstall的appKey"
+                    appKey: "openInstall的appKey"  //需要修改
             ],
             //微信sdk
             weChat       : [
-                    appId: "微信appId",
+                    appId: "微信appId",  //需要修改
             ],
             //乐播
             leCast       : [
-                    appId    : "乐播appId",
-                    appSecret: "乐播appSecret",
+                    appId    : "乐播appId",      //需要修改
+                    appSecret: "乐播appSecret",  //需要修改
             ],
     ]
 }
