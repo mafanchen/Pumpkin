@@ -10,13 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.video.test.TestApp;
+import com.umeng.analytics.MobclickAgent;
 import com.video.test.R;
+import com.video.test.TestApp;
 import com.video.test.framework.GlideApp;
 import com.video.test.javabean.BeanTopicBean;
 import com.video.test.javabean.BeanTopicContentBean;
 import com.video.test.utils.LogUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,7 +57,6 @@ public class BeanTopicViewBinder extends ItemViewBinder<BeanTopicBean, BeanTopic
                         .withInt("pid", item.getPid())
                         .withString("tag", item.getTag())
                         .withString("type", item.getType())
-                        .withString("videoNum", beanTopicContentBean.getZt_num())
                         .navigation();
 
             }
