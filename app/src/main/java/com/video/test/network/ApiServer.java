@@ -190,7 +190,7 @@ public interface ApiServer {
     @POST("App/UserInfo/getShareVip")
     Observable<BaseResult<ActivityGiftBean>> getShareVip(@Field("token") String token, @Field("token_id") String tokenId, @Field("share_id") String shareId);
 
-    @POST("App/Index/newActivity")
+    @POST("App/Index/activity0115")
     Observable<BaseResult<List<HomeDialogBean>>> getHomeDialogData();
 
     @POST("App/VodHots/showHots")
