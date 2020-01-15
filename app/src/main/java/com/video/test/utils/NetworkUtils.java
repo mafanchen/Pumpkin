@@ -107,8 +107,9 @@ public class NetworkUtils {
             }
 
         } else {
+            LogUtils.d(TAG, "onNetworkStatusChange 网络已断开");
             // 网络连接关闭
-            ToastUtils.showToast(TestApp.getContext(), "网络已断开，请您检查网络连接！");
+//            ToastUtils.showToast(TestApp.getContext(), "网络已断开，请您检查网络连接！");
         }
     }
 
