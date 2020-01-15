@@ -33,7 +33,7 @@ public class ToastUtils {
         } else {
             mToast.setText(text);
         }
-        mToast.show();
+        new Handler(Looper.getMainLooper()).post(() -> mToast.show());
     }
 
     public static void showLongToast(Context context, int resId) {
