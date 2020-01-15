@@ -237,12 +237,12 @@
             <TextView
                 android:id="@+id/tv_comment"
                 style="@style/player_tv_feedback"
-                android:paddingStart="9dp"
                 android:gravity="center_vertical"
-                android:text="评论"
+                android:paddingStart="9dp"
                 android:paddingTop="18dp"
-                android:paddingBottom="18dp"
                 android:paddingEnd="10dp"
+                android:paddingBottom="18dp"
+                android:text="评论"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_comment"
                 app:layout_constraintStart_toEndOf="@+id/iv_comment"
                 app:layout_constraintTop_toTopOf="@+id/iv_comment" />
@@ -262,9 +262,9 @@
                 style="@style/player_tv_feedback"
                 android:layout_marginEnd="@dimen/videoPlayer_between_synopsis_content"
                 android:gravity="center_vertical"
-                android:text="问题反馈"
                 android:paddingTop="18dp"
                 android:paddingBottom="18dp"
+                android:text="问题反馈"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_feedback"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/iv_feedback" />
@@ -290,10 +290,10 @@
             <TextView
                 android:id="@+id/tv_selectAll_button_player"
                 style="@style/tv_column_more"
-                android:text="@string/videoPlayer_selectAll"
                 android:layout_marginTop="0dp"
                 android:paddingTop="21dp"
                 android:paddingBottom="14dp"
+                android:text="@string/videoPlayer_selectAll"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_selectTitle_player" />
 
@@ -475,7 +475,6 @@
             android:paddingTop="8dp"
             android:paddingEnd="18dp"
             android:paddingBottom="8dp"
-            android:scrollbars="vertical"
             android:textColor="@color/videoPlayer_font_content"
             android:textSize="@dimen/text_size_14sp" />
 
