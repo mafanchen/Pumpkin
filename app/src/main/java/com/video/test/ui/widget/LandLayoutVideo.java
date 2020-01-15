@@ -1523,10 +1523,12 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
             toPlayer.mIsShowingPauseAd = fromPlayer.mIsShowingPauseAd;
             toPlayer.mLayoutPauseAd.setVisibility(fromPlayer.mLayoutPauseAd.getVisibility());
             toPlayer.mIvBackgroundPauseAd.setImageDrawable(fromPlayer.mIvBackgroundPauseAd.getDrawable());
-            toPlayer.mTvCountPauseAd.setText(fromPlayer.mTvCountPauseAd.getText());
             toPlayer.mLayoutPlayAd.setVisibility(fromPlayer.mLayoutPlayAd.getVisibility());
             toPlayer.mIvBackgroundPlayAd.setImageDrawable(fromPlayer.mIvBackgroundPlayAd.getDrawable());
             toPlayer.mTvClosePlayAd.setVisibility(fromPlayer.mTvClosePlayAd.getVisibility());
+            toPlayer.mTvCountPauseAd.setText(fromPlayer.mTvCountPauseAd.getText());
+            toPlayer.mTvCountPauseAd.setVisibility(fromPlayer.mTvCountPauseAd.getVisibility());
+            toPlayer.mIvClosePauseAd.setVisibility(fromPlayer.mIvClosePauseAd.getVisibility());
             toPlayer.mIvLoadingBg.setVisibility(fromPlayer.mIvLoadingBg.getVisibility());
             toPlayer.mIvRestartVideo.setVisibility(fromPlayer.mIvRestartVideo.getVisibility());
             toPlayer.mTvPlayNextNotice.setVisibility(fromPlayer.mTvPlayNextNotice.getVisibility());
