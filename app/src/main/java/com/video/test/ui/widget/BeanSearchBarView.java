@@ -178,6 +178,13 @@ public class BeanSearchBarView extends ConstraintLayout {
         }
     }
 
+    private void showSoftInput() {
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.showSoftInput(mEtSearchContent, 0);
+        }
+    }
+
     /**
      * 搜索的回调监听
      */
@@ -331,6 +338,8 @@ public class BeanSearchBarView extends ConstraintLayout {
                 case R.id.iv_deleteBtn_searchBar:
                     LogUtils.i(getClass(), "删除键被点击了");
                     mEtSearchContent.setText("");
+                    mEtSearchContent.requestFocus();
+                    showSoftInput();
                     break;
                 case R.id.et_searchBar:
                     LogUtils.i(getClass(), "搜索框被点击了");
