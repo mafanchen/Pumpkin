@@ -32,7 +32,7 @@ class VideoAdControl {
     /**
      * 片头广告的时间，用于播放片头广告后，暂停，继续播放
      */
-    private var mHeadAdTimeLog: Int = 0
+    private var mHeadAdTimeLog: Int = -1
     /**
      * 是否播放页面暂停（回到桌面)
      */
@@ -170,16 +170,16 @@ class VideoAdControl {
     }
 
     private fun startHeadAdTimer() {
-        mHeadAdTimeLog = 0
+        mHeadAdTimeLog = -1
         mPlayer?.setHeadAdSkipEnable(isVip)
-        mHeadAdTimer = Observable.interval(1, TimeUnit.SECONDS)
+        mHeadAdTimer = Observable.interval(0, 1, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     if (isActivityPause) return@subscribe
                     mHeadAdTimeLog++
                     if (mHeadAdTimeLog >= mHeadImageAdLength) {
-                        mHeadAdTimeLog = 0
+                        mHeadAdTimeLog = -1
                         mPlayer?.setHeadAdTimeText("${mHeadImageAdLength}s")
                         //超过5秒倒计时结束,停止计时
                         mHeadAdTimer?.dispose()
