@@ -2,9 +2,7 @@ package com.video.test.network;
 
 
 import com.video.test.AppConstant;
-import com.video.test.TestApp;
 import com.video.test.utils.LogUtils;
-import com.video.test.utils.ToastUtils;
 
 import org.json.JSONException;
 
@@ -40,22 +38,22 @@ public class RxExceptionHandler<T extends Throwable> implements Consumer<T> {
         LogUtils.i(TAG, "accept : " + t.getMessage());
         if (t instanceof SocketTimeoutException) {
             LogUtils.e(TAG, "onError: SocketTimeoutException---");
-            ToastUtils.showToast(TestApp.getContext(), TIMEOUT_EXCEPTION);
+            //  ToastUtils.showToast(TestApp.getContext(), TIMEOUT_EXCEPTION);
             mOnError.accept(t);
         } else if (t instanceof ConnectException) {
             LogUtils.e(TAG, "onError: ConnectException---");
-            ToastUtils.showToast(TestApp.getContext(), CONNECT_EXCEPTION);
+            //  ToastUtils.showToast(TestApp.getContext(), CONNECT_EXCEPTION);
             mOnError.accept(t);
         } else if (t instanceof UnknownHostException) {
             LogUtils.e(TAG, "onError: UnknownHostException---");
-            ToastUtils.showToast(TestApp.getContext(), UNKNOWN_HOST_EXCEPTION);
+            //  ToastUtils.showToast(TestApp.getContext(), UNKNOWN_HOST_EXCEPTION);
             mOnError.accept(t);
         } else if (t instanceof JSONException) {
             LogUtils.e(TAG, "onError: JSONException---");
-            ToastUtils.showToast(TestApp.getContext(), JSON_EXCEPTION);
+            //   ToastUtils.showToast(TestApp.getContext(), JSON_EXCEPTION);
         } else if (t instanceof IOException) {
             LogUtils.e(TAG, "onError: IOException---");
-            ToastUtils.showToast(TestApp.getContext(), IO_EXCEPTION);
+            //   ToastUtils.showToast(TestApp.getContext(), IO_EXCEPTION);
             mOnError.accept(t);
         } else if (t instanceof BaseException) {
             LogUtils.e(TAG, "onError: BaseException---");
@@ -68,7 +66,7 @@ public class RxExceptionHandler<T extends Throwable> implements Consumer<T> {
                 return;
             } else if (errorCode == AppConstant.REQUEST_FAILED) {
                 LogUtils.i(TAG, "onError :" + AppConstant.REQUEST_FAILED + " message = " + ((BaseException) t).getErrorMsg());
-                ToastUtils.showToast(TestApp.getContext(), ((BaseException) t).getErrorMsg());
+                //   ToastUtils.showToast(TestApp.getContext(), ((BaseException) t).getErrorMsg());
                 mOnError.accept(t);
 
                 return;
@@ -80,7 +78,7 @@ public class RxExceptionHandler<T extends Throwable> implements Consumer<T> {
                 mOnError.accept(t);
             } else {
                 LogUtils.i(TAG, "onError : " + errorCode);
-                ToastUtils.showToast(TestApp.getContext(), ((BaseException) t).getErrorMsg());
+                //   ToastUtils.showToast(TestApp.getContext(), ((BaseException) t).getErrorMsg());
                 mOnError.accept(t);
             }
         } else {
