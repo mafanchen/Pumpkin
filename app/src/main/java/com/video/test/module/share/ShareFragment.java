@@ -229,7 +229,7 @@ public class ShareFragment extends BaseFragment<SharePresenter> implements Share
             ClipboardManager manager = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
             String shareText = getString(R.string.activity_share_text_share_url, mShareInfo.getShareUrl());
             manager.setPrimaryClip(ClipData.newPlainText(null, shareText));
-            ToastUtils.showToast(mContext, "已将分享链接复制到剪切板");
+            ToastUtils.showToast("已将分享链接复制到剪切板");
         }
     }
 
@@ -268,10 +268,10 @@ public class ShareFragment extends BaseFragment<SharePresenter> implements Share
 
         GeneratePictureUtils.getInstance().generate(generateModel, ((throwable, bitmap) -> {
             if (null != throwable || null == bitmap) {
-                ToastUtils.showLongToast(TestApp.getContext(), R.string.activity_share_generate_pic_error);
+                ToastUtils.showLongToast(R.string.activity_share_generate_pic_error);
             } else {
                 String successContent = getResources().getString(R.string.activity_share_generate_pic_success);
-                ToastUtils.showLongToast(TestApp.getContext(), successContent);
+                ToastUtils.showLongToast(successContent);
                 notifyUpdateImages(qrCodePath);
             }
         }));

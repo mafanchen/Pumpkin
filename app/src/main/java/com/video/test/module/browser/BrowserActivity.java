@@ -13,8 +13,8 @@ import android.widget.ImageButton;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.video.test.TestApp;
 import com.video.test.R;
+import com.video.test.TestApp;
 import com.video.test.sp.SpUtils;
 import com.video.test.ui.base.BaseActivity;
 

@@ -347,7 +347,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
                 mPresenter.getSearchResult(text);
                 MobclickAgent.onEvent(TestApp.getContext(), "search_search_keywords", text);
             } else {
-                ToastUtils.showToast(TestApp.getContext(), "请输入您想搜索的内容");
+                ToastUtils.showToast("请输入您想搜索的内容");
             }
         }
 

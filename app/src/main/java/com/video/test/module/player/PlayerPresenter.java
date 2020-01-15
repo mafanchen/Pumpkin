@@ -165,7 +165,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
                     @Override
                     public void accept(AddCollectionBean addCollectionBean) {
                         mView.addCollectionSuccess(addCollectionBean);
-                        ToastUtils.showToast(TestApp.getContext(), "添加收藏成功");
+                        ToastUtils.showToast("添加收藏成功");
                         EventBus.getDefault().post(new CollectEvent(true, vodId, addCollectionBean.getCollect_id()));
                         mView.setVideoCollected(true);
                     }
@@ -173,7 +173,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
                     @Override
                     public void accept(Throwable throwable) {
                         LogUtils.e(TAG, "addCollections Error == " + throwable.getMessage());
-                        ToastUtils.showToast(TestApp.getContext(), "添加收藏失败");
+                        ToastUtils.showToast("添加收藏失败");
                         mView.setVideoCollected(false);
                     }
                 }));
@@ -194,7 +194,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) {
-                        ToastUtils.showToast(TestApp.getContext(), "取消收藏成功");
+                        ToastUtils.showToast("取消收藏成功");
                         mView.setVideoCollected(false);
                         EventBus.getDefault().post(new CollectEvent(false, null, ids));
                     }
@@ -202,7 +202,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
                     @Override
                     public void accept(Throwable throwable) {
                         LogUtils.e(TAG, "delCollections Error " + throwable.getMessage());
-                        ToastUtils.showToast(TestApp.getContext(), "取消收藏失败");
+                        ToastUtils.showToast("取消收藏失败");
                         mView.setVideoCollected(true);
                     }
                 }));
@@ -315,12 +315,12 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
                             LogUtils.d(TAG, "getVideoPlayUrl error : " + throwable.getMessage());
-                            ToastUtils.showLongToast(TestApp.getContext(), "视频解析异常，请您稍后重试");
+                            ToastUtils.showLongToast("视频解析异常，请您稍后重试");
                         }
                     });
             addDisposable(disposable);
         } else {
-            ToastUtils.showLongToast(TestApp.getContext(), "视频地址异常,请您联系我们反馈");
+            ToastUtils.showLongToast("视频地址异常,请您联系我们反馈");
         }
     }
 
@@ -347,7 +347,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
                     helper.playNetMedia(url, AllCast.MEDIA_TYPE_VIDEO, null);
                 }, throwable -> {
                     LogUtils.d(TAG, "castVideoUrl error : " + throwable.getMessage());
-                    ToastUtils.showLongToast(TestApp.getContext(), "投屏解析异常，请您稍后重试");
+                    ToastUtils.showLongToast("投屏解析异常，请您稍后重试");
                 });
         addDisposable(disposable);
     }
@@ -367,7 +367,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
                             @Override
                             public void accept(String message) {
                                 LogUtils.e(TAG, "commentVideo Success  message : " + message);
-                                ToastUtils.showLongToast(TestApp.getContext(), message);
+                                ToastUtils.showLongToast(message);
                                 etContent.setText("");
                                 tvComment.setEnabled(true);
                                 etContent.setEnabled(true);
@@ -385,7 +385,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
 
                 addDisposable(disposable);
             } else {
-                ToastUtils.showLongToast(TestApp.getContext(), "评论内容不能为空");
+                ToastUtils.showLongToast("评论内容不能为空");
             }
 
         }
@@ -448,7 +448,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
                 }
             } else {
                 startDownload(downloadUrl, videoId, videoName, videoItemName, false);
-                ToastUtils.showToast(TestApp.getContext(), "已缓存至缓存列表 ,接入wifi时将开始缓存");
+                ToastUtils.showToast("已缓存至缓存列表 ,接入wifi时将开始缓存");
             }
         }
     }
@@ -543,7 +543,7 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
         if (mWxApi.isWXAppInstalled()) {
             mWxApi.sendReq(req);
         } else {
-            ToastUtils.showToast(TestApp.getContext(), "您还未安装微信");
+            ToastUtils.showToast("您还未安装微信");
         }
     }
 
@@ -912,9 +912,9 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
             } else if (event.getType() == DownloadEvent.Type.TYPE_UPDATE_STATUS) {
                 int state = task.getState();
                 if (state == M3U8TaskState.PENDING) {
-                    ToastUtils.showLongToast(TestApp.getContext(), task.getVideoName() + " 已添加缓存队列");
+                    ToastUtils.showLongToast(task.getVideoName() + " 已添加缓存队列");
                 } else if (state == M3U8TaskState.SUCCESS) {
-                    ToastUtils.showLongToast(TestApp.getContext(), task.getVideoName() + " 已完成缓存");
+                    ToastUtils.showLongToast(task.getVideoName() + " 已完成缓存");
                 }
                 bean.setDownloadStatus(state);
             } else {
@@ -940,9 +940,9 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
         }
         lastNetworkToastTime = currentTimeMillis;
         if (event.getType() == NetworkChangeEvent.NetworkType.MOBILE) {
-            ToastUtils.showToast(TestApp.getContext(), "wifi链接断开,已切换至移动数据播放");
+            ToastUtils.showToast("wifi链接断开,已切换至移动数据播放");
         } else if (event.getType() == NetworkChangeEvent.NetworkType.WIFI) {
-            ToastUtils.showToast(TestApp.getContext(), "已切换至wifi网络播放");
+            ToastUtils.showToast("已切换至wifi网络播放");
         }
     }
 }

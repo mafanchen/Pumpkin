@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -241,7 +239,7 @@ public final class DownloadUtil {
             //缓存任务id，用于DownloadReceiver 判断收到的下载完成广播中的下载任务是否是本app创建的
             DOWNLOAD_MAP.put(downloadUrl, downloadId);
             Log.d(TAG, "startDownload, downloadId=" + downloadId + ", fileName=" + fileName);
-            new Handler(Looper.getMainLooper()).post(() -> ToastUtils.showToast(context, "开始下载" + fileName));
+            ToastUtils.showToast( "开始下载" + fileName);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }

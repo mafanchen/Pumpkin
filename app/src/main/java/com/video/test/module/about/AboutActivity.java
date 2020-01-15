@@ -8,8 +8,8 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.video.test.AppConstant;
 import com.video.test.BuildConfig;
-import com.video.test.TestApp;
 import com.video.test.R;
+import com.video.test.TestApp;
 import com.video.test.sp.SpUtils;
 import com.video.test.ui.base.BaseActivity;
 

@@ -73,7 +73,7 @@ public class SharePresenter extends ShareContract.Presenter<ShareModel> {
         if (mWxApi.isWXAppInstalled()) {
             mWxApi.sendReq(req);
         } else {
-            ToastUtils.showToast(TestApp.getContext(), "您还未安装微信");
+            ToastUtils.showToast("您还未安装微信");
         }
 
     }
@@ -124,7 +124,7 @@ public class SharePresenter extends ShareContract.Presenter<ShareModel> {
                     @Override
                     public void accept(Throwable throwable) {
                         LogUtils.e(TAG, "exchangeVip Error == " + throwable.getMessage());
-                        ToastUtils.showLongToast(TestApp.getContext(), throwable.getMessage());
+                        ToastUtils.showLongToast(throwable.getMessage());
                     }
                 }));
 

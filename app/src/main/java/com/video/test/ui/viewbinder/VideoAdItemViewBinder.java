@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.video.test.TestApp;
 import com.video.test.R;
+import com.video.test.TestApp;
 import com.video.test.framework.GlideApp;
 import com.video.test.javabean.AdInfoBean;
 import com.video.test.utils.DownloadUtil;

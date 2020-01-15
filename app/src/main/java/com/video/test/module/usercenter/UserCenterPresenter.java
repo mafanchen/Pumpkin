@@ -177,7 +177,7 @@ public class UserCenterPresenter extends UserCenterContract.Presenter<UserCenter
         if (mWxApi.isWXAppInstalled()) {
             mWxApi.sendReq(req);
         } else {
-            ToastUtils.showToast(TestApp.getContext(), "您还未安装微信");
+            ToastUtils.showToast("您还未安装微信");
         }
     }
 

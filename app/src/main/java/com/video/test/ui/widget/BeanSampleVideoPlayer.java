@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.video.test.R;
-import com.video.test.javabean.SwitchVideoBean;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
+import com.video.test.R;
+import com.video.test.javabean.SwitchVideoBean;
 
 import java.io.File;
 import java.util.ArrayList;

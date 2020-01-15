@@ -252,7 +252,7 @@ public class LocalPlayerPresenter extends LocalPlayerContract.Presenter<LocalPla
                 ClipboardManager manager = (ClipboardManager) TestApp.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                 String shareText = TestApp.getContext().getString(R.string.activity_share_text_share_url, userShareUrl);
                 manager.setPrimaryClip(ClipData.newPlainText(null, shareText));
-                ToastUtils.showToast(TestApp.getContext(), "已将分享链接复制到剪切板");
+                ToastUtils.showToast("已将分享链接复制到剪切板");
             }
 
             @Override
@@ -380,7 +380,7 @@ public class LocalPlayerPresenter extends LocalPlayerContract.Presenter<LocalPla
         if (mWxApi.isWXAppInstalled()) {
             mWxApi.sendReq(req);
         } else {
-            ToastUtils.showToast(TestApp.getContext(), "您还未安装微信");
+            ToastUtils.showToast("您还未安装微信");
         }
     }
 

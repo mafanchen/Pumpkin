@@ -82,7 +82,7 @@ public class BeanTopicPresenter extends BeanTopicContract.Presenter<BeanTopicMod
         if (mWxApi.isWXAppInstalled()) {
             mWxApi.sendReq(req);
         } else {
-            ToastUtils.showToast(TestApp.getContext(), "您还未安装微信");
+            ToastUtils.showToast("您还未安装微信");
         }
 
     }

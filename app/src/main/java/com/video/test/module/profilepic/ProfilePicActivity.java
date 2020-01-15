@@ -154,14 +154,14 @@ public class ProfilePicActivity extends BaseActivity<ProfilePicPresenter> implem
 
     @Override
     public void updateProfileSuccess(String message) {
-        ToastUtils.showToast(this, "设置头像成功");
+        ToastUtils.showToast("设置头像成功");
         EventBus.getDefault().post(new ProfilePicEvent(message));
         onBackPressed();
     }
 
     @Override
     public void updateProfileFailed(String message) {
-        ToastUtils.showToast(this, "设置头像失败");
+        ToastUtils.showToast("设置头像失败");
         onBackPressed();
     }
 

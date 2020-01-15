@@ -13,8 +13,6 @@ import com.video.test.R
 import com.video.test.javabean.DownloadBean
 import com.video.test.javabean.DownloadedBean
 import com.video.test.javabean.DownloadingBean
-import com.video.test.utils.FileUtils
-import com.video.test.utils.SDCardUtils
 import jaygoo.library.m3u8downloader.utils.MUtils
 
 class DownloadVideoAdapter : RecyclerView.Adapter<DownloadVideoAdapter.DownloadViewHolder>() {

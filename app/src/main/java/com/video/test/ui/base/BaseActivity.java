@@ -12,13 +12,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.umeng.analytics.MobclickAgent;
 import com.video.test.AppConstant;
 import com.video.test.R;
 import com.video.test.framework.BasePresenter;
 import com.video.test.framework.IView;
 import com.video.test.utils.ClazzUtils;
 import com.video.test.utils.LogUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 

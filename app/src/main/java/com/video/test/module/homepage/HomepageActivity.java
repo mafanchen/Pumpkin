@@ -278,7 +278,7 @@ public class HomepageActivity extends BaseActivity<HomepagePresenter> implements
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                ToastUtils.showToast(TestApp.getContext(), "再按一次退出程序");
+                ToastUtils.showToast("再按一次退出程序");
                 mExitTime = System.currentTimeMillis();
             } else {
                 System.exit(0);

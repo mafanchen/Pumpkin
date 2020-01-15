@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.video.test.AppConstant;
 import com.video.test.R;
-import com.video.test.TestApp;
 import com.video.test.framework.BaseViewHolder;
 import com.video.test.javabean.PlayerUrlListBean;
 import com.video.test.utils.LogUtils;
@@ -97,7 +96,7 @@ public class PlayerDownloadSelectItemAdapter extends RecyclerView.Adapter<Player
                     notifyDataSetChanged();
                     break;
                 case AppConstant.M3U8_TASK_SUCCESS:
-                    ToastUtils.showToast(TestApp.getContext(), "已下载完成");
+                    ToastUtils.showToast("已下载完成");
                     break;
                 default:
                     item.setDownloadStatus(AppConstant.M3U8_TASK_DOWNLOADING);

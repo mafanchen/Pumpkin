@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.video.test.AppConstant;
-import com.video.test.TestApp;
 import com.video.test.R;
 import com.video.test.utils.LogUtils;
 import com.video.test.utils.ToastUtils;
@@ -162,7 +161,7 @@ public class UpdateDialogFragment extends DialogFragment {
         if (downloadUrl.startsWith(AppConstant.HTTP_HEAD) || downloadUrl.startsWith(AppConstant.HTTPS_HEAD)) {
             dispatchClick();
         } else {
-            ToastUtils.showLongToast(TestApp.getContext(), "下载地址异常，请您稍后重试");
+            ToastUtils.showLongToast("下载地址异常，请您稍后重试");
         }
     }
 

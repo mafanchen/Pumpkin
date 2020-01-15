@@ -90,10 +90,10 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
         Disposable disposable = mModel.addCollections(vodId, userToken, userTokenId)
                 .subscribe(addCollectionBean -> {
                     mView.addCollectionSuccess(addCollectionBean.getCollect_id(), vodId);
-                    ToastUtils.showToast(TestApp.getContext(), "添加收藏成功");
+                    ToastUtils.showToast("添加收藏成功");
                 }, new RxExceptionHandler<>(throwable -> {
                     LogUtils.e(TAG, "addCollections Error == " + throwable.getMessage());
-                    ToastUtils.showToast(TestApp.getContext(), "添加收藏失败");
+                    ToastUtils.showToast("添加收藏失败");
                     mView.addCollectionError(vodId);
                 }));
         addDisposable(disposable);
@@ -122,11 +122,11 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
         LogUtils.d(TAG, "delCollections json == " + idList);
         Disposable disposable = mModel.delCollections(jsonList, userToken, userTokenId)
                 .subscribe(s -> {
-                    ToastUtils.showToast(TestApp.getContext(), "取消收藏成功");
+                    ToastUtils.showToast("取消收藏成功");
                     mView.removeCollected(true, ids);
                 }, new RxExceptionHandler<>(throwable -> {
                     LogUtils.e(TAG, "delCollections Error " + throwable.getMessage());
-                    ToastUtils.showToast(TestApp.getContext(), "取消收藏失败");
+                    ToastUtils.showToast("取消收藏失败");
                     mView.removeCollected(false, ids);
                 }));
         addDisposable(disposable);

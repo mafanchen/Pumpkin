@@ -1,6 +1,5 @@
 package com.video.test.module.swap
 
-import com.video.test.TestApp
 import com.video.test.utils.LogUtils
 import com.video.test.utils.ToastUtils
 
@@ -42,7 +41,7 @@ class SwapHistoryPresenter : SwapHistoryContract.Presenter<SwapHistoryModel>() {
                     mView.hideRefreshLayout(false)
                     mView.loadMoreComplete()
                     LogUtils.e(TAG, "getHistoryList Error == " + throwable.message)
-                    ToastUtils.showLongToast(TestApp.getContext(), throwable.message)
+                    ToastUtils.showLongToast(throwable.message)
                 })
         addDisposable(subscribe)
     }

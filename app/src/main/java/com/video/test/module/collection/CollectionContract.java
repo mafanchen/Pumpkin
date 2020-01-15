@@ -8,7 +8,6 @@ import com.video.test.framework.IModel;
 import com.video.test.framework.IView;
 import com.video.test.javabean.CollectionBean;
 import com.video.test.javabean.base.ISelectableBean;
-import com.video.test.ui.widget.DividerItemDecoration;
 
 import java.util.List;
 

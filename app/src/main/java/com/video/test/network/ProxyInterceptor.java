@@ -2,8 +2,6 @@ package com.video.test.network;
 
 import android.content.Context;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
 
 import com.video.test.TestApp;
@@ -25,7 +23,7 @@ public class ProxyInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         if (isWifiProxy(TestApp.getContext())) {
-            new Handler(Looper.getMainLooper()).post(() -> ToastUtils.showToast(TestApp.getContext(), "请您关闭代理软件"));
+             ToastUtils.showToast("请您关闭代理软件");
             return null;
         } else {
             return chain.proceed(chain.request());

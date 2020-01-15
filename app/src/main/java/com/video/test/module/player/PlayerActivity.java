@@ -305,7 +305,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                     }
                     break;
                 case IUIUpdateListener.STATE_SEARCH_ERROR:
-                    ToastUtils.showToast(TestApp.getContext(), "Auth错误");
+                    ToastUtils.showToast("Auth错误");
                     break;
                 case IUIUpdateListener.STATE_SEARCH_NO_RESULT:
                     LogUtils.d(TAG, "IUI  搜索成功 无设备");
@@ -330,7 +330,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                     break;
                 case IUIUpdateListener.STATE_CONNECT_FAILURE:
                     LogUtils.d(TAG, "IUI connect failure:" + object);
-                    // LogUtils.d(TAG, "ToastUtil " + object);
+                    // LogUtils.d(TAG, "ToastUtils " + object);
                   /*  mBrowseAdapter.setSelectInfo(null);
                     mBrowseAdapter.notifyDataSetChanged();*/
                     break;
@@ -425,7 +425,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                     break;
                 case IUIUpdateListener.RELEVANCE_DATA_UNSUPPORT:
                     LogUtils.d(TAG, "IUI unSupport relevance data");
-                    ToastUtils.showToast(TestApp.getContext(), object.toString());
+                    ToastUtils.showToast(object.toString());
                     break;
                 default:
                     break;
@@ -511,7 +511,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 
     @Override
     public void feedbackMessageSuccess(String message) {
-        ToastUtils.showLongToast(TestApp.getContext(), message);
+        ToastUtils.showLongToast(message);
     }
 
 
@@ -1457,7 +1457,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                 ClipboardManager manager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 String shareText = getString(R.string.activity_share_text_share_url, userShareUrl);
                 manager.setPrimaryClip(ClipData.newPlainText(null, shareText));
-                ToastUtils.showToast(PlayerActivity.this, "已将分享链接复制到剪切板");
+                ToastUtils.showToast("已将分享链接复制到剪切板");
             }
 
             @Override
@@ -1930,7 +1930,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             LogUtils.d(TAG, "browse type Success");
         } else {
             LogUtils.d(TAG, "browse type Failed");
-            ToastUtils.showLongToast(TestApp.getContext(), "权限不足，请您同意权限申请");
+            ToastUtils.showLongToast("权限不足，请您同意权限申请");
         }
     }
 
@@ -1940,7 +1940,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             mLinkHelper.stopBrowse();
         } else {
             LogUtils.d(TAG, "castStopBrowse type Failed");
-            ToastUtils.showLongToast(TestApp.getContext(), "未初始化");
+            ToastUtils.showLongToast("未初始化");
         }
     }
 
@@ -1956,7 +1956,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                 getCurPlay().showCastLayout();
             }
         } else {
-            ToastUtils.showLongToast(TestApp.getContext(), "未初始化或者未选择设备");
+            ToastUtils.showLongToast("未初始化或者未选择设备");
         }
     }
 
@@ -2095,7 +2095,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                     }
                 }
             } else {
-                ToastUtils.showLongToast(TestApp.getContext(), "未初始化或者未选择设备");
+                ToastUtils.showLongToast("未初始化或者未选择设备");
             }
         }
     }
@@ -2103,13 +2103,13 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     private void castPlay(String url) {
         LogUtils.i(TAG, "castPlay Thread : " + Thread.currentThread().getName() + " url : " + url);
         if (null == mLinkHelper) {
-            ToastUtils.showLongToast(getApplicationContext(), "未初始化或未选择设备");
+            ToastUtils.showLongToast("未初始化或未选择设备");
             return;
         }
         List<LelinkServiceInfo> connectInfos = mLinkHelper.getConnectInfos();
 
         if (null == connectInfos || connectInfos.isEmpty()) {
-            ToastUtils.showLongToast(getApplicationContext(), "请先连接设备");
+            ToastUtils.showLongToast("请先连接设备");
             return;
         }
 

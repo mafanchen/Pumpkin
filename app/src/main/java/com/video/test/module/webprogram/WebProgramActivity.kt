@@ -114,7 +114,7 @@ class WebProgramActivity : BaseActivity<WebProgramPresenter>(), WebProgramContra
     fun onViewClick(view: View) {
         when (view.id) {
             R.id.iv_edit_webProgram -> {
-                ToastUtils.showToast(this, "该功能暂未开放")
+                ToastUtils.showToast("该功能暂未开放")
             }
             R.id.iv_close_webProgram -> {
                 closeWeb()

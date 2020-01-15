@@ -74,7 +74,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 result = R.string.errcode_unknown;
                 break;
         }
-        ToastUtils.showLongToast(TestApp.getContext(), result);
+        ToastUtils.showLongToast(result);
         finish();
     }
 

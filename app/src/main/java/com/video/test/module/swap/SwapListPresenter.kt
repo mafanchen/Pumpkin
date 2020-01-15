@@ -33,7 +33,7 @@ class SwapListPresenter : SwapListContract.Presenter<SwapListModel>() {
                 }, { throwable ->
                     mView.hideLoading()
                     LogUtils.e(TAG, "getShareVip Error == " + throwable.message)
-                    ToastUtils.showLongToast(TestApp.getContext(), throwable.message)
+                    ToastUtils.showLongToast(throwable.message)
                 })
         addDisposable(subscribe)
     }
@@ -51,7 +51,7 @@ class SwapListPresenter : SwapListContract.Presenter<SwapListModel>() {
                 }, { throwable ->
                     mView.setRefresh(false)
                     LogUtils.e(TAG, "getShareExchange Error == " + throwable.message)
-                    ToastUtils.showLongToast(TestApp.getContext(), throwable.message)
+                    ToastUtils.showLongToast(throwable.message)
                 })
         addDisposable(disposable)
     }

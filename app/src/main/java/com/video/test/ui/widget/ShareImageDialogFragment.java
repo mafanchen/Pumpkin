@@ -185,7 +185,7 @@ public class ShareImageDialogFragment extends DialogFragment implements View.OnC
         if (mWxApi.isWXAppInstalled()) {
             mWxApi.sendReq(req);
         } else {
-            ToastUtils.showToast(TestApp.getContext(), "您还未安装微信");
+            ToastUtils.showToast("您还未安装微信");
         }
     }
 
@@ -210,7 +210,7 @@ public class ShareImageDialogFragment extends DialogFragment implements View.OnC
         if (mWxApi.isWXAppInstalled()) {
             mWxApi.sendReq(req);
         } else {
-            ToastUtils.showToast(TestApp.getContext(), "您还未安装微信");
+            ToastUtils.showToast("您还未安装微信");
         }
     }
 
@@ -237,7 +237,7 @@ public class ShareImageDialogFragment extends DialogFragment implements View.OnC
             while ((length = fis.read(buffer)) != -1) {
                 fos.write(buffer, 0, length);
             }
-            ToastUtils.showToast(TestApp.getContext(), "已保存文件至" + outFile.getAbsolutePath());
+            ToastUtils.showToast("已保存文件至" + outFile.getAbsolutePath());
             if (mOnSaveImageListener != null) {
                 mOnSaveImageListener.onSaveImage(outFile);
             }

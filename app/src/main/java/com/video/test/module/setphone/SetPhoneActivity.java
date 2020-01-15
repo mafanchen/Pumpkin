@@ -13,7 +13,6 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.video.test.AppConstant;
-import com.video.test.TestApp;
 import com.video.test.R;
 import com.video.test.javabean.UserCenterBean;
 import com.video.test.sp.SpUtils;
@@ -111,12 +110,12 @@ public class SetPhoneActivity extends BaseActivity<SetPhonePresenter> implements
 
     @Override
     public void getCheckCodeMessage(String message) {
-        ToastUtils.showToast(TestApp.getContext(), message);
+        ToastUtils.showToast(message);
     }
 
     @Override
     public void bindPhoneSuccess() {
-        ToastUtils.showLongToast(TestApp.getContext(), "绑定成功");
+        ToastUtils.showLongToast("绑定成功");
         finish();
     }
 
@@ -163,10 +162,10 @@ public class SetPhoneActivity extends BaseActivity<SetPhonePresenter> implements
                         })
                         .show();
             } else {
-                ToastUtils.showToast(TestApp.getContext(), "新手机号不能为空");
+                ToastUtils.showToast("新手机号不能为空");
             }
         } else {
-            ToastUtils.showToast(TestApp.getContext(), "验证码不能为空");
+            ToastUtils.showToast("验证码不能为空");
         }
     }
 

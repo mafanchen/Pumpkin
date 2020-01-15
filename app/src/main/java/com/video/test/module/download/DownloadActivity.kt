@@ -163,7 +163,7 @@ class DownloadActivity : BaseActivity<DownloadPresenter>(), DownloadContract.Vie
     }
 
     override fun showToast(it: String) {
-        ToastUtils.showToast(this, it)
+        ToastUtils.showToast(it)
     }
 
     override fun setResultOk() {

@@ -25,7 +25,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.video.test.AppConstant
 import com.video.test.R
-import com.video.test.TestApp
 import com.video.test.framework.GlideApp
 import com.video.test.javabean.FeedbackTypeBean
 import com.video.test.ui.base.BaseActivity
@@ -190,13 +189,13 @@ class FeedbackActivity : BaseActivity<FeedbackPresenter>(), FeedbackContract.Vie
             try {
                 mPresenter.getImageFromGallery(data)
             } catch (e: SecurityException) {
-                ToastUtils.showToast(TestApp.getContext(), R.string.permission_sdcard_error)
+                ToastUtils.showToast(R.string.permission_sdcard_error)
             }
         }
     }
 
     override fun showToast(toast: String) {
-        ToastUtils.showToast(this, toast)
+        ToastUtils.showToast(toast)
     }
 
     override fun close() {

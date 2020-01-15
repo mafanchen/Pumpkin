@@ -16,7 +16,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.video.test.R;
-import com.video.test.TestApp;
 import com.video.test.javabean.HistoryListBean;
 import com.video.test.ui.base.BaseActivity;
 import com.video.test.ui.widget.DividerItemDecoration;
@@ -196,7 +195,7 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements H
 
     @Override
     public void getDeleteHistoryMessage(String message) {
-        ToastUtils.showToast(TestApp.getContext(), message);
+        ToastUtils.showToast(message);
         // 竖线第一页完成的时候,已经关闭了下拉刷新,故此处需要重新打开下来刷新
         mRefreshLayout.setEnableRefresh(true);
         mRefreshLayout.autoRefresh();

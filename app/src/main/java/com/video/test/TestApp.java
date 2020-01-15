@@ -10,7 +10,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
@@ -37,7 +36,6 @@ import com.video.test.utils.DownloadUtil;
 import com.video.test.utils.EncryptUtils;
 import com.video.test.utils.LogUtils;
 import com.video.test.utils.NetworkUtils;
-import com.video.test.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;

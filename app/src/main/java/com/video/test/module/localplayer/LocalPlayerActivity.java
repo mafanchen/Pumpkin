@@ -7,13 +7,13 @@ import android.view.WindowManager;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.video.test.R;
 import com.video.test.db.DBManager;
 import com.video.test.ui.base.BaseActivity;
 import com.video.test.ui.widget.LocalLandVideoPlayer;
 import com.video.test.ui.widget.ShareImageDialogFragment;
 import com.video.test.utils.LogUtils;
-import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import java.io.File;
 

@@ -3,9 +3,9 @@ package com.video.test.javabean;
 import com.video.test.javabean.base.ISelectableBean;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Transient;
 import org.greenrobot.greendao.annotation.Unique;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * @author Enoch Created on 2018/7/27.

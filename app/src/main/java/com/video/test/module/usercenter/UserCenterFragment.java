@@ -183,7 +183,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
 
     @Override
     public void getSetAvatarUrl(String message) {
-        ToastUtils.showToast(TestApp.getContext(), message);
+        ToastUtils.showToast(message);
     }
 
 
@@ -210,7 +210,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             getLatestVersion(mContext, infoBean);
         } else {
             LogUtils.d(TAG, "setVersionInfo 没有新版本");
-            ToastUtils.showLongToast(TestApp.getContext(), "已是最新版本");
+            ToastUtils.showLongToast("已是最新版本");
         }
 
     }
@@ -271,7 +271,7 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
             try {
                 mPresenter.getImageFromGallery(data);
             } catch (SecurityException e) {
-                ToastUtils.showToast(TestApp.getContext(), R.string.permission_sdcard_error);
+                ToastUtils.showToast(R.string.permission_sdcard_error);
             }
         }
     }

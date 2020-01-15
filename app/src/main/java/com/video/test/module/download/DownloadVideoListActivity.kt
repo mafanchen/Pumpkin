@@ -391,7 +391,7 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
     }
 
     override fun showToast(text: String) {
-        runOnUiThread { ToastUtils.showToast(this, text) }
+        runOnUiThread { ToastUtils.showToast(text) }
     }
 
 }

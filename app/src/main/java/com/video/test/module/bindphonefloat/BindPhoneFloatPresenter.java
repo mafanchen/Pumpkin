@@ -63,10 +63,10 @@ public class BindPhoneFloatPresenter extends BindPhoneFloatContract.Presenter<Bi
                         }, new RxExceptionHandler<>(throwable -> LogUtils.e(TAG, "getCheckCode Error == " + throwable.getMessage())));
                 addDisposable(disposable);
             } else {
-                ToastUtils.showLongToast(TestApp.getContext(), "手机号码不能为空");
+                ToastUtils.showLongToast("手机号码不能为空");
             }
         } else {
-            ToastUtils.showLongToast(TestApp.getContext(), "国家号不能为空");
+            ToastUtils.showLongToast("国家号不能为空");
         }
     }
 

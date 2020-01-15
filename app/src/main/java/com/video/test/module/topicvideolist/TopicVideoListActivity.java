@@ -231,7 +231,7 @@ public class TopicVideoListActivity extends BaseActivity<TopicVideoListPresenter
 
     @Override
     public void showToast(String s) {
-        ToastUtils.showToast(this, s);
+        ToastUtils.showToast(s);
     }
 
 }

@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.video.test.R;
-import com.video.test.TestApp;
 import com.video.test.ui.listener.VideoFunctionListener;
 import com.video.test.utils.DownloadUtil;
 import com.video.test.utils.GifHelper;
@@ -247,7 +246,7 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
                         if (success) {
                             showShareGifView(gif, cover, true);
                         } else {
-                            ToastUtils.showToast(TestApp.getContext(), "生成gif异常");
+                            ToastUtils.showToast("生成gif异常");
                         }
                     });
                 }
@@ -286,7 +285,7 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
                         if (success) {
                             showShareGifView(file1, null, false);
                         } else {
-                            ToastUtils.showToast(TestApp.getContext(), "截图异常");
+                            ToastUtils.showToast("截图异常");
                         }
                     });
                 });
@@ -348,7 +347,7 @@ public class LocalLandVideoPlayer extends StandardGSYVideoPlayer {
         //小于3秒不处理
         if (endTime - mStartCaptureTime < MIN_CAPTURE_LENGTH) {
             mGifHelper.cancelTask();
-            ToastUtils.showToast(TestApp.getContext(), "gif录制时间最短3秒");
+            ToastUtils.showToast("gif录制时间最短3秒");
             setViewShowState(mLayoutCapture, INVISIBLE);
         } else {
             File file = new File(CAPTURE_CACHE_FILE, "capture" + endTime + ".gif");

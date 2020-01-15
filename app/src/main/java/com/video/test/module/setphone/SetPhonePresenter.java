@@ -7,8 +7,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.video.test.AppConstant;
-import com.video.test.TestApp;
 import com.video.test.R;
+import com.video.test.TestApp;
 import com.video.test.javabean.BindPhoneBean;
 import com.video.test.network.BaseException;
 import com.video.test.network.RxExceptionHandler;
@@ -130,10 +130,10 @@ public class SetPhonePresenter extends SetPhoneContract.Presenter<SetPhoneModel>
                         }));
                 addDisposable(disposable);
             } else {
-                ToastUtils.showLongToast(TestApp.getContext(), "手机号码不能为空");
+                ToastUtils.showLongToast("手机号码不能为空");
             }
         } else {
-            ToastUtils.showLongToast(TestApp.getContext(), "国家号不能为空");
+            ToastUtils.showLongToast("国家号不能为空");
         }
     }
 

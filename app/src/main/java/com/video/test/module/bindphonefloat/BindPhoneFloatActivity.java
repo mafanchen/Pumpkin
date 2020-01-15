@@ -197,7 +197,7 @@ public class BindPhoneFloatActivity extends BaseActivity<BindPhoneFloatPresenter
 
     @Override
     public void showToast(String message) {
-        ToastUtils.showToast(this, message);
+        ToastUtils.showToast(message);
     }
 
     @Override

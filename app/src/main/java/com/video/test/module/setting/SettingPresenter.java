@@ -44,7 +44,7 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
     @Override
     void clearAllHistory() {
         DBManager.getInstance(TestApp.getContext()).deleteAllSearchHistoryWord();
-        ToastUtils.showToast(TestApp.getContext(), "搜索历史记录已清除");
+        ToastUtils.showToast("搜索历史记录已清除");
     }
 
 
@@ -162,7 +162,7 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(() -> mView.hideLoadingDialog())
                 .subscribe(success -> {
-                            ToastUtils.showToast(TestApp.getContext(), "清理缓存成功");
+                            ToastUtils.showToast("清理缓存成功");
                             getCacheSize();
                         },
                         throwable -> Log.d(TAG, "removeLocalCache error," + throwable.getMessage()));
@@ -207,8 +207,8 @@ public class SettingPresenter extends SettingContract.Presenter<SettingModel> {
         })
                 .compose(RxSchedulers.io_main())
                 .subscribe(
-                        s -> ToastUtils.showLongToast(TestApp.getContext(), s),
-                        throwable -> ToastUtils.showLongToast(TestApp.getContext(), "清理失败,请您稍后重试"));
+                        s -> ToastUtils.showLongToast(s),
+                        throwable -> ToastUtils.showLongToast("清理失败,请您稍后重试"));
         addDisposable(subscribe);
     }
 

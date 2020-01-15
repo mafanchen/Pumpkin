@@ -17,7 +17,6 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.video.test.R;
-import com.video.test.TestApp;
 import com.video.test.javabean.TabEntityBean;
 import com.video.test.javabean.base.ISelectableBean;
 import com.video.test.ui.base.BaseActivity;
@@ -205,7 +204,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
 
     @Override
     public void getDeleteCollectionMessage(String message) {
-        ToastUtils.showLongToast(TestApp.getContext(), message);
+        ToastUtils.showLongToast(message);
         mRefreshLayout.autoRefresh();
     }
 

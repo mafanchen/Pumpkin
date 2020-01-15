@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.video.test.AppConstant;
-import com.video.test.TestApp;
 import com.video.test.R;
+import com.video.test.TestApp;
 import com.video.test.framework.BaseViewHolder;
 import com.video.test.javabean.SearchHotWordBean;
 import com.video.test.ui.listener.OnItemClickListener;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
