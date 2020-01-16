@@ -158,7 +158,11 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
             associationRequest.dispose();
         }
         associationRequest = mModel.getAssociationWord(searchWord)
-                .subscribe(data -> mView.setAssociationWords(data.getList(), searchWord));
+                .subscribe(data -> mView.setAssociationWords(data.getList(), searchWord),
+                        new RxExceptionHandler<>(throwable ->
+                                LogUtils.e(TAG, "getAssociationWord Error," + throwable.getMessage())
+                        )
+                );
         addDisposable(associationRequest);
     }
 
