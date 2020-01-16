@@ -63,19 +63,15 @@ public class SplashPresenter extends SplashContract.Presenter<SplashModel> {
                         //如果获取到网络数据，则保存
                         SpUtils.putSerializable(TestApp.getContext(), "splashBean", splashBean);
                     }
-                    //如果有缓存，则以缓存的数据为主
-                    if (saveSplashBean != null) {
-                        splashBean = saveSplashBean;
-                    }
                     //判断是否有广告，有广告，跳转到广告页面，没广告，跳转到主页
-                    if (splashBean == null) {
+                    if (saveSplashBean == null) {
                         mView.skipSplashActivity();
                     } else if (!TestApp.isOpen()) {
                         mView.skipSplashActivity();
-                    } else if (TextUtils.isEmpty(splashBean.getPic_url()) || TextUtils.isEmpty(splashBean.getJump_url())) {
+                    } else if (TextUtils.isEmpty(saveSplashBean.getPic_url()) || TextUtils.isEmpty(saveSplashBean.getJump_url())) {
                         mView.skipSplashActivity();
                     } else {
-                        mView.jumpToAdPage(splashBean.getAd_name(), splashBean.getJump_url(), splashBean.getPic_url(), splashBean.getId(),splashBean.getShow_time());
+                        mView.jumpToAdPage(saveSplashBean.getAd_name(), saveSplashBean.getJump_url(), saveSplashBean.getPic_url(), saveSplashBean.getId(),saveSplashBean.getShow_time());
                     }
                 });
         addDisposable(subscribe);
