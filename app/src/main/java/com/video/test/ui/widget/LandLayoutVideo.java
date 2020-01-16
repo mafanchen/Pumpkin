@@ -1262,7 +1262,6 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         setViewShowState(mRvVideoList, INVISIBLE);
         setViewShowState(mLayoutShare, INVISIBLE);
         setViewShowState(mLayoutMore, INVISIBLE);
-
         setViewShowState(mIvRestartVideo, INVISIBLE);  //重播按钮
         // 自动隐藏 controlView 时,也隐藏黑色半透明遮罩层
         if (null != mLayoutControl) {
@@ -1313,7 +1312,12 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     @Override
     protected void changeUiToPlayingClear() {
         super.changeUiToPlayingClear();
-        changeUiToClear();
+        setViewShowState(mTvFastForward, INVISIBLE);
+        setViewShowState(mTvRewind, INVISIBLE);
+        setViewShowState(mIvCapturePhoto, INVISIBLE);
+        setViewShowState(mIvCaptureGif, INVISIBLE);
+        setViewShowState(mIvRestartVideo, INVISIBLE);
+        setViewShowState(mTvPlayNextNotice, INVISIBLE);
     }
 
     @Override
@@ -1341,7 +1345,12 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
     @Override
     protected void changeUiToPlayingBufferingClear() {
         super.changeUiToPlayingBufferingClear();
-        changeUiToClear();
+        setViewShowState(mTvFastForward, INVISIBLE);
+        setViewShowState(mTvRewind, INVISIBLE);
+        setViewShowState(mIvCapturePhoto, INVISIBLE);
+        setViewShowState(mIvCaptureGif, INVISIBLE);
+        setViewShowState(mIvRestartVideo, INVISIBLE);
+        setViewShowState(mTvPlayNextNotice, INVISIBLE);
     }
 
     @Override
