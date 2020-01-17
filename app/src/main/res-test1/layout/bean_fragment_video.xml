@@ -28,7 +28,9 @@
             app:tabIndicator="@drawable/layer_list_homepage_tab"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="2dp"
-            app:tabMode="scrollable" />
+            app:tabMode="scrollable"
+            app:tabPaddingEnd="-1dp"
+            app:tabPaddingStart="-1dp" />
 
     </LinearLayout>
 
