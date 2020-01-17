@@ -116,6 +116,7 @@ public class HomepageActivity extends BaseActivity<HomepagePresenter> implements
 
         initVideoInfos(getIntent());
 
+        TestApp.getInstance().registerActivityLifecycle();
     }
 
     /**

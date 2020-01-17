@@ -114,6 +114,7 @@
         <activity
             android:name="com.video.test.module.ad.AdActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.video.test.module.player.PlayerActivity"

@@ -10,6 +10,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
@@ -77,6 +79,8 @@ public class TestApp extends MultiDexApplication {
      */
     private long currentBackgroundTime;
 
+    private Handler handler = new Handler(Looper.getMainLooper());
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -100,7 +104,6 @@ public class TestApp extends MultiDexApplication {
         initStrictMode();
         initLeCast();
         initM3U8();
-        registActivityLifecycle();
     }
 
 
@@ -502,7 +505,7 @@ public class TestApp extends MultiDexApplication {
         TestApp.isOpen = isOpen;
     }
 
-    private void registActivityLifecycle() {
+    public void registerActivityLifecycle() {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -518,25 +521,33 @@ public class TestApp extends MultiDexApplication {
             public void onActivityResumed(Activity activity) {
                 if (isBackground) {
                     isBackground = false;
-                    SplashBean saveSplashBean = SpUtils.getSerializable(TestApp.getContext(), "splashBean");
-                    if (saveSplashBean != null) {
-                        int countTime = saveSplashBean.getCount_time();
-                        if (countTime == 0) {
-                            countTime = AppConstant.TIME_PLAY_AD_WHEN_BACKGROUND;
+                    new Thread(() -> {
+                        SplashBean saveSplashBean = SpUtils.getSerializable(TestApp.getContext(), "splashBean");
+                        if (handler == null) {
+                            return;
                         }
-                        if (System.currentTimeMillis() - currentBackgroundTime >= countTime && isOpen) {
-                            //这里判断是否有缓存
-                            if (!TextUtils.isEmpty(saveSplashBean.getJump_url()) && !TextUtils.isEmpty(saveSplashBean.getPic_url())) {
-                                ARouter.getInstance().build("/ad/activity")
-                                        .withString("ad_name", saveSplashBean.getAd_name())
-                                        .withString("jump_url", saveSplashBean.getJump_url())
-                                        .withString("pic_url", saveSplashBean.getPic_url())
-                                        .withString("ad_id", saveSplashBean.getId())
-                                        .withInt("showTime", saveSplashBean.getShow_time())
-                                        .navigation();
+                        handler.post(() -> {
+                            if (saveSplashBean != null) {
+                                int countTime = saveSplashBean.getCount_time();
+                                if (countTime == 0) {
+                                    countTime = AppConstant.TIME_PLAY_AD_WHEN_BACKGROUND;
+                                }
+                                if (System.currentTimeMillis() - currentBackgroundTime >= countTime * 1000 && isOpen) {
+                                    //这里判断是否有缓存
+                                    if (!TextUtils.isEmpty(saveSplashBean.getJump_url()) && !TextUtils.isEmpty(saveSplashBean.getPic_url())) {
+                                        ARouter.getInstance().build("/ad/activity")
+                                                .withString("ad_name", saveSplashBean.getAd_name())
+                                                .withString("jump_url", saveSplashBean.getJump_url())
+                                                .withString("pic_url", saveSplashBean.getPic_url())
+                                                .withString("ad_id", saveSplashBean.getId())
+                                                .withInt("showTime", saveSplashBean.getShow_time())
+                                                .navigation();
+                                    }
+                                }
                             }
-                        }
-                    }
+
+                        });
+                    }).run();
                 }
             }
 
