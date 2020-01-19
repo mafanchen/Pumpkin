@@ -75,6 +75,7 @@
 
 #JavaBean类保护
 -keep public class com.video.test.javabean.**{*;}
+-keep class com.video.test.network.ListResult {*;}
 
 
 # 保持测试相关的代码
