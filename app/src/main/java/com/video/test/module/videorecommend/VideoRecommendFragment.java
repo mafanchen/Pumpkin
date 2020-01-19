@@ -111,7 +111,6 @@ public class VideoRecommendFragment extends BaseVideoTypeListFragment<VideoRecom
                         textView.setText(item.getContent());
                         GlideApp.with(VideoRecommendFragment.this)
                                 .load(item.getPic())
-                                .skipMemoryCache(true)
                                 .override(PixelUtils.dp2px(mContext, 75), PixelUtils.dp2px(mContext, 27))
                                 .centerCrop()
                                 .into(new CustomViewTarget<TextView, Drawable>(textView) {
@@ -127,7 +126,8 @@ public class VideoRecommendFragment extends BaseVideoTypeListFragment<VideoRecom
 
                                     @Override
                                     protected void onResourceCleared(@Nullable Drawable placeholder) {
-
+                                        LogUtils.d(TAG, "notice image resource is recycled");
+                                        textView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                                     }
                                 });
                     }

@@ -16,7 +16,7 @@ public class GlideImageLoader extends ImageLoader {
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
 
-        GlideApp.with(context).load(path).transition(withCrossFade()).into(imageView);
+        GlideApp.with(context).load(path).transition(withCrossFade()).skipMemoryCache(true).into(imageView);
 
     }
 }
