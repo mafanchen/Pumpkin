@@ -48,7 +48,6 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
     LoadingView mLoadingView;
     @BindView(R.id.tabLayout_topic_toolbar)
     BeanTopicTabLayout mTabLayout;
-    Unbinder unbinder;
     private String[] mTabContent = {"最新", "最热"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private int order = 2;
@@ -206,7 +205,6 @@ public class BeanTopicFragment extends BaseFragment<BeanTopicPresenter> implemen
             mItems = null;
             mAdapter = null;
         }
-        unbinder.unbind();
     }
 
     private void jump2Activity(String activityPath) {
