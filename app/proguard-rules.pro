@@ -37,7 +37,7 @@
 -renamesourcefileattribute SourceFile
 
 #保持泛型
--keepattributes Signature,InnerClasses
+-keepattributes Signature,InnerClasses,EnclosingMethod
 -keepattributes *Annotation*
 
 #有了verbose这句话，混淆后就会生成映射文件
@@ -68,15 +68,19 @@
     java.lang.Object readResolve();
 }
 
+# Parcelable的子类和Creator静态成员变量不混淆
+-keep class * implements Android.os.Parcelable {
+    # 保持Parcelable不被混淆
+    public static final Android.os.Parcelable$Creator *;
+}
+
 #Fragment不需要在AndroidManifest.xml中注册，需要额外保护下
 -keep public class * extends android.support.v4.app.Fragment
 -keep public class * extends android.app.Fragment
 
-
 #JavaBean类保护
--keep public class com.video.test.javabean.**{*;}
--keep class com.video.test.network.ListResult {*;}
-
+-keep  class com.video.test.javabean.**{*;}
+-keep  class com.video.test.network.ListResult {*;}
 
 # 保持测试相关的代码
 -dontnote junit.framework.**
@@ -84,7 +88,6 @@
 -dontwarn android.test.**
 -dontwarn android.support.test.**
 -dontwarn org.junit.**
-
 
 #https://github.com/square/okhttp
 # JSR 305 annotations are for embedding nullability information.
@@ -99,8 +102,10 @@
 # OkHttp platform used only on JVM and when Conscrypt dependency is available.
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
 
-
 # https://github.com/square/retrofit
+# Retrofit does reflection on method and parameter annotations.
+-keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
+
 # Retain service method parameters when optimizing.
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
     @retrofit2.http.* <methods>;
@@ -115,6 +120,15 @@
 # Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
 -dontwarn kotlin.Unit
 
+# Top-level functions that can only be used by Kotlin.
+-dontwarn retrofit2.KotlinExtensions
+-dontwarn retrofit2.KotlinExtensions$*
+
+# With R8 full mode, it sees no subtypes of Retrofit interfaces since they are created with a Proxy
+# and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
+-if interface * { @retrofit2.http.* <methods>; }
+-keep,allowobfuscation interface <1>
+
 
 # https://github.com/bumptech/glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -127,12 +141,10 @@
 # for DexGuard only
 -dontwarn com.bumptech.glide.load.resource.bitmap.VideoDecoder
 
-
 #  https://github.com/youth5201314/banner
 -keep class com.youth.banner.** {*; }
 
 -keep class com.flyco.tablayout.** {*;}
-
 
 #https://github.com/81813780/AVLoadingIndicatorView
 -keep class com.wang.avi.** { *; }
@@ -196,11 +208,11 @@
 -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
 public static java.lang.String TABLENAME;
 }
--keep class **$Properties{*;}
+-keep class **$Properties {*;}
 
 # If you do not use SQLCipher:
--dontwarn org.greenrobot.greendao.database.**
-# If you do not use Rx:
+-dontwarn net.sqlcipher.database.**
+# If you do not use RxJava:
 -dontwarn rx.**
 
 # EventBus
@@ -262,7 +274,7 @@ public static java.lang.String TABLENAME;
 -keepclasseswithmembernames class * { @butterknife.* <fields>; }
 
 #Model 转换异常 添加混淆
--keep class * extends com.video.test.framework.IModel {*;}
+-keep class * implements com.video.test.framework.IModel {*;}
 -keep class * implements com.video.test.framework.IPresenter {*;}
 
 #WeChat 混淆
@@ -277,6 +289,7 @@ public static java.lang.String TABLENAME;
    public <init> (org.json.JSONObject);
 }
 
+# 枚举
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
@@ -343,7 +356,9 @@ public static java.lang.String TABLENAME;
 -dontwarn com.huawei.**
 -keep public class * extends android.app.Activity
 -keep interface com.huawei.android.hms.agent.common.INoProguard {*;}
--keep class * extends com.huawei.android.hms.agent.common.INoProguard {*;}
+-keep class * implements com.huawei.android.hms.agent.common.INoProguard {*;}
 # 极光oppo
 -dontwarn com.coloros.mcsdk.**
 -keep class com.coloros.mcsdk.** { *; }
+# m3u8download
+-keep  class jaygoo.library.m3u8downloader.WeakHandler {*;}
