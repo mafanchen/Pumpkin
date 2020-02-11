@@ -247,14 +247,14 @@ class DownloadPresenter : DownloadContract.Presenter<DownloadModel>() {
             val data = adapter.data
             if (data != null && data.isNotEmpty() && data[0] is DownloadingBean) {
                 val downloadBean = data[0] as DownloadingBean
-                var m3U8DownloadBean = downloadBean.tasks.firstOrNull { TextUtils.equals(task.url, it.videoUrl) }
+                val m3U8DownloadBean = downloadBean.tasks.firstOrNull { TextUtils.equals(task.url, it.videoUrl) }
                 m3U8DownloadBean?.taskStatus = task.state
                 m3U8DownloadBean?.progress = task.progress
                 downloadBean.videoName = task.videoName
                 downloadBean.downloadSpeed = task.speed
                 downloadBean.progress = task.progress
                 downloadBean.isDownloading = true
-                adapter.notifyDataSetChanged()
+                adapter.updateProgress(downloadBean)
             } else {
                 getAllVideoTasks()
             }

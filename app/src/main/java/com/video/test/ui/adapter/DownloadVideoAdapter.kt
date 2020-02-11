@@ -51,17 +51,7 @@ class DownloadVideoAdapter : RecyclerView.Adapter<DownloadVideoAdapter.DownloadV
             onSelectListener?.onSelect(select, bean)
         }
         if (bean is DownloadingBean && holder is DownloadingViewHolder) {
-            holder.tvVideoCount.text = bean.tasks.size.toString()
-            if (bean.isDownloading) {
-                holder.tvVideoName.visibility = View.VISIBLE
-                holder.tvVideoName.text = bean.videoName
-                holder.progressBar.progress = (bean.progress * 100).toInt()
-                holder.tvSpeed.text = MUtils.formatFileSize(bean.downloadSpeed) + "/s"
-            } else {
-                holder.tvVideoName.visibility = View.GONE
-                holder.progressBar.progress = 0
-                holder.tvSpeed.text = "已暂停"
-            }
+            onBindDownloading(holder, bean)
         } else if (bean is DownloadedBean && holder is DownloadedViewHolder) {
             holder.tvVideoName.text = bean.videoName
             holder.tvVideoCount.text = "${bean.tasks.size}个视频"
@@ -72,12 +62,42 @@ class DownloadVideoAdapter : RecyclerView.Adapter<DownloadVideoAdapter.DownloadV
         }
     }
 
+    private fun onBindDownloading(holder: DownloadingViewHolder, bean: DownloadingBean) {
+        holder.tvVideoCount.text = bean.tasks.size.toString()
+        if (bean.isDownloading) {
+            holder.tvVideoName.visibility = View.VISIBLE
+            holder.tvVideoName.text = bean.videoName
+            holder.progressBar.progress = (bean.progress * 100).toInt()
+            holder.tvSpeed.text = MUtils.formatFileSize(bean.downloadSpeed) + "/s"
+        } else {
+            holder.tvVideoName.visibility = View.GONE
+            holder.progressBar.progress = 0
+            holder.tvSpeed.text = "已暂停"
+        }
+    }
+
+    override fun onBindViewHolder(holder: DownloadViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads == null || payloads.isEmpty()) {
+            onBindViewHolder(holder, position)
+        } else {
+            val bean = data!![position]
+            if (bean is DownloadingBean && holder is DownloadingViewHolder) {
+                onBindDownloading(holder, bean)
+            }
+        }
+    }
+
     fun deSelectAll() {
         data?.forEach { it.selected = false }
     }
 
     fun selectAll() {
         data?.forEach { it.selected = true }
+    }
+
+    fun updateProgress(downloadBean: DownloadingBean) {
+        if (data == null || data!!.isEmpty()) return
+        notifyItemChanged(0, downloadBean)
     }
 
     class DownloadingViewHolder(itemView: View) : DownloadViewHolder(itemView) {

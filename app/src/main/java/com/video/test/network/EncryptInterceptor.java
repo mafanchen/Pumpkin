@@ -86,11 +86,14 @@ public class EncryptInterceptor implements Interceptor {
         String token = SpUtils.getString(TestApp.getContext(), AppConstant.USER_TOKEN, "no");
         String tokenId = SpUtils.getString(TestApp.getContext(), AppConstant.USER_TOKEN_ID, "no");
         String versionCode = BuildConfig.VERSION_NAME.replace(".", "");
+        String phoneType = "1";
         FormBody.Builder builder = new FormBody.Builder();
         builder.add("token", token);
         Log.d(TAG, "添加TOKEN:" + token);
         builder.add("token_id", tokenId);
         Log.d(TAG, "添加TOKEN_ID:" + tokenId);
+        builder.add("phone_type", phoneType);
+        Log.d(TAG, "添加PHONE_TYPE:" + phoneType);
         // TODO: 2019/6/13 低版本号会导致接口异常，现在先写死1.2.3
         if (BuildConfig.APP_ID != 1) {
             builder.add("versions_code", "123");
