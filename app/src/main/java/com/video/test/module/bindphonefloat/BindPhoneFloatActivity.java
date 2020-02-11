@@ -1,6 +1,7 @@
 package com.video.test.module.bindphonefloat;
 
 import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Group;
 import android.support.v7.widget.LinearLayoutManager;
@@ -242,5 +243,13 @@ public class BindPhoneFloatActivity extends BaseActivity<BindPhoneFloatPresenter
         }
         mEmitterGetCode = null;
         super.onDestroy();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            finish();
+        }
     }
 }

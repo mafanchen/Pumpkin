@@ -179,7 +179,6 @@
         <activity
             android:name="com.video.test.module.bindphonefloat.BindPhoneFloatActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
-            android:screenOrientation="portrait"
             android:theme="@style/transparent_activity" />
         <activity
             android:name="com.video.test.module.beantopic.BeanTopicActivity"
