@@ -262,7 +262,7 @@ public class ShareFragment extends BaseFragment<SharePresenter> implements Share
     public void createSharePic() {
         GenerateModel generateModel = new GenerateModel((ViewGroup) Objects.requireNonNull(getActivity()).getWindow().getDecorView(), mShareQRCode, mShareInfo.getWebUrl(), mShareInfo.getSharePic());
         String cachePath = SpUtils.getString(TestApp.getContext(), "cachePath", SDCardUtils.getSDRootPath());
-        String fileName = getString(R.string.activity_share_name_image_qr_code);
+        String fileName = getString(R.string.activity_share_name_image_qr_code, "-" + System.currentTimeMillis());
         String qrCodePath = cachePath + File.separator + "DCIM" + File.separator + fileName;
         generateModel.setSavePath(qrCodePath);
 

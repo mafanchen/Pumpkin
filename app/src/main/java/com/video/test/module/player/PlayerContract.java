@@ -12,7 +12,6 @@ import com.video.test.javabean.AddCollectionBean;
 import com.video.test.javabean.VideoAdDataBean;
 import com.video.test.javabean.VideoCommentBean;
 import com.video.test.javabean.VideoPlayerBean;
-import com.video.test.network.BaseResult;
 import com.video.test.ui.widget.LandLayoutVideo;
 import com.video.test.ui.widget.TimeCloseDialogFragment;
 import com.video.test.utils.cast.LelinkHelper;
@@ -48,14 +47,6 @@ public interface PlayerContract {
         Observable<Long> getSDCardFreeSize();
 
         Observable<VideoAdDataBean> getVideoAd();
-
-        Observable<BaseResult> addVideoInfo(String vodId, String type);
-
-        Observable<BaseResult<Object>> addAdInfo(int adType, String adId);
-
-        Observable<String> uploadWatchTime(String cid, String pid);
-
-        Observable<String> clickBackOrForward(int clickType);
     }
 
     interface View extends IView {

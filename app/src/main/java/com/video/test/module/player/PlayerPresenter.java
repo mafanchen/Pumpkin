@@ -757,12 +757,13 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
         if (adId == null) {
             return;
         }
-        Disposable subscribe = mModel.addAdInfo(adType, adId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseResult -> {
-                }, new RxExceptionHandler<>(throwable -> LogUtils.e(TAG, throwable.getMessage())));
-        addDisposable(subscribe);
+        //todo 等待接入统计sdk
+//        Disposable subscribe = mModel.addAdInfo(adType, adId)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(baseResult -> {
+//                }, new RxExceptionHandler<>(throwable -> LogUtils.e(TAG, throwable.getMessage())));
+//        addDisposable(subscribe);
     }
 
     @Override
@@ -786,11 +787,12 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
      * @param type 1播放 2下载 3收藏
      */
     private void addVideoInfo(String vodId, String type) {
-        Disposable subscribe = mModel.addVideoInfo(vodId, type)
-                .subscribeOn(Schedulers.io())
-                .subscribe(baseResult -> {
-                }, new RxExceptionHandler<>(throwable -> LogUtils.e(TAG, throwable.getMessage())));
-        addDisposable(subscribe);
+        //todo 等待接入统计sdk
+//        Disposable subscribe = mModel.addVideoInfo(vodId, type)
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(baseResult -> {
+//                }, new RxExceptionHandler<>(throwable -> LogUtils.e(TAG, throwable.getMessage())));
+//        addDisposable(subscribe);
     }
 
     public List<PlayerUrlListBean> queryDownloadStatus(List<PlayerUrlListBean> array, String videoId) {
@@ -855,36 +857,40 @@ public class PlayerPresenter extends PlayerContract.Presenter<PlayerModel> {
 
     @Override
     void uploadWatchTime(String cid, String pid) {
-        Disposable disposable = mModel.uploadWatchTime(cid, pid)
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String message) throws Exception {
-                        LogUtils.d(TAG, "uploadWatchTime Success  message : " + message);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        LogUtils.e(TAG, "uploadWatchTime error  message : " + throwable.getMessage());
-                    }
-                });
-        addDisposable(disposable);
+        //todo 等待接入统计sdk
+
+//        Disposable disposable = mModel.uploadWatchTime(cid, pid)
+//                .subscribe(new Consumer<String>() {
+//                    @Override
+//                    public void accept(String message) throws Exception {
+//                        LogUtils.d(TAG, "uploadWatchTime Success  message : " + message);
+//                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) throws Exception {
+//                        LogUtils.e(TAG, "uploadWatchTime error  message : " + throwable.getMessage());
+//                    }
+//                });
+//        addDisposable(disposable);
     }
 
     @Override
     void clickBackOrForward(int clickType) {
-        Disposable disposable = mModel.clickBackOrForward(clickType)
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String message) throws Exception {
-                        LogUtils.d(TAG, "clickBackOrForward Success  message : " + message);
-                    }
-                }, new RxExceptionHandler<>(new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        LogUtils.e(TAG, "clickBackOrForward error  message : " + throwable.getMessage());
-                    }
-                }));
-        addDisposable(disposable);
+        //todo 等待接入统计sdk
+
+//        Disposable disposable = mModel.clickBackOrForward(clickType)
+//                .subscribe(new Consumer<String>() {
+//                    @Override
+//                    public void accept(String message) throws Exception {
+//                        LogUtils.d(TAG, "clickBackOrForward Success  message : " + message);
+//                    }
+//                }, new RxExceptionHandler<>(new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) throws Exception {
+//                        LogUtils.e(TAG, "clickBackOrForward error  message : " + throwable.getMessage());
+//                    }
+//                }));
+//        addDisposable(disposable);
 
     }
 

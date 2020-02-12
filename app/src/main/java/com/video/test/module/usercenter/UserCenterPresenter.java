@@ -36,10 +36,8 @@ import com.video.test.utils.WeChatUtil;
 
 import java.io.File;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -299,11 +297,12 @@ public class UserCenterPresenter extends UserCenterContract.Presenter<UserCenter
         if (adId == null) {
             return;
         }
-        Disposable subscribe = mModel.addAdInfo(adType, adId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseResult -> {
-                }, new RxExceptionHandler<>(throwable -> LogUtils.e(TAG, throwable.getMessage())));
-        addDisposable(subscribe);
+        //todo 等待接入统计sdk
+//        Disposable subscribe = mModel.addAdInfo(adType, adId)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(baseResult -> {
+//                }, new RxExceptionHandler<>(throwable -> LogUtils.e(TAG, throwable.getMessage())));
+//        addDisposable(subscribe);
     }
 }

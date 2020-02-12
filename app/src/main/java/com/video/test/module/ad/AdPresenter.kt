@@ -10,16 +10,11 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.video.test.AppConstant
 import com.video.test.R
 import com.video.test.framework.GlideApp
-import com.video.test.network.RxExceptionHandler
 import com.video.test.utils.DownloadUtil
 import com.video.test.utils.LogUtils
 import com.video.test.utils.RxCountdown
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.io.FileOutputStream
 
@@ -29,11 +24,12 @@ class AdPresenter : AdContract.Presenter<AdModel>() {
 
     override fun addAdInfo(adId: String?) {
         if (adId != null) {
-            val subscribe = mModel.addAdInfo(AppConstant.AD_TYPE_SPLASH, adId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(Consumer {}, RxExceptionHandler<Throwable>(Consumer { e -> LogUtils.e("AdPresenter", e.message) }))
-            addDisposable(subscribe)
+            //todo 等待接入统计sdk
+//            val subscribe = mModel.addAdInfo(AppConstant.AD_TYPE_SPLASH, adId)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(Consumer {}, RxExceptionHandler<Throwable>(Consumer { e -> LogUtils.e("AdPresenter", e.message) }))
+//            addDisposable(subscribe)
         }
     }
 

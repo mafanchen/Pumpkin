@@ -267,7 +267,7 @@ public class UpdateDialogFragment extends DialogFragment {
                     if (EasyPermissions.hasPermissions(getActivity(), perms)) {
                         startDownload(mDownloadUrl);
                     } else {
-                        EasyPermissions.requestPermissions(getActivity(), getString(R.string.dialog_perm_storage), AppConstant.PERSSION_READ_AND_WRITE_EXTERNAL_STORAGE, perms);
+                        EasyPermissions.requestPermissions(getActivity(), "升级需要获取您的SD卡读写权限", AppConstant.PERSSION_READ_AND_WRITE_EXTERNAL_STORAGE, perms);
                     }
                     break;
                 case R.id.tv_ignore_update_dialog:

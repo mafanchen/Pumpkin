@@ -2,7 +2,6 @@ package com.video.test.module.videotype
 
 import com.video.test.javabean.BannerAndNoticeListBean
 import com.video.test.javabean.HomePageVideoListBean
-import com.video.test.network.BaseResult
 import com.video.test.network.RetrofitHelper
 import com.video.test.utils.RxSchedulers
 import io.reactivex.Observable
@@ -19,11 +18,6 @@ open class VideoTypeListModel : VideoTypeListContract.Model {
                 .getHomepage(pid)
                 .compose(RxSchedulers.handleResult())
                 .compose(RxSchedulers.io_main())
-    }
-
-    override fun addAdInfo(adType: Int, adId: String): Observable<BaseResult<Any>> {
-        return RetrofitHelper.getInstance()
-                .addAdInfo(adType, adId)
     }
 
     override fun getBannerAndNotice(pid: Int): Observable<BannerAndNoticeListBean> {

@@ -7,8 +7,6 @@ import android.widget.TextView
 import com.video.test.framework.BasePresenter
 import com.video.test.framework.IModel
 import com.video.test.framework.IView
-import com.video.test.network.BaseResult
-import io.reactivex.Observable
 
 interface AdContract {
     interface View : IView {
@@ -21,9 +19,7 @@ interface AdContract {
         fun close()
     }
 
-    interface Model : IModel {
-        fun addAdInfo(adType: Int, adId: String): Observable<BaseResult<Any>>
-    }
+    interface Model : IModel
 
     abstract class Presenter<M : Model> : BasePresenter<M, View>() {
         abstract fun countDownSplash(context: Context, showTime: Int)

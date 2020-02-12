@@ -15,8 +15,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public class GlideImageLoader extends ImageLoader {
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
-
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         GlideApp.with(context).load(path).transition(withCrossFade()).skipMemoryCache(true).into(imageView);
-
     }
 }

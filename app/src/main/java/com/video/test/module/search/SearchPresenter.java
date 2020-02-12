@@ -103,11 +103,12 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
      * 统计添加收藏数
      */
     private void addCollectCount(String vodId) {
-        Disposable subscribe = mModel.addCollectCount(vodId)
-                .subscribeOn(Schedulers.io())
-                .subscribe(baseResult -> {
-                }, new RxExceptionHandler<>(throwable -> LogUtils.e(TAG, throwable.getMessage())));
-        addDisposable(subscribe);
+        //todo 等待接入统计sdk
+//        Disposable subscribe = mModel.addCollectCount(vodId)
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(baseResult -> {
+//                }, new RxExceptionHandler<>(throwable -> LogUtils.e(TAG, throwable.getMessage())));
+//        addDisposable(subscribe);
     }
 
     @Override

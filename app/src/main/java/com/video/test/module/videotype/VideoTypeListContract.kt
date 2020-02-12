@@ -6,7 +6,6 @@ import com.video.test.framework.IView
 import com.video.test.javabean.BannerAndNoticeListBean
 import com.video.test.javabean.BannerBean
 import com.video.test.javabean.HomePageVideoListBean
-import com.video.test.network.BaseResult
 import io.reactivex.Observable
 import me.drakeet.multitype.Items
 
@@ -34,8 +33,6 @@ interface VideoTypeListContract {
     interface Model : IModel {
 
         fun getHomepageVideoList(pid: Int): Observable<HomePageVideoListBean>
-
-        fun addAdInfo(adType: Int, adId: String): Observable<BaseResult<Any>>
 
         fun getBannerAndNotice(pid: Int): Observable<BannerAndNoticeListBean>
 

@@ -3,10 +3,8 @@ package com.video.test.module.videotype
 import com.video.test.javabean.*
 import com.video.test.network.RxExceptionHandler
 import com.video.test.utils.LogUtils
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
 import me.drakeet.multitype.Items
 
 
@@ -98,11 +96,12 @@ abstract class BaseVideoTypeListPresenter<M : VideoTypeListContract.Model, V : V
     }
 
     override fun addAdInfo(adType: Int, adId: String) {
-        val subscribe = mModel.addAdInfo(adType, adId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(Consumer { }, RxExceptionHandler<Throwable>(Consumer { e -> LogUtils.e(TAG, e.message) }))
-        addDisposable(subscribe)
+        //todo 等待接入统计sdk
+//        val subscribe = mModel.addAdInfo(adType, adId)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(Consumer { }, RxExceptionHandler<Throwable>(Consumer { e -> LogUtils.e(TAG, e.message) }))
+//        addDisposable(subscribe)
     }
 
     /**

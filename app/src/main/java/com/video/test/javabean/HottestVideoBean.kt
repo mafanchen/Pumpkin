@@ -22,6 +22,8 @@ data class HottestVideoBean(
             var pic: String? = null
             var score: String? = null
             var vodContinue: String? = null
+            var isEnd = false
+            var vodType: String? = null
             if (reader != null) {
                 reader.beginObject()
                 while (reader.hasNext()) {
@@ -29,10 +31,12 @@ data class HottestVideoBean(
                         "id" -> id = reader.nextString()
                         "show_id" -> showId = reader.nextString()
                         "vod_id" -> vodId = reader.nextString()
-                        "d_name" -> name = reader.nextString()
+                        "d_name", "vod_name" -> name = reader.nextString()
                         "vod_pic" -> pic = reader.nextString()
-                        "d_score" -> score = reader.nextString()
+                        "d_score", "vod_scroe" -> score = reader.nextString()
                         "vod_continu" -> vodContinue = reader.nextString()
+                        "is_end" -> isEnd = reader.nextBoolean()
+                        "t_id" -> vodType = reader.nextString()
                         else -> reader.skipValue()
                     }
                 }
@@ -44,6 +48,8 @@ data class HottestVideoBean(
             hottestVideoBean.vod_pic = pic
             hottestVideoBean.vod_scroe = score
             hottestVideoBean.vod_continu = vodContinue
+            hottestVideoBean.isVodIsEnd = isEnd
+            hottestVideoBean.vodType = vodType
             return hottestVideoBean
         }
 

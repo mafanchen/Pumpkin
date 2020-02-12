@@ -7,7 +7,6 @@ import com.video.test.javabean.AddCollectionBean;
 import com.video.test.javabean.AssociationBean;
 import com.video.test.javabean.SearchResultBean;
 import com.video.test.javabean.SearchSortTypeBean;
-import com.video.test.network.BaseResult;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,8 +28,6 @@ public interface SearchContract {
         Observable<AddCollectionBean> addCollections(String vodId, String userToken, String userTokenId);
 
         Observable<String> delCollections(String ids, String userToken, String userTokenId);
-
-        Observable<BaseResult> addCollectCount(String vodId);
 
         Observable<AssociationBean> getAssociationWord(String searchWord);
     }

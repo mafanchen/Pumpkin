@@ -5,7 +5,6 @@ import com.video.test.javabean.AddCollectionBean;
 import com.video.test.javabean.VideoAdDataBean;
 import com.video.test.javabean.VideoCommentBean;
 import com.video.test.javabean.VideoPlayerBean;
-import com.video.test.network.BaseResult;
 import com.video.test.network.RetrofitHelper;
 import com.video.test.sp.SpUtils;
 import com.video.test.utils.RxSchedulers;
@@ -91,31 +90,4 @@ public class PlayerModel implements PlayerContract.Model {
                 .compose(RxSchedulers.handleResult())
                 .compose(RxSchedulers.io_main());
     }
-
-    @Override
-    public Observable<BaseResult> addVideoInfo(String vodId, String type) {
-        return RetrofitHelper.getInstance()
-                .addVideoInfo(vodId, type);
-    }
-
-    @Override
-    public Observable<BaseResult<Object>> addAdInfo(int adType, String adId) {
-        return RetrofitHelper.getInstance().addAdInfo(adType, adId);
-    }
-
-    @Override
-    public Observable<String> uploadWatchTime(String cid, String pid) {
-        return RetrofitHelper.getInstance().uploadWatchTime(cid, pid)
-                .compose(RxSchedulers.handleResult())
-                .compose(RxSchedulers.io_main());
-    }
-
-
-    @Override
-    public Observable<String> clickBackOrForward(int clickType) {
-        return RetrofitHelper.getInstance().updateBackOrForward(clickType)
-                .compose(RxSchedulers.handleResult())
-                .compose(RxSchedulers.io_main());
-    }
-
 }

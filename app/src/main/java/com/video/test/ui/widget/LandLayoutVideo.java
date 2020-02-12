@@ -1918,7 +1918,6 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer implements VideoAdCo
         if (mIvAdBackground != null) {
             GlideApp.with(mContext)
                     .load(adUrl)
-                    .centerCrop()
                     .into(mIvAdBackground);
         }
         //记载广告时,隐藏加载等待图

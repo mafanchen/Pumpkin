@@ -49,7 +49,6 @@ import com.video.test.javabean.VideoCommentBean;
 import com.video.test.javabean.VideoListBean;
 import com.video.test.javabean.VideoPlayerBean;
 import com.video.test.javabean.VideoRecommendBean;
-import com.video.test.sp.SpUtils;
 import com.video.test.utils.NetworkUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -573,16 +572,6 @@ public class RetrofitHelper implements IModel {
         return sRetrofitApiServer.getFeedbacks();
     }
 
-    /**
-     * 增加资源的播放量、下载量、收藏量
-     *
-     * @param vodId 资源id
-     * @param type  1播放量 2下载量 3收藏量
-     */
-    public Observable<BaseResult> addVideoInfo(String vodId, String type) {
-        return sRetrofitApiServer.addVideoInfo(vodId, type);
-    }
-
     public Observable<BaseResult<HotSearchWordListBean>> getHotSearchWord() {
         return sRetrofitApiServer.getHotSearchWord();
     }
@@ -591,17 +580,8 @@ public class RetrofitHelper implements IModel {
         return sRetrofitApiServer.getHottestVideos(showId, showPid);
     }
 
-    public Observable<BaseResult<Object>> addAdInfo(int adType, String adId) {
-        String userTokenId = SpUtils.getString(TestApp.getContext(), AppConstant.USER_TOKEN_ID, "no");
-        return sRetrofitApiServer.addAdInfo(adType, adId, BuildConfig.APP_ID, AppConstant.PHONE_TYPE_ANDROID, BuildConfig.AD_VERSION, userTokenId);
-    }
-
     public Observable<BaseResult<AssociationBean>> getClewWord(String searchWord) {
         return sRetrofitApiServer.getClewWord(searchWord);
-    }
-
-    public Observable<BaseResult<String>> uploadWatchTime(String cid, String pid) {
-        return sRetrofitApiServer.uploadWatchTime(BuildConfig.AD_VERSION, AppConstant.PHONE_TYPE_ANDROID, cid, pid);
     }
 
     public Observable<BaseResult<AddCollectionBean>> addTopicCollection(String token, String tokenId, String topicId) {
@@ -610,10 +590,6 @@ public class RetrofitHelper implements IModel {
 
     public Observable<BaseResult<String>> delTopicCollection(String token, String tokenId, String topicArrayIds) {
         return sRetrofitApiServer.delTopicCollection(token, tokenId, BuildConfig.APP_ID, topicArrayIds);
-    }
-
-    public Observable<BaseResult<String>> updateBackOrForward(int clickType) {
-        return sRetrofitApiServer.updateBackOrForward(clickType, BuildConfig.AD_VERSION, AppConstant.PHONE_TYPE_ANDROID);
     }
 
     public Observable<BaseResult<List<ProfilePictureBean>>> getProfilePics() {

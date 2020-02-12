@@ -226,7 +226,7 @@
     <string name="activity_share_message_content">1、特权会员一旦兑换，会扣除相应的邀请人数。\n2、若用户存在违规行为，包括但不限于通过技术漏洞/破解/等非法手段进行邀请行为，test1影视有权取消特权会员资格，并对恶意账号进行封号处理。\ntest1影视保留活动最终解释权</string>
     <string name="activity_share_copy_url">复制链接</string>
     <string name="activity_share_text_share_url">test1影视APP给你好看，永久免费在线观看，支持投屏、离线观影，网罗海内外影视资源！下载用戳↓↓↓\n%s</string>
-    <string name="activity_share_name_image_qr_code">test1影视分享码.jpg</string>
+    <string name="activity_share_name_image_qr_code">test1影视分享码%s.jpg</string>
     <string name="share_image_title">test1影视分享</string>
     <string name="share_invite_title">test1影视邀请送好礼</string>
     <string name="share_invite_description">邀请6位好友注册,送1个月Vip服务呦</string>

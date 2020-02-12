@@ -4,7 +4,6 @@ import com.video.test.javabean.AddCollectionBean;
 import com.video.test.javabean.AssociationBean;
 import com.video.test.javabean.SearchResultBean;
 import com.video.test.javabean.SearchSortTypeBean;
-import com.video.test.network.BaseResult;
 import com.video.test.network.RetrofitHelper;
 import com.video.test.utils.RxSchedulers;
 
@@ -47,12 +46,6 @@ public class SearchModel implements SearchContract.Model {
                 .delCollectionList(userToken, userTokenId, ids)
                 .compose(RxSchedulers.handleResult())
                 .compose(RxSchedulers.io_main());
-    }
-
-    @Override
-    public Observable<BaseResult> addCollectCount(String vodId) {
-        return RetrofitHelper.getInstance()
-                .addVideoInfo(vodId, "3");
     }
 
     @Override
