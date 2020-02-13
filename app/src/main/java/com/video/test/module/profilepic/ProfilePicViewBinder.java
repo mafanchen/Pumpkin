@@ -2,6 +2,7 @@ package com.video.test.module.profilepic;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ public class ProfilePicViewBinder extends ItemViewBinder<ProfilePictureBean, Pro
                 .transition(withCrossFade())
                 .into(holder.mIvPic);
 
-        if (mSelectedUrl.equals(item.getPicUrl())) {
+        if (TextUtils.equals(mSelectedUrl, item.getPicUrl())) {
             LogUtils.d(TAG, "have default pics url : " + mSelectedUrl);
             holder.mFlBackground.setVisibility(View.VISIBLE);
             holder.mCheck.setChecked(true);
@@ -57,10 +58,14 @@ public class ProfilePicViewBinder extends ItemViewBinder<ProfilePictureBean, Pro
 
         LogUtils.d(TAG, "selected position : " + mPosition);
 
-        if (mPosition == getPosition(holder)) {
+        if (mPosition ==
+
+                getPosition(holder)) {
             holder.mFlBackground.setVisibility(View.VISIBLE);
             holder.mCheck.setChecked(true);
-        } else if (mPosition != getPosition(holder)) {
+        } else if (mPosition !=
+
+                getPosition(holder)) {
             holder.mFlBackground.setVisibility(View.INVISIBLE);
         }
 
