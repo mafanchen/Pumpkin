@@ -43,8 +43,8 @@ ext {
     test1 = [
             //包名
             applicationId: "com.video.test1",  //需要修改
-            versionName  : "1.3.5",
-            versionCode  : 18,
+            versionName  : "1.3.6",
+            versionCode  : 19,
             betaVersion  : "1",
             appId        : "1",   //请勿修改
             //渠道
