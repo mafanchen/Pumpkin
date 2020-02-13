@@ -20,6 +20,7 @@ public abstract class BaseSelectableAdapter<T extends ISelectableBean, VH extend
 
     public void selectAllItem() {
         List<T> mList = getList();
+        if (mList == null) return;
         //未选中的
         List<T> unSelectList = new ArrayList<>();
         //是否已经全部选中

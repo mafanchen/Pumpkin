@@ -36,7 +36,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public class HistoryAdapter extends BaseSelectableAdapter<HistoryListBean, HistoryAdapter.HistoryViewHolder> {
     private static final String TAG = "HistoryAdapter";
     private boolean mIsShow;
-    private List<HistoryListBean> mHistoryBeanList;
+    private List<HistoryListBean> mHistoryBeanList = new ArrayList<>();
 
 
     @NonNull
