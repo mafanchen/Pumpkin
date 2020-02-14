@@ -66,16 +66,17 @@ class FeedbackPresenter : FeedbackContract.Presenter<FeedbackModel>() {
     }
 
 
-
     override fun commitFeedback(vodId: String?) = when {
         type == null -> mView.showToast("请选择反馈类型")
         TextUtils.isEmpty(content) -> mView.showToast("请输入反馈详情")
         content!!.length <= 2 -> mView.showToast("请输入不少于2个字符")
         TextUtils.isEmpty(imagePath) -> {
+            mView.setCommitEnable(false)
             val phoneInfo = DeviceUtils.getPhoneInfo()
             commit(type!!.id, content!!, contact, null, vodId, phoneInfo)
         }
         else -> {
+            mView.setCommitEnable(false)
             //这里通过一个map来存已经上传的图片路径，避免反馈接口报错后，点击提交导致同一张图片上传两次
             val netWorkPath = mImageMap[imagePath]
             if (netWorkPath != null) {
@@ -107,6 +108,7 @@ class FeedbackPresenter : FeedbackContract.Presenter<FeedbackModel>() {
                     commit(type!!.id, content!!, contact, picUrl, vodId, phoneInfo)
                 }, RxExceptionHandler<Throwable>(Consumer { throwable ->
                     LogUtils.e(TAG, "uploadImage Error == " + throwable.message)
+                    mView.setCommitEnable(true)
                     mView.hideProgressDialog()
                 }))
         addDisposable(disposable)
@@ -137,6 +139,7 @@ class FeedbackPresenter : FeedbackContract.Presenter<FeedbackModel>() {
                     mView.showToast("提交反馈成功")
                     mView.close()
                 }, RxExceptionHandler {
+                    mView.setCommitEnable(true)
                     mView.hideProgressDialog()
                     LogUtils.e(TAG, "commitFeedback Error == " + it.message)
                 })

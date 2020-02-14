@@ -19,6 +19,7 @@ interface FeedbackContract {
         fun setFeedbackTypes(list: List<FeedbackTypeBean>)
         fun showImage(imagePath: String?)
         fun close()
+        fun setCommitEnable(enable: Boolean)
     }
 
     interface Model : IModel {

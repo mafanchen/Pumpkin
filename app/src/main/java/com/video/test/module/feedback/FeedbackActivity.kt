@@ -48,6 +48,9 @@ class FeedbackActivity : BaseActivity<FeedbackPresenter>(), FeedbackContract.Vie
     @BindView(R.id.et_feedback_contact)
     var mEtContact: EditText? = null
     @JvmField
+    @BindView(R.id.tv_feedback_commit)
+    var mTvCommit: TextView? = null
+    @JvmField
     @Autowired(name = "vodId")
     var mVodId: String? = ""
 
@@ -192,6 +195,10 @@ class FeedbackActivity : BaseActivity<FeedbackPresenter>(), FeedbackContract.Vie
                 ToastUtils.showToast(R.string.permission_sdcard_error)
             }
         }
+    }
+
+    override fun setCommitEnable(enable: Boolean) {
+        mTvCommit?.isEnabled = enable
     }
 
     override fun showToast(toast: String) {
