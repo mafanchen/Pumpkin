@@ -220,7 +220,10 @@ public class BindPhoneFloatActivity extends BaseActivity<BindPhoneFloatPresenter
                 .content("该手机号码已被其他设备绑定，之前设备的权益将会取消，是否继续操作？")
                 .positiveText(R.string.dialog_confirm)
                 .negativeText(R.string.dialog_cancel)
-                .onPositive((dialog, which) -> mPresenter.bindPhone(getPhone(), getVerificationCode(), "1"))
+                .onPositive((dialog, which) -> {
+                    mPresenter.bindPhone(getPhone(), getVerificationCode(), "1");
+                    dialog.dismiss();
+                })
                 .onNegative(((dialog, which) -> dialog.dismiss()))
                 .show();
     }

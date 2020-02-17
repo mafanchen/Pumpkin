@@ -151,13 +151,13 @@ public class SetPhoneActivity extends BaseActivity<SetPhonePresenter> implements
                                 } else {
                                     mPresenter.bindPhone(mTvCountryCode, mEtPhone, mEtCheckCode, "");
                                 }
+                                dialog.dismiss();
                             }
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 dialog.dismiss();
-
                             }
                         })
                         .show();
@@ -178,9 +178,8 @@ public class SetPhoneActivity extends BaseActivity<SetPhonePresenter> implements
                 .negativeText(R.string.dialog_cancel)
                 .onPositive((dialog, which) -> {
                     mPresenter.bindPhone(mTvCountryCode, mEtPhone, mEtCheckCode, "1");
-                }).onNegative(((dialog, which) -> {
-            dialog.dismiss();
-        })).show();
+                    dialog.dismiss();
+                }).onNegative(((dialog, which) -> dialog.dismiss())).show();
     }
 
     @Override
@@ -192,9 +191,9 @@ public class SetPhoneActivity extends BaseActivity<SetPhonePresenter> implements
                 .negativeText(R.string.dialog_cancel)
                 .onPositive((dialog, which) -> {
                     mPresenter.updatePhone(mTvCountryCode, mEtPhone, mEtCheckCode, "1");
-                }).onNegative(((dialog, which) -> {
-            dialog.dismiss();
-        })).show();
+                    dialog.dismiss();
+                }).onNegative(((dialog, which) -> dialog.dismiss()))
+                .show();
     }
 
 
