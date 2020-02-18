@@ -919,7 +919,7 @@
 				android:paddingTop="27dp"
 				android:paddingEnd="8dp"
 				android:paddingBottom="21dp"
-				android:text="请选择投影设备"
+				android:text="请选择投屏设备"
 				android:textColor="@color/colorWhite"
 				android:textSize="@dimen/text_size_15sp" />
 
