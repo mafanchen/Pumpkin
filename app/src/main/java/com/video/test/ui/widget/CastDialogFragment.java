@@ -111,9 +111,21 @@ public class CastDialogFragment extends DialogFragment {
         mCastDeviceAdapter = new CastDeviceAdapter();
         mRvDeviceList.setAdapter(mCastDeviceAdapter);
 
-        mCastDeviceAdapter.setDeviceListener((position, info) -> mCastItemClickListener.onCastItemClick(position, info));
-        mTvHelper.setOnClickListener(v -> mCastItemClickListener.onHelperClick());
-        mTvCancel.setOnClickListener(v -> mCastItemClickListener.onCancelClick());
+        mCastDeviceAdapter.setDeviceListener((position, info) -> {
+            if (mCastItemClickListener != null) {
+                mCastItemClickListener.onCastItemClick(position, info);
+            }
+        });
+        mTvHelper.setOnClickListener(v -> {
+            if (mCastItemClickListener != null) {
+                mCastItemClickListener.onHelperClick();
+            }
+        });
+        mTvCancel.setOnClickListener(v -> {
+            if (mCastItemClickListener != null) {
+                mCastItemClickListener.onCancelClick();
+            }
+        });
 
     }
 
