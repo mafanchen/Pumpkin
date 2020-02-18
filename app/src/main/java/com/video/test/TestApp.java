@@ -527,13 +527,18 @@ public class TestApp extends MultiDexApplication {
                             if (System.currentTimeMillis() - currentBackgroundTime >= countTime * 1000 && isOpen) {
                                 //这里判断是否有缓存
                                 if (!TextUtils.isEmpty(saveSplashBean.getJump_url()) && !TextUtils.isEmpty(saveSplashBean.getPic_url())) {
-                                    ARouter.getInstance().build("/ad/activity")
-                                            .withString("ad_name", saveSplashBean.getAd_name())
-                                            .withString("jump_url", saveSplashBean.getJump_url())
-                                            .withString("pic_url", saveSplashBean.getPic_url())
-                                            .withString("ad_id", saveSplashBean.getId())
-                                            .withInt("showTime", saveSplashBean.getShow_time())
-                                            .navigation(activity);
+                                    //todo 这里fireBase会反馈因activity未注册的崩溃日志，但是此页面已经注册
+                                    try {
+                                        ARouter.getInstance().build("/ad/activity")
+                                                .withString("ad_name", saveSplashBean.getAd_name())
+                                                .withString("jump_url", saveSplashBean.getJump_url())
+                                                .withString("pic_url", saveSplashBean.getPic_url())
+                                                .withString("ad_id", saveSplashBean.getId())
+                                                .withInt("showTime", saveSplashBean.getShow_time())
+                                                .navigation(activity);
+                                    } catch (Exception e) {
+                                        LogUtils.e(TAG, "start ad activity error,message = " + e.getMessage());
+                                    }
                                 }
                             }
                         }
