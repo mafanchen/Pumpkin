@@ -201,7 +201,8 @@ public class SearchPresenter extends SearchContract.Presenter<SearchModel> {
         Items items = new Items();
         List<SearchResultVideoBean> searchVideoList = resultBean.getList();
         //如果总的结果少于一条，则直接隐藏筛选和排序（没意义）
-        if (searchVideoList.size() <= 1) {
+        //todo 这里list在fireBase中会有空指针，是否是接口又少返回了字段
+        if (searchVideoList == null || searchVideoList.size() <= 1) {
             mView.hideSortType();
         } else {
             mView.showSortType();
