@@ -1,7 +1,8 @@
 ext {
     adVersion = "3"    //统计广告的渠道号  请勿修改
     adChannel = "1"    //用来分别广告的渠道，某些渠道可以不展示广告  请勿修改
-    serverHost = ["http://www.aaa.me", "http://www.bbb.me", "http://www.ccc.me", "http://www.ddd.me", "http://www.eee.me"]   //正式服务器域名
+//    serverHost = ["http://www.aaa.me", "http://www.bbb.me", "http://www.ccc.me", "http://www.ddd.me", "http://www.eee.me"]   //正式服务器域名
+    serverHost =  ["http://test.csym.me", "http://test.csym.work"]  //正式服务器域名
     testHost = ["http://test.csym.me", "http://test.csym.work"]  //测试服务器域名  请勿修改
     uatHost = ["http://www.uat.me"]  //UAT 服务器域名
 

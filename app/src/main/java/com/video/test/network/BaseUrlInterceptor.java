@@ -25,7 +25,6 @@ public class BaseUrlInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request originRequest = chain.request();
         String originHost = originRequest.url().host();
-        Response originResponse = chain.proceed(originRequest);
         Log.i("BaseUrlInterceptor", "originHost = " + originHost);
         int index = getHostIndex(originHost);
         if (RetrofitHelper.sCurrentHostIndex != index) {
@@ -38,11 +37,9 @@ public class BaseUrlInterceptor implements Interceptor {
             Request request = originRequest.newBuilder()
                     .url(url)
                     .build();
-            //这里记得要关闭之前的连接
-            originResponse.close();
             return chain.proceed(request);
         } else {
-            return originResponse;
+            return chain.proceed(originRequest);
         }
     }
 
