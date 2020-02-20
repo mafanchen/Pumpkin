@@ -28,7 +28,7 @@
 -dontusemixedcaseclassnames
 
 #把混淆类中的方法名也混淆了
--useuniqueclassmembernames
+-useuniqueclassmembernamesmapping.txt
 
 #优化时允许访问并修改有修饰符的类和类的成员
 -allowaccessmodification
@@ -46,6 +46,8 @@
 
 #抛出异常时保留代码行号，在异常分析中可以方便定位
 -keepattributes SourceFile,LineNumberTable
+
+-keep public class * extends java.lang.Exception
 
 #混淆时所采用的算法，后面的参数是一个过滤器
 #这个过滤器是谷歌推荐的算法，一般不改变
@@ -248,7 +250,7 @@ public static java.lang.String TABLENAME;
 -dontwarn anetwork.**
 
 # Ali hotfix
--printmapping mapping.txt
+#-printmapping mapping.txt
 -keep class com.taobao.sophix.**{*;}
 -keep class com.ta.utdid2.device.**{*;}
 -dontwarn com.alibaba.sdk.android.utils.**
@@ -362,3 +364,6 @@ public static java.lang.String TABLENAME;
 -keep class com.coloros.mcsdk.** { *; }
 # m3u8download
 -keep  class jaygoo.library.m3u8downloader.WeakHandler {*;}
+# firebase
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
