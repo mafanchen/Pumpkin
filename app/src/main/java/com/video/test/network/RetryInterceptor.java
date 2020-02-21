@@ -92,13 +92,14 @@ public class RetryInterceptor implements Interceptor {
      * 根据服务器域名地址获取host
      */
     private String getHost(String url) {
+        String lowerCaseUrl = url.toLowerCase().trim();
         String host;
-        if (url.startsWith("http://")) {
-            host = url.substring(7);
-        } else if (url.startsWith("https://")) {
-            host = url.substring(8);
+        if (lowerCaseUrl.startsWith("http://")) {
+            host = lowerCaseUrl.substring(7);
+        } else if (lowerCaseUrl.startsWith("https://")) {
+            host = lowerCaseUrl.substring(8);
         } else {
-            host = url;
+            host = lowerCaseUrl;
         }
         return host;
     }

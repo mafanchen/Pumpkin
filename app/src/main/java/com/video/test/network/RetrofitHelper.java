@@ -165,9 +165,9 @@ public class RetrofitHelper implements IModel {
                 .addInterceptor(new EncryptInterceptor())
                 .cache(cache);
         //HTTPS
-        if (!TextUtils.equals(BuildConfig.BUILD_TYPE, "uat")) {
-            initSSLSocketFactory(okHttpClient);
-        }
+//        if (!TextUtils.equals(BuildConfig.BUILD_TYPE, "uat")) {
+//            initSSLSocketFactory(okHttpClient);
+//        }
         if (BuildConfig.DEBUG) {
             okHttpClient.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
         }
