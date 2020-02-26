@@ -113,6 +113,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988890426286:android:c1c82176fd32e1d1e7363f",
+        "android_client_info": {
+          "package_name": "com.video.test4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "988890426286-tqeemajhciate4u7ietpq45n2602mr8c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8q7UnptEZmfgEISr4x_ClruPPt3_YAUw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "988890426286-tqeemajhciate4u7ietpq45n2602mr8c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "988890426286-ejkk9n0avteoubq73v8m9na6u4uvv99o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lk.lktest3"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
