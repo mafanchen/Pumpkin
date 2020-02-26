@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_screenVideo_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBay_screenVideo_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/toolbar_height_modify"
+        android:background="@color/transparent"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_area_screenVideo_activity"
+            style="@style/recycler_screen_video"
+            android:layout_marginTop="15dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_scrollFlags="scroll" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_type_screenVideo_activity"
+            style="@style/recycler_screen_video"
+            android:layout_marginTop="15dp"
+            android:visibility="gone"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_scrollFlags="scroll" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_year_screenVideo_activity"
+            style="@style/recycler_screen_video"
+            android:layout_marginTop="15dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_scrollFlags="scroll" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_update_screenVideo_activity"
+            style="@style/recycler_screen_video"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_scrollFlags="scroll" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_screenVideo_activity"
+            style="@style/videoList_recycle_module"
+            app:layoutManager="android.support.v7.widget.GridLayoutManager"
+            app:spanCount="3" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include
+        layout="@layout/bean_include_toolbar_new"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_screenContent_screenVideo"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/toolbar_height_modify"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:textColor="@color/recycle_item_screen_video_bg"
+        android:textSize="14sp" />
+
+</android.support.design.widget.CoordinatorLayout>

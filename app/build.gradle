@@ -9,6 +9,8 @@ apply plugin: 'io.fabric'
 def CONFIG_TEST1 = rootProject.ext.test1
 def CONFIG_TEST2 = rootProject.ext.test2
 def CONFIG_TEST3 = rootProject.ext.test3
+def CONFIG_TEST4 = rootProject.ext.test4
+
 android {
     signingConfigs {
         release {
@@ -292,6 +294,45 @@ android {
                     OPPO_APPSECRET    : "OP-d00d7d24ecdc4133846593937fb7cd34",
             ]
         }
+
+        Test4 {
+            applicationId CONFIG_TEST4.applicationId
+            versionCode CONFIG_TEST4.versionCode
+            versionName CONFIG_TEST4.versionName
+            buildConfigField "int", "APP_ID", CONFIG_TEST4.appId
+            //betaVersion
+            buildConfigField "int", "BETA_VERSION", CONFIG_TEST4.betaVersion
+            //构造乐播(leCast）初始化的参数，用于代码中初始化
+            buildConfigField "String", "LECAST_APP_ID", "\"$CONFIG_TEST4.leCast.appId\""
+            buildConfigField "String", "LECAST_APP_SECRET", "\"$CONFIG_TEST4.leCast.appSecret\""
+            buildConfigField "String", "WECHAT_APP_ID", "\"$CONFIG_TEST4.weChat.appId\""
+            //官网地址
+            buildConfigField "String", "OFFICAL_WEBSITE", "\"$CONFIG_TEST4.website\""
+            //邮箱地址
+            buildConfigField "String", "EMAIL", "\"$CONFIG_TEST4.email\""
+            //友盟appKey
+            buildConfigField "String", "UMENG_APP_KEY", "\"$CONFIG_TEST4.umeng.appKey\""
+            buildConfigField "String", "STORE_CHANNEL", "\"\""
+            //这里定义的参数可以被AndroidManifest文件所调用到
+            manifestPlaceholders = [
+                    JPUSH_PKGNAME     : CONFIG_TEST4.applicationId,
+                    JPUSH_APPKEY      : CONFIG_TEST4.jpush.appKey,  //JPush 上注册的包名对应的 Appkey.
+                    JPUSH_CHANNEL     : CONFIG_TEST4.jpush.channel,  //暂时填写默认值即可.
+                    OPENINSTALL_APPKEY: CONFIG_TEST4.openInstall.appKey,
+                    //极光小米 不要遗漏MI-
+                    XIAOMI_APPKEY     : "MI-5821811730508",//小米平台注册的appkey
+                    XIAOMI_APPID      : "MI-2882303761518117508",//小米平台注册的appid
+                    //极光华为
+                    HUAWEI_APPID      : "101020779",
+                    //极光魅族 不要遗漏前缀MZ-
+                    MEIZU_APPKEY      : "MZ‐e69f6e653bcb4b7d9a62188d49a6db71",
+                    MEIZU_APPID       : 'MZ-123161',
+                    //极光OPPO 不要遗漏前缀OP-
+                    OPPO_APPKEY       : "OP-f3b32ef315e0465dbf9ea3f2a16a7428",
+                    OPPO_APPID        : "OP-30005668",
+                    OPPO_APPSECRET    : "OP-d00d7d24ecdc4133846593937fb7cd34",
+            ]
+        }
     }
 
     sourceSets {
@@ -313,6 +354,10 @@ android {
         Test3 {
             jniLibs.srcDirs = ['libs']
             res.srcDirs = ['src/main/res-test3', 'src/main/res']
+        }
+        Test4 {
+            jniLibs.srcDirs = ['libs']
+            res.srcDirs = ['src/main/res-test4', 'src/main/res']
         }
     }
 }

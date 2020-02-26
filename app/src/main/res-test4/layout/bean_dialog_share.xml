@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
+
+    <ImageView
+        android:id="@+id/tv_decorate_title_shareDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/img_mine_share_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/bg_bottom_shareDialog"
+        android:layout_width="match_parent"
+        android:layout_height="205dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_decorate_title_shareDialog" />
+
+    <TextView
+        android:id="@+id/tv_title_shareDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:gravity="center"
+        android:text="@string/dialog_share_platform"
+        android:textColor="@color/dialog_title_share"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintTop_toTopOf="@+id/bg_bottom_shareDialog" />
+
+    <TextView
+        android:id="@+id/tv_weixin_icon_shareDialog"
+        style="@style/icon_shareDialog"
+        android:layout_marginEnd="@dimen/videoPlayer_margin_between_shareDialog"
+        android:drawableTop="@drawable/ic_sh_wx"
+        android:text="@string/dialog_weixin"
+        app:layout_constraintEnd_toStartOf="@id/tv_friends_icon_shareDialog"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_shareDialog" />
+
+    <TextView
+        android:id="@+id/tv_friends_icon_shareDialog"
+        style="@style/icon_shareDialog"
+        android:layout_marginStart="36dp"
+        android:drawableTop="@drawable/ic_sh_py"
+        android:text="@string/dialog_friends"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_weixin_icon_shareDialog"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_shareDialog" />
+
+
+    <TextView
+        android:id="@+id/tv_cancel_shareDialog"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/dialog_cancel"
+        android:textColor="@color/dialog_share_font_cancel"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_friends_icon_shareDialog" />
+
+
+</android.support.constraint.ConstraintLayout>

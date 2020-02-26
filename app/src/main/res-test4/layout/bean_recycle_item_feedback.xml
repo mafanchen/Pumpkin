@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="18dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@color/colorDivider"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_feedback_type_title"
+        style="@style/tv_feedback_history_title"
+        android:layout_marginTop="21dp"
+        android:text="反馈类型："
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_feedback_type"
+        style="@style/tv_feedback_history_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_feedback_type_title"
+        app:layout_constraintStart_toEndOf="@+id/tv_feedback_type_title"
+        tools:text="其他" />
+
+    <TextView
+        android:id="@+id/tv_feedback_time_title"
+        style="@style/tv_feedback_history_title"
+        android:text="反馈时间："
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_feedback_type_title" />
+
+    <TextView
+        android:id="@+id/tv_feedback_time"
+        style="@style/tv_feedback_history_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_feedback_time_title"
+        app:layout_constraintStart_toEndOf="@+id/tv_feedback_time_title"
+        tools:text="2018.10.26" />
+
+    <TextView
+        android:id="@+id/tv_feedback_content_title"
+        style="@style/tv_feedback_history_title"
+        android:text="反馈内容："
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_feedback_time_title" />
+
+    <TextView
+        android:id="@+id/tv_feedback_content"
+        style="@style/tv_feedback_history_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_feedback_content_title"
+        tools:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
+
+    <TextView
+        android:id="@+id/tv_feedback_reply_title"
+        style="@style/tv_feedback_history_title"
+        android:text="客服回复："
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_feedback_content" />
+
+    <TextView
+        android:id="@+id/tv_feedback_reply"
+        style="@style/tv_feedback_history_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_feedback_reply_title"
+        tools:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
+
+    <TextView
+        android:id="@+id/tv_feedback_reply_time_title"
+        style="@style/tv_feedback_history_title"
+        android:text="反馈时间："
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_feedback_reply" />
+
+    <TextView
+        android:id="@+id/tv_feedback_reply_time"
+        style="@style/tv_feedback_history_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_feedback_reply_time_title"
+        app:layout_constraintStart_toEndOf="@+id/tv_feedback_reply_time_title"
+        tools:text="2018.10.26" />
+
+    <android.support.constraint.Group
+        android:id="@+id/group_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="tv_feedback_reply_title,tv_feedback_reply,tv_feedback_reply_time_title,tv_feedback_reply_time" />
+
+</android.support.constraint.ConstraintLayout>

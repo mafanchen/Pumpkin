@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorDivider">
+
+    <include layout="@layout/bean_include_toolbar_new" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="44dp"
+        android:includeFontPadding="false"
+        android:paddingStart="@dimen/setting_margin_left_right"
+        android:paddingEnd="@dimen/setting_margin_left_right"
+        android:paddingTop="14dp"
+        android:text="@string/setting_play_manager"
+        android:textColor="#aaaaaa"
+        android:textSize="@dimen/text_size_13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_mobileBtn_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="80dp"
+        android:text="@string/setting_useMobileNet_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.video.test.ui.widget.SwitchButton
+        android:id="@+id/switch_mobileNet_play_setting"
+        android:layout_width="@dimen/setting_width_switch"
+        android:layout_height="@dimen/setting_height_switch"
+        android:layout_marginEnd="@dimen/setting_margin_left_right"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_mobileBtn_setting"
+        app:layout_constraintEnd_toEndOf="@+id/tv_mobileBtn_setting"
+        app:layout_constraintTop_toTopOf="@+id/tv_mobileBtn_setting"
+        app:sb_border_width="1px"
+        app:sb_checked_color="@color/setting_switchBtn"
+        app:sb_show_indicator="false" />
+
+    <TextView
+        android:id="@+id/tv_autoPlay_setting"
+        style="@style/setting_button"
+        android:text="@string/setting_autoPlay"
+        android:layout_marginTop="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mobileBtn_setting" />
+
+    <com.video.test.ui.widget.SwitchButton
+        android:id="@+id/switch_autoPlayer_setting"
+        android:layout_width="@dimen/setting_width_switch"
+        android:layout_height="@dimen/setting_height_switch"
+        android:layout_marginEnd="@dimen/setting_margin_left_right"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_autoPlay_setting"
+        app:layout_constraintEnd_toEndOf="@+id/tv_autoPlay_setting"
+        app:layout_constraintTop_toTopOf="@+id/tv_autoPlay_setting"
+        app:sb_border_width="1px"
+        app:sb_checked_color="@color/setting_switchBtn"
+        app:sb_show_indicator="false" />
+
+    <TextView
+        android:id="@+id/tv_history_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="1dp"
+        android:text="@string/setting_homepage_video_prompt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_autoPlay_setting" />
+
+    <com.video.test.ui.widget.SwitchButton
+        android:id="@+id/switch_history_setting"
+        android:layout_width="@dimen/setting_width_switch"
+        android:layout_height="@dimen/setting_height_switch"
+        android:layout_marginEnd="@dimen/setting_margin_left_right"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_history_setting"
+        app:layout_constraintEnd_toEndOf="@+id/tv_history_setting"
+        app:layout_constraintTop_toTopOf="@+id/tv_history_setting"
+        app:sb_border_width="1px"
+        app:sb_checked_color="@color/setting_switchBtn"
+        app:sb_show_indicator="false" />
+
+
+    <TextView
+        android:id="@+id/tv_download_manager_setting"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:includeFontPadding="false"
+        android:paddingStart="@dimen/setting_margin_left_right"
+        android:paddingEnd="@dimen/setting_margin_left_right"
+        android:paddingTop="14dp"
+        android:text="@string/setting_download_manager"
+        android:textColor="#aaaaaa"
+        android:textSize="@dimen/text_size_13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_history_setting" />
+
+    <TextView
+        android:id="@+id/tv_mobileNet_down_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="1dp"
+        android:text="@string/setting_useMobileNet_download"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_download_manager_setting" />
+
+    <com.video.test.ui.widget.SwitchButton
+        android:id="@+id/switch_mobileNet_down_setting"
+        android:layout_width="@dimen/setting_width_switch"
+        android:layout_height="@dimen/setting_height_switch"
+        android:layout_marginEnd="@dimen/setting_margin_left_right"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_mobileNet_down_setting"
+        app:layout_constraintEnd_toEndOf="@+id/tv_mobileNet_down_setting"
+        app:layout_constraintTop_toTopOf="@+id/tv_mobileNet_down_setting"
+        app:sb_border_width="1px"
+        app:sb_checked_color="@color/setting_switchBtn"
+        app:sb_show_indicator="false" />
+
+    <TextView
+        android:id="@+id/tv_push_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="15dp"
+        android:text="@string/setting_allow_notice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mobileNet_down_setting" />
+
+    <com.video.test.ui.widget.SwitchButton
+        android:id="@+id/switch_push_setting"
+        android:layout_width="@dimen/setting_width_switch"
+        android:layout_height="@dimen/setting_height_switch"
+        android:layout_marginEnd="@dimen/setting_margin_left_right"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_push_setting"
+        app:layout_constraintEnd_toEndOf="@+id/tv_push_setting"
+        app:layout_constraintTop_toTopOf="@+id/tv_push_setting"
+        app:sb_border_width="1px"
+        app:sb_checked_color="@color/setting_switchBtn"
+        app:sb_show_indicator="false" />
+
+    <TextView
+        android:id="@+id/tv_clearSearch_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="1dp"
+        android:text="@string/setting_cleanHistory"
+        android:drawableEnd="@drawable/ic_delete_cache_setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_push_setting" />
+
+    <TextView
+        android:id="@+id/tv_clearCache_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="1dp"
+        android:drawableEnd="@drawable/ic_delete_cache_setting"
+        android:text="@string/setting_clearCache"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_clearSearch_setting" />
+
+    <TextView
+        android:id="@+id/tv_clearLocal_setting"
+        style="@style/setting_button"
+        android:layout_marginTop="1dp"
+        android:drawableEnd="@drawable/ic_delete_cache_setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_clearCache_setting" />
+
+    <TextView
+        android:id="@+id/tv_clearLocalTitle_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/tv_clearLocal_setting"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="13dp"
+        android:includeFontPadding="false"
+        android:textSize="@dimen/text_size_15sp"
+        android:textColor="@color/setting_font_button"
+        android:text="@string/setting_clearLocalCache"
+        android:layout_marginStart="@dimen/setting_margin_left_right"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv_clearLocalTitle_setting"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="2dp"
+        android:includeFontPadding="false"
+        android:textSize="@dimen/text_size_12sp"
+        android:textColor="#888"
+        android:layout_marginStart="@dimen/setting_margin_left_right"
+        android:text="@string/setting_clearLocalCache_content"
+        />
+
+    <TextView
+        android:id="@+id/tv_cache_space_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1000000.0M"
+        android:textSize="13sp"
+        android:textColor="#888"
+        app:layout_constraintTop_toTopOf="@+id/tv_clearLocal_setting"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_clearLocal_setting"
+        app:layout_constraintEnd_toEndOf="@+id/tv_clearLocal_setting"
+        android:layout_marginEnd="37dp"
+        />
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loadingImage_activity_setting"
+        style="@style/AVLoadingIndicatorView.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:indicatorColor="@color/setting_switchBtn"
+        app:indicatorName="LineScalePulseOutIndicator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

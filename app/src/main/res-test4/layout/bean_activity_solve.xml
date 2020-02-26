@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/bean_include_toolbar_new" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="44dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
+
+        <TextView
+            android:id="@+id/tv_solve_title"
+            style="@style/tv_solve"
+            android:layout_marginTop="20dp"
+            android:text="网络异常解决方案"
+            android:textSize="@dimen/text_size_18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_num_1"
+            style="@style/tv_solve"
+            android:layout_marginTop="20dp"
+            android:text="1. "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_solve_title" />
+
+        <TextView
+            android:id="@+id/tv_content_1"
+            style="@style/tv_solve"
+            android:text="请检查网络设置是否正常，"
+            app:layout_constraintStart_toEndOf="@+id/tv_num_1"
+            app:layout_constraintTop_toTopOf="@id/tv_num_1" />
+
+        <TextView
+            android:id="@+id/tv_jump_setting"
+            style="@style/tv_solve"
+            android:text="去设置"
+            android:textColor="#ffad43"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_content_1"
+            app:layout_constraintTop_toTopOf="@+id/tv_num_1" />
+
+        <TextView
+            android:id="@+id/tv_num_2"
+            style="@style/tv_solve"
+            android:layout_marginTop="20dp"
+            android:text="2. "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_jump_setting" />
+
+        <TextView
+            android:id="@+id/tv_content_2"
+            style="@style/tv_solve"
+            android:text="请检查手机是否成功接入移动网络，并且未因欠费停机"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_num_2"
+            app:layout_constraintTop_toTopOf="@id/tv_num_2" />
+
+        <TextView
+            android:id="@+id/tv_num_3"
+            style="@style/tv_solve"
+            android:layout_marginTop="20dp"
+            android:text="3. "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_content_2" />
+
+        <TextView
+            android:id="@+id/tv_content_3"
+            style="@style/tv_solve"
+            android:text="若确定网络设置正常且未停机，请尝试重新打开"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_num_3"
+            app:layout_constraintTop_toTopOf="@id/tv_num_3" />
+
+        <TextView
+            android:id="@+id/tv_wifi_title"
+            style="@style/tv_solve"
+            android:layout_marginTop="20dp"
+            android:text="如果您已连接Wi-Fi网络："
+            android:textSize="@dimen/text_size_18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_content_3" />
+
+        <TextView
+            style="@style/tv_solve"
+            android:layout_marginTop="20dp"
+            android:text="请检查所连接的Wi-Fi网络是否已连接入互联网\n(可使用浏览器搜索任意内容测试)"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_wifi_title" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

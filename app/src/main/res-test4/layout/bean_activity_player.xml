@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/videoPlayer_height_player">
+
+        <com.video.test.ui.widget.LandLayoutVideo
+            android:id="@+id/videoPlayer_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite" />
+
+        <ImageView
+            android:id="@+id/iv_waitPic_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/pic_waiting_play"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_close_waitPic_player"
+            android:layout_width="@dimen/videoPlayer_around_closeBtn"
+            android:layout_height="@dimen/videoPlayer_around_closeBtn"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/videoPlayer_margin_closeBtn2Around"
+            android:layout_marginEnd="@dimen/videoPlayer_margin_closeBtn2Around"
+            android:scaleType="centerInside"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_netSpeed_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/videoPlayer_margin_closeBtn2Around"
+            android:text="@string/videoPlayer_netSpeed"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_14sp"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:id="@+id/layout_mobile_network"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="70dp"
+                android:text="未连接WIFI,播放将消耗流量"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_14sp" />
+
+            <TextView
+                android:id="@+id/tv_continue_mobile_network_play"
+                android:layout_width="90dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="102dp"
+                android:background="@drawable/shape_bg_btn_continue_play"
+                android:gravity="center"
+                android:text="继续播放"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_14sp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/layout_player_no_network"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#333333"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="70dp"
+                android:text="网络无连接，请检查网络重试"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_14sp" />
+
+            <TextView
+                android:id="@+id/tv_retry"
+                android:layout_width="90dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="102dp"
+                android:background="@drawable/shape_bg_btn_continue_play"
+                android:gravity="center"
+                android:text="重试"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_14sp" />
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_back_player"
+            android:visibility="visible" />
+
+    </FrameLayout>
+
+    <include
+        android:id="@+id/cl_castControl_player"
+        layout="@layout/bean_video_cast_control"
+        android:visibility="gone" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/videoPlayer_height_player"
+        android:layout_marginBottom="50dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_ad"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:background="@color/colorDivider"
+                android:paddingTop="3dp"
+                android:paddingBottom="1dp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_videoName_player"
+                style="@style/tv_column_title"
+                android:layout_width="match_parent"
+                android:paddingStart="@dimen/videoPlayer_margin_left_right"
+                android:paddingEnd="100dp"
+                android:paddingBottom="@dimen/videoPlayer_margin_title2bottom"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_19sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_ad"
+                tools:text="机动战士" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_beanPointTitle_player"
+                app:layout_constraintTop_toBottomOf="@+id/tv_videoName_player" />
+
+
+            <TextView
+                android:id="@+id/tv_getDetails_player"
+                style="@style/tv_column_more"
+                android:layout_marginTop="0dp"
+                android:paddingTop="21dp"
+                android:paddingBottom="15dp"
+                android:text="@string/videoPlayer_getMore"
+                android:textColor="@color/videoPlayer_font_getMore"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_videoName_player" />
+
+            <TextView
+                android:id="@+id/tv_updateTitle_player"
+                style="@style/player_videoContent"
+                android:layout_marginStart="@dimen/videoPlayer_between_synopsis_content"
+                android:text="@string/videoPlayer_update"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_videoName_player" />
+
+            <TextView
+                android:id="@+id/tv_update_player"
+                style="@style/player_videoContent"
+                android:layout_width="76dp"
+                android:layout_marginEnd="@dimen/videoPlayer_margin_left_right"
+                app:layout_constraintStart_toEndOf="@+id/tv_updateTitle_player"
+                app:layout_constraintTop_toBottomOf="@+id/tv_videoName_player"
+                tools:text="2014-11-11" />
+
+            <TextView
+                android:id="@+id/tv_regionTitle_player"
+                style="@style/player_videoContent"
+                android:layout_marginStart="23.5dp"
+                android:text="@string/videoPlayer_area"
+                app:layout_constraintStart_toEndOf="@+id/tv_update_player"
+                app:layout_constraintTop_toBottomOf="@+id/tv_videoName_player" />
+
+            <TextView
+                android:id="@+id/tv_region_player"
+                style="@style/player_videoContent"
+                app:layout_constraintStart_toEndOf="@+id/tv_regionTitle_player"
+                app:layout_constraintTop_toBottomOf="@+id/tv_videoName_player"
+                tools:text="美国" />
+
+            <TextView
+                android:id="@+id/tv_beanPointTitle_player"
+                style="@style/player_videoContent"
+                android:layout_marginStart="23.5dp"
+                android:text="@string/videoPlayer_beanPoint"
+                app:layout_constraintStart_toEndOf="@+id/tv_region_player"
+                app:layout_constraintTop_toBottomOf="@+id/tv_videoName_player" />
+
+            <TextView
+                android:id="@+id/tv_beanPoint_player"
+                style="@style/player_videoContent"
+                android:textColor="@color/videoPlayer_textColor_score"
+                app:layout_constraintStart_toEndOf="@+id/tv_beanPointTitle_player"
+                app:layout_constraintTop_toBottomOf="@+id/tv_videoName_player"
+                tools:text="0.0分" />
+
+            <ImageView
+                android:id="@+id/iv_comment"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginStart="@dimen/videoPlayer_between_synopsis_content"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_comment_play"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_beanPoint_player" />
+
+            <TextView
+                android:id="@+id/tv_comment"
+                style="@style/player_tv_feedback"
+                android:gravity="center_vertical"
+                android:paddingStart="9dp"
+                android:paddingTop="18dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="18dp"
+                android:text="评论"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_comment"
+                app:layout_constraintStart_toEndOf="@+id/iv_comment"
+                app:layout_constraintTop_toTopOf="@+id/iv_comment" />
+
+            <ImageView
+                android:id="@+id/iv_feedback"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginStart="@dimen/videoPlayer_between_synopsis_content"
+                android:layout_marginEnd="9dp"
+                android:src="@drawable/ic_feedback_play"
+                app:layout_constraintEnd_toStartOf="@+id/tv_feedback"
+                app:layout_constraintTop_toTopOf="@+id/iv_comment" />
+
+            <TextView
+                android:id="@+id/tv_feedback"
+                style="@style/player_tv_feedback"
+                android:layout_marginEnd="@dimen/videoPlayer_between_synopsis_content"
+                android:gravity="center_vertical"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+                android:text="问题反馈"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_feedback"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_feedback" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDivider"
+                app:layout_constraintTop_toBottomOf="@+id/tv_comment" />
+
+            <TextView
+                android:id="@+id/tv_selectTitle_player"
+                style="@style/tv_column_title"
+                android:layout_width="match_parent"
+                android:layout_marginTop="1dp"
+                android:paddingStart="@dimen/videoPlayer_margin_left_right"
+                android:paddingEnd="100dp"
+                android:text="@string/videoPlayer_select_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_comment"
+                app:layout_goneMarginTop="0dp" />
+
+
+            <TextView
+                android:id="@+id/tv_selectAll_button_player"
+                style="@style/tv_column_more"
+                android:layout_marginTop="0dp"
+                android:paddingTop="21dp"
+                android:paddingBottom="14dp"
+                android:text="@string/videoPlayer_selectAll"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_selectTitle_player" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_selectItem_player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/videoPlayer_margin_recycle_left_right"
+                android:paddingRight="@dimen/videoPlayer_margin_recycle_left_right"
+                android:paddingBottom="@dimen/videoPlayer_between_synopsis_content"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/tv_selectTitle_player" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDivider"
+                app:layout_constraintTop_toBottomOf="@+id/rv_selectItem_player" />
+
+            <TextView
+                android:id="@+id/tv_title_topic"
+                style="@style/tv_column_title"
+                android:layout_marginTop="1dp"
+                android:paddingStart="@dimen/videoPlayer_margin_left_right"
+                android:paddingEnd="@dimen/videoPlayer_margin_left_right"
+                android:text="已被收录至专题"
+                android:textSize="@dimen/text_size_19sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_selectItem_player" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_topic_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:paddingBottom="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_topic" />
+
+            <View
+                android:id="@+id/divider_topic"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDivider"
+                app:layout_constraintTop_toBottomOf="@+id/rv_topic_horizontal" />
+
+            <android.support.constraint.Group
+                android:id="@+id/group_topic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="divider_topic,tv_title_topic,rv_topic_horizontal" />
+
+            <TextView
+                android:id="@+id/tv_recommendTitle_player"
+                style="@style/tv_column_title"
+                android:layout_marginTop="1dp"
+                android:paddingStart="@dimen/videoPlayer_margin_left_right"
+                android:paddingEnd="@dimen/videoPlayer_margin_left_right"
+                android:text="@string/videoPlayer_recommend"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_topic_horizontal" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_recommendVideo_player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                app:fastScrollEnabled="false"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/tv_recommendTitle_player"
+                app:spanCount="3" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDivider"
+                app:layout_constraintTop_toBottomOf="@+id/rv_recommendVideo_player" />
+
+
+            <TextView
+                android:id="@+id/tv_commentTitle_player"
+                style="@style/tv_column_title"
+                android:layout_marginTop="1dp"
+                android:paddingStart="@dimen/videoPlayer_margin_left_right"
+                android:paddingEnd="@dimen/videoPlayer_margin_left_right"
+                android:text="@string/videoPlayer_video_comment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_recommendVideo_player" />
+
+            <ImageView
+                android:id="@+id/iv_sofa_commentVideo_player"
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:background="@color/colorWhite"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_none_comment"
+                android:visibility="invisible"
+                app:layout_constraintTop_toBottomOf="@+id/tv_commentTitle_player" />
+
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/refreshLayout_commentVideo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_commentTitle_player">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_commentVideo_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh_player"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_videoName_player"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <include
+        layout="@layout/bean_include_video_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/videoPlayer_height_player"
+        android:layout_marginBottom="@dimen/videoPlayer_height_commentColumn_player"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/bean_include_video_select"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/videoPlayer_height_player"
+        android:layout_marginBottom="@dimen/videoPlayer_height_commentColumn_player"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/shape_divider_forget"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="20dp">
+
+        <EditText
+            android:id="@+id/et_comment_player"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="9dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_edit_video_comment"
+            android:hint="@string/videoPlayer_comment_hint"
+            android:includeFontPadding="false"
+            android:maxLines="4"
+            android:paddingStart="18dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/videoPlayer_font_content"
+            android:textSize="@dimen/text_size_14sp" />
+
+        <CheckedTextView
+            android:id="@+id/ctx_collection_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="11dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/selector_checkbox_collection_btn"
+            android:button="@null"
+            android:gravity="bottom" />
+
+        <ImageView
+            android:id="@+id/iv_download_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="11dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_comment_download" />
+
+
+        <ImageView
+            android:id="@+id/iv_share_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="11dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_comment_share" />
+
+        <TextView
+            android:id="@+id/tv_sendComment_player"
+            android:layout_width="@dimen/player_width_sendCommit_player"
+            android:layout_height="@dimen/player_height_sendCommit_player"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="11dp"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/shape_video_bg_comment_btn"
+            android:gravity="center"
+            android:text="@string/videoPlayer_send_message"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_14sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="50dp"
+        android:background="#eeeeee" />
+
+    <include
+        layout="@layout/bean_include_video_download_select"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/videoPlayer_height_player"
+        android:visibility="gone" />
+
+    <com.video.test.ui.widget.LoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/videoPlayer_height_player"
+        android:visibility="gone" />
+
+</merge>

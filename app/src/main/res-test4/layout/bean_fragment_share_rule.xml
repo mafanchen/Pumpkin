@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="285dp"
+    android:layout_height="422dp"
+    android:background="#444444"
+    android:paddingStart="13dp"
+    android:paddingTop="18dp"
+    android:paddingEnd="13dp"
+    android:paddingBottom="18dp">
+
+    <TextView
+        android:id="@+id/tv_rule_title"
+        style="@style/text_share_rule_dialog_title"
+        android:text="@string/activity_share_rule"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_rule_content"
+        style="@style/text_share_rule_dialog_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/activity_share_rule_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rule_title" />
+
+    <TextView
+        android:id="@+id/tv_reward_title"
+        style="@style/text_share_rule_dialog_title"
+        android:layout_marginTop="15dp"
+        android:text="@string/activity_share_reward_title"
+        android:textSize="@dimen/share_textSize_rule_dialog_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rule_content" />
+
+    <TextView
+        android:id="@+id/tv_reward_content"
+        style="@style/text_share_rule_dialog_content"
+        android:layout_width="0dp"
+        android:text="@string/activity_share_reward_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_reward_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_reward_title" />
+
+    <TextView
+        android:id="@+id/tv_message_title"
+        style="@style/text_share_rule_dialog_title"
+        android:layout_marginTop="15dp"
+        android:text="@string/activity_share_message_title"
+        android:textSize="@dimen/share_textSize_rule_dialog_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_reward_content" />
+
+    <TextView
+        android:id="@+id/tv_message_content"
+        style="@style/text_share_rule_dialog_content"
+        android:layout_width="0dp"
+        android:text="@string/activity_share_message_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_message_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_message_title" />
+
+</android.support.constraint.ConstraintLayout>

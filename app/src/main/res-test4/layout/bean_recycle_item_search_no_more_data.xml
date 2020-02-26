@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="18dp"
+    android:background="@color/colorDivider"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp">
+
+    <TextView
+        android:id="@+id/tv_no_more_data"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorDivider"
+        android:drawableStart="@drawable/ic_hint_search"
+        android:drawablePadding="9dp"
+        android:gravity="center"
+        android:textColor="#666666"
+        android:textSize="@dimen/text_size_14sp"
+        tools:text="暂无更多 小编为推荐" />
+
+</FrameLayout>
