@@ -116,7 +116,7 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
         mRvDownload!!.setSwipeMenuItemClickListener { menuBridge: SwipeMenuBridge, position: Int ->
             LogUtils.d(TAG, "Menu position : " + position + " VideoName : " + mM3U8List!![position].videoName)
             menuBridge.closeMenu()
-            mPresenter.deleteM3U8Task(mM3U8List!!, mM3U8List!![position].videoUrl)
+            mPresenter.deleteM3U8Task(mM3U8List!![position].videoUrl)
             setResult(Activity.RESULT_OK)
         }
         mRvDownload!!.adapter = adapter
@@ -296,7 +296,7 @@ class DownloadVideoListActivity : BaseActivity<DownloadVideoListPresenter>(), Do
     }
 
     private fun deleteSelected() { //批量删除
-        mPresenter.deleteM3U8Task(mM3U8List!!, *mSelectedSet!!.toArray(arrayOf()))
+        mPresenter.deleteM3U8Task(*mSelectedSet!!.toArray(arrayOf()))
         setManager(false)
         setResult(Activity.RESULT_OK)
     }
