@@ -164,17 +164,17 @@ android {
                     JPUSH_CHANNEL     : CONFIG_TEST2.jpush.channel,  //暂时填写默认值即可.
                     OPENINSTALL_APPKEY: CONFIG_TEST2.openInstall.appKey,
                     //极光小米 不要遗漏MI-
-                    XIAOMI_APPKEY     : "MI-5821811730508",//小米平台注册的appkey
-                    XIAOMI_APPID      : "MI-2882303761518117508",//小米平台注册的appid
+                    XIAOMI_APPKEY     : CONFIG_TEST2.XIAOMI_APPKEY,//小米平台注册的appkey
+                    XIAOMI_APPID      : CONFIG_TEST2.XIAOMI_APPID,//小米平台注册的appid
                     //极光华为
-                    HUAWEI_APPID      : "101020779",
+                    HUAWEI_APPID      : CONFIG_TEST2.HUAWEI_APPID,
                     //极光魅族 不要遗漏前缀MZ-
-                    MEIZU_APPKEY      : "MZ‐e69f6e653bcb4b7d9a62188d49a6db71",
-                    MEIZU_APPID       : 'MZ-123161',
+                    MEIZU_APPKEY      : CONFIG_TEST2.MEIZU_APPKEY,
+                    MEIZU_APPID       : CONFIG_TEST2.MEIZU_APPID,
                     //极光OPPO 不要遗漏前缀OP-
-                    OPPO_APPKEY       : "OP-f3b32ef315e0465dbf9ea3f2a16a7428",
-                    OPPO_APPID        : "OP-30005668",
-                    OPPO_APPSECRET    : "OP-d00d7d24ecdc4133846593937fb7cd34",
+                    OPPO_APPKEY       : CONFIG_TEST2.OPPO_APPKEY,
+                    OPPO_APPID        : CONFIG_TEST2.OPPO_APPID,
+                    OPPO_APPSECRET    : CONFIG_TEST2.OPPO_APPSECRET,
             ]
         }
 
@@ -202,18 +202,30 @@ android {
                     JPUSH_APPKEY      : CONFIG_TEST1.jpush.appKey,  //JPush 上注册的包名对应的 Appkey.
                     JPUSH_CHANNEL     : CONFIG_TEST1.jpush.channel,  //暂时填写默认值即可.
                     OPENINSTALL_APPKEY: CONFIG_TEST1.openInstall.appKey,
+//                    //极光小米 不要遗漏MI-
+//                    XIAOMI_APPKEY     : "MI-5821811730508",//小米平台注册的appkey
+//                    XIAOMI_APPID      : "MI-2882303761518117508",//小米平台注册的appid
+//                    //极光华为
+//                    HUAWEI_APPID      : "101020779",
+//                    //极光魅族 不要遗漏前缀MZ-
+//                    MEIZU_APPKEY      : "MZ-e69f6e653bcb4b7d9a62188d49a6db71",
+//                    MEIZU_APPID       : 'MZ-123161',
+//                    //极光OPPO 不要遗漏前缀OP-
+//                    OPPO_APPKEY       : "OP-f3b32ef315e0465dbf9ea3f2a16a7428",
+//                    OPPO_APPID        : "OP-30005668",
+//                    OPPO_APPSECRET    : "OP-d00d7d24ecdc4133846593937fb7cd34",
                     //极光小米 不要遗漏MI-
-                    XIAOMI_APPKEY     : "MI-5821811730508",//小米平台注册的appkey
-                    XIAOMI_APPID      : "MI-2882303761518117508",//小米平台注册的appid
+                    XIAOMI_APPKEY     : CONFIG_TEST1.XIAOMI_APPKEY,//小米平台注册的appkey
+                    XIAOMI_APPID      : CONFIG_TEST1.XIAOMI_APPID,//小米平台注册的appid
                     //极光华为
-                    HUAWEI_APPID      : "101020779",
+                    HUAWEI_APPID      : CONFIG_TEST1.HUAWEI_APPID,
                     //极光魅族 不要遗漏前缀MZ-
-                    MEIZU_APPKEY      : "MZ‐e69f6e653bcb4b7d9a62188d49a6db71",
-                    MEIZU_APPID       : 'MZ-123161',
+                    MEIZU_APPKEY      : CONFIG_TEST1.MEIZU_APPKEY,
+                    MEIZU_APPID       : CONFIG_TEST1.MEIZU_APPID,
                     //极光OPPO 不要遗漏前缀OP-
-                    OPPO_APPKEY       : "OP-f3b32ef315e0465dbf9ea3f2a16a7428",
-                    OPPO_APPID        : "OP-30005668",
-                    OPPO_APPSECRET    : "OP-d00d7d24ecdc4133846593937fb7cd34",
+                    OPPO_APPKEY       : CONFIG_TEST1.OPPO_APPKEY,
+                    OPPO_APPID        : CONFIG_TEST1.OPPO_APPID,
+                    OPPO_APPSECRET    : CONFIG_TEST1.OPPO_APPSECRET,
             ]
         }
 
@@ -242,17 +254,17 @@ android {
                     JPUSH_CHANNEL     : CONFIG_TEST1.jpush.channel,  //暂时填写默认值即可.
                     OPENINSTALL_APPKEY: CONFIG_TEST1.openInstall.appKey,
                     //极光小米 不要遗漏MI-
-                    XIAOMI_APPKEY     : "MI-5821811730508",//小米平台注册的appkey
-                    XIAOMI_APPID      : "MI-2882303761518117508",//小米平台注册的appid
+                    XIAOMI_APPKEY     : CONFIG_TEST1.XIAOMI_APPKEY,//小米平台注册的appkey
+                    XIAOMI_APPID      : CONFIG_TEST1.XIAOMI_APPID,//小米平台注册的appid
                     //极光华为
-                    HUAWEI_APPID      : "101020779",
+                    HUAWEI_APPID      : CONFIG_TEST1.HUAWEI_APPID,
                     //极光魅族 不要遗漏前缀MZ-
-                    MEIZU_APPKEY      : "MZ‐e69f6e653bcb4b7d9a62188d49a6db71",
-                    MEIZU_APPID       : 'MZ-123161',
+                    MEIZU_APPKEY      : CONFIG_TEST1.MEIZU_APPKEY,
+                    MEIZU_APPID       : CONFIG_TEST1.MEIZU_APPID,
                     //极光OPPO 不要遗漏前缀OP-
-                    OPPO_APPKEY       : "OP-f3b32ef315e0465dbf9ea3f2a16a7428",
-                    OPPO_APPID        : "OP-30005668",
-                    OPPO_APPSECRET    : "OP-d00d7d24ecdc4133846593937fb7cd34",
+                    OPPO_APPKEY       : CONFIG_TEST1.OPPO_APPKEY,
+                    OPPO_APPID        : CONFIG_TEST1.OPPO_APPID,
+                    OPPO_APPSECRET    : CONFIG_TEST1.OPPO_APPSECRET,
             ]
         }
 
@@ -281,17 +293,17 @@ android {
                     JPUSH_CHANNEL     : CONFIG_TEST3.jpush.channel,  //暂时填写默认值即可.
                     OPENINSTALL_APPKEY: CONFIG_TEST3.openInstall.appKey,
                     //极光小米 不要遗漏MI-
-                    XIAOMI_APPKEY     : "MI-5821811730508",//小米平台注册的appkey
-                    XIAOMI_APPID      : "MI-2882303761518117508",//小米平台注册的appid
+                    XIAOMI_APPKEY     : CONFIG_TEST3.XIAOMI_APPKEY,//小米平台注册的appkey
+                    XIAOMI_APPID      : CONFIG_TEST3.XIAOMI_APPID,//小米平台注册的appid
                     //极光华为
-                    HUAWEI_APPID      : "101020779",
+                    HUAWEI_APPID      : CONFIG_TEST3.HUAWEI_APPID,
                     //极光魅族 不要遗漏前缀MZ-
-                    MEIZU_APPKEY      : "MZ‐e69f6e653bcb4b7d9a62188d49a6db71",
-                    MEIZU_APPID       : 'MZ-123161',
+                    MEIZU_APPKEY      : CONFIG_TEST3.MEIZU_APPKEY,
+                    MEIZU_APPID       : CONFIG_TEST3.MEIZU_APPID,
                     //极光OPPO 不要遗漏前缀OP-
-                    OPPO_APPKEY       : "OP-f3b32ef315e0465dbf9ea3f2a16a7428",
-                    OPPO_APPID        : "OP-30005668",
-                    OPPO_APPSECRET    : "OP-d00d7d24ecdc4133846593937fb7cd34",
+                    OPPO_APPKEY       : CONFIG_TEST3.OPPO_APPKEY,
+                    OPPO_APPID        : CONFIG_TEST3.OPPO_APPID,
+                    OPPO_APPSECRET    : CONFIG_TEST3.OPPO_APPSECRET,
             ]
         }
 
@@ -320,17 +332,17 @@ android {
                     JPUSH_CHANNEL     : CONFIG_TEST4.jpush.channel,  //暂时填写默认值即可.
                     OPENINSTALL_APPKEY: CONFIG_TEST4.openInstall.appKey,
                     //极光小米 不要遗漏MI-
-                    XIAOMI_APPKEY     : "MI-5821811730508",//小米平台注册的appkey
-                    XIAOMI_APPID      : "MI-2882303761518117508",//小米平台注册的appid
+                    XIAOMI_APPKEY     : CONFIG_TEST4.XIAOMI_APPKEY,//小米平台注册的appkey
+                    XIAOMI_APPID      : CONFIG_TEST4.XIAOMI_APPID,//小米平台注册的appid
                     //极光华为
-                    HUAWEI_APPID      : "101020779",
+                    HUAWEI_APPID      : CONFIG_TEST4.HUAWEI_APPID,
                     //极光魅族 不要遗漏前缀MZ-
-                    MEIZU_APPKEY      : "MZ‐e69f6e653bcb4b7d9a62188d49a6db71",
-                    MEIZU_APPID       : 'MZ-123161',
+                    MEIZU_APPKEY      : CONFIG_TEST4.MEIZU_APPKEY,
+                    MEIZU_APPID       : CONFIG_TEST4.MEIZU_APPID,
                     //极光OPPO 不要遗漏前缀OP-
-                    OPPO_APPKEY       : "OP-f3b32ef315e0465dbf9ea3f2a16a7428",
-                    OPPO_APPID        : "OP-30005668",
-                    OPPO_APPSECRET    : "OP-d00d7d24ecdc4133846593937fb7cd34",
+                    OPPO_APPKEY       : CONFIG_TEST4.OPPO_APPKEY,
+                    OPPO_APPID        : CONFIG_TEST4.OPPO_APPID,
+                    OPPO_APPSECRET    : CONFIG_TEST4.OPPO_APPSECRET,
             ]
         }
     }

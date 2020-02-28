@@ -39,6 +39,18 @@ ext {
                     appId    : "乐播appId", //需要修改
                     appSecret: "乐播appSecret", //需要修改
             ],
+            //极光小米 不要遗漏MI-
+            XIAOMI_APPKEY:"MI-小米的AppKey",//需要修改
+            XIAOMI_APPID:"MI-小米的AppId",//需要修改
+            //极光华为
+            HUAWEI_APPID      : "华为的AppId",//需要修改
+            //极光魅族 不要遗漏前缀MZ-
+            MEIZU_APPKEY      : "MZ-魅族的AppKey",//需要修改
+            MEIZU_APPID       : 'MZ-魅族的AppId',//需要修改
+            //极光OPPO 不要遗漏前缀OP-
+            OPPO_APPKEY       : "OP-OPPO的AppKey",//需要修改
+            OPPO_APPID        : "OP-OPPO的AppId",//需要修改
+            OPPO_APPSECRET    : "OP-OPPO的AppSecret",//需要修改
     ]
     test1 = [
             //包名
@@ -74,6 +86,18 @@ ext {
                     appId    : "乐播appId",  //需要修改
                     appSecret: "乐播appSecret", //需要修改
             ],
+            //极光小米 不要遗漏MI-
+            XIAOMI_APPKEY:"MI-小米的AppKey",//需要修改
+            XIAOMI_APPID:"MI-小米的AppId",//需要修改
+            //极光华为
+            HUAWEI_APPID      : "华为的AppId",//需要修改
+            //极光魅族 不要遗漏前缀MZ-
+            MEIZU_APPKEY      : "MZ-魅族的AppKey",//需要修改
+            MEIZU_APPID       : 'MZ-魅族的AppId',//需要修改
+            //极光OPPO 不要遗漏前缀OP-
+            OPPO_APPKEY       : "OP-OPPO的AppKey",//需要修改
+            OPPO_APPID        : "OP-OPPO的AppId",//需要修改
+            OPPO_APPSECRET    : "OP-OPPO的AppSecret",//需要修改
     ]
     testStore = [
             //商店渠道
@@ -118,13 +142,25 @@ ext {
                     appId    : "乐播appId",      //需要修改
                     appSecret: "乐播appSecret",  //需要修改
             ],
+            //极光小米 不要遗漏MI-
+            XIAOMI_APPKEY:"MI-小米的AppKey",//需要修改
+            XIAOMI_APPID:"MI-小米的AppId",//需要修改
+            //极光华为
+            HUAWEI_APPID      : "华为的AppId",//需要修改
+            //极光魅族 不要遗漏前缀MZ-
+            MEIZU_APPKEY      : "MZ-魅族的AppKey",//需要修改
+            MEIZU_APPID       : 'MZ-魅族的AppId',//需要修改
+            //极光OPPO 不要遗漏前缀OP-
+            OPPO_APPKEY       : "OP-OPPO的AppKey",//需要修改
+            OPPO_APPID        : "OP-OPPO的AppId",//需要修改
+            OPPO_APPSECRET    : "OP-OPPO的AppSecret",//需要修改
     ]
     test4 = [
             //包名
             applicationId: "com.video.test4",  //需要修改
-            versionName  : "1.3.7",
-            versionCode  : 1,
-            betaVersion  : "1",
+            versionName  : "1.3.6",
+            versionCode  : 22,
+            betaVersion  : "4",
             appId        : "4",  //请勿修改
             //渠道
             flavor       : "test4",
@@ -153,5 +189,17 @@ ext {
                     appId    : "乐播appId",      //需要修改
                     appSecret: "乐播appSecret",  //需要修改
             ],
+            //极光小米 不要遗漏MI-
+            XIAOMI_APPKEY:"MI-小米的AppKey",//需要修改
+            XIAOMI_APPID:"MI-小米的AppId",//需要修改
+            //极光华为
+            HUAWEI_APPID      : "华为的AppId",//需要修改
+            //极光魅族 不要遗漏前缀MZ-
+            MEIZU_APPKEY      : "MZ-魅族的AppKey",//需要修改
+            MEIZU_APPID       : 'MZ-魅族的AppId',//需要修改
+            //极光OPPO 不要遗漏前缀OP-
+            OPPO_APPKEY       : "OP-OPPO的AppKey",//需要修改
+            OPPO_APPID        : "OP-OPPO的AppId",//需要修改
+            OPPO_APPSECRET    : "OP-OPPO的AppSecret",//需要修改
     ]
 }
