@@ -55,4 +55,9 @@ abstract class BaseDownloadPresenter<M, V : IView> : BasePresenter<M, V>() {
         }
         EventBus.getDefault().post(DownloadEvent(DownloadEvent.Type.TYPE_DELETE, null))
     }
+
+    fun deleteM3U8Task(vararg taskUrl: String) {
+        val allTasks = DBManager.getInstance(TestApp.getContext()).queryM3U8Tasks()
+        allTasks?.let { deleteM3U8Task(allTasks, *taskUrl) }
+    }
 }
