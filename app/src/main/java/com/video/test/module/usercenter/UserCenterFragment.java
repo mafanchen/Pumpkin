@@ -279,6 +279,9 @@ public class UserCenterFragment extends BaseFragment<UserCenterPresenter> implem
     private void identifyUserLevel(String userLevel, String expireTime) {
         // 先把用户的VI信息存进去
         SpUtils.putString(TestApp.getContext(), AppConstant.USER_TOKEN_LEVEL, userLevel);
+        if (BuildConfig.FLAVOR == "Test4") {
+            return;
+        }
         int icCrownId = 0;
         switch (userLevel) {
             case AppConstant.USER_NORMAL:

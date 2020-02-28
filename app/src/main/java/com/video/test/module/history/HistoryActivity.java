@@ -83,7 +83,7 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements H
         }
         if (mTvEditBtn != null) {
             mTvEditBtn.setVisibility(View.VISIBLE);
-            mTvEditBtn.setTextColor(Color.parseColor("#ffad43"));
+            mTvEditBtn.setTextColor(Color.parseColor("#38dca1"));
         }
     }
 
@@ -185,7 +185,7 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements H
     private void editBtnClick(boolean isClick) {
         if (isClick) {
             mTvEditBtn.setText(R.string.activity_history_edit);
-            mTvEditBtn.setTextColor(Color.parseColor("#ffad43"));
+            mTvEditBtn.setTextColor(Color.parseColor("#38dca1"));
         } else {
             mTvEditBtn.setText(R.string.activity_history_edit_cancel);
             mTvEditBtn.setTextColor(ContextCompat.getColor(this, R.color.history_font_btn_edit));

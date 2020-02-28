@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:text="跳转播放"
-            android:textColor="#ffad43"
+            android:textColor="#38dca1"
             android:textSize="@dimen/text_size_12sp" />
 
     </LinearLayout>

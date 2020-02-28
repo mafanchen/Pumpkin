@@ -2326,7 +2326,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                     mPresenter.startDownload(downloadUrl, videoId, videoName, videoItemName, true);
                 })
                 .negativeText("允许流量缓存")
-                .positiveColor(Color.parseColor("#ffad43"))
+                .positiveColor(Color.parseColor("#38dca1"))
                 .onPositive((dialog, which) -> {
                     dialog.dismiss();
                     ARouter.getInstance().build("/setting/activity").navigation();

@@ -62,7 +62,8 @@
             android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_content_share_fragment" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_content_share_fragment"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_invite_count_share_fragment"

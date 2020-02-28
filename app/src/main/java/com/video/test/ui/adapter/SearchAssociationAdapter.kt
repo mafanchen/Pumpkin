@@ -41,7 +41,7 @@ class SearchAssociationAdapter : RecyclerView.Adapter<SearchAssociationAdapter.V
                 tvAssociation.text = associationWord
             } else {
                 val builder = SpannableStringBuilder(associationWord)
-                val span = ForegroundColorSpan(Color.parseColor("#ffad43"))
+                val span = ForegroundColorSpan(Color.parseColor("#38dca1"))
                 builder.setSpan(span, start, start + searchWord!!.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 tvAssociation.text = builder
             }

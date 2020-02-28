@@ -491,7 +491,7 @@ public class HomepageActivity extends BaseActivity<HomepagePresenter> implements
                 .canceledOnTouchOutside(false)
                 .content("您的安装包异常，请前往官网下载最新安装包。")
                 .contentColor(Color.parseColor("#333333"))
-                .positiveColor(Color.parseColor("#ffad43"))
+                .positiveColor(Color.parseColor("#38dca1"))
                 .positiveText("确定")
                 .onPositive((dialog, which) -> {
                     startActivity(IntentUtils.getBrowserIntent(BuildConfig.OFFICAL_WEBSITE));

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ff9900</color>
+    <color name="colorPrimary">#38dca1</color>
     <color name="colorPrimaryDark">#00acc1</color>
     <color name="colorDivider">#f2f2f2</color>
     <color name="colorDivider_topic">#ededed</color>
 
     <!--dialog-->
-    <color name="dialog_title">#ff9900</color>
-    <color name="dialog_positive">#ff9900</color>
+    <color name="dialog_title">#38dca1</color>
+    <color name="dialog_positive">#38dca1</color>
     <color name="dialog_negative">#666666</color>
-    <color name="dialog_widget">#ff9900</color>
+    <color name="dialog_widget">#38dca1</color>
     <color name="dialog_title_share">#333333</color>
     <color name="dialog_cancel_share">#575757</color>
     <color name="dialog_content_share">#818181</color>
@@ -22,7 +22,7 @@
 
 
     <!--tab indicator-->
-    <color name="colorAccent">#f2a40a</color>
+    <color name="colorAccent">#38dca1</color>
 
     <!--custom color style-->
     <color name="colorBlack">#000000</color>
@@ -71,9 +71,9 @@
     <!--setEmail-->
 
     <!--homepage-->
-    <color name="homepage_font_chose">#ffad43</color>
-    <color name="homepage_nav_font_chose">#ffad43</color>
-    <color name="homepage_font_no_chose">#38dca1</color>
+    <color name="homepage_font_chose">#38dca1</color>
+    <color name="homepage_nav_font_chose">#38dca1</color>
+    <color name="homepage_font_no_chose">#dddddd</color>
     <color name="homepage_nav_font_no_chose">#333333</color>
     <color name="homepage_font_main_title">#333333</color>
     <color name="homepage_font_video_title">#000000</color>
@@ -165,7 +165,7 @@
     <color name="search_font_searchWord">#aaaaaa</color>
     <color name="search_background_grade">#b3ffe094</color>
     <color name="search_font_grade">#eec45e</color>
-    <color name="search_cancel_font_searchBar">#ffad43</color>
+    <color name="search_cancel_font_searchBar">#38dca1</color>
     <color name="cl_clear_font_searchBar">#888888</color>
 
 
@@ -175,7 +175,7 @@
 
     <!--setting-->
     <color name="setting_background">#f2f2f2</color>
-    <color name="setting_switchBtn">#f5a623</color>
+    <color name="setting_switchBtn">#38dca1</color>
     <color name="setting_font_button">#333333</color>
     <color name="setting_btn_background">#ffffff</color>
 
@@ -192,7 +192,7 @@
 
     <!--videoPlayer-->
     <color name="videoPlayer_font_recycle_item_unselected">#aaaaaa</color>
-    <color name="videoPlayer_font_recycle_item_selected">#ffad43</color>
+    <color name="videoPlayer_font_recycle_item_selected">#38dca1</color>
     <color name="videoPlayer_font_recycle_item_content_selected">#fffefe</color>
     <color name="videoPlayer_font_recycle_item_content_unselected">#333333</color>
     <color name="videoPlayer_font_recycle_background_unselected">#f3f3f3</color>
@@ -235,7 +235,7 @@
     <color name="player_videoComment_bg_avatar">#ddd</color>
     <color name="player_videoComment_bg_comment_btn">#ff9900</color>
     <color name="recycle_item_screen_video_content">#666666</color>
-    <color name="recycle_item_screen_video_bg">#ffad43</color>
+    <color name="recycle_item_screen_video_bg">#38dca1</color>
     <color name="notice_title">#333333</color>
     <color name="notice_publishTime">#888888</color>
     <color name="notice_content">#666666</color>

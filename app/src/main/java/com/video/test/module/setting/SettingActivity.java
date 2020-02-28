@@ -206,7 +206,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                     dialog.dismiss();
                 })
                 .negativeText("取消")
-                .positiveColor(Color.parseColor("#ffad43"))
+                .positiveColor(Color.parseColor("#38dca1"))
                 .onPositive(((dialog, which) -> {
                     SpUtils.putBoolean(TestApp.getContext(), AppConstant.SWITCH_MOBILE_PLAY, true);
                     sendNetConnectBoardCast();
