@@ -1,42 +1,35 @@
 {
   "project_info": {
-    "project_number": "988890426286",
-    "firebase_url": "https://project-3078675154276937782.firebaseio.com",
-    "project_id": "project-3078675154276937782",
-    "storage_bucket": "project-3078675154276937782.appspot.com"
+    "project_number": "239994136737",
+    "firebase_url": "https://ng-9527.firebaseio.com",
+    "project_id": "ng-9527",
+    "storage_bucket": "ng-9527.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:988890426286:android:362f22c98e029e05e7363f",
+        "mobilesdk_app_id": "1:239994136737:android:ebeba14331ac46f369e8e0",
         "android_client_info": {
-          "package_name": "com.video.test1"
+          "package_name": "com.guaziyingshi.gz"
         }
       },
       "oauth_client": [
         {
-          "client_id": "988890426286-tqeemajhciate4u7ietpq45n2602mr8c.apps.googleusercontent.com",
+          "client_id": "239994136737-eq801beroahqatmq3psfevfhohb12kvo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA8q7UnptEZmfgEISr4x_ClruPPt3_YAUw"
+          "current_key": "AIzaSyBkntTHeK8cb-gaRrG5dNmIT3-6C_1VQRw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "988890426286-tqeemajhciate4u7ietpq45n2602mr8c.apps.googleusercontent.com",
+              "client_id": "239994136737-eq801beroahqatmq3psfevfhohb12kvo.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "988890426286-ejkk9n0avteoubq73v8m9na6u4uvv99o.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.lk.lktest3"
-              }
             }
           ]
         }
@@ -44,35 +37,28 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:988890426286:android:6cff8c29737c54bce7363f",
+        "mobilesdk_app_id": "1:239994136737:android:132d37fdfbe97e2069e8e0",
         "android_client_info": {
-          "package_name": "com.video.test2"
+          "package_name": "com.kumquat.jj"
         }
       },
       "oauth_client": [
         {
-          "client_id": "988890426286-tqeemajhciate4u7ietpq45n2602mr8c.apps.googleusercontent.com",
+          "client_id": "239994136737-eq801beroahqatmq3psfevfhohb12kvo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA8q7UnptEZmfgEISr4x_ClruPPt3_YAUw"
+          "current_key": "AIzaSyBkntTHeK8cb-gaRrG5dNmIT3-6C_1VQRw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "988890426286-tqeemajhciate4u7ietpq45n2602mr8c.apps.googleusercontent.com",
+              "client_id": "239994136737-eq801beroahqatmq3psfevfhohb12kvo.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "988890426286-ejkk9n0avteoubq73v8m9na6u4uvv99o.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.lk.lktest3"
-              }
             }
           ]
         }
@@ -80,35 +66,28 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:988890426286:android:97d807333ee35e90e7363f",
+        "mobilesdk_app_id": "1:239994136737:android:283464655bac07ee69e8e0",
         "android_client_info": {
-          "package_name": "com.video.test3"
+          "package_name": "com.pumpkinteam.pumpkinplayer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "988890426286-tqeemajhciate4u7ietpq45n2602mr8c.apps.googleusercontent.com",
+          "client_id": "239994136737-eq801beroahqatmq3psfevfhohb12kvo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA8q7UnptEZmfgEISr4x_ClruPPt3_YAUw"
+          "current_key": "AIzaSyBkntTHeK8cb-gaRrG5dNmIT3-6C_1VQRw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "988890426286-tqeemajhciate4u7ietpq45n2602mr8c.apps.googleusercontent.com",
+              "client_id": "239994136737-eq801beroahqatmq3psfevfhohb12kvo.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "988890426286-ejkk9n0avteoubq73v8m9na6u4uvv99o.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.lk.lktest3"
-              }
             }
           ]
         }
@@ -116,35 +95,28 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:988890426286:android:c1c82176fd32e1d1e7363f",
+        "mobilesdk_app_id": "1:239994136737:android:5248935cdda53f4769e8e0",
         "android_client_info": {
-          "package_name": "com.video.test4"
+          "package_name": "com.waxgourd.wg"
         }
       },
       "oauth_client": [
         {
-          "client_id": "988890426286-tqeemajhciate4u7ietpq45n2602mr8c.apps.googleusercontent.com",
+          "client_id": "239994136737-eq801beroahqatmq3psfevfhohb12kvo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA8q7UnptEZmfgEISr4x_ClruPPt3_YAUw"
+          "current_key": "AIzaSyBkntTHeK8cb-gaRrG5dNmIT3-6C_1VQRw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "988890426286-tqeemajhciate4u7ietpq45n2602mr8c.apps.googleusercontent.com",
+              "client_id": "239994136737-eq801beroahqatmq3psfevfhohb12kvo.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "988890426286-ejkk9n0avteoubq73v8m9na6u4uvv99o.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.lk.lktest3"
-              }
             }
           ]
         }

@@ -168,26 +168,26 @@ ext {
             email        : "test@gmail.com", //需要修改  电子邮箱
             //极光推送
             jpush        : [
-                    appKey : "极光appKey",  //需要修改
+                    appKey : "58ffa13e4e4dd40999b6b633",  //需要修改
                     channel: "developer-default", // 可选修改
             ],
             //友盟
             umeng        : [
-                    appKey : "友盟appKey",  //需要修改
+                    appKey : "5e26739e0cafb2873a000052",  //需要修改
                     channel: "Official",   //可选修改
             ],
             //openInstall
             openInstall  : [
-                    appKey: "openInstall的appKey"  //需要修改
+                    appKey: "y4zesi"  //需要修改
             ],
             //微信sdk
             weChat       : [
-                    appId: "微信appId",  //需要修改
+                    appId: "wx214583b2faaea1f8",  //需要修改
             ],
             //乐播
             leCast       : [
-                    appId    : "乐播appId",      //需要修改
-                    appSecret: "乐播appSecret",  //需要修改
+                    appId    : "13192",      //需要修改
+                    appSecret: "012c305945f51be0ea0bbe7de6608eb4",  //需要修改
             ],
             //极光小米 不要遗漏MI-
             XIAOMI_APPKEY:"MI-小米的AppKey",//需要修改
